@@ -7,12 +7,19 @@ like minimum/maximum values or lower, median and upper quartile etc.,
 which can be used for numeric vectors to plot adjusted predictions at these
 representative values."><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -55,6 +62,8 @@ representative values."><meta property="og:image" content="https://strengejacke.
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -63,22 +72,29 @@ representative values."><meta property="og:image" content="https://strengejacke.
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/moderator_pattern.R" class="external-link"><code>R/moderator_pattern.R</code></a></small>
       <div class="d-none name"><code>values_at.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>This function calculates representative values of a vector,
 like minimum/maximum values or lower, median and upper quartile etc.,
 which can be used for numeric vectors to plot adjusted predictions at these
 representative values.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">values_at</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">representative_values</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="st">"meansd"</span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>A numeric vector.</p></dd>
+
+
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
 <dd><p>Character vector, naming a pattern for which representative values
 should be calculcated.</p><ul><li><p><code>"minmax": </code>(default) minimum and maximum values (lower and upper bounds)
@@ -107,6 +123,7 @@ of the moderator value, <em>excluding</em> minimum and maximum value.</p></li>
 <li><p><code>"all"</code>: uses all values of the moderator variable. Note that this option
 only applies to <code>type = "eff"</code>, for numeric moderator values.</p></li>
 </ul></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -115,6 +132,7 @@ values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD. If
 <code>x</code> is missing, a function, pre-programmed with <code>n</code> and
 <code>length</code> is returned. See examples.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
@@ -130,12 +148,21 @@ values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD. If
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

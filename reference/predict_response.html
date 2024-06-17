@@ -47,12 +47,19 @@ adjusted predictions. These functions are still available, but predict_response(
 as a "wrapper" around these functions is the preferred way to calculate marginal
 means and adjusted predictions now.'><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -95,6 +102,8 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -103,6 +112,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/predict_response.R" class="external-link"><code>R/predict_response.R</code></a></small>
       <div class="d-none name"><code>predict_response.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>After fitting a model, it is useful generate model-based estimates (expected
 values, or <em>adjusted predictions</em>) of the response variable for different
@@ -129,6 +139,7 @@ adjusted predictions. These functions are still available, but <code>predict_res
 as a "wrapper" around these functions is the preferred way to calculate marginal
 means and adjusted predictions now.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_response</span><span class="op">(</span></span>
@@ -149,10 +160,15 @@ means and adjusted predictions now.</p>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A model object.</p></dd>
+
+
 <dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>Names of those terms from <code>model</code>, for which predictions should
 be displayed (so called <em>focal terms</em>). Can be:</p><ul><li><p>A character vector, specifying the names of the focal terms. This is the
@@ -175,6 +191,8 @@ All remaining covariates that are not specified in <code>terms</code> are "margi
 see the <code>margin</code> argument in <code>?predict_response</code>. See also argument <code>condition</code>
 to fix non-focal terms to specific values, and argument <code>typical</code> for
 <code><a href="ggpredict.html">ggpredict()</a></code> or <code><a href="ggpredict.html">ggemmeans()</a></code>.</p></dd>
+
+
 <dt id="arg-margin">margin<a class="anchor" aria-label="anchor" href="#arg-margin"></a></dt>
 <dd><p>Character string, indicating how to marginalize over the
 <em>non-focal</em> predictors, i.e. those variables that are <em>not</em> specified in
@@ -184,6 +202,8 @@ to fix non-focal terms to specific values, and argument <code>typical</code> for
 argument via <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code>, e.g. <code>options(ggeffects_margin = "empirical")</code>,
 so you don't have to specify your preferred marginalization method each time
 you call <code>predict_response()</code>. See details in the documentation below.</p></dd>
+
+
 <dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
 <dd><p>Numeric, the level of the confidence intervals. Use
 <code>ci_level = NA</code> if confidence intervals should not be calculated
@@ -193,6 +213,8 @@ normal distribution (based on the model and the available degrees of freedom,
 i.e. roughly <code>+/- 1.96 * SE</code>). See introduction of
 <a href="https://strengejacke.github.io/ggeffects/articles/ggeffects.html">this vignette</a>
 for more details.</p></dd>
+
+
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
@@ -274,6 +296,8 @@ calculates the survival probability or the cumulative hazard of an event.</p></l
 </ul><p>When <code>margin = "empirical"</code> (or when calling <code><a href="ggpredict.html">ggaverage()</a></code>), the <code>type</code>
 argument accepts all values from the <code>type</code>-argument of the model's respective
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p></dd>
+
+
 <dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
@@ -281,10 +305,14 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, <code>condition</code> can be used to define
 exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
 See 'Examples'.</p></dd>
+
+
 <dt id="arg-back-transform">back_transform<a class="anchor" aria-label="anchor" href="#arg-back-transform"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> (the default), predicted values
 for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></dd>
+
+
 <dt id="arg-ppd">ppd<a class="anchor" aria-label="anchor" href="#arg-ppd"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are based on the
 posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
@@ -295,6 +323,8 @@ incorporates the residual variance and hence returned intervals are similar to
 prediction intervals. Consequently, if <code>interval = "prediction"</code>, <code>ppd</code> is
 automatically set to <code>TRUE</code>. The <code>ppd</code> argument will be deprecated in a
 future version. Please use <code>interval = "prediction"</code> instead.</p></dd>
+
+
 <dt id="arg-vcov-fun">vcov_fun<a class="anchor" aria-label="anchor" href="#arg-vcov-fun"></a></dt>
 <dd><p>Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
@@ -317,18 +347,26 @@ based on the standard errors as returned by the <code><a href="https://rdrr.io/r
 <strong>Note</strong> that probably not all model objects that work with <code><a href="ggpredict.html">ggpredict()</a></code>
 are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p>
 <p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
+
+
 <dt id="arg-vcov-type">vcov_type<a class="anchor" aria-label="anchor" href="#arg-vcov-type"></a></dt>
 <dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
 or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
 character string indicating one of the functions from those packages.</p></dd>
+
+
 <dt id="arg-vcov-args">vcov_args<a class="anchor" aria-label="anchor" href="#arg-vcov-args"></a></dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov_fun</code>.</p></dd>
+
+
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
 <dd><p>Character vector, naming the weigthing variable in the data,
 or a vector of weights (of same length as the number of observations in the
 data). Only applies to <code>margin = "empirical"</code>.</p></dd>
+
+
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
 <dd><p>Type of interval calculation, can either be <code>"confidence"</code>
 (default) or <code>"prediction"</code>. May be abbreviated. Unlike <em>confidence intervals</em>,
@@ -340,8 +378,12 @@ for all models, but only for models that work with <code><a href="https://easyst
 For Bayesian models, when <code>interval = "confidence"</code>, predictions are based on
 posterior draws of the linear predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>.
 If <code>interval = "prediction"</code>, <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code> is called.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Toggle messages or warnings.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>If <code>margin</code> is set to <code>"mean_reference"</code> or <code>"mean_mode"</code>, arguments
 are passed down to <code><a href="ggpredict.html">ggpredict()</a></code> (further down to <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>); for
@@ -350,6 +392,7 @@ thereby to <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.ht
 passed down to <code><a href="https://marginaleffects.com/man/predictions.html" class="external-link">marginaleffects::avg_predictions()</a></code>. If <code>type = "simulate"</code>,
 <code>...</code> may also be used to set the number of simulation, e.g. <code>nsim = 500</code>.
 When calling <code><a href="ggpredict.html">ggeffect()</a></code>, further arguments passed down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -393,6 +436,9 @@ please file an issue <a href="https://github.com/strengejacke/ggeffects/issues" 
     </div>
     <div class="section level2">
     <h2 id="supported-models">Supported Models<a class="anchor" aria-label="anchor" href="#supported-models"></a></h2>
+
+
+
 <p>A list of supported models can be found at <a href="https://github.com/strengejacke/ggeffects" class="external-link">the package website</a>.
 Support for models varies by marginalization method (the <code>margin</code> argument),
 i.e. although <code>predict_response()</code> supports most models, some models are only
@@ -402,6 +448,9 @@ work for every <code>margin</code> option of <code>predict_response()</code>.</p
     </div>
     <div class="section level2">
     <h2 id="holding-covariates-at-constant-values-or-how-to-marginalize-over-the-non-focal-predictors">Holding covariates at constant values, or how to marginalize over the <em>non-focal</em> predictors<a class="anchor" aria-label="anchor" href="#holding-covariates-at-constant-values-or-how-to-marginalize-over-the-non-focal-predictors"></a></h2>
+
+
+
 <p><code>predict_response()</code> is a wrapper around <code><a href="ggpredict.html">ggpredict()</a></code>, <code><a href="ggpredict.html">ggemmeans()</a></code> and
 <code><a href="ggpredict.html">ggaverage()</a></code>. Depending on the value of the <code>margin</code> argument,
 <code>predict_response()</code> calls one of those functions. The <code>margin</code> argument
@@ -453,6 +502,9 @@ values.</p>
     </div>
     <div class="section level2">
     <h2 id="marginal-means-and-adjusted-predictions-at-specific-values">Marginal Means and Adjusted Predictions at Specific Values<a class="anchor" aria-label="anchor" href="#marginal-means-and-adjusted-predictions-at-specific-values"></a></h2>
+
+
+
 <p>Meaningful values of focal terms can be specified via the <code>terms</code> argument.
 Specifying meaningful or representative values as string pattern is the
 preferred way in the <strong>ggeffects</strong> package. However, it is also possible to
@@ -502,6 +554,9 @@ larger range of predicted values.</p>
     </div>
     <div class="section level2">
     <h2 id="bayesian-regression-models">Bayesian Regression Models<a class="anchor" aria-label="anchor" href="#bayesian-regression-models"></a></h2>
+
+
+
 <p><code>predict_response()</code> also works with <strong>Stan</strong>-models from the <strong>rstanarm</strong> or
 <strong>brms</strong>-packages. The predicted values are the median value of all drawn
 posterior samples. Standard errors are the median absolute deviation of the
@@ -514,6 +569,9 @@ The recommendation is to use the posterior predictive distribution
     </div>
     <div class="section level2">
     <h2 id="zero-inflated-and-zero-inflated-mixed-models-with-brms">Zero-Inflated and Zero-Inflated Mixed Models with brms<a class="anchor" aria-label="anchor" href="#zero-inflated-and-zero-inflated-mixed-models-with-brms"></a></h2>
+
+
+
 <p>Models of class <code>brmsfit</code> always condition on the zero-inflation component,
 if the model has such a component. Hence, there is no <code>type = "zero_inflated"</code>
 nor <code>type = "zi_random"</code> for <code>brmsfit</code>-models, because predictions are based
@@ -539,6 +597,9 @@ predictions, you should consider using <code>margin = "empirical"</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="mixmod-models-from-glmmadaptive">MixMod-models from GLMMadaptive<a class="anchor" aria-label="anchor" href="#mixmod-models-from-glmmadaptive"></a></h2>
+
+
+
 <p>Predicted values for the fixed effects component (<code>type = "fixed"</code> or
 <code>type = "zero_inflated"</code>) are based on <code>predict(..., type = "mean_subject")</code>,
 while predicted values for random effects components (<code>type = "random"</code> or
@@ -550,6 +611,9 @@ of <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">pr
     </div>
     <div class="section level2">
     <h2 id="multinomial-models">Multinomial Models<a class="anchor" aria-label="anchor" href="#multinomial-models"></a></h2>
+
+
+
 <p><code>polr</code>, <code>clm</code> models, or more generally speaking, models with ordinal or
 multinominal outcomes, have an additional column <code>response.level</code>, which
 indicates with which level of the response variable the predicted values are
@@ -557,12 +621,16 @@ associated.</p>
     </div>
     <div class="section level2">
     <h2 id="averaged-model-predictions-package-mumin-">Averaged model predictions (package <strong>MuMIn</strong>)<a class="anchor" aria-label="anchor" href="#averaged-model-predictions-package-mumin-"></a></h2>
+
+
+
 <p>For averaged model predictions, i.e. when the input model is an object of
 class <code>"averaging"</code> (<code>MuMIn::model.avg()</code>), predictions are made with the
 full averaged coefficients.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+
 <ul><li><p>Brooks ME, Kristensen K, Benthem KJ van, Magnusson A, Berg CW, Nielsen A,
 et al. glmmTMB Balances Speed and Flexibility Among Packages for Zero-inflated
 Generalized Linear Mixed Modeling. The R Journal. 2017;9: 378-400.</p></li>
@@ -571,6 +639,7 @@ slopes models. Methods Ecol Evol, 5: 944-946.</p></li>
 <li><p>Dickerman BA, Hernan, MA. Counterfactual prediction is not only for causal
 inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 </ul></div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span></span>
@@ -987,12 +1056,21 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

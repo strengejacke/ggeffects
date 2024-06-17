@@ -5,12 +5,19 @@ results of the Johnson-Neyman test."><meta property="og:description" content="Fu
 Johnson-Neyman intervals. The plot() method can be used to visualize the
 results of the Johnson-Neyman test."><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -53,6 +60,8 @@ results of the Johnson-Neyman test."><meta property="og:image" content="https://
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -61,11 +70,13 @@ results of the Johnson-Neyman test."><meta property="og:image" content="https://
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/johnson_neyman.R" class="external-link"><code>R/johnson_neyman.R</code></a></small>
       <div class="d-none name"><code>johnson_neyman.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>Function conduct a spotlight-analysis to create so-called
 Johnson-Neyman intervals. The <code><a href="plot.html">plot()</a></code> method can be used to visualize the
 results of the Johnson-Neyman test.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">x</span>, precision <span class="op">=</span> <span class="fl">500</span>, p_adjust <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -82,17 +93,24 @@ results of the Johnson-Neyman test.</p>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by the functions
 from this package.</p></dd>
+
+
 <dt id="arg-precision">precision<a class="anchor" aria-label="anchor" href="#arg-precision"></a></dt>
 <dd><p>Number of values used for the range of the moderator variable
 to calculate the Johnson-Neyman interval. This argument is passed down to
 <code>pretty(..., n = precision)</code>. Usually, the default value of 500 is sufficient.
 Increasing this value will result in a smoother plot and more accurate values
 for the interval bounds, but can also slightly increase the computation time.</p></dd>
+
+
 <dt id="arg-p-adjust">p_adjust<a class="anchor" aria-label="anchor" href="#arg-p-adjust"></a></dt>
 <dd><p>Character vector, if not <code>NULL</code>, indicates the method to
 adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code> or <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust.methods</a></code>
@@ -101,21 +119,32 @@ and for <code>johnson_neyman()</code>, <code>"fdr"</code> (or <code>"bh"</code>)
 short-cut <code>"es"</code>) are available options. Some caution is necessary when
 adjusting p-value for multiple comparisons. See also section <em>P-value adjustment</em>
 below.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed down to <code><a href="test_predictions.html">test_predictions()</a></code> (and then probably
 further to <code><a href="https://marginaleffects.com/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>). See <code><a href="test_predictions.html">?test_predictions</a></code> for further
 details.</p></dd>
+
+
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
 <dd><p>Colors used for the plot. Must be a vector with two color
 values. Only used if <code>show_association = TRUE</code>.</p></dd>
+
+
 <dt id="arg-show-association">show_association<a class="anchor" aria-label="anchor" href="#arg-show-association"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, highlights the range where values
 of the moderator are positively or negtatively associated with the outcome.</p></dd>
+
+
 <dt id="arg-show-rug">show_rug<a class="anchor" aria-label="anchor" href="#arg-show-rug"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, adds a rug with raw data of the moderator
 variable to the plot. This helps visualizing its distribution.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Show/hide printed message for plots.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -141,6 +170,9 @@ the null hypothesis".</p>
     </div>
     <div class="section level2">
     <h2 id="p-value-adjustment-for-multiple-comparisons">P-value adjustment for multiple comparisons<a class="anchor" aria-label="anchor" href="#p-value-adjustment-for-multiple-comparisons"></a></h2>
+
+
+
 <p>Note that p-value adjustment for methods supported by <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust()</a></code> (see also
 <code>p.adjust.methods</code>), each row is considered as one set of comparisons, no
 matter which <code>test</code> was specified. That is, for instance, when <code><a href="test_predictions.html">test_predictions()</a></code>
@@ -176,6 +208,7 @@ Spotlights, Floodlights, and the Magic Number Zero: Simple Effects Tests in
 Moderated Regression. Journal of Marketing Research, 50(2), 277–288.
 doi:10.1509/jmr.12.0420</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
@@ -247,12 +280,21 @@ doi:10.1509/jmr.12.0420</p>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

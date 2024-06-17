@@ -7,12 +7,19 @@ that was used to fit the model) and "averages" (i.e. "collapses") the
 response variable over the levels of the grouping factor given in
 collapse_by. Only works with mixed models.'><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -55,6 +62,8 @@ collapse_by. Only works with mixed models.'><meta property="og:image" content="h
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -63,30 +72,42 @@ collapse_by. Only works with mixed models.'><meta property="og:image" content="h
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/collapse_re_data.R" class="external-link"><code>R/collapse_re_data.R</code></a></small>
       <div class="d-none name"><code>collapse_by_group.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>This function extracts the raw data points (i.e. the data
 that was used to fit the model) and "averages" (i.e. "collapses") the
 response variable over the levels of the grouping factor given in
 <code>collapse_by</code>. Only works with mixed models.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">collapse_by_group</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, collapse_by <span class="op">=</span> <span class="cn">NULL</span>, residuals <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-grid">grid<a class="anchor" aria-label="anchor" href="#arg-grid"></a></dt>
 <dd><p>A data frame representing the data grid, or an object of class
 <code>ggeffects</code>, as returned by <code><a href="predict_response.html">predict_response()</a></code>.</p></dd>
+
+
 <dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>The model for which to compute partial residuals. The data grid
 <code>grid</code> should match to predictors in the model.</p></dd>
+
+
 <dt id="arg-collapse-by">collapse_by<a class="anchor" aria-label="anchor" href="#arg-collapse-by"></a></dt>
 <dd><p>Name of the (random effects) grouping factor. Data is
 collapsed by the levels of this factor.</p></dd>
+
+
 <dt id="arg-residuals">residuals<a class="anchor" aria-label="anchor" href="#arg-residuals"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, collapsed partial residuals instead
 of raw data by the levels of the grouping factor.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -94,6 +115,7 @@ of raw data by the levels of the grouping factor.</p></dd>
 the given grouping factor from the random effects. The group level of
 the random effect is saved in the column <code>"random"</code>.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span></span>
@@ -1008,12 +1030,21 @@ the random effect is saved in the column <code>"random"</code>.</p>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

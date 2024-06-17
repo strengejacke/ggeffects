@@ -7,12 +7,19 @@ all combinations of values from the terms in questions. Similar to
 expand.grid(). The terms-argument accepts all shortcuts
 for representative values as in predict_response().'><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -55,6 +62,8 @@ for representative values as in predict_response().'><meta property="og:image" c
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -63,27 +72,36 @@ for representative values as in predict_response().'><meta property="og:image" c
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/new_data.R" class="external-link"><code>R/new_data.R</code></a></small>
       <div class="d-none name"><code>new_data.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>Create a data frame for the "newdata"-argument that contains
 all combinations of values from the terms in questions. Similar to
 <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code>. The <code>terms</code>-argument accepts all shortcuts
 for representative values as in <code><a href="predict_response.html">predict_response()</a></code>.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_data</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, typical <span class="op">=</span> <span class="st">"mean"</span>, condition <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">data_grid</span><span class="op">(</span><span class="va">model</span>, <span class="va">terms</span>, typical <span class="op">=</span> <span class="st">"mean"</span>, condition <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A fitted model object.</p></dd>
+
+
 <dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>Character vector with the names of those terms from <code>model</code> for
 which all combinations of values should be created. This argument works in
 the same way as the <code>terms</code> argument in <code><a href="predict_response.html">predict_response()</a></code>. See also
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p></dd>
+
+
 <dt id="arg-typical">typical<a class="anchor" aria-label="anchor" href="#arg-typical"></a></dt>
 <dd><p>Character vector, naming the function to be applied to the
 covariates (non-focal terms) over which the effect is "averaged". The
@@ -99,6 +117,8 @@ If <code>typical</code> is <code>"weighted.mean"</code>, weights from the model 
 weights are available, the function falls back to <code>"mean"</code>. <strong>Note</strong> that this
 argument is ignored for <code><a href="predict_response.html">predict_response()</a></code>, because the <code>margin</code> argument
 takes care of this.</p></dd>
+
+
 <dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
@@ -106,14 +126,18 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, <code>condition</code> can be used to define
 exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
 See 'Examples'.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Currently not used.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A data frame containing one row for each combination of values of the
 supplied variables.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span></span>
@@ -166,12 +190,21 @@ supplied variables.</p>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

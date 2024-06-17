@@ -9,12 +9,19 @@ variables or certain values of numeric vectors. This data grid is usually used
 as newdata argument in predict(), and can be created with
 new_data()."><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -57,6 +64,8 @@ new_data()."><meta property="og:image" content="https://strengejacke.github.io/g
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -65,6 +74,7 @@ new_data()."><meta property="og:image" content="https://strengejacke.github.io/g
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/residualize_over_grid.R" class="external-link"><code>R/residualize_over_grid.R</code></a></small>
       <div class="d-none name"><code>residualize_over_grid.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>This function computes partial residuals based on a data grid,
 where the data grid is usually a data frame from all combinations of factor
@@ -72,6 +82,7 @@ variables or certain values of numeric vectors. This data grid is usually used
 as <code>newdata</code> argument in <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, and can be created with
 <code><a href="new_data.html">new_data()</a></code>.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -82,22 +93,34 @@ as <code>newdata</code> argument in <code><a href="https://rdrr.io/r/stats/predi
 <span><span class="co"># S3 method for class 'ggeffects'</span></span>
 <span><span class="fu">residualize_over_grid</span><span class="op">(</span><span class="va">grid</span>, <span class="va">model</span>, protect_names <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-grid">grid<a class="anchor" aria-label="anchor" href="#arg-grid"></a></dt>
 <dd><p>A data frame representing the data grid, or an object of class
 <code>ggeffects</code>, as returned by <code><a href="predict_response.html">predict_response()</a></code>.</p></dd>
+
+
 <dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>The model for which to compute partial residuals. The data grid
 <code>grid</code> should match to predictors in the model.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Currently not used.</p></dd>
+
+
 <dt id="arg-predictor-name">predictor_name<a class="anchor" aria-label="anchor" href="#arg-predictor-name"></a></dt>
 <dd><p>The name of the focal predictor, for which partial residuals
 are computed.</p></dd>
+
+
 <dt id="arg-protect-names">protect_names<a class="anchor" aria-label="anchor" href="#arg-protect-names"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, preserves column names from the
 <code>ggeffects</code> objects that is used as <code>grid</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -105,6 +128,8 @@ are computed.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="partial-residuals">Partial Residuals<a class="anchor" aria-label="anchor" href="#partial-residuals"></a></h2>
+
+
 <p>For <strong>generalized linear models</strong> (glms), residualized scores are
 computed as <code>inv.link(link(Y) + r)</code> where <code>Y</code> are the predicted
 values on the response scale, and <code>r</code> are the <em>working</em> residuals.
@@ -118,6 +143,7 @@ partialled out.</p>
 Models with Predictor Effect Plots and Partial Residuals. Journal of Statistical
 Software 2018;87.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span></span>
@@ -143,12 +169,21 @@ Software 2018;87.</p>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

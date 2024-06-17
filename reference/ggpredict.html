@@ -43,12 +43,19 @@ calculate marginal means and adjusted predictions. These functions are still
 available, but predict_response() as a "wrapper" around these functions is
 the preferred way to do this now.'><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.14</small>
+
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home fa-lg"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -91,6 +98,8 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/strengejacke/ggeffects/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
@@ -99,6 +108,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/data_frame_methods.R" class="external-link"><code>R/data_frame_methods.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/master/R/ggaverage.R" class="external-link"><code>R/ggaverage.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/master/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, and 2 more</small>
       <div class="d-none name"><code>ggpredict.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>After fitting a model, it is useful generate model-based estimates (expected
 values, or <em>adjusted predictions</em>) of the response variable for different
@@ -123,6 +133,7 @@ calculate marginal means and adjusted predictions. These functions are still
 available, but <code><a href="predict_response.html">predict_response()</a></code> as a "wrapper" around these functions is
 the preferred way to do this now.</p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'ggeffects'</span></span>
@@ -190,14 +201,21 @@ the preferred way to do this now.</p>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object of class <code>ggeffects</code>, as returned by <code><a href="predict_response.html">predict_response()</a></code>,
 <code>ggpredict()</code>, <code>ggeffect()</code>, <code>ggaverage()</code> or <code>ggemmeans()</code>.</p></dd>
+
+
 <dt id="arg-row-names">row.names<a class="anchor" aria-label="anchor" href="#arg-row-names"></a></dt>
 <dd><p><code>NULL</code> or a character vector giving the row
     names for the data frame.  Missing values are not allowed.</p></dd>
+
+
 <dt id="arg-optional">optional<a class="anchor" aria-label="anchor" href="#arg-optional"></a></dt>
 <dd><p>logical. If <code>TRUE</code>, setting row names and
     converting column names (to syntactic names: see
@@ -206,20 +224,30 @@ the preferred way to do this now.</p>
     <code>optional</code> only for column names treatment, basically with the
     meaning of <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>(*, check.names = !optional)</code>.
     See also the <code>make.names</code> argument of the <code>matrix</code> method.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments are passed down to <code>ggpredict()</code> (further down to <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>)
 or <code>ggemmeans()</code> (and thereby to <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>), If <code>type = "simulate"</code>,
 <code>...</code> may also be used to set the number of simulation, e.g. <code>nsim = 500</code>.
 When calling <code>ggeffect()</code>, further arguments passed down to <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code>.</p></dd>
+
+
 <dt id="arg-stringsasfactors">stringsAsFactors<a class="anchor" aria-label="anchor" href="#arg-stringsasfactors"></a></dt>
 <dd><p>logical: should the character vector be converted
     to a factor?</p></dd>
+
+
 <dt id="arg-terms-to-colnames">terms_to_colnames<a class="anchor" aria-label="anchor" href="#arg-terms-to-colnames"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, standardized column names (like
 <code>"x"</code>, <code>"group"</code> or <code>"facet"</code>) are replaced by the variable names of the focal
 predictors specified in <code>terms</code>.</p></dd>
+
+
 <dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>A model object, or a list of model objects.</p></dd>
+
+
 <dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
 <dd><p>Names of those terms from <code>model</code>, for which predictions should
 be displayed (so called <em>focal terms</em>). Can be:</p><ul><li><p>A character vector, specifying the names of the focal terms. This is the
@@ -242,6 +270,8 @@ All remaining covariates that are not specified in <code>terms</code> are "margi
 see the <code>margin</code> argument in <code><a href="predict_response.html">?predict_response</a></code>. See also argument <code>condition</code>
 to fix non-focal terms to specific values, and argument <code>typical</code> for
 <code>ggpredict()</code> or <code>ggemmeans()</code>.</p></dd>
+
+
 <dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
 <dd><p>Numeric, the level of the confidence intervals. Use
 <code>ci_level = NA</code> if confidence intervals should not be calculated
@@ -251,6 +281,8 @@ normal distribution (based on the model and the available degrees of freedom,
 i.e. roughly <code>+/- 1.96 * SE</code>). See introduction of
 <a href="https://strengejacke.github.io/ggeffects/articles/ggeffects.html">this vignette</a>
 for more details.</p></dd>
+
+
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>Character, indicating whether predictions should be conditioned
 on specific model components or not. Consequently, most options only apply
@@ -332,6 +364,8 @@ calculates the survival probability or the cumulative hazard of an event.</p></l
 </ul><p>When <code>margin = "empirical"</code> (or when calling <code>ggaverage()</code>), the <code>type</code>
 argument accepts all values from the <code>type</code>-argument of the model's respective
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p></dd>
+
+
 <dt id="arg-typical">typical<a class="anchor" aria-label="anchor" href="#arg-typical"></a></dt>
 <dd><p>Character vector, naming the function to be applied to the
 covariates (non-focal terms) over which the effect is "averaged". The
@@ -347,6 +381,8 @@ If <code>typical</code> is <code>"weighted.mean"</code>, weights from the model 
 weights are available, the function falls back to <code>"mean"</code>. <strong>Note</strong> that this
 argument is ignored for <code><a href="predict_response.html">predict_response()</a></code>, because the <code>margin</code> argument
 takes care of this.</p></dd>
+
+
 <dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values. Unlike <code>typical</code>, which
@@ -354,10 +390,14 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, <code>condition</code> can be used to define
 exact values, for instance <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.
 See 'Examples'.</p></dd>
+
+
 <dt id="arg-back-transform">back_transform<a class="anchor" aria-label="anchor" href="#arg-back-transform"></a></dt>
 <dd><p>Logical, if <code>TRUE</code> (the default), predicted values
 for log- or log-log transformed responses will be back-transformed to
 original response-scale.</p></dd>
+
+
 <dt id="arg-vcov-fun">vcov_fun<a class="anchor" aria-label="anchor" href="#arg-vcov-fun"></a></dt>
 <dd><p>Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
@@ -380,24 +420,36 @@ based on the standard errors as returned by the <code><a href="https://rdrr.io/r
 <strong>Note</strong> that probably not all model objects that work with <code>ggpredict()</code>
 are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p>
 <p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
+
+
 <dt id="arg-vcov-type">vcov_type<a class="anchor" aria-label="anchor" href="#arg-vcov-type"></a></dt>
 <dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
 or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
 character string indicating one of the functions from those packages.</p></dd>
+
+
 <dt id="arg-vcov-args">vcov_args<a class="anchor" aria-label="anchor" href="#arg-vcov-args"></a></dt>
 <dd><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov_fun</code>.</p></dd>
+
+
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
 <dd><p>Character vector, naming the weigthing variable in the data,
 or a vector of weights (of same length as the number of observations in the
 data). Only applies to <code>margin = "empirical"</code>.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Toggle messages or warnings.</p></dd>
+
+
 <dt id="arg-ci-lvl-vcov-fun-vcov-type-vcov-args-back-transform">ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform<a class="anchor" aria-label="anchor" href="#arg-ci-lvl-vcov-fun-vcov-type-vcov-args-back-transform"></a></dt>
 <dd><p>Deprecated arguments.
 Please use <code>ci_level</code>, <code>vcov_fun</code>, <code>vcov_type</code>, <code>vcov_args</code> and <code>back_transform</code>
 instead.</p></dd>
+
+
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
 <dd><p>Type of interval calculation, can either be <code>"confidence"</code>
 (default) or <code>"prediction"</code>. May be abbreviated. Unlike <em>confidence intervals</em>,
@@ -409,6 +461,8 @@ for all models, but only for models that work with <code><a href="https://easyst
 For Bayesian models, when <code>interval = "confidence"</code>, predictions are based on
 posterior draws of the linear predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>.
 If <code>interval = "prediction"</code>, <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code> is called.</p></dd>
+
+
 <dt id="arg-ppd">ppd<a class="anchor" aria-label="anchor" href="#arg-ppd"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are based on the
 posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
@@ -419,6 +473,7 @@ incorporates the residual variance and hence returned intervals are similar to
 prediction intervals. Consequently, if <code>interval = "prediction"</code>, <code>ppd</code> is
 automatically set to <code>TRUE</code>. The <code>ppd</code> argument will be deprecated in a
 future version. Please use <code>interval = "prediction"</code> instead.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -451,14 +506,24 @@ names instead of the standardized names <code>"x"</code> etc.</p></li>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Please see <code><a href="predict_response.html">?predict_response</a></code> for details and examples.</p>
     </div>
+
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 
