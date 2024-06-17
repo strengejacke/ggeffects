@@ -3,7 +3,7 @@
 
   lm_models <- c(
     "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
-    "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod",
+    "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod", "glmgee",
     "lmerMod", "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
   )
 
@@ -35,6 +35,8 @@ get_predict_function <- function(model) {
     "nestedLogit"
   } else if (inherits(model, "mblogit")) {
     "mblogit"
+  } else if (inherits(model, "glmgee")) {
+    "glmgee"
   } else if (inherits(model, "mclogit")) {
     "mclogit"
   } else if (inherits(model, "logitr")) {
