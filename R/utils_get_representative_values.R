@@ -91,7 +91,7 @@
       if (x == "pretty") {
         # return pretty range
         x <- pretty_range(model_frame[[y]])
-      } else if (x %in% at_pattern) {
+      } else if (x %in% at_pattern || startsWith(x, "percentile")) {
         # return at specific values
         x <- values_at(model_frame[[y]], values = x)
       } else {

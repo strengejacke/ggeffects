@@ -27,6 +27,10 @@
 
 * Improved accuracy of standard errors for `test_predictions(..., engine = "ggeffects")`.
 
+* The `terms` argument now also accepts the shortcut `"percentile"` (plus numeric
+  value) to select a range of percentiles for continuous variables, e.g.
+  `terms = "x [percentile90]"` to select a range of the 90% percentile.
+
 ## Bug fixes
 
 * Fixed issue with *brms* models with monotonic effects in formula (`mo()`).

@@ -148,6 +148,7 @@ You can use
 * `"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
 * `"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
 * `"fivenum"` calculates Tukey's five-number-summary (minimum, lower-hinge, median, upper-hinge, maximum).
+* `"percentile"` (including the percentile-value) calculates a range of values from the given percentile, e.g. `"percentile80"`.
 * `"all"` takes all values of the vector.
 
 ```{r}

@@ -30,6 +30,9 @@
 #'     the moderator value, \emph{including} minimum and maximum value.
 #'   - `"terciles2"`: calculates and uses the terciles (lower and upper third)
 #'     of the moderator value, \emph{excluding} minimum and maximum value.
+#'   - an option to compute a range of percentiles is also possible, using
+#'     `"percentile"`, followed by the percentage of the range. For example,
+#'     `"percentile95"` will calculate the 95% range of the variable.
 #'   - `"all"`: uses all values of the moderator variable. Note that this option
 #'     only applies to `type = "eff"`, for numeric moderator values.
 #'
@@ -54,36 +57,42 @@ values_at <- function(x, values = "meansd") {
     # e.g. for quantiles, if we have at least three values
     values <- check_rv(values, x)
 
-    # we have more than two values, so re-calculate effects, just using
-    # min and max value of moderator.
-    xl <- switch(values,
-      minmax = {
-        # retrieve min and max values
-        mv.min <- min(x, na.rm = TRUE)
-        mv.max <- max(x, na.rm = TRUE)
-        # re-compute effects, prepare xlevels
-        c(mv.min, mv.max)
-      },
-      meansd = {
-        # retrieve mean and sd
-        mv.mean <- mean(x, na.rm = TRUE)
-        mv.sd <- stats::sd(x, na.rm = TRUE)
-        # re-compute effects, prepare xlevels
-        c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
-      },
-      zeromax = {
-        # retrieve max values
-        mv.max <- max(x, na.rm = TRUE)
-        # re-compute effects, prepare xlevels
-        c(0, mv.max)
-      },
-      all = as.vector(unique(sort(x, na.last = NA))),
-      fivenum = as.vector(stats::fivenum(x, na.rm = TRUE)),
-      quart = as.vector(stats::quantile(x, na.rm = TRUE)),
-      quart2 = as.vector(stats::quantile(x, na.rm = TRUE))[2:4],
-      terciles = as.vector(stats::quantile(x, probs = (0:3) / 3, na.rm = TRUE)),
-      terciles2 = as.vector(stats::quantile(x, probs = (1:2) / 3, na.rm = TRUE))
-    )
+    # do we have a "percentile"´shortcut?
+    if (startsWith(values, "percentile")) {
+      percentile <- as.numeric(sub("percentile", "", values, fixed = TRUE)) / 100
+      bounds <- (1 - percentile) / 2
+      xl <- as.vector(stats::quantile(x, probs = seq(0 + bounds, 1 - bounds, by = 0.05)))
+    } else {
+      xl <- switch(values,
+        minmax = {
+          # retrieve min and max values
+          mv.min <- min(x, na.rm = TRUE)
+          mv.max <- max(x, na.rm = TRUE)
+          # re-compute effects, prepare xlevels
+          c(mv.min, mv.max)
+        },
+        meansd = {
+          # retrieve mean and sd
+          mv.mean <- mean(x, na.rm = TRUE)
+          mv.sd <- stats::sd(x, na.rm = TRUE)
+          # re-compute effects, prepare xlevels
+          c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd)
+        },
+        zeromax = {
+          # retrieve max values
+          mv.max <- max(x, na.rm = TRUE)
+          # re-compute effects, prepare xlevels
+          c(0, mv.max)
+        },
+        all = as.vector(unique(sort(x, na.last = NA))),
+        fivenum = as.vector(stats::fivenum(x, na.rm = TRUE)),
+        quart = as.vector(stats::quantile(x, na.rm = TRUE)),
+        quart2 = as.vector(stats::quantile(x, na.rm = TRUE))[2:4],
+        terciles = as.vector(stats::quantile(x, probs = (0:3) / 3, na.rm = TRUE)),
+        terciles2 = as.vector(stats::quantile(x, probs = (1:2) / 3, na.rm = TRUE))
+      )
+    }
+
 
     if (is.numeric(x)) {
       if (is.whole(x)) {
@@ -121,12 +130,20 @@ check_rv <- function(values, x) {
     values <- "all"
   }
 
-  if (is.numeric(x) && values %in% c("quart", "quart2", "quartiles", "quartiles2", "terciles", "terciles2")) {
+  if (is.numeric(x) && (values %in% c("quart", "quart2", "quartiles", "quartiles2", "terciles", "terciles2") || startsWith(values, "percentile"))) { # nolint
     mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
     if (mvc < 3) {
       # tell user that quart won't work
-      insight::format_alert("Could not compute quartiles, too small range of variable. Defaulting `values` to \"minmax\".") # nolint
+      insight::format_alert("Could not compute percentiles or quartiles, too small range of variable. Defaulting `values` to \"minmax\".") # nolint
       values <- "minmax"
+    }
+    if (startsWith(values, "percentile")) {
+      check <- .safe(as.numeric(sub("percentile", "", values, fixed = TRUE)))
+      if (is.null(check) || is.na(check)) {
+        # tell user that "percentile" has not correct syntax
+        insight::format_alert("`percentile` had no correct numeric value that defined the range. Make sure to correctly specify the percentiles, e.g. `\"percentile90\"`. Defaulting `values` to \"minmax\".") # nolint
+        values <- "minmax"
+      }
     }
   }
 
