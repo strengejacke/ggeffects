@@ -191,15 +191,18 @@ m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
 # the marginal effect using the "marginaleffects" package
 marginaleffects::avg_slopes(m, variables = "Species")
 #> 
-#>     Term            Contrast Estimate Std. Error    z Pr(>|z|)    S 2.5 %
-#>  Species versicolor - setosa    0.435      0.103 4.23   <0.001 15.4 0.234
-#>  Species virginica - setosa     0.838      0.145 5.76   <0.001 26.9 0.553
-#>  97.5 %
-#>   0.637
-#>   1.123
+#>     Term                        Contrast Estimate Std. Error    z Pr(>|z|)    S
+#>  Species mean(versicolor) - mean(setosa)    0.435      0.103 4.23   <0.001 15.4
+#>  Species mean(virginica) - mean(setosa)     0.838      0.145 5.76   <0.001 26.9
+#>  2.5 % 97.5 %
+#>  0.234  0.637
+#>  0.553  1.123
 #> 
-#> Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high 
+#> Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high, predicted_lo, predicted_hi, predicted 
 #> Type:  response
+```
+
+``` r
 
 # here we show that marginal effects refer to the difference between
 # predictions for a one-unit change of "Species"
@@ -212,13 +215,22 @@ out
 #> setosa     |      0.77 | 0.61, 0.94
 #> versicolor |      1.21 | 1.15, 1.27
 #> virginica  |      1.61 | 1.48, 1.74
+```
+
+``` r
 
 # marginal effects of "versicolor", relative to "setosa"
 out$predicted[2] - out$predicted[1]
 #> [1] 0.44
+```
+
+``` r
 # marginal effects of "virginica", relative to "setosa"
 out$predicted[3] - out$predicted[1]
 #> [1] 0.84
+```
+
+``` r
 
 # finally, test_predictions() returns the same. while the previous results
 # report the marginal effect compared to the reference level "setosa",
@@ -246,13 +258,13 @@ Currently supported model-objects are: averaging, bamlss, bayesx,
 betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit,
 brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac,
 flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb,
-glmer.nb, glmerMod, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle,
-ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm,
-mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor, mlogit,
-multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm, phylolm,
-plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm,
-stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam,
-vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
+glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls,
+hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf,
+logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor,
+mlogit, multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm,
+phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm,
+speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit,
+truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
 
 Support for models varies by marginalization method (the `margin`
 argument), i.e. although `predict_response()` supports most models, some
@@ -379,6 +391,9 @@ print(result, collapse_table = TRUE, collapse_ci = TRUE)
 #> 
 #> Adjusted for:
 #> * c12hour = 42.10
+```
+
+``` r
 
 ggplot(result, aes(x = x, y = predicted, colour = group)) +
   geom_line() +
