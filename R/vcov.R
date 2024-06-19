@@ -320,6 +320,10 @@ vcov.ggeffects <- function(object,
       vcm <- as.matrix(vcov.fun)
     } else {
       vcov_info <- .prepare_vcov_args(model, vcov.fun, vcov.type, vcov.args, verbose = verbose)
+      # do nothing if vcov cannot be computed
+      if (is.null(vcov_info)) {
+        return(NULL)
+      }
       vcm <- as.matrix(do.call(vcov_info$vcov.fun, vcov_info$vcov.args))
     }
     # for zero-inflated models, remove zero-inflation part from vcov
