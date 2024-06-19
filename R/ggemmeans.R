@@ -118,7 +118,7 @@ ggemmeans <- function(model,
     # -----------------------------------------------------------
 
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
-    additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
+    additional_dot_args <- list(...)
 
     if ("nsim" %in% names(additional_dot_args)) {
       nsim <- eval(additional_dot_args[["nsim"]])
