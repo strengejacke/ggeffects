@@ -1088,7 +1088,7 @@ test_predictions.default <- function(object,
       out
     )
   } else if (minfo$is_ordinal || minfo$is_multinomial) {
-    resp_levels <- levels(insight::get_response(object))
+    resp_levels <- levels(insight::get_response(object, verbose = FALSE))
     if (!is.null(resp_levels) && all(rowMeans(sapply(resp_levels, grepl, .comparisons$term, fixed = TRUE)) > 0)) { # nolint
       colnames(out)[seq_along(focal)] <- paste0("Response Level by ", paste0(focal, collapse = " & "))
       if (length(focal) > 1) {

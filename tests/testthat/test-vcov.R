@@ -20,10 +20,6 @@ test_that("ggpredict, vcov can be own function", {
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
   expect_message(
-    ggemmeans(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0"),
-    "The following arguments are not supported"
-  )
-  expect_message(
     ggeffect(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0"),
     "The following arguments are not supported"
   )

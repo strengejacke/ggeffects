@@ -80,7 +80,8 @@ ggemmeans <- function(model,
       vcov.fun = vcov_fun,
       vcov.type = vcov_type,
       vcov.args = vcov_args,
-      include_model = FALSE
+      include_model = FALSE,
+      verbose = verbose
     )
   }
 
@@ -263,7 +264,7 @@ ggemmeans <- function(model,
     back.transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
-    vcov.args = vcov_args,
+    vcov.args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
     verbose = verbose
   )
 }

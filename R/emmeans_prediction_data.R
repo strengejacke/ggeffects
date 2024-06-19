@@ -16,6 +16,7 @@
                                      model_info,
                                      interval = NULL,
                                      model_data = NULL,
+                                     vcov_info = NULL,
                                      verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
@@ -36,7 +37,8 @@
   } else {
     prediction_data <- .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
-      interval = interval, model_data = model_data, verbose = verbose, ...
+      interval = interval, model_data = model_data, vcov_info = vcov_info,
+      verbose = verbose, ...
     )
   }
 }
@@ -163,11 +165,14 @@
   }
   emmeans_args <- c(emmeans_args, list(...))
 
+  # first attempt
   tmp <- tryCatch(
     suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
     error = function(e) NULL
   )
 
+  # if data could not be recovered, tmp is NULL. Try again, this time
+  # providing the data directly
   if (is.null(tmp)) {
     emmeans_args$data <- insight::get_data(model, source = "frame", verbose = FALSE)
     tmp <- tryCatch(
@@ -183,7 +188,7 @@
     )
   }
 
-
+  # if we succeded, add confidence intervals
   if (!is.null(tmp)) {
     .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
   } else {

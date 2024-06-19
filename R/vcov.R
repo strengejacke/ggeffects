@@ -319,7 +319,7 @@ vcov.ggeffects <- function(object,
       # user provided a vcov-matrix?
       vcm <- as.matrix(vcov.fun)
     } else {
-      vcov_info <- .prepare_vcov_args(model, vcov.fun, vcov.type, vcov.args)
+      vcov_info <- .prepare_vcov_args(model, vcov.fun, vcov.type, vcov.args, verbose = verbose)
       vcm <- as.matrix(do.call(vcov_info$vcov.fun, vcov_info$vcov.args))
     }
     # for zero-inflated models, remove zero-inflation part from vcov
@@ -334,7 +334,12 @@ vcov.ggeffects <- function(object,
 }
 
 
-.prepare_vcov_args <- function(model, vcov.fun, vcov.type, vcov.args, include_model = TRUE) {
+.prepare_vcov_args <- function(model,
+                               vcov.fun,
+                               vcov.type,
+                               vcov.args,
+                               include_model = TRUE,
+                               verbose = TRUE) {
   # check for existing vcov-prefix
   if (!startsWith(vcov.fun, "vcov")) {
     vcov_shortcuts <- c("HC0", "HC1", "HC2", "HC3", "HC4", "HC5", "HC4m",
