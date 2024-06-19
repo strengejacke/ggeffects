@@ -360,11 +360,10 @@ vcov.ggeffects <- function(object,
       # compute robust standard errors based on vcov
       if (robust_package == "sandwich") {
         vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
-        vcm <- as.matrix(do.call(vcov.fun, c(list(x = model, type = vcov.type), vcov.args)))
       } else {
         vcov.fun <- clubSandwich::vcovCR
-        vcm <- as.matrix(do.call(vcov.fun, c(list(obj = model, type = vcov.type), vcov.args)))
       }
+      vcm <- as.matrix(do.call(vcov.fun, c(list(model, type = vcov.type), vcov.args)))
     }
     # for zero-inflated models, remove zero-inflation part from vcov
     if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {

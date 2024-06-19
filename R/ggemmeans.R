@@ -7,6 +7,9 @@ ggemmeans <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
+                      vcov_fun = NULL,
+                      vcov_type = NULL,
+                      vcov_args = NULL,
                       interval = "confidence",
                       verbose = TRUE,
                       ci.lvl = ci_level,
@@ -59,7 +62,7 @@ ggemmeans <- function(model,
   # check valid additional arguments
   .validate_dot_arguments(
     list(...),
-    not_allowed = c("vcov_fun", "vcov_type", "vcov_args", "weights"),
+    not_allowed = "weights",
     fun = "ggemmeans()"
   )
 
