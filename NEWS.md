@@ -8,6 +8,10 @@
 
 * `ggpredict()` now supports models of class `glmgee` (package *glmtoolbox*).
 
+* `ggemmeans()` gains arguments `vcov_fun`, `vcov_type` and `vcov_args` to
+  specify the variance-covariance matrix for the marginal means, similar to
+  what is already available in `ggpredict()` and `ggaverage()`.
+
 * When `test = "contrast"`, the `engine` is automatically set to `"emmeans"`
   in `test_predictions()`.
 

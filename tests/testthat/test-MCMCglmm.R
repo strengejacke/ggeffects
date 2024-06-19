@@ -15,7 +15,7 @@ test_that("ggpredict", {
     thin = 1
   )
 
-  p <- ggpredict(m1, "plate")
+  p <- suppressWarnings(ggpredict(m1, "plate"))
   expect_equal(p$predicted[1], 1.055517, tolerance = 1e-3)
 })
 

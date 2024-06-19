@@ -398,7 +398,7 @@
 
   # for MixMod, we need mean value of response as well...
   if (inherits(model, c("MixMod", "MCMCglmm"))) {
-    constant_values <- c(constant_values, .typical_value(insight::get_response(model)))
+    constant_values <- c(constant_values, .typical_value(insight::get_response(model, verbose = FALSE)))
     names(constant_values)[length(constant_values)] <- insight::find_response(model, combine = FALSE)
   }
 

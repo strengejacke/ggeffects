@@ -90,7 +90,7 @@
   }
 
   # get response and x-value
-  response <- insight::get_response(model)
+  response <- insight::get_response(model, verbose = FALSE)
 
   # sanity check - has response correct length? May differ from model frame due to missings
   if (length(response) != nrow(mf)) {

@@ -218,7 +218,7 @@
 #'
 #' If `NULL`, standard errors (and confidence intervals) for predictions are
 #' based on the standard errors as returned by the `predict()`-function.
-#' **Note** that probably not all model objects that work with `ggpredict()`
+#' **Note** that probably not all model objects that work with `predict_response()`
 #' are also supported by the **sandwich** or **clubSandwich** packages.
 #'
 #' See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
@@ -695,6 +695,9 @@ predict_response <- function(model,
       typical = "mean",
       condition = condition,
       back_transform = back_transform,
+      vcov_fun = vcov_fun,
+      vcov_type = vcov_type,
+      vcov_args = vcov_args,
       interval = interval,
       verbose = verbose,
       ...

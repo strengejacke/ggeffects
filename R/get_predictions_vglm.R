@@ -32,7 +32,7 @@ get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
 
   if (mi$is_ordinal || mi$is_multinomial || is_multivariate) {
     # start here with cumulative link models
-    resp <- insight::get_response(model)
+    resp <- insight::get_response(model, verbose = FALSE)
 
     if (is.data.frame(resp))
       resp.names <- colnames(resp)

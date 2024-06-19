@@ -26,7 +26,7 @@ get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
   data_grid <- cbind(prdat, data_grid)
 
   # get levels of response
-  lv <- levels(insight::get_response(model))
+  lv <- levels(insight::get_response(model, verbose = FALSE))
 
   # for proportional ordinal logistic regression (see ordinal::clm),
   # we have predicted values for each response category. Hence,

@@ -7,6 +7,9 @@ ggemmeans <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
+                      vcov_fun = NULL,
+                      vcov_type = NULL,
+                      vcov_args = NULL,
                       interval = "confidence",
                       verbose = TRUE,
                       ci.lvl = ci_level,
@@ -59,9 +62,28 @@ ggemmeans <- function(model,
   # check valid additional arguments
   .validate_dot_arguments(
     list(...),
-    not_allowed = c("vcov_fun", "vcov_type", "vcov_args", "weights"),
+    not_allowed = "weights",
     fun = "ggemmeans()"
   )
+
+  # prepare vcov arguments
+  if (is.null(vcov_fun)) {
+    vcov_info <- NULL
+  } else if (is.function(vcov_fun)) {
+    vcov_info <- list(
+      vcov.fun = vcov_fun,
+      vcov.args = list(type = vcov_type, vcov.args = vcov_args)
+    )
+  } else {
+    vcov_info <- .prepare_vcov_args(
+      model,
+      vcov.fun = vcov_fun,
+      vcov.type = vcov_type,
+      vcov.args = vcov_args,
+      include_model = FALSE,
+      verbose = verbose
+    )
+  }
 
   # tidymodels?
   if (inherits(model, "model_fit")) {
@@ -166,6 +188,7 @@ ggemmeans <- function(model,
       type,
       model_info,
       interval = interval,
+      vcov_info = vcov_info,
       verbose = verbose,
       ...
     )
@@ -241,6 +264,7 @@ ggemmeans <- function(model,
     back.transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
+    vcov.args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
     verbose = verbose
   )
 }

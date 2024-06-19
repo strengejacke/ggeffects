@@ -16,6 +16,7 @@
                                      model_info,
                                      interval = NULL,
                                      model_data = NULL,
+                                     vcov_info = NULL,
                                      verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
@@ -36,7 +37,8 @@
   } else {
     prediction_data <- .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
-      interval = interval, model_data = model_data, verbose = verbose, ...
+      interval = interval, model_data = model_data, vcov_info = vcov_info,
+      verbose = verbose, ...
     )
   }
 }
@@ -147,35 +149,34 @@
                                        type,
                                        interval = NULL,
                                        model_data = NULL,
+                                       vcov_info = NULL,
                                        verbose = TRUE,
                                        ...) {
+  # setup arguments
+  emmeans_args <- list(
+    model,
+    specs = cleaned_terms,
+    at = data_grid,
+    mode = pmode
+  )
+  # add vcov-information if available
+  if (!is.null(vcov_info)) {
+    emmeans_args <- c(emmeans_args, vcov = vcov_info$vcov.fun, vcov_info$vcov.args)
+  }
+  emmeans_args <- c(emmeans_args, list(...))
+
+  # first attempt
   tmp <- tryCatch(
-    suppressWarnings(
-      emmeans::emmeans(
-        model,
-        specs = cleaned_terms,
-        at = data_grid,
-        mode = pmode,
-        ...
-      )
-    ),
-    error = function(e) {
-      NULL
-    }
+    suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
+    error = function(e) NULL
   )
 
+  # if data could not be recovered, tmp is NULL. Try again, this time
+  # providing the data directly
   if (is.null(tmp)) {
+    emmeans_args$data <- insight::get_data(model, source = "frame", verbose = FALSE)
     tmp <- tryCatch(
-      suppressWarnings(
-        emmeans::emmeans(
-          model,
-          specs = cleaned_terms,
-          at = data_grid,
-          mode = pmode,
-          data = insight::get_data(model, source = "frame", verbose = FALSE),
-          ...
-        )
-      ),
+      suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
       error = function(e) {
         if (verbose) {
           insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red") # nolint
@@ -187,7 +188,7 @@
     )
   }
 
-
+  # if we succeded, add confidence intervals
   if (!is.null(tmp)) {
     .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
   } else {
