@@ -147,35 +147,31 @@
                                        type,
                                        interval = NULL,
                                        model_data = NULL,
+                                       vcov_info = NULL,
                                        verbose = TRUE,
                                        ...) {
+  # setup arguments
+  emmeans_args <- list(
+    model,
+    specs = cleaned_terms,
+    at = data_grid,
+    mode = pmode
+  )
+  # add vcov-information if available
+  if (!is.null(vcov_info)) {
+    emmeans_args <- c(emmeans_args, vcov = vcov_info$vcov.fun, vcov_info$vcov.args)
+  }
+  emmeans_args <- c(emmeans_args, list(...))
+
   tmp <- tryCatch(
-    suppressWarnings(
-      emmeans::emmeans(
-        model,
-        specs = cleaned_terms,
-        at = data_grid,
-        mode = pmode,
-        ...
-      )
-    ),
-    error = function(e) {
-      NULL
-    }
+    suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
+    error = function(e) NULL
   )
 
   if (is.null(tmp)) {
+    emmeans_args$data <- insight::get_data(model, source = "frame", verbose = FALSE)
     tmp <- tryCatch(
-      suppressWarnings(
-        emmeans::emmeans(
-          model,
-          specs = cleaned_terms,
-          at = data_grid,
-          mode = pmode,
-          data = insight::get_data(model, source = "frame", verbose = FALSE),
-          ...
-        )
-      ),
+      suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
       error = function(e) {
         if (verbose) {
           insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red") # nolint

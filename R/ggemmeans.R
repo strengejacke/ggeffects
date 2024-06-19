@@ -66,6 +66,17 @@ ggemmeans <- function(model,
     fun = "ggemmeans()"
   )
 
+  # prepare vcov arguments
+  if (!is.null(vcov_fun)) {
+    vcov_info <- .prepare_vcov_args(
+      model,
+      vcov.fun = vcov_fun,
+      vcov.type = vcov_type,
+      vcov.args = vcov_args,
+      include_model = FALSE
+    )
+  }
+
   # tidymodels?
   if (inherits(model, "model_fit")) {
     model <- model$fit
@@ -169,6 +180,7 @@ ggemmeans <- function(model,
       type,
       model_info,
       interval = interval,
+      vcov_info = vcov_info,
       verbose = verbose,
       ...
     )
@@ -244,6 +256,7 @@ ggemmeans <- function(model,
     back.transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
+    vcov.args = vcov_args,
     verbose = verbose
   )
 }
