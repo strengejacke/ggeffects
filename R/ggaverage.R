@@ -16,8 +16,7 @@ ggaverage <- function(model,
   insight::check_if_installed("marginaleffects")
 
   # check arguments
-  type_and_ppd <- .validate_type_argument(model, type, ppd = FALSE, marginaleffects = TRUE)
-  type <- type_and_ppd$type
+  type <- .validate_type_argument(model, type, marginaleffects = TRUE)
   dot_args <- list(...)
 
   # process "terms", so we have the default character format. Furthermore,

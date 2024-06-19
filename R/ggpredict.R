@@ -80,12 +80,11 @@ ggpredict <- function(model,
   ## TODO: remove deprecated later
   if (!missing(ppd) && isTRUE(ppd)) {
     insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
+    interval <- "prediction"
   }
 
   # check arguments
-  type_and_ppd <- .validate_type_argument(model, type, ppd)
-  type <- type_and_ppd$type
-  ppd <- type_and_ppd$ppd
+  type <- .validate_type_argument(model, type)
 
   if (missing(interval)) {
     if (type %in% c("random", "zero_inflated_random")) {
@@ -99,13 +98,6 @@ ggpredict <- function(model,
 
   # make sure we have valid values
   interval <- match.arg(interval, c("confidence", "prediction"))
-
-  ## TODO: remove when deprecated
-
-  # update interval - if we have ppd = TRUE, we have prediction intervals
-  if (isTRUE(ppd)) {
-    interval <- "prediction"
-  }
 
   ## TODO: remove deprecated later
 
