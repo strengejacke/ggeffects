@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.15</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.16</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,6 +75,7 @@
 <div class="section level3">
 <h3 id="general-1-6-1">General<a class="anchor" aria-label="anchor" href="#general-1-6-1"></a></h3>
 <ul><li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports models of class <code>glmgee</code> (package <em>glmtoolbox</em>).</p></li>
+<li><p><code><a href="../reference/ggpredict.html">ggemmeans()</a></code> gains arguments <code>vcov_fun</code>, <code>vcov_type</code> and <code>vcov_args</code> to specify the variance-covariance matrix for the marginal means, similar to what is already available in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code>.</p></li>
 <li><p>When <code>test = "contrast"</code>, the <code>engine</code> is automatically set to <code>"emmeans"</code> in <code><a href="../reference/test_predictions.html">test_predictions()</a></code>.</p></li>
 <li><p><code><a href="../reference/ggpredict.html">ggaverage()</a></code> (or <code>predict_response(..., margin = "empirical")</code>) now also supports following <code>type</code> options for zero-inflated models: <code>"zi_prob"</code>, <code>"zero_inflated"</code> and <code>"fixed"</code>.</p></li>
 <li><p>Support for zero-inflated models was massively improved in <code><a href="../reference/test_predictions.html">test_predictions()</a></code>, which, for instance, now also supports <code>scale = "zprob"</code> to calculate contrasts for the zero-inflation probability for zero-inflated models from <em>glmmTMB</em> or <em>pscl</em>. Furthermore, when predictions for zero-inflation probabilities were calculated using <code>pr &lt;- predict_response(..., type = "zi_prob")</code>, corresponding contrasts will be calculated with <code>test_predictions(pr)</code> automatically. Additionally, other types for models with zero-inflation component (<code>"zero_inflated"</code>, <code>"fixed"</code>) are supported as well.</p></li>
