@@ -622,19 +622,17 @@ predict_response <- function(model,
 
   ## TODO: remove deprecated later
   if (!missing(ppd) && isTRUE(ppd)) {
-    insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
+    insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval = \"prediction\"` instead.") # nolint
+    interval <- "prediction"
   }
 
   # validate type arguments
-  type_and_ppd <- .validate_type_argument(
+  type <- .validate_type_argument(
     model,
     type,
-    ppd,
     # check for aliases for "empirical" margin
     marginaleffects = margin %in% c("empirical", "counterfactual", "ame", "marginaleffects")
   )
-  type <- type_and_ppd$type
-  ppd <- type_and_ppd$ppd
 
   if (missing(interval)) {
     if (type %in% c("random", "zero_inflated_random")) {
@@ -648,13 +646,6 @@ predict_response <- function(model,
 
   # make sure we have valid values
   interval <- match.arg(interval, c("confidence", "prediction"))
-
-  ## TODO: remove when deprecated
-
-  # update interval - if we have ppd = TRUE, we have prediction intervals
-  if (isTRUE(ppd)) {
-    interval <- "prediction"
-  }
 
   out <- switch(margin,
     mean_reference = ggpredict(
