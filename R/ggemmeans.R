@@ -59,13 +59,6 @@ ggemmeans <- function(model,
     terms <- .reconstruct_focal_terms(terms, model)
   }
 
-  # check valid additional arguments
-  .validate_dot_arguments(
-    list(...),
-    not_allowed = "weights",
-    fun = "ggemmeans()"
-  )
-
   # prepare vcov arguments
   if (is.null(vcov_fun)) {
     vcov_info <- NULL
