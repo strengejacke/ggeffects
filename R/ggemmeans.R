@@ -67,7 +67,14 @@ ggemmeans <- function(model,
   )
 
   # prepare vcov arguments
-  if (!is.null(vcov_fun)) {
+  if (is.null(vcov_fun)) {
+    vcov_info <- NULL
+  } else if (is.function(vcov_fun)) {
+    vcov_info <- list(
+      vcov.fun = vcov_fun,
+      vcov.args = list(type = vcov_type, vcov.args = vcov_args)
+    )
+  } else {
     vcov_info <- .prepare_vcov_args(
       model,
       vcov.fun = vcov_fun,
