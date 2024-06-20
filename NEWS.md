@@ -28,8 +28,8 @@
   Additionally, other types for models with zero-inflation component
   (`"zero_inflated"`, `"fixed"`) are supported as well.
 
-* `ggeffect()` and `ggemmeans()` now warn the user about arguments that are
-  supported by `ggpredict()` but not by these functions (e.g., `vcov_fun`).
+* `ggeffect()` now warns the user about arguments that are supported by
+  `ggpredict()` or `ggemmeans()`, but not by this function (e.g., `vcov_fun`).
 
 * Improved accuracy of standard errors for `test_predictions(..., engine = "ggeffects")`.
 
@@ -43,6 +43,12 @@
 
 * Fixed issue in `vcov()` for `ggeffects` objects, which could occur in rare
   situations when some of the predictors were character vectors.
+
+* Fixed issue with calculation of standard errors when one of the focal term
+  was a character vector.
+
+* Fixed issue in `plot()` method with `show_data = TRUE`, where in certain
+  situations the raw data points were not colored when groups were present.
 
 # ggeffects 1.6.0
 
