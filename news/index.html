@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.16</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.18</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@
 <li><p>When <code>test = "contrast"</code>, the <code>engine</code> is automatically set to <code>"emmeans"</code> in <code><a href="../reference/test_predictions.html">test_predictions()</a></code>.</p></li>
 <li><p><code><a href="../reference/ggpredict.html">ggaverage()</a></code> (or <code>predict_response(..., margin = "empirical")</code>) now also supports following <code>type</code> options for zero-inflated models: <code>"zi_prob"</code>, <code>"zero_inflated"</code> and <code>"fixed"</code>.</p></li>
 <li><p>Support for zero-inflated models was massively improved in <code><a href="../reference/test_predictions.html">test_predictions()</a></code>, which, for instance, now also supports <code>scale = "zprob"</code> to calculate contrasts for the zero-inflation probability for zero-inflated models from <em>glmmTMB</em> or <em>pscl</em>. Furthermore, when predictions for zero-inflation probabilities were calculated using <code>pr &lt;- predict_response(..., type = "zi_prob")</code>, corresponding contrasts will be calculated with <code>test_predictions(pr)</code> automatically. Additionally, other types for models with zero-inflation component (<code>"zero_inflated"</code>, <code>"fixed"</code>) are supported as well.</p></li>
-<li><p><code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> now warn the user about arguments that are supported by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> but not by these functions (e.g., <code>vcov_fun</code>).</p></li>
+<li><p><code><a href="../reference/ggpredict.html">ggeffect()</a></code> now warns the user about arguments that are supported by <code><a href="../reference/ggpredict.html">ggpredict()</a></code> or <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>, but not by this function (e.g., <code>vcov_fun</code>).</p></li>
 <li><p>Improved accuracy of standard errors for <code>test_predictions(..., engine = "ggeffects")</code>.</p></li>
 <li><p>The <code>terms</code> argument now also accepts the shortcut <code>"percentile"</code> (plus numeric value) to select a range of percentiles for continuous variables, e.g. <code>terms = "x [percentile90]"</code> to select a range of the 90% percentile.</p></li>
 </ul></div>
@@ -87,6 +87,8 @@
 <h3 id="bug-fixes-1-6-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-1"></a></h3>
 <ul><li><p>Fixed issue with <em>brms</em> models with monotonic effects in formula (<code>mo()</code>).</p></li>
 <li><p>Fixed issue in <code><a href="../reference/vcov.html">vcov()</a></code> for <code>ggeffects</code> objects, which could occur in rare situations when some of the predictors were character vectors.</p></li>
+<li><p>Fixed issue with calculation of standard errors when one of the focal term was a character vector.</p></li>
+<li><p>Fixed issue in <code><a href="../reference/plot.html">plot()</a></code> method with <code>show_data = TRUE</code>, where in certain situations the raw data points were not colored when groups were present.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

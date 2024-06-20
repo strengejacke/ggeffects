@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.16</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.6.0.18</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,7 +123,9 @@ are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</str
 <dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
 or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
-character string indicating one of the functions from those packages.</p></dd>
+character string indicating one of the functions from those packages.
+When <code>vcov_fun</code> is a function, a possible <code>type</code> argument <em>must</em> be provided
+via the <code>vcov_args</code> argument.</p></dd>
 
 
 <dt id="arg-vcov-args">vcov_args<a class="anchor" aria-label="anchor" href="#arg-vcov-args"></a></dt>
