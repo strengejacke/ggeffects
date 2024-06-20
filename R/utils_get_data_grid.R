@@ -307,6 +307,14 @@
     }
   }
 
+  # at this point, we have the "terms" in focal terms, but possibly in different
+  # order as in "terms" (because we first have terms with [] in focal terms, then
+  # the remaining). Here we make sure we restore the correct order
+
+  if (all(all_terms %in% names(focal_terms))) {
+    focal_terms <- focal_terms[all_terms]
+  }
+
 
   # do we have variables that should be held constant at a specific value?
 

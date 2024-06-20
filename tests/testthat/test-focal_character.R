@@ -21,7 +21,7 @@ test_that("predictions and SE with character focal terms", {
     y = pnorm(y_latent, sd = 3)
   )
 
-  beta_fit <- betareg(y ~ x + group, data = ex)
+  beta_fit <- betareg::betareg(y ~ x + group, data = ex)
   expect_warning(
     ggpredict(beta_fit, terms = c("x", "group [a, b]")),
     regex = "Some of the focal terms are of type `character`"
@@ -49,7 +49,7 @@ test_that("predictions and SE work with factor focal terms", {
     group = as.factor(group)
   )
 
-  beta_fit <- betareg(y ~ x + group, data = ex)
+  beta_fit <- betareg::betareg(y ~ x + group, data = ex)
   out <- ggpredict(beta_fit, terms = c("x", "group [a, b]"))
   expect_false(anyNA(out$conf.low))
 })
