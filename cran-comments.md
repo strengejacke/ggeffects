@@ -1,1 +1,1 @@
-This release fixes issues related to the last *marginaleffects* updates.
+Maintainance release.

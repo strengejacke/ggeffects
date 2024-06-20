@@ -1,4 +1,4 @@
-# ggeffects 1.6.1
+# ggeffects 1.7.0
 
 ## Breaking
 
