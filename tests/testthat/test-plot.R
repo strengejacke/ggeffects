@@ -32,6 +32,7 @@ test_that("ggpredict, lm", {
   p <- suppressWarnings(plot(pr, colors = "gs"))
 })
 
+
 test_that("plot, correct x-labels order for character vector", {
   d_char <- data.frame(
     x = c("low", "low", "high", "high"),
@@ -63,6 +64,7 @@ test_that("plot, correct x-labels order for character vector", {
     c("high", "low")
   )
 })
+
 
 skip_on_cran()
 skip_if_not_installed("vdiffr")
@@ -142,6 +144,7 @@ test_that("ggpredict, lm", {
   )
 })
 
+
 test_that("plot with data points", {
   skip_if_not_installed("betareg")
   skip_if_not_installed("datawizard")
@@ -169,5 +172,17 @@ test_that("plot with data points", {
   vdiffr::expect_doppelganger(
     "Colored data points with special focal terms",
     plot(beta_fit_preds, show_data = TRUE)
+  )
+})
+
+
+test_that("collapse groups works", {
+  skip_if_not_installed("lme4")
+  data(ChickWeight)
+  m <- lme4::lmer(weight ~ Diet + Time + (1 | Chick), data = ChickWeight)
+  gge <- ggpredict(m, terms = "Diet")
+  vdiffr::expect_doppelganger(
+    "Collapse random effects works again",
+    plot(gge, collapse_group = TRUE)
   )
 })

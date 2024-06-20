@@ -57,6 +57,9 @@ collapse_by_group <- function(grid, model, collapse_by = NULL, residuals = FALSE
     rawdata <- attr(grid, "rawdata", exact = TRUE)
     y_name <- "response"
 
+    # we need this column for labelling data points, but not for collapsing
+    rawdata$rowname <- NULL
+
     if (any(vapply(rawdata[-(1:2)], Negate(is.factor), logical(1))) || attr(grid, "x.is.factor", exact = TRUE) == "0") { # nolint
       insight::format_alert("Collapsing usually not informative across a continuous variable.")
     }
