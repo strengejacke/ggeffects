@@ -67,13 +67,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.6.1" id="ggeffects-161">ggeffects 1.6.1<a class="anchor" aria-label="anchor" href="#ggeffects-161"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.0" id="ggeffects-170">ggeffects 1.7.0<a class="anchor" aria-label="anchor" href="#ggeffects-170"></a></h2>
 <div class="section level3">
-<h3 id="breaking-1-6-1">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-6-1"></a></h3>
+<h3 id="breaking-1-7-0">Breaking<a class="anchor" aria-label="anchor" href="#breaking-1-7-0"></a></h3>
 <ul><li>The deprecated argument <code>ci.lvl</code> in <code><a href="../reference/test_predictions.html">test_predictions()</a></code> was removed.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="general-1-6-1">General<a class="anchor" aria-label="anchor" href="#general-1-6-1"></a></h3>
+<h3 id="general-1-7-0">General<a class="anchor" aria-label="anchor" href="#general-1-7-0"></a></h3>
 <ul><li><p><code><a href="../reference/ggpredict.html">ggpredict()</a></code> now supports models of class <code>glmgee</code> (package <em>glmtoolbox</em>).</p></li>
 <li><p><code><a href="../reference/ggpredict.html">ggemmeans()</a></code> gains arguments <code>vcov_fun</code>, <code>vcov_type</code> and <code>vcov_args</code> to specify the variance-covariance matrix for the marginal means, similar to what is already available in <code><a href="../reference/ggpredict.html">ggpredict()</a></code> and <code><a href="../reference/ggpredict.html">ggaverage()</a></code>.</p></li>
 <li><p>When <code>test = "contrast"</code>, the <code>engine</code> is automatically set to <code>"emmeans"</code> in <code><a href="../reference/test_predictions.html">test_predictions()</a></code>.</p></li>
@@ -84,7 +84,7 @@
 <li><p>The <code>terms</code> argument now also accepts the shortcut <code>"percentile"</code> (plus numeric value) to select a range of percentiles for continuous variables, e.g. <code>terms = "x [percentile90]"</code> to select a range of the 90% percentile.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-1-6-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-6-1"></a></h3>
+<h3 id="bug-fixes-1-7-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-0"></a></h3>
 <ul><li><p>Fixed issue with <em>brms</em> models with monotonic effects in formula (<code>mo()</code>).</p></li>
 <li><p>Fixed issue in <code><a href="../reference/vcov.html">vcov()</a></code> for <code>ggeffects</code> objects, which could occur in rare situations when some of the predictors were character vectors.</p></li>
 <li><p>Fixed issue with calculation of standard errors when one of the focal term was a character vector.</p></li>
