@@ -241,7 +241,7 @@ vcov.ggeffects <- function(object,
     add.terms <- unlist(Map(function(.x, .y) {
       f <- model_frame[[.y]]
       if (!is.factor(f)) {
-        f <- factor(f, levels = unique(f))
+        f <- factor(f, levels = sort(unique(f)))
       }
       if (.x %in% c("contr.sum", "contr.helmert"))
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
@@ -289,11 +289,32 @@ vcov.ggeffects <- function(object,
     mm <- mm[, keep]
   }
 
-  if (full.vcov) {
-    mm %*% vcm %*% t(mm)
-  } else {
-    colSums(t(mm %*% vcm) * t(mm))
+  # try to compute the variance-covariance matrix
+  result <- .safe(
+    if (full.vcov) {
+      mm %*% vcm %*% t(mm)
+    } else {
+      colSums(t(mm %*% vcm) * t(mm))
+    }
+  )
+
+  # sanity check for non-conformable arguments
+  if (is.null(result)) {
+    # make sure both matrices have the same number of columns
+    shared_colums <- intersect(colnames(mm), colnames(vcm))
+    mm <- mm[, shared_colums]
+    vcm <- vcm[shared_colums, shared_colums, drop = FALSE]
+    # try again
+    result <- .safe(
+      if (full.vcov) {
+        mm %*% vcm %*% t(mm)
+      } else {
+        colSums(t(mm %*% vcm) * t(mm))
+      }
+    )
   }
+
+  result
 }
 
 

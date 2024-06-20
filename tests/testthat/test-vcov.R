@@ -40,6 +40,7 @@ test_that("ggemmeans, vcov can be own function", {
   skip_if_not_installed("emmeans")
 
   # example taken from "?clubSandwich::vcovCR"
+  set.seed(1234)
   m <- 8
   cluster <- factor(rep(LETTERS[1:m], 3 + rpois(m, 5)))
   n <- length(cluster)
@@ -55,6 +56,17 @@ test_that("ggemmeans, vcov can be own function", {
   out1 <- ggemmeans(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
   out2 <- ggemmeans(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+
+  out3 <- ggemmeans(model_vcov, "X1", vcov_fun = sandwich::vcovHC(model_vcov, type = "HC0"))
+  expect_equal(
+    out3$conf.low,
+    c(
+      -0.99269, -0.72491, -0.47334, -0.25747, -0.11929, -0.0971,
+      -0.16364, -0.27276, -0.40091, -0.53844, -0.68113
+    ),
+    tolerance = 1e-4
+  )
+
 
   data(iris)
   fit <- lm(Sepal.Length ~ Species, data = iris)
@@ -73,6 +85,22 @@ test_that("ggpredict, CI based on robust SE", {
   out2 <- ggpredict(fit, terms = "Species", vcov_fun = "HC1")
   expect_equal(out$conf.low, out2$conf.low, tolerance = 1e-4)
 })
+
+
+test_that("ggemmeans and clubsandwich", {
+  skip_if_not_installed("emmeans")
+  skip_if_not_installed("clubSandwich")
+  data(mtcars)
+  fit <- lm(mpg ~ hp + as.factor(cyl), data = mtcars)
+  mtcars$gear <- as.factor(mtcars$gear)
+  out <- ggemmeans(
+    fit,
+    terms = "cyl",
+    vcov_fun = clubSandwich::vcovCR(fit, type = "CR0", cluster = mtcars$gear)
+  )
+  expect_equal(out$conf.low, c(21.60913, 17.71294, 14.6084), tolerance = 1e-4)
+})
+
 
 skip_if_not_installed("marginaleffects")
 

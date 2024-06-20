@@ -74,6 +74,17 @@
   # and all specified variables
   all_terms <- .clean_terms(terms)
 
+  # check for character variables, might not work
+  characters <- vapply(model_frame[all_terms], is.character, logical(1))
+  if (any(characters) && verbose) {
+    insight::format_warning(
+      "Some of the focal terms are of type `character`. This may lead to unexpected results. It is recommended to convert these variables to factors before fitting the model.", # nolint
+      paste0(
+        "The following variables in are of type character: ",
+        toString(paste0("`", all_terms[characters], "`"))
+      )
+    )
+  }
 
   # check if user has any predictors with log-transformation inside
   # model formula, but *not* used back-transformation "exp". Tell user
@@ -294,6 +305,14 @@
         }
       })
     }
+  }
+
+  # at this point, we have the "terms" in focal terms, but possibly in different
+  # order as in "terms" (because we first have terms with [] in focal terms, then
+  # the remaining). Here we make sure we restore the correct order
+
+  if (all(all_terms %in% names(focal_terms))) {
+    focal_terms <- focal_terms[all_terms]
   }
 
 

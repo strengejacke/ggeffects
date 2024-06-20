@@ -291,7 +291,9 @@ See details in \href{https://strengejacke.github.io/ggeffects/articles/practical
 \item{vcov_type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{?sandwich::vcovHC}
 or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
-character string indicating one of the functions from those packages.}
+character string indicating one of the functions from those packages.
+When \code{vcov_fun} is a function, a possible \code{type} argument \emph{must} be provided
+via the \code{vcov_args} argument.}
 
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
