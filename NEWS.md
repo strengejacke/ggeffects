@@ -50,6 +50,9 @@
 * Fixed issue in `plot()` method with `show_data = TRUE`, where in certain
   situations the raw data points were not colored when groups were present.
 
+* Fixed issue in `plot()` with too many data points when collapsing random
+  effects groups.
+
 # ggeffects 1.6.0
 
 ## General
