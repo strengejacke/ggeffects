@@ -296,7 +296,7 @@
     if (is.null(vcov_matrix) || !correct_row_dims || !correct_col_dims) {
       vcov_sub <- 0
     } else {
-      vcov_sub <- vcov_matrix[pos1, pos2]^2
+      vcov_sub <- vcov_matrix[which(pos1), which(pos2)]^2
     }
     # Avoid negative values in sqrt()
     if (vcov_sub >= sum_se_squared) {
@@ -406,7 +406,10 @@
       if (is.null(vcov_matrix) || !correct_row_dims || !correct_col_dims) {
         vcov_sub <- 0
       } else {
-        vcov_sub <- sum(vcov_matrix[pos_1a, pos_1b]^2, vcov_matrix[pos_2a, pos_2b]^2)
+        vcov_sub <- sum(
+          vcov_matrix[which(pos_1a), which(pos_1b)]^2,
+          vcov_matrix[which(pos_2a), which(pos_2b)]^2
+        )
       }
       # Avoid negative values in sqrt()
       if (vcov_sub >= sum_se_squared) {
