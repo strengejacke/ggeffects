@@ -74,6 +74,22 @@ test_that("ggpredict, CI based on robust SE", {
   expect_equal(out$conf.low, out2$conf.low, tolerance = 1e-4)
 })
 
+
+test_that("ggemmeans and clubsandwich", {
+  skip_if_not_installed("emmeans")
+  skip_if_not_installed("clubSandwich")
+  data(mtcars)
+  fit <- lm(mpg ~ hp + as.factor(cyl), data = mtcars)
+  mtcars$gear <- as.factor(mtcars$gear)
+  out <- ggemmeans(
+    fit,
+    terms = "cyl",
+    vcov_fun = clubSandwich::vcovCR(fit, type = "CR0", cluster = mtcars$gear)
+  )
+  expect_equal(out$conf.low, c(21.60913, 17.71294, 14.6084), tolerance = 1e-4)
+})
+
+
 skip_if_not_installed("marginaleffects")
 
 test_that("ggaverage, CI based on robust SE", {
