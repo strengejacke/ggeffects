@@ -152,7 +152,9 @@ questions. Possible values are:
   set to their mean (numeric variables) or marginalized over the levels
   or “values” for factors and character vectors. Marginalizing over the
   factor levels of non-focal terms computes a kind of “weighted average”
-  for the values at which these terms are hold constant.
+  for the values at which these terms are hold constant. There are
+  different weighting options that can be chosen with the `weights`
+  argument.
 
   Question answered: “What is the predicted value of the response at
   meaningful values or levels of my focal terms for an ‘average’

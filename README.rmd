@@ -117,7 +117,7 @@ The `margin` argument in `predict_response()` indicates how to marginalize over 
 
   Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
 
-- `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant.
+- `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant. There are different weighting options that can be chosen with the `weights` argument.
 
   Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
 

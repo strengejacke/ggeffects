@@ -298,9 +298,18 @@ via the \code{vcov_args} argument.}
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
 
-\item{weights}{Character vector, naming the weigthing variable in the data,
-or a vector of weights (of same length as the number of observations in the
-data). Only applies to \code{margin = "empirical"}.}
+\item{weights}{This argument is used in two different ways, depending on the
+\code{margin} argument.
+\itemize{
+\item When \code{margin = "empirical"}, \code{weights} can either be a character vector,
+naming the weigthing variable in the data, or a vector of weights (of same
+length as the number of observations in the data). This variable will be
+used to weight adjusted predictions.
+\item When \code{margin = "marginalmeans"}, \code{weights} must be a character vector and
+is passed to \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, specifying weights to use in averaging
+non-focal categorical predictors. See https://rvlenth.github.io/emmeans/reference/emmeans.html
+for details.
+}}
 
 \item{verbose}{Toggle messages or warnings.}
 
