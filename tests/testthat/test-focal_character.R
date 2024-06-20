@@ -3,11 +3,10 @@ skip_if_not_installed("betareg")
 skip_if_not_installed("datawizard")
 
 test_that("predictions and SE with character focal terms", {
-  n_size <- 2000
   set.seed(1)
   ex <- data.frame(
-    x = rnorm(n_size),
-    group = sample(letters[1:4], size = n_size, replace = TRUE),
+    x = rnorm(2000),
+    group = sample(letters[1:4], size = 2000, replace = TRUE),
     stringsAsFactors = FALSE
   )
   ex <- datawizard::data_modify(
@@ -18,7 +17,7 @@ test_that("predictions and SE with character focal terms", {
       group == "c" ~ 0,
       group == "d" ~ -1
     ),
-    y_latent = x + rnorm(n_size) + group_value,
+    y_latent = x + rnorm(2000) + group_value,
     y = pnorm(y_latent, sd = 3)
   )
 
@@ -31,11 +30,10 @@ test_that("predictions and SE with character focal terms", {
 
 
 test_that("predictions and SE work with factor focal terms", {
-  n_size <- 2000
   set.seed(1)
   ex <- data.frame(
-    x = rnorm(n_size),
-    group = sample(letters[1:4], size = n_size, replace = TRUE),
+    x = rnorm(2000),
+    group = sample(letters[1:4], size = 2000, replace = TRUE),
     stringsAsFactors = FALSE
   )
   ex <- datawizard::data_modify(
@@ -46,7 +44,7 @@ test_that("predictions and SE work with factor focal terms", {
       group == "c" ~ 0,
       group == "d" ~ -1
     ),
-    y_latent = x + rnorm(n_size) + group_value,
+    y_latent = x + rnorm(2000) + group_value,
     y = pnorm(y_latent, sd = 3),
     group = as.factor(group)
   )

@@ -198,7 +198,12 @@ test_that("test_predictions, engine ggeffects, Bayes", {
 
   pr1 <- predict_response(m1, c("var_binom", "groups"))
   pr2 <- predict_response(m2, c("var_binom", "groups"))
-  pr3 <- predict_response(m3, c("var_binom", "groups"))
+  expect_warning(
+    {
+      pr3 <- predict_response(m3, c("var_binom", "groups"))
+    },
+    regex = "Some of the focal terms are of type `character`"
+  )
 
   out1 <- test_predictions(pr1, engine = "ggeffects")
   out2 <- test_predictions(pr2, engine = "ggeffects")

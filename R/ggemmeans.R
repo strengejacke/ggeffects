@@ -47,7 +47,7 @@ ggemmeans <- function(model,
   } else if (is.function(vcov_fun)) {
     vcov_info <- list(
       vcov.fun = vcov_fun,
-      vcov.args = c(list(type = vcov_type), vcov_args)
+      vcov.args = vcov_args
     )
   } else if (is.matrix(vcov_fun)) {
     vcov_info <- list(vcov.fun = list(vcov_fun))

@@ -226,6 +226,8 @@
 #' robust covariance matrix estimation (see `?sandwich::vcovHC`
 #' or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
 #' character string indicating one of the functions from those packages.
+#' When `vcov_fun` is a function, a possible `type` argument _must_ be provided
+#' via the `vcov_args` argument.
 #' @param vcov_args List of named vectors, used as additional arguments that
 #' are passed down to `vcov_fun`.
 #' @param weights Character vector, naming the weigthing variable in the data,
