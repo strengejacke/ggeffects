@@ -53,7 +53,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,7 +109,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Adjusted predictions and estimated marginal means from regression models</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v1.7.0/R/predict_response.R" class="external-link"><code>R/predict_response.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/predict_response.R" class="external-link"><code>R/predict_response.R</code></a></small>
       <div class="d-none name"><code>predict_response.Rd</code></div>
     </div>
 
@@ -364,9 +364,16 @@ are passed down to <code>vcov_fun</code>.</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
-<dd><p>Character vector, naming the weigthing variable in the data,
-or a vector of weights (of same length as the number of observations in the
-data). Only applies to <code>margin = "empirical"</code>.</p></dd>
+<dd><p>This argument is used in two different ways, depending on the
+<code>margin</code> argument.</p><ul><li><p>When <code>margin = "empirical"</code>, <code>weights</code> can either be a character vector,
+naming the weigthing variable in the data, or a vector of weights (of same
+length as the number of observations in the data). This variable will be
+used to weight adjusted predictions.</p></li>
+<li><p>When <code>margin = "marginalmeans"</code>, <code>weights</code> must be a character vector and
+is passed to <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>, specifying weights to use in averaging
+non-focal categorical predictors. See https://rvlenth.github.io/emmeans/reference/emmeans.html
+for details.</p></li>
+</ul></dd>
 
 
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
@@ -474,9 +481,10 @@ variables) or averaged over the levels or "values" for factors and
 character vectors. Averaging over the factor levels of non-focal terms
 computes a kind of "weighted average" for the values at which these terms
 are hold constant. Thus, non-focal categorical terms are conditioned on
-"weighted averages" of their levels.</p>
+"weighted averages" of their levels. There are different weighting
+options that can be altered using the <code>weights</code> argument.</p>
 <p>These predictions come closer to the sample, because all possible values
-and levels of the non-focal predictors are taken  into account. It would
+and levels of the non-focal predictors are taken into account. It would
 answer the question, "What is the predicted value of the response at
 meaningful values or levels of my focal terms for an 'average' observation
 in my data?". It refers to randomly picking a subject of your sample and

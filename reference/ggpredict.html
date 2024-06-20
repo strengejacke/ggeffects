@@ -49,7 +49,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,7 +105,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Adjusted predictions from regression models</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v1.7.0/R/data_frame_methods.R" class="external-link"><code>R/data_frame_methods.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/v1.7.0/R/ggaverage.R" class="external-link"><code>R/ggaverage.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/v1.7.0/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, and 2 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/data_frame_methods.R" class="external-link"><code>R/data_frame_methods.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/master/R/ggaverage.R" class="external-link"><code>R/ggaverage.R</code></a>, <a href="https://github.com/strengejacke/ggeffects/blob/master/R/ggeffect.R" class="external-link"><code>R/ggeffect.R</code></a>, and 2 more</small>
       <div class="d-none name"><code>ggpredict.Rd</code></div>
     </div>
 
@@ -440,9 +440,16 @@ are passed down to <code>vcov_fun</code>.</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
-<dd><p>Character vector, naming the weigthing variable in the data,
-or a vector of weights (of same length as the number of observations in the
-data). Only applies to <code>margin = "empirical"</code>.</p></dd>
+<dd><p>This argument is used in two different ways, depending on the
+<code>margin</code> argument.</p><ul><li><p>When <code>margin = "empirical"</code>, <code>weights</code> can either be a character vector,
+naming the weigthing variable in the data, or a vector of weights (of same
+length as the number of observations in the data). This variable will be
+used to weight adjusted predictions.</p></li>
+<li><p>When <code>margin = "marginalmeans"</code>, <code>weights</code> must be a character vector and
+is passed to <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>, specifying weights to use in averaging
+non-focal categorical predictors. See https://rvlenth.github.io/emmeans/reference/emmeans.html
+for details.</p></li>
+</ul></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>

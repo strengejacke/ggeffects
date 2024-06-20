@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,7 +106,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>ggeffects: Marginal Means And Adjusted Predictions Of Regression Models</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v1.7.0/vignettes/ggeffects.Rmd" class="external-link"><code>vignettes/ggeffects.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/ggeffects.Rmd" class="external-link"><code>vignettes/ggeffects.Rmd</code></a></small>
       <div class="d-none name"><code>ggeffects.Rmd</code></div>
     </div>
 
@@ -249,7 +249,9 @@ marginalized over the levels or “values” for factors and character
 vectors. Marginalizing over the factor levels of non-focal terms
 computes a kind of “weighted average” for the values at which these
 terms are hold constant. Thus, non-focal categorical terms are
-conditioned on “weighted averages” of their levels.</p>
+conditioned on “weighted averages” of their levels. There are different
+weighting options that can be chosen with the <code>weights</code>
+argument.</p>
 <p><code>"marginalmeans"</code> comes closer to the sample, because it
 takes all possible values and levels of your non-focal predictors into
 account. It would answer thr question, “What is the predicted value of

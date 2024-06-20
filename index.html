@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -199,7 +199,7 @@
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for a ‘typical’ observation in my data?”, where ‘typical’ refers to certain characteristics of the remaining predictors.</p>
 </li>
 <li>
-<p><code>"marginalmeans"</code>: calls <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or “values” for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of “weighted average” for the values at which these terms are hold constant.</p>
+<p><code>"marginalmeans"</code>: calls <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or “values” for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of “weighted average” for the values at which these terms are hold constant. There are different weighting options that can be chosen with the <code>weights</code> argument.</p>
 <p>Question answered: “What is the predicted value of the response at meaningful values or levels of my focal terms for an ‘average’ observation in my data?”. It refers to randomly picking a subject of your sample and the result you get on average.</p>
 </li>
 <li>
