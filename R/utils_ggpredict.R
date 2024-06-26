@@ -190,18 +190,20 @@
   # get transformation function
   trans_fun <- insight::get_transformation(model, verbose = verbose)$transformation
 
-  if (startsWith(transformation, "sqrt")) {
-    # handle sqrt-transformed response separately - might be "sqrt(x + 1)"
-    plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
-    if (is.null(plus_minus)) plus_minus <- 0
-    mydf$response <- sqrt(mydf$response) + plus_minus
-  } else if (startsWith(transformation, "log") && transformation != "log-log") {
-    # handle log-transformed response separately - might be "log(x + 1)"
-    plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
-    if (is.null(plus_minus)) plus_minus <- 0
-    mydf$response <- log(mydf$response) + plus_minus
-  } else if (!is.null(trans_fun)) {
-    mydf$response <- trans_fun(mydf$response)
+  if (!is.null(transformation) && !identical(transformation, "identity") && !is.null(trans_fun)) {
+    if (startsWith(transformation, "sqrt")) {
+      # handle sqrt-transformed response separately - might be "sqrt(x + 1)"
+      plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+      if (is.null(plus_minus)) plus_minus <- 0
+      mydf$response <- sqrt(mydf$response) + plus_minus
+    } else if (startsWith(transformation, "log") && transformation != "log-log") {
+      # handle log-transformed response separately - might be "log(x + 1)"
+      plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+      if (is.null(plus_minus)) plus_minus <- 0
+      mydf$response <- log(mydf$response) + plus_minus
+    } else if (!is.null(trans_fun)) {
+      mydf$response <- trans_fun(mydf$response)
+    }
   }
 
   mydf
