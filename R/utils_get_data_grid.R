@@ -80,7 +80,7 @@
     insight::format_warning(
       "Some of the focal terms are of type `character`. This may lead to unexpected results. It is recommended to convert these variables to factors before fitting the model.", # nolint
       paste0(
-        "The following variables in are of type character: ",
+        "The following variables are of type character: ",
         toString(paste0("`", all_terms[characters], "`"))
       )
     )

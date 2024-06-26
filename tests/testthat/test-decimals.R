@@ -86,7 +86,7 @@ test_that("ggemmeans, decimals", {
   expect_gt(nrow(ggemmeans(m, "x1")), 0)
   expect_gt(nrow(ggemmeans(m, "x2")), 0)
   expect_gt(nrow(ggemmeans(m, c("x1", "x2"))), 0)
-  expect_gt(nrow(ggemmeans(m, c("x1", "trat"))), 0)
+  expect_gt(nrow(ggemmeans(m, c("x1", "trat"), verbose = FALSE)), 0)
 })
 
 test_that("ggpredict, decimals", {
