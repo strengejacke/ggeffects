@@ -196,11 +196,23 @@
     return(mydf)
   }
 
-  # find possible transformations
-  transformation <- insight::find_transformation(model)
+  # find transformation
+  if (is.null(model)) {
+    # find possible transformations from response-string
+    transformation <- insight::find_transformation(rv)
+  } else {
+    # find possible transformations from model
+    transformation <- insight::find_transformation(model)
+  }
 
   # get transformation function
-  trans_fun <- insight::get_transformation(model, verbose = verbose)$transformation
+  if (is.null(model)) {
+    # get inverse transformation function response-string
+    trans_fun <- insight::get_transformation(rv, verbose = verbose)$transformation
+  } else {
+    # get inverse transformation function from model
+    trans_fun <- insight::get_transformation(model, verbose = verbose)$transformation
+  }
 
   if (!is.null(transformation) && !identical(transformation, "identity") && !is.null(trans_fun)) {
     if (startsWith(transformation, "sqrt")) {
