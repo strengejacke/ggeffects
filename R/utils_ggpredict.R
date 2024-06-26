@@ -141,7 +141,7 @@
       mydf$conf.low <- mydf$conf.low^2 - plus_minus
       mydf$conf.high <- mydf$conf.high^2 - plus_minus
     }
-  } else if (startsWith(transformation, "log") && transformation != "log-log") {
+  } else if (startsWith(transformation, "log(") && transformation != "log-log") {
     # handle log-transformed response separately - might be "log(x + 1)"
     plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
     if (is.null(plus_minus)) plus_minus <- 0
