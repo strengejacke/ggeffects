@@ -95,6 +95,25 @@
     return(mydf)
   }
 
+  # find possible transformations
+  transformation <- insight::find_transformation(model)
+
+  # skip if no information available, or no transformation applies
+  if (is.null(transformation) || identical(transformation, "identity")) {
+    return(mydf)
+  }
+
+  # transformed response, but no back-transform requested?
+  # Tell user and return untransformed predictions
+  if (!back.transform) {
+    if (verbose) {
+      insight::format_alert(
+        paste0("Model has ", transformation, " transformed response. Predictions are on transformed scale.")
+      )
+    }
+    return(mydf)
+  }
+
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
   if (is.null(response.name)) {
@@ -103,72 +122,38 @@
     rv <- response.name
   }
 
-  if (any(grepl("log\\((.*)\\)", rv))) {
-    if (back.transform) {
-      # do we have log-log models?
-      if (!grepl("log\\(log\\((.*)\\)\\)", rv)) {
-        plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
-        if (is.null(plus_minus)) plus_minus <- 0
-        mydf$predicted <- exp(mydf$predicted) - plus_minus
-        if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
-          mydf$conf.low <- exp(mydf$conf.low) - plus_minus
-          mydf$conf.high <- exp(mydf$conf.high) - plus_minus
-        }
-      }
-      if (verbose) {
-        insight::format_alert("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.") # nolint
-      }
-    } else if (verbose) {
-      insight::format_alert("Model has log-transformed response. Predictions are on log-scale.")
+  # get transformation function
+  trans_fun <- insight::get_transformation(model, verbose = verbose)$inverse
+
+  # Tell user about transformation
+  if (verbose && !is.null(trans_fun)) {
+    insight::format_alert(
+      paste0("Model has ", transformation, "-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the transformed scale.") # nolint
+    )
+  }
+
+  # handle sqrt-transformed response separately - might be "sqrt(x + 1)"
+  if (startsWith(transformation, "sqrt")) {
+    plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+    if (is.null(plus_minus)) plus_minus <- 0
+    mydf$predicted <- mydf$predicted^2 - plus_minus
+    if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
+      mydf$conf.low <- mydf$conf.low^2 - plus_minus
+      mydf$conf.high <- mydf$conf.high^2 - plus_minus
     }
-  }
-
-  trans_fun <- NULL
-  if (any(grepl("log1p\\((.*)\\)", rv))) {
-    trans_fun <- function(x) expm1(x)
-  }
-
-  if (any(grepl("log\\(log\\((.*)\\)\\)", rv))) {
-    trans_fun <- function(x) exp(exp(x))
-  }
-
-  if (any(grepl("log10\\((.*)\\)", rv))) {
-    trans_fun <- function(x) 10^x
-  }
-
-  if (any(grepl("log2\\((.*)\\)", rv))) {
-    trans_fun <- function(x) 2^x
-  }
-
-  if (any(grepl("sqrt\\((.*)\\)", rv))) {
-    if (back.transform) {
-      plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
-      if (is.null(plus_minus)) plus_minus <- 0
-      mydf$predicted <- mydf$predicted^2 - plus_minus
-      if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
-        mydf$conf.low <- mydf$conf.low^2 - plus_minus
-        mydf$conf.high <- mydf$conf.high^2 - plus_minus
-      }
-      if (verbose) {
-        insight::format_alert("Model has sqrt-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the sqrt-scale.") # nolint
-      }
-    } else if (verbose) {
-      insight::format_alert("Model has sqrt-transformed response. Predictions are on sqrt-scale.")
+  } else if (startsWith(transformation, "log") && transformation != "log-log") {
+    plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+    if (is.null(plus_minus)) plus_minus <- 0
+    mydf$predicted <- exp(mydf$predicted) - plus_minus
+    if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
+      mydf$conf.low <- exp(mydf$conf.low) - plus_minus
+      mydf$conf.high <- exp(mydf$conf.high) - plus_minus
     }
-  }
-
-  if (!is.null(trans_fun)) {
-    if (back.transform) {
-      mydf$predicted <- trans_fun(mydf$predicted)
-      if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
-        mydf$conf.low <- trans_fun(mydf$conf.low)
-        mydf$conf.high <- trans_fun(mydf$conf.high)
-      }
-      if (verbose) {
-        insight::format_alert("Model has log-transformed response. Back-transforming predictions to original response scale. Standard errors are still on the log-scale.") # nolint
-      }
-    } else if (verbose) {
-      insight::format_alert("Model has log-transformed response. Predictions are on log-scale.")
+  } else if (!is.null(trans_fun)) {
+    mydf$predicted <- trans_fun(mydf$predicted)
+    if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
+      mydf$conf.low <- trans_fun(mydf$conf.low)
+      mydf$conf.high <- trans_fun(mydf$conf.high)
     }
   }
 
