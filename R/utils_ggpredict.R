@@ -128,8 +128,14 @@
     return(mydf)
   }
 
-  # get inverse transformation function
-  trans_fun <- insight::get_transformation(model, verbose = verbose)$inverse
+  # for pool_predictions(), we have no model object, but rather the response-string
+  if (is.null(model)) {
+    # get inverse transformation function response-string
+    trans_fun <- insight::get_transformation(rv, verbose = verbose)$inverse
+  } else {
+    # get inverse transformation function from model
+    trans_fun <- insight::get_transformation(model, verbose = verbose)$inverse
+  }
 
   # Tell user about transformation
   if (verbose && !is.null(trans_fun)) {
