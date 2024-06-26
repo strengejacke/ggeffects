@@ -122,7 +122,7 @@
     rv <- response.name
   }
 
-  # get transformation function
+  # get inverse transformation function
   trans_fun <- insight::get_transformation(model, verbose = verbose)$inverse
 
   # Tell user about transformation
@@ -132,26 +132,27 @@
     )
   }
 
-  # handle sqrt-transformed response separately - might be "sqrt(x + 1)"
   if (startsWith(transformation, "sqrt")) {
+    # handle sqrt-transformed response separately - might be "sqrt(x + 1)"
     plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
     if (is.null(plus_minus)) plus_minus <- 0
     mydf$predicted <- mydf$predicted^2 - plus_minus
-    if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
+    if (all(c("conf.low", "conf.high") %in% colnames(mydf))) {
       mydf$conf.low <- mydf$conf.low^2 - plus_minus
       mydf$conf.high <- mydf$conf.high^2 - plus_minus
     }
   } else if (startsWith(transformation, "log") && transformation != "log-log") {
+    # handle log-transformed response separately - might be "log(x + 1)"
     plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
     if (is.null(plus_minus)) plus_minus <- 0
     mydf$predicted <- exp(mydf$predicted) - plus_minus
-    if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
+    if (all(c("conf.low", "conf.high") %in% colnames(mydf))) {
       mydf$conf.low <- exp(mydf$conf.low) - plus_minus
       mydf$conf.high <- exp(mydf$conf.high) - plus_minus
     }
   } else if (!is.null(trans_fun)) {
     mydf$predicted <- trans_fun(mydf$predicted)
-    if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
+    if (all(c("conf.low", "conf.high") %in% colnames(mydf))) {
       mydf$conf.low <- trans_fun(mydf$conf.low)
       mydf$conf.high <- trans_fun(mydf$conf.high)
     }
@@ -183,37 +184,23 @@
     return(mydf)
   }
 
-  if (any(grepl("log\\((.*)\\)", rv))) {
-    # do we have log-log models?
-    if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
-      mydf$response <- log(log(mydf$response))
-    } else {
-      plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
-      if (is.null(plus_minus)) plus_minus <- 0
-      mydf$response <- log(mydf$response) + plus_minus
-    }
-  }
+  # find possible transformations
+  transformation <- insight::find_transformation(model)
 
-  trans_fun <- NULL
-  if (any(grepl("log1p\\((.*)\\)", rv))) {
-    trans_fun <- function(x) log1p(x)
-  }
+  # get transformation function
+  trans_fun <- insight::get_transformation(model, verbose = verbose)$transformation
 
-  if (any(grepl("log10\\((.*)\\)", rv))) {
-    trans_fun <- function(x) log10(x)
-  }
-
-  if (any(grepl("log2\\((.*)\\)", rv))) {
-    trans_fun <- function(x) log2(x)
-  }
-
-  if (any(grepl("sqrt\\((.*)\\)", rv))) {
+  if (startsWith(transformation, "sqrt")) {
+    # handle sqrt-transformed response separately - might be "sqrt(x + 1)"
     plus_minus <- eval(parse(text = gsub("sqrt\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
     if (is.null(plus_minus)) plus_minus <- 0
     mydf$response <- sqrt(mydf$response) + plus_minus
-  }
-
-  if (!is.null(trans_fun)) {
+  } else if (startsWith(transformation, "log") && transformation != "log-log") {
+    # handle log-transformed response separately - might be "log(x + 1)"
+    plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
+    if (is.null(plus_minus)) plus_minus <- 0
+    mydf$response <- log(mydf$response) + plus_minus
+  } else if (!is.null(trans_fun)) {
     mydf$response <- trans_fun(mydf$response)
   }
 
