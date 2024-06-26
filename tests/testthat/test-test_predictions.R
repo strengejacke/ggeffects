@@ -320,7 +320,7 @@ test_that("test_predictions, correct order of character vectors", {
     groups = sample(letters[1:2], size = 100, replace = TRUE)
   )
   m1 <- glm(outcome ~ var_binom * groups + var_cont, data = dat, family = binomial())
-  pr1 <- predict_response(m1, c("var_binom", "groups"))
+  pr1 <- predict_response(m1, c("var_binom", "groups"), verbose = FALSE)
   out1 <- test_predictions(pr1, engine = "ggeffects")
   out2 <- test_predictions(pr1)
   out2 <- datawizard::data_arrange(out2, c("var_binom", "groups"))
