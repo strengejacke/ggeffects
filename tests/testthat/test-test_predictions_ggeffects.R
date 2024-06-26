@@ -113,7 +113,7 @@ test_that("test_predictions, engine ggeffects, glm", {
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-3)
   expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-3)
 
-  pr <- predict_response(m, c("var_binom", "groups"))
+  pr <- predict_response(m, c("var_binom", "groups"), verbose = FALSE)
   out1 <- test_predictions(pr, engine = "ggeffects", test = "interaction")
   out2 <- test_predictions(m, c("var_binom", "groups"), engine = "emmeans", test = "interaction")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
@@ -196,7 +196,7 @@ test_that("test_predictions, engine ggeffects, Bayes", {
 
   skip_if(is.null(m2) || is.null(m3))
 
-  pr1 <- predict_response(m1, c("var_binom", "groups"))
+  pr1 <- predict_response(m1, c("var_binom", "groups"), verbose = FALSE)
   pr2 <- suppressWarnings(predict_response(m2, c("var_binom", "groups")))
   expect_warning(
     {

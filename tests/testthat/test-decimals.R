@@ -93,5 +93,5 @@ test_that("ggpredict, decimals", {
   expect_gt(nrow(ggpredict(m, "x1")), 0)
   expect_gt(nrow(ggpredict(m, "x2")), 0)
   expect_gt(nrow(ggpredict(m, c("x1", "x2"))), 0)
-  expect_gt(nrow(ggpredict(m, c("x1", "trat"))), 0)
+  expect_gt(nrow(ggpredict(m, c("x1", "trat"), verbose = FALSE)), 0)
 })
