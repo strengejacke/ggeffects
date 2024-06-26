@@ -106,13 +106,7 @@
   if (any(grepl("log\\((.*)\\)", rv))) {
     if (back.transform) {
       # do we have log-log models?
-      if (grepl("log\\(log\\((.*)\\)\\)", rv)) {
-        mydf$predicted <- exp(exp(mydf$predicted))
-        if (.obj_has_name(mydf, "conf.low") && .obj_has_name(mydf, "conf.high")) {
-          mydf$conf.low <- exp(exp(mydf$conf.low))
-          mydf$conf.high <- exp(exp(mydf$conf.high))
-        }
-      } else {
+      if (!grepl("log\\(log\\((.*)\\)\\)", rv)) {
         plus_minus <- eval(parse(text = gsub("log\\(([^,\\+)]*)(.*)\\)", "\\2", rv)))
         if (is.null(plus_minus)) plus_minus <- 0
         mydf$predicted <- exp(mydf$predicted) - plus_minus
@@ -132,6 +126,10 @@
   trans_fun <- NULL
   if (any(grepl("log1p\\((.*)\\)", rv))) {
     trans_fun <- function(x) expm1(x)
+  }
+
+  if (any(grepl("log\\(log\\((.*)\\)\\)", rv))) {
+    trans_fun <- function(x) exp(exp(x))
   }
 
   if (any(grepl("log10\\((.*)\\)", rv))) {
