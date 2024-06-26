@@ -46,11 +46,11 @@ test_that("ggpredict", {
     survival::Surv(time = Days_to_death, event = censored) ~ Treatment_Num + Source_Salinity,
     data = df1
   )
-  p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"), type = "survival")
+  p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"), type = "survival", verbose = FALSE)
   expect_equal(head(p$x, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 140, 140), tolerance = 1e-2)
   expect_equal(head(p$predicted, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), tolerance = 1e-2)
 
-  p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"), type = "cumulative_hazard")
+  p <- ggpredict(m, c("Treatment_Num [all]", "Source_Salinity [all]"), type = "cumulative_hazard", verbose = FALSE)
   expect_equal(head(p$x, 10), c(1, 1, 1, 1, 1, 1, 1, 1, 140, 140), tolerance = 1e-2)
   expect_equal(head(p$predicted, 10), c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), tolerance = 1e-2)
 })
