@@ -95,8 +95,22 @@
     return(mydf)
   }
 
-  # find possible transformations
-  transformation <- insight::find_transformation(model)
+  # check if outcome is log-transformed, and if so,
+  # back-transform predicted values to response scale
+  if (is.null(response.name)) {
+    rv <- insight::find_terms(model)[["response"]]
+  } else {
+    rv <- response.name
+  }
+
+  # for pool_predictions(), we have no model object, but rather the response-string
+  if (is.null(model)) {
+    # find possible transformations from response-string
+    transformation <- insight::find_transformation(rv)
+  } else {
+    # find possible transformations from model
+    transformation <- insight::find_transformation(model)
+  }
 
   # skip if no information available, or no transformation applies
   if (is.null(transformation) || identical(transformation, "identity")) {
@@ -112,14 +126,6 @@
       )
     }
     return(mydf)
-  }
-
-  # check if outcome is log-transformed, and if so,
-  # back-transform predicted values to response scale
-  if (is.null(response.name)) {
-    rv <- insight::find_terms(model)[["response"]]
-  } else {
-    rv <- response.name
   }
 
   # get inverse transformation function
