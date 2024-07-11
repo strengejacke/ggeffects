@@ -171,9 +171,10 @@ to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
 
-\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values
-for log- or log-log transformed responses will be back-transformed to
-original response-scale.}
+\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values for
+log-, log-log, exp, sqrt and similar transformed responses will be
+back-transformed to original response-scale. See
+\code{\link[insight:find_transformation]{insight::find_transformation()}} for more details.}
 
 \item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
 posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If

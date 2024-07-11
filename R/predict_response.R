@@ -170,9 +170,10 @@
 #' argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`,
 #' so you don't have to specify your preferred marginalization method each time
 #' you call `predict_response()`. See details in the documentation below.
-#' @param back_transform Logical, if `TRUE` (the default), predicted values
-#' for log- or log-log transformed responses will be back-transformed to
-#' original response-scale.
+#' @param back_transform Logical, if `TRUE` (the default), predicted values for
+#' log-, log-log, exp, sqrt and similar transformed responses will be
+#' back-transformed to original response-scale. See
+#' [`insight::find_transformation()`] for more details.
 #' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
 #' posterior predictive distribution [`rstantools::posterior_predict()`]. If
 #' `FALSE` (the default), predictions are based on posterior draws of the linear

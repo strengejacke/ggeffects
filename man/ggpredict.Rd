@@ -257,9 +257,10 @@ to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
 
-\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values
-for log- or log-log transformed responses will be back-transformed to
-original response-scale.}
+\item{back_transform}{Logical, if \code{TRUE} (the default), predicted values for
+log-, log-log, exp, sqrt and similar transformed responses will be
+back-transformed to original response-scale. See
+\code{\link[insight:find_transformation]{insight::find_transformation()}} for more details.}
 
 \item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for confidence intervals based on robust standard errors).
