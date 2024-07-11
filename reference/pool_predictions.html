@@ -97,7 +97,11 @@ a similar fashion as <code><a href="https://amices.org/mice/reference/pool.html"
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Averaging of parameters follows Rubin's rules (<em>Rubin, 1987, p. 76</em>).</p>
+    <p>Averaging of parameters follows Rubin's rules (<em>Rubin, 1987, p. 76</em>).
+Pooling is applied to the predicted values on the scale of the <em>linear predictor</em>,
+not on the response scale, in order to have accurate pooled estimates and
+standard errors. The final pooled predicted values are then transformed to
+the response scale, using <code><a href="https://easystats.github.io/insight/reference/link_inverse.html" class="external-link">insight::link_inverse()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
