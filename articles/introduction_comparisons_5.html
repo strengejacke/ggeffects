@@ -50,7 +50,7 @@
     <li><a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust standard errors</a></li>
   </ul>
 </li>
-<li class="nav-item dropdown">
+<li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-interpretation" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Interpretation</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-interpretation">
 <li><a class="dropdown-item" href="../articles/introduction_comparisons_1.html">Contrasts and pairwise comparisons</a></li>
@@ -228,9 +228,8 @@ The backend can also be changed explicitly by using the
 <span><span class="co">#&gt; -----------------------------------------</span></span>
 <span><span class="co">#&gt; 1-2     |    -0.36 | -0.68, -0.03 | 0.031</span></span>
 <span><span class="co">#&gt; 1-3     |    -0.10 | -0.42,  0.22 | 0.538</span></span>
-<span><span class="co">#&gt; 2-3     |     0.26 | -0.06,  0.58 | 0.112</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; 2-3     |     0.26 | -0.06,  0.58 | 0.112</span></span>
+<span></span>
 <span><span class="co"># comparisons using "emmeans" package</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span>, engine <span class="op">=</span> <span class="st">"emmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -239,9 +238,8 @@ The backend can also be changed explicitly by using the
 <span><span class="co">#&gt; -----------------------------------------</span></span>
 <span><span class="co">#&gt; 1-2     |    -0.36 | -0.68, -0.03 | 0.031</span></span>
 <span><span class="co">#&gt; 1-3     |    -0.10 | -0.42,  0.22 | 0.538</span></span>
-<span><span class="co">#&gt; 2-3     |     0.26 | -0.06,  0.58 | 0.112</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; 2-3     |     0.26 | -0.06,  0.58 | 0.112</span></span>
+<span></span>
 <span><span class="co"># comparisons using "ggeffects" backend. This engine requires the</span></span>
 <span><span class="co"># ggeffects-object as input</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">my_pred</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
@@ -257,12 +255,12 @@ The backend can also be changed explicitly by using the
 <div class="section level3">
 <h3 id="does-same-level-of-episode-differ-between-groups">Does same level of episode differ between groups?<a class="anchor" aria-label="anchor" href="#does-same-level-of-episode-differ-between-groups"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">grp</span> <span class="op">*</span> <span class="va">episode</span> <span class="op">+</span> <span class="va">grp</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="va">my_pred</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
@@ -287,7 +285,7 @@ The backend can also be changed explicitly by using the
 <h4 id="pairwise-comparisons-1">Pairwise comparisons<a class="anchor" aria-label="anchor" href="#pairwise-comparisons-1"></a>
 </h4>
 <p><img src="introduction_comparisons_5_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "grp = control-treatment"</span></span>
 <span></span>
 <span><span class="co"># comparisons based on estimated marginal means, using "marginaleffects" package</span></span>
@@ -296,18 +294,16 @@ The backend can also be changed explicitly by using the
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; grp               | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; --------------------------------------------------</span></span>
-<span><span class="co">#&gt; control-treatment |     0.06 | -0.41, 0.52 | 0.816</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; control-treatment |     0.06 | -0.41, 0.52 | 0.816</span></span>
+<span></span>
 <span><span class="co"># comparisons based using "emmeans" package</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [2]"</span>, <span class="st">"grp"</span><span class="op">)</span>, engine <span class="op">=</span> <span class="st">"emmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; episode |               grp | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; 2-2     | control-treatment |     0.06 | -0.41, 0.52 | 0.816</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; 2-2     | control-treatment |     0.06 | -0.41, 0.52 | 0.816</span></span>
+<span></span>
 <span><span class="co"># comparisons using "ggeffects" backend</span></span>
 <span><span class="va">my_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [2]"</span>, <span class="st">"grp"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">my_pred</span>, engine <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span>
@@ -328,7 +324,7 @@ difference-in-differences. When <code>engine = "emmeans"</code> or
 <code>test = "interaction"</code> to get interaction contrasts,
 i.e. differences-in-differences.</p>
 <p><img src="introduction_comparisons_5_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># specifying the difference-in-difference when using "marginaleffects"</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b3) = (b2 </span></span>
 <span><span class="st">- b4)"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
@@ -336,9 +332,8 @@ i.e. differences-in-differences.</p>
 <span><span class="co">#&gt; ------------------------------------------------</span></span>
 <span><span class="co">#&gt; (b1-b3)=(b2-b4) |     0.36 | -0.29, 1.02 | 0.277</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Tested hypothesis: (episode[1],grp[control] - episode[2],grp[control]) = (episode[1],grp[treatment] - episode[2],grp[treatment])</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; Tested hypothesis: (episode[1],grp[control] - episode[2],grp[control]) = (episode[1],grp[treatment] - episode[2],grp[treatment])</span></span>
+<span></span>
 <span><span class="co"># "emmeans" provides similar comparisons when we set test = "interaction".</span></span>
 <span><span class="co"># This displays *all* possible differences-in-differences. The first row in</span></span>
 <span><span class="co"># this output is identical to the above result from "marginaleffects". The</span></span>
@@ -350,9 +345,8 @@ i.e. differences-in-differences.</p>
 <span><span class="co">#&gt; ----------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; 1-2     | control and treatment |     0.36 | -0.29, 1.02 | 0.277</span></span>
 <span><span class="co">#&gt; 1-3     | control and treatment |     0.37 | -0.27, 1.00 | 0.254</span></span>
-<span><span class="co">#&gt; 2-3     | control and treatment |     0.01 | -0.64, 0.65 | 0.988</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; 2-3     | control and treatment |     0.01 | -0.64, 0.65 | 0.988</span></span>
+<span></span>
 <span><span class="co"># using "ggeffects", we also need to set test = "interaction" to get the same</span></span>
 <span><span class="co"># results. However, since by default "emmeans" us used, we also need to specify</span></span>
 <span><span class="co"># the "engine" argument</span></span>
@@ -377,7 +371,7 @@ i.e. differences-in-differences.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
 </div>
 
     </footer>

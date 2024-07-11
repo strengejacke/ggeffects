@@ -50,7 +50,7 @@
     <li><a class="dropdown-item" href="../articles/practical_robustestimation.html">(Cluster) Robust standard errors</a></li>
   </ul>
 </li>
-<li class="nav-item dropdown">
+<li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-interpretation" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Interpretation</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-interpretation">
 <li><a class="dropdown-item" href="../articles/introduction_comparisons_1.html">Contrasts and pairwise comparisons</a></li>
@@ -371,9 +371,8 @@ comparison here, hence we set <code>test = NULL</code>.</p>
 <span><span class="co">#&gt; -------------------------------------------</span></span>
 <span><span class="co">#&gt; 0.44        | -0.28 | -0.39, -0.16 | &lt; .001</span></span>
 <span><span class="co">#&gt; 1.20        | -0.11 | -0.23,  0.01 | 0.075 </span></span>
-<span><span class="co">#&gt; 1.96        |  0.06 | -0.09,  0.20 | 0.438</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># same as:</span></span>
+<span><span class="co">#&gt; 1.96        |  0.06 | -0.09,  0.20 | 0.438</span></span>
+<span><span class="co"># same as:</span></span>
 <span><span class="co"># test_predictions(m, c("Petal.Length", "Petal.Width"), test = NULL)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -383,7 +382,7 @@ comparison here, hence we set <code>test = NULL</code>.</p>
 that all linear trends (slopes) are significantly different from each
 other, i.e. the slope of the green line is significantly different from
 the slope of the red line, and so on.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Petal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -407,7 +406,7 @@ moderator at which the slope of the predictor is significant
 <code>Income</code> for <code>Murder</code> at nine different values of
 <code>Illiteracy</code> (there are no more colors in the default palette
 to show more lines).</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.x77</span><span class="op">)</span></span>
 <span><span class="va">states</span><span class="op">$</span><span class="va">HSGrad</span> <span class="op">&lt;-</span> <span class="va">states</span><span class="op">$</span><span class="va">`HS Grad`</span></span>
 <span><span class="va">m_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Income</span> <span class="op">~</span> <span class="va">HSGrad</span> <span class="op">+</span> <span class="va">Murder</span> <span class="op">*</span> <span class="va">Illiteracy</span>, data <span class="op">=</span> <span class="va">states</span><span class="op">)</span></span>
@@ -420,7 +419,7 @@ to show more lines).</p>
 the association between <code>Murder</code> and <code>Income</code>
 might be statistically signifiant. We still can use
 <code><a href="../reference/test_predictions.html">test_predictions()</a></code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Murder</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -443,13 +442,13 @@ larger than <code>2.6</code>, the association between
 signifiant.</p>
 <p>However, this test can be simplified using the
 <code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code> function:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of</span></span>
 <span><span class="co">#&gt; `Illiteracy` lower than 0.79 and negative for values higher than 2.67.</span></span>
 <span><span class="co">#&gt; Inside the interval of [0.79, 2.67], there were no clear associations.</span></span></code></pre></div>
 <p>Furthermore, it is possible to create a spotlight-plot.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of `Illiteracy` lower than 0.80 and negative for values higher than 2.67. Inside the interval of [0.80, 2.67], there were no clear associations.</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-22-1.png" width="672"></p>
@@ -466,7 +465,7 @@ green line represent values of <code>Illiteracy</code> at which we find
 clear positive resp. negative associations between <code>Murder</code>
 and <code>Income</code>, while we find no clear (positive or negative)
 association for the blue line.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [0.7, 1.5, 2.8]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-23-1.png" width="672"></p>
@@ -502,7 +501,7 @@ Effects Tests in Moderated Regression. Journal of Marketing Research,
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
 </div>
 
     </footer>
