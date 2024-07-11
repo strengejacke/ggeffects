@@ -7,6 +7,10 @@
 #' @param ... Currently not used.
 #'
 #' @details Averaging of parameters follows Rubin's rules (*Rubin, 1987, p. 76*).
+#' Pooling is applied to the predicted values on the scale of the *linear predictor*,
+#' not on the response scale, in order to have accurate pooled estimates and
+#' standard errors. The final pooled predicted values are then transformed to
+#' the response scale, using [`insight::link_inverse()`].
 #'
 #' @references
 #' Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York:

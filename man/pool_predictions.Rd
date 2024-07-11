@@ -20,6 +20,10 @@ a similar fashion as \code{\link[mice:pool]{mice::pool()}}.
 }
 \details{
 Averaging of parameters follows Rubin's rules (\emph{Rubin, 1987, p. 76}).
+Pooling is applied to the predicted values on the scale of the \emph{linear predictor},
+not on the response scale, in order to have accurate pooled estimates and
+standard errors. The final pooled predicted values are then transformed to
+the response scale, using \code{\link[insight:link_inverse]{insight::link_inverse()}}.
 }
 \examples{
 \dontshow{if (require("mice")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
