@@ -95,6 +95,15 @@
     return(mydf)
   }
 
+  # skip for multivariate response models
+  if (insight::is_multivariate(model)) {
+    # tell user
+    if (verbose) {
+      insight::format_alert("Back-transforming response variables is not carried out for multivariate-response models.")
+    }
+    return(mydf)
+  }
+
   # we need the string of the response variable, to get information about transformation
   if (is.null(response.name)) {
     rv <- insight::find_terms(model)[["response"]]
