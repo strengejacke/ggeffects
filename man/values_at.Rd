@@ -38,8 +38,7 @@ of the moderator value, \emph{excluding} minimum and maximum value.
 \item an option to compute a range of percentiles is also possible, using
 \code{"percentile"}, followed by the percentage of the range. For example,
 \code{"percentile95"} will calculate the 95\% range of the variable.
-\item \code{"all"}: uses all values of the moderator variable. Note that this option
-only applies to \code{type = "eff"}, for numeric moderator values.
+\item \code{"all"}: uses all values of the moderator variable.
 }}
 }
 \value{

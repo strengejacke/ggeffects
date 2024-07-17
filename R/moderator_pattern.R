@@ -33,8 +33,7 @@
 #'   - an option to compute a range of percentiles is also possible, using
 #'     `"percentile"`, followed by the percentage of the range. For example,
 #'     `"percentile95"` will calculate the 95% range of the variable.
-#'   - `"all"`: uses all values of the moderator variable. Note that this option
-#'     only applies to `type = "eff"`, for numeric moderator values.
+#'   - `"all"`: uses all values of the moderator variable.
 #'
 #' @return A numeric vector of length two or three, representing the required
 #'   values from `x`, like minimum/maximum value or mean and +/- 1 SD. If
