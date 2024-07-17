@@ -2,7 +2,7 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 1.7.0.3
+Version: 1.7.0.4
 Authors@R: c(
       person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
       person("Frederik", "Aust", role = "ctb", comment = c(ORCID = "0000-0003-4900-788X")),
@@ -12,11 +12,11 @@ Authors@R: c(
     )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Compute marginal effects and adjusted predictions from statistical
-    models and returns the result as tidy data frames. These data frames are 
-    ready to use with the 'ggplot2'-package. Effects and predictions can be 
-    calculated for many different models. Interaction terms, splines and 
-    polynomial terms are also supported. The main functions are ggpredict(), 
-    ggemmeans() and ggeffect(). There is a generic plot()-method to plot the 
+    models and returns the result as tidy data frames. These data frames are
+    ready to use with the 'ggplot2'-package. Effects and predictions can be
+    calculated for many different models. Interaction terms, splines and
+    polynomial terms are also supported. The main functions are ggpredict(),
+    ggemmeans() and ggeffect(). There is a generic plot()-method to plot the
     results using 'ggplot2'.
 Depends:
     R (>= 3.6)
