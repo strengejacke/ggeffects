@@ -134,7 +134,7 @@ check_rv <- function(values, x) {
     mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
     if (mvc < 3) {
       # tell user that quart won't work
-      insight::format_alert("Could not compute percentiles or quartiles, too small range of variable. Defaulting `values` to \"minmax\".") # nolint
+      insight::format_alert("Could not compute percentiles or quartiles, the variable has a too small range or not enough unique values. Defaulting `values` to \"minmax\".") # nolint
       values <- "minmax"
     }
     if (startsWith(values, "percentile")) {
