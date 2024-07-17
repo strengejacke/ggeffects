@@ -1,3 +1,10 @@
+# ggeffects 1.7.1
+
+## Bug fixes
+
+* Fixed issues for multivariate response models due changes
+  in the last _insight_ package updates.
+
 # ggeffects 1.7.0
 
 ## Breaking
