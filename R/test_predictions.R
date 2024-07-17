@@ -840,7 +840,8 @@ test_predictions.default <- function(object,
         model_frame = model_data,
         terms = terms,
         value_adjustment = "mean",
-        emmeans.only = TRUE
+        emmeans.only = TRUE,
+        verbose = FALSE
       )
     }
     # prepare argument list for "marginaleffects::predictions"
