@@ -2,8 +2,11 @@
 
 ## Bug fixes
 
-* Fixed issues for multivariate response models due changes
-  in the last _insight_ package updates.
+* Fixed issues for multivariate response models due changes in the last
+  _insight_ package updates.
+
+* Fixed issue with swapped lower and higher confidence interval values for
+  models with inverse-link.
 
 # ggeffects 1.7.0
 
@@ -84,7 +87,7 @@
   default engine, `"marginaleffects"`. It can be faster in some cases, though,
   and works for comparing predicted random effects in mixed models.
 
-* `test_predictions()` now automatically falls back to engines `"emmeans"` or 
+* `test_predictions()` now automatically falls back to engines `"emmeans"` or
   `"ggeffects"` if the _marginaleffects_ (or _emmeans_) package is not installed.
 
 * `predict_response()`, `test_predictions()` and `ggpredict()` will warn the user
@@ -604,14 +607,14 @@
 
 * Speed improvement for some models when calculating uncertainty intervals of
   predictions.
-  
+
 * Minor fixes.
 
 # ggeffects 1.1.1
 
 ## Changes to functions
 
-* Add more informative error message for *brmsfit* models using `mo()` with 
+* Add more informative error message for *brmsfit* models using `mo()` with
   numeric predictors, which only allow to predict for values that are actually
   present in the data.
 
@@ -656,8 +659,8 @@
   groups (i.e. when `type = "random"` and `terms` includes a random effect
   group factor).
 
-* Predicted response values based on `simulate()` (i.e. when 
-  `type = "simulate"`) is now possible for more model classes 
+* Predicted response values based on `simulate()` (i.e. when
+  `type = "simulate"`) is now possible for more model classes
   (see `?ggpredict`).
 
 * `ggpredict()` now computes confidence intervals for some edge cases where
@@ -682,7 +685,7 @@
 * Fixed issue with `gamlss` models that had `random()` function in the
   model formula.
 
-* Fixed issue with incorrect back-transformation of predictions for 
+* Fixed issue with incorrect back-transformation of predictions for
   `geeglm` models.
 
 # ggeffects 1.0.2

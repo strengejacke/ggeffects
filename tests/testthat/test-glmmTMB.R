@@ -454,3 +454,22 @@ test_that("glmmTMB, orderedbeta", {
   )
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-3)
 })
+
+
+test_that("glmmTMB, inverse-link", {
+  data(warpbreaks)
+  set.seed(123)
+  warpbreaks$ID <- sample.int(5, nrow(warpbreaks), replace = TRUE)
+  m <- suppressWarnings(glmmTMB::glmmTMB(
+    breaks ~ wool * tension + (1 | ID),
+    family = Gamma(),
+    data = warpbreaks
+  ))
+  out <- predict_response(m, c("wool", "tension"))
+  expect_equal(
+    out$predicted,
+    c(44.63071, 23.98565, 24.60601, 28.16438, 28.58486, 18.80825),
+    tolerance = 1e-3
+  )
+  expect_true(all(out$predicted > out$conf.low))
+})
