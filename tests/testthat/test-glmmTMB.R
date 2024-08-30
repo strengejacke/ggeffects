@@ -465,7 +465,7 @@ test_that("glmmTMB, inverse-link", {
     family = Gamma(),
     data = warpbreaks
   ))
-  out <- predict_response(m2, c("wool", "tension"))
+  out <- predict_response(m, c("wool", "tension"))
   expect_equal(
     out$predicted,
     c(44.66997, 23.93295, 24.75553, 27.9071, 27.61599, 18.96378),
