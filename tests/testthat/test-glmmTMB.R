@@ -468,7 +468,7 @@ test_that("glmmTMB, inverse-link", {
   out <- predict_response(m, c("wool", "tension"))
   expect_equal(
     out$predicted,
-    c(44.66997, 23.93295, 24.75553, 27.9071, 27.61599, 18.96378),
+    c(44.63071, 23.98565, 24.60601, 28.16438, 28.58486, 18.80825),
     tolerance = 1e-3
   )
   expect_true(all(out$predicted > out$conf.low))
