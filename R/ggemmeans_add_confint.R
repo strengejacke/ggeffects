@@ -1,9 +1,10 @@
 .ggemmeans_add_confint <- function(model, tmp, ci.lvl, type = "fixed", pmode = NULL, interval = NULL) {
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- (1 + ci.lvl) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -61,7 +62,7 @@
     fitfram$conf.high <- stats::plogis(lf(fitfram$predicted) + tcrit * fitfram$std.error)
     fitfram
   } else {
-    suppressWarnings(
+    fitfram <- suppressWarnings(
       .var_rename(
         as.data.frame(stats::confint(tmp, level = ci.lvl)),
         SE = "std.error",
@@ -75,5 +76,12 @@
         upper.HPD = "conf.high"
       )
     )
+    # edge case: for models with inverse-link, we need to "switch" CIs
+    if (identical(insight::model_info(model)$link_function, "inverse")) {
+      ci_low <- fitfram$conf.high
+      fitfram$conf.high <- fitfram$conf.low
+      fitfram$conf.low <- ci_low
+    }
+    fitfram
   }
 }

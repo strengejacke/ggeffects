@@ -20,22 +20,22 @@
                                      verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
-    prediction_data <- .ggemmeans_predict_MCMCglmm(
+    .ggemmeans_predict_MCMCglmm(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
       interval = interval, model_data = model_data, ...
     )
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
-    prediction_data <- .ggemmeans_predict_ordinal(
+    .ggemmeans_predict_ordinal(
       model, data_grid, cleaned_terms, ci.lvl, type,
       interval = interval, model_data = model_data, ...
     )
   } else if (inherits(model, c("gls", "lme"))) {
-    prediction_data <- .ggemmeans_predict_nlme(
+    .ggemmeans_predict_nlme(
       model, data_grid, cleaned_terms, ci.lvl, type,
       interval = interval, model_data = model_data, ...
     )
   } else {
-    prediction_data <- .ggemmeans_predict_generic(
+    .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
       interval = interval, model_data = model_data, vcov_info = vcov_info,
       verbose = verbose, ...

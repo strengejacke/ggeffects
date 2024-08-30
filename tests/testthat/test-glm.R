@@ -148,3 +148,28 @@ test_that("ggaverage, invlink", {
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
   expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4)
 })
+
+
+test_that("ggpredict, Gamma with invers-link", {
+  data(warpbreaks)
+  mod <- glm(breaks ~ wool * tension, family = Gamma(), data = warpbreaks)
+  em <- as.data.frame(suppressMessages(emmeans::emmeans(mod, c("wool", "tension"), type = "response")))
+  out <- predict_response(mod, c("wool", "tension"))
+  em <- em[order(em$wool), ]
+  expect_equal(out$predicted, em$response, tolerance = 1e-3)
+  expect_equal(out$conf.low, em$lower.CL, tolerance = 1e-3)
+})
+
+
+test_that("ggpredict, Gaussian with invers-link", {
+  data(warpbreaks)
+  mod <- glm(breaks ~ wool * tension, family = gaussian("inverse"), data = warpbreaks)
+  em <- as.data.frame(suppressMessages(emmeans::emmeans(mod, c("wool", "tension"), type = "response")))
+  out <- predict_response(mod, c("wool", "tension"))
+  em <- em[order(em$wool), ]
+  expect_equal(out$predicted, em$response, tolerance = 1e-3)
+  expect_equal(out$conf.low, em$lower.CL, tolerance = 1e-3)
+  out <- predict_response(mod, c("wool", "tension"), margin = "marginalmeans")
+  expect_equal(out$predicted, em$response, tolerance = 1e-3)
+  expect_equal(out$conf.low, em$lower.CL, tolerance = 1e-3)
+})
