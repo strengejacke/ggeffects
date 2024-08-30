@@ -26,7 +26,7 @@ get_predictions_merMod <- function(model,
   # on random effects (grouping level) or not.
   if (type == "fixed") {
     ref <- NA
-    se_fit <- TRUE
+    se_fit <- !identical(interval, "prediction")
   } else {
     # se.fit = TRUE currently doesn't work when re.form = NULL
     ref <- NULL
@@ -90,6 +90,11 @@ get_predictions_merMod <- function(model,
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           lf <- insight::link_function(model)
+          # edge case: for models with inverse-link, we need to "switch" signs
+          # for standard errors, so that lower CI and upper CI are correct
+          if (identical(insight::model_info(model)$link_function, "inverse")) {
+            tcrit <- tcrit * -1
+          }
           # calculate CI for glmm
           data_grid$conf.low <- linv(lf(data_grid$predicted) - tcrit * standard_errors)
           data_grid$conf.high <- linv(lf(data_grid$predicted) + tcrit * standard_errors)

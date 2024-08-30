@@ -212,6 +212,11 @@ select_prediction_method <- function(model_class,
 
     # did user request standard errors? if yes, compute CI
     if (se && !is.null(se.fit)) {
+      # edge case: for models with inverse-link, we need to "switch" signs
+      # for standard errors, so that lower CI and upper CI are correct
+      if (identical(insight::model_info(model)$link_function, "inverse")) {
+        tcrit <- tcrit * -1
+      }
       data_grid$conf.low <- linv(data_grid$predicted - tcrit * se.fit)
       data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
       # copy standard errors
