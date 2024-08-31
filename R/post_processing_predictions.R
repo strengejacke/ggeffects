@@ -15,6 +15,13 @@
     prediction_data$std.error <- attr(prediction_data, "std.error")
   }
 
+  # edge case: for models with inverse-link, we need to "switch" CIs
+  if (all(prediction_data$conf.low > prediction_data$conf.high, na.rm = TRUE)) {
+    tmp <- prediction_data$conf.low
+    prediction_data$conf.low <- prediction_data$conf.high
+    prediction_data$conf.high <- tmp
+  }
+
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the original response vector (needed for scatter plot)
   columns_to_keep <- c(cleaned_terms, "predicted", "std.error", "conf.low", "conf.high", "response.level")

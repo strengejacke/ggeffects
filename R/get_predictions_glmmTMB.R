@@ -209,12 +209,6 @@ get_predictions_glmmTMB <- function(model,
         pred.interval <- TRUE
       }
 
-      # edge case: for models with inverse-link, we need to "switch" signs
-      # for standard errors, so that lower CI and upper CI are correct
-      if (identical(model_info$link_function, "inverse")) {
-        tcrit <- tcrit * -1
-      }
-
       # calculate CI
       predicted_data$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
       predicted_data$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)

@@ -76,12 +76,6 @@
         upper.HPD = "conf.high"
       )
     )
-    # edge case: for models with inverse-link, we need to "switch" CIs
-    if (identical(insight::model_info(model)$link_function, "inverse")) {
-      ci_low <- fitfram$conf.high
-      fitfram$conf.high <- fitfram$conf.low
-      fitfram$conf.low <- ci_low
-    }
     fitfram
   }
 }
