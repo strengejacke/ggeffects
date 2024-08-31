@@ -70,7 +70,7 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_lme(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
   } else if (model_class == "gee") {
     prediction_data <- get_predictions_gee(model, terms, ...)
-  } else if (model_class %in% c("multinom", "bracl", "brmultinom")) {
+  } else if (model_class %in% c("multinom", "bracl", "brmultinom", "multinom_weightit")) {
     prediction_data <- get_predictions_multinom(model, data_grid, ci.lvl, linv, value_adjustment, terms, model_class, ...) # nolint
   } else if (model_class == "clmm") {
     prediction_data <- get_predictions_clmm(model, terms, value_adjustment, condition, ci.lvl, linv, ...)

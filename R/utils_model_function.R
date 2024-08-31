@@ -157,7 +157,7 @@ get_predict_function <- function(model) {
     "coxph"
   } else if (inherits(model, "brmultinom")) {
     "brmultinom"
-  } else if (inherits(model, "multinom")) {
+  } else if (inherits(model, c("multinom", "multinom_weightit"))) {
     "multinom"
   } else if (inherits(model, "bracl")) {
     "bracl"
