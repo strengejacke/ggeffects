@@ -7,7 +7,7 @@ get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustm
     ci <- 0.975
   }
 
-  if (inherits(model, "multinom_weightit")) {
+  if (inherits(model, c("multinom_weightit", "ordinal_weightit"))) {
     # we need the name of the response in the data
     fitfram[[insight::find_response(model)]] <- insight::get_response(model)[1]
   }
