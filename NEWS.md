@@ -8,6 +8,9 @@
 * Fixed issue with swapped lower and higher confidence interval values for
   models with inverse-link.
 
+* Fixed CRAN check issues due to breaking changes in the last _marginaleffects_
+  update.
+
 # ggeffects 1.7.0
 
 ## Breaking

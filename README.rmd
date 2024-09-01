@@ -1,5 +1,5 @@
 ---
-output: 
+output:
   github_document:
     toc: false
     fig_width: 7
@@ -9,7 +9,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
   %\VignetteEngine{knitr::rmarkdown}
 bibliography: paper/paper.bib
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
   "multinom", "bracl", "Zelig-relogit", "zerotrunc", "zeroinfl", "hurdle", "MixMod",
   "glm", "lm", "tidymodels", "betabin", "bglmer", "blmer", "cgamm", "gamm", "gamm4",
   "glm.nb", "polr", "rlm", "rqs", "glmer.nb", "glmmPQL", "nestedLogit", "sdmTMB",
-  "flic", "flac", "glmgee"
+  "flic", "flac", "glmgee", "glm_weightit", "multinom_weightit", "ordinal_weightit"
 )))
 ```
 
@@ -51,7 +51,7 @@ Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regress
 
 After fitting a model, it is useful generate model-based estimates (expected values, or _adjusted predictions_) of the response variable for different combinations of predictor values. Such estimates can be used to make inferences about relationships between variables.
 
-_Adjusted predictions_ or _marginal means_ are often easier to understand than raw regression coefficients. In particular, their visualization allows to intuitively get the idea of how predictors and outcome are associated, even for complex models. 
+_Adjusted predictions_ or _marginal means_ are often easier to understand than raw regression coefficients. In particular, their visualization allows to intuitively get the idea of how predictors and outcome are associated, even for complex models.
 
 ## Aims of this package
 
@@ -66,11 +66,11 @@ What you basically would need for your workflow is:
 Three core ideas describe the philosophy of the function design and help users to achieve the above mentioned goals:
 
   1) Functions are type-safe and always return a data frame with the same, consistent structure;
-  
+
   2) there is a simple, unique approach to calculate adjusted predictions and estimated marginal means for many different models;
-  
+
   3) the package supports "labelled data" [@daniel_ludecke_2018_1249216], which allows human readable annotations for graphical outputs.
-  
+
 This means, users do not need to care about any expensive steps after modeling to visualize the results. The returned as data frame is ready to use with the **ggplot2**-package, however, there is also a `plot()`-method to easily create publication-ready figures.
 
 Adjusted predictions or estimated marginal means are always calculated on the *response* scale, which is the easiest and most intuitive scale to interpret the results.

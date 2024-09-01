@@ -1,11 +1,16 @@
 get_predictions_multinom <- function(model, fitfram, ci.lvl, linv, value_adjustment, terms, model_class, ...) {
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
     ci <- (1 + ci.lvl) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
+  if (inherits(model, c("multinom_weightit", "ordinal_weightit"))) {
+    # we need the name of the response in the data
+    fitfram[[insight::find_response(model)]] <- insight::get_response(model)[1]
+  }
 
   prdat <- stats::predict(
     model,

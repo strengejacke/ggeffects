@@ -283,7 +283,7 @@ vcov.ggeffects <- function(object,
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest", "multinom_weightit")) {
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep, drop = FALSE]
     mm <- mm[, keep]

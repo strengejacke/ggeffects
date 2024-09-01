@@ -161,7 +161,7 @@
     match_len <- isTRUE(n_pred %% n_se == 0)
 
     # shorten to length of prediction_data
-    if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor")) {
+    if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor", "multinom_weightit")) {
       se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
     } else if (type == "random" && n_se < n_pred && match_len) {
       se.fit <- rep(se.fit, each = n_pred / n_se)
