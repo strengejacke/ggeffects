@@ -217,10 +217,10 @@
   # get transformation function
   if (is.null(model)) {
     # get inverse transformation function response-string
-    trans_fun <- insight::get_transformation(rv, verbose = verbose)$transformation
+    trans_fun <- insight::get_transformation(rv, verbose = FALSE)$transformation
   } else {
     # get inverse transformation function from model
-    trans_fun <- insight::get_transformation(model, verbose = verbose)$transformation
+    trans_fun <- insight::get_transformation(model, verbose = FALSE)$transformation
   }
 
   if (!is.null(transformation) && !identical(transformation, "identity") && !is.null(trans_fun)) {

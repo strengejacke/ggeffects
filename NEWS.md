@@ -1,5 +1,10 @@
 # ggeffects 1.7.1
 
+## General
+
+* Added support for models of class `glm_weightit`, `ordinal_weightit`,
+  `multinom_weightit` from package *WeightIt*.
+
 ## Bug fixes
 
 * Fixed issues for multivariate response models due changes in the last
