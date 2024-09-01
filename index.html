@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -155,9 +155,9 @@
 <p><a href="https://cran.r-project.org/package=ggeffects" class="external-link"><img src="https://www.r-pkg.org/badges/version/ggeffects" alt="CRAN"></a> <a href="https://strengejacke.r-universe.dev" class="external-link"><img src="https://strengejacke.r-universe.dev/badges/ggeffects" alt="parameters status badge"></a></p>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="13%">
-<col width="74%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
 <th>Type</th>
@@ -218,17 +218,17 @@
 <span><span class="co"># the marginal effect using the "marginaleffects" package</span></span>
 <span><span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/slopes.html" class="external-link">avg_slopes</a></span><span class="op">(</span><span class="va">m</span>, variables <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     Term                        Contrast Estimate Std. Error    z Pr(&gt;|z|)    S</span></span>
-<span><span class="co">#&gt;  Species mean(versicolor) - mean(setosa)    0.435      0.103 4.23   &lt;0.001 15.4</span></span>
-<span><span class="co">#&gt;  Species mean(virginica) - mean(setosa)     0.838      0.145 5.76   &lt;0.001 26.9</span></span>
-<span><span class="co">#&gt;  2.5 % 97.5 %</span></span>
-<span><span class="co">#&gt;  0.234  0.637</span></span>
-<span><span class="co">#&gt;  0.553  1.123</span></span>
+<span><span class="co">#&gt;                         Contrast Estimate Std. Error    z Pr(&gt;|z|)    S 2.5 %</span></span>
+<span><span class="co">#&gt;  mean(versicolor) - mean(setosa)    0.435      0.103 4.23   &lt;0.001 15.4 0.234</span></span>
+<span><span class="co">#&gt;  mean(virginica) - mean(setosa)     0.838      0.145 5.76   &lt;0.001 26.9 0.553</span></span>
+<span><span class="co">#&gt;  97.5 %</span></span>
+<span><span class="co">#&gt;   0.637</span></span>
+<span><span class="co">#&gt;   1.123</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high, predicted_lo, predicted_hi, predicted </span></span>
-<span><span class="co">#&gt; Type:  response</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; Term: Species</span></span>
+<span><span class="co">#&gt; Type:  response </span></span>
+<span><span class="co">#&gt; Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high, predicted_lo, predicted_hi, predicted</span></span>
+<span></span>
 <span><span class="co"># here we show that marginal effects refer to the difference between</span></span>
 <span><span class="co"># predictions for a one-unit change of "Species"</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
@@ -239,18 +239,15 @@
 <span><span class="co">#&gt; -----------------------------------</span></span>
 <span><span class="co">#&gt; setosa     |      0.77 | 0.61, 0.94</span></span>
 <span><span class="co">#&gt; versicolor |      1.21 | 1.15, 1.27</span></span>
-<span><span class="co">#&gt; virginica  |      1.61 | 1.48, 1.74</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; virginica  |      1.61 | 1.48, 1.74</span></span>
+<span></span>
 <span><span class="co"># marginal effects of "versicolor", relative to "setosa"</span></span>
 <span><span class="va">out</span><span class="op">$</span><span class="va">predicted</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="va">out</span><span class="op">$</span><span class="va">predicted</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] 0.44</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># marginal effects of "virginica", relative to "setosa"</span></span>
+<span><span class="co">#&gt; [1] 0.44</span></span>
+<span><span class="co"># marginal effects of "virginica", relative to "setosa"</span></span>
 <span><span class="va">out</span><span class="op">$</span><span class="va">predicted</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">-</span> <span class="va">out</span><span class="op">$</span><span class="va">predicted</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] 0.84</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; [1] 0.84</span></span>
+<span></span>
 <span><span class="co"># finally, test_predictions() returns the same. while the previous results</span></span>
 <span><span class="co"># report the marginal effect compared to the reference level "setosa",</span></span>
 <span><span class="co"># test_predictions() returns the marginal effects for all pairwise comparisons</span></span>
@@ -271,7 +268,7 @@
 <div class="section level2">
 <h2 id="ggeffects-supports-many-different-models-and-is-easy-to-use">ggeffects supports many different models and is easy to use<a class="anchor" aria-label="anchor" href="#ggeffects-supports-many-different-models-and-is-easy-to-use"></a>
 </h2>
-<p>Adjusted predictions can be calculated for many different models. Currently supported model-objects are: averaging, bamlss, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor, mlogit, multinom, negbin, nestedLogit, nlmerMod, ols, orm, phyloglm, phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.</p>
+<p>Adjusted predictions can be calculated for many different models. Currently supported model-objects are: averaging, bamlss, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb, glm_weightit, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest, MixMod, mixor, mlogit, multinom, multinom_weightit, negbin, nestedLogit, nlmerMod, ols, ordinal_weightit, orm, phyloglm, phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.</p>
 <p>Support for models varies by marginalization method (the <code>margin</code> argument), i.e. although <code><a href="reference/predict_response.html">predict_response()</a></code> supports most models, some models are only supported exclusively by one of the four downstream functions (<code><a href="reference/ggpredict.html">ggpredict()</a></code>, <code><a href="reference/ggpredict.html">ggemmeans()</a></code>, <code><a href="reference/ggpredict.html">ggeffect()</a></code> or <code><a href="reference/ggpredict.html">ggaverage()</a></code>). This means that not all models work for every <code>margin</code> option of <code><a href="reference/predict_response.html">predict_response()</a></code>. Other models not listed here might work as well, but are currently not tested.</p>
 <p>Interaction terms, splines and polynomial terms are also supported. There is a generic <code><a href="reference/plot.html">plot()</a></code>-method to plot the results using <strong>ggplot2</strong>.</p>
 </div>
@@ -283,7 +280,7 @@
 <div class="section level3">
 <h3 id="adjusted-predictions-for-one-focal-predictor">Adjusted predictions for one focal predictor<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-one-focal-predictor"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/datawizard/" class="external-link">datawizard</a></span><span class="op">)</span></span>
@@ -310,7 +307,7 @@
 <span><span class="co">#&gt; * c161sex =        Male</span></span>
 <span><span class="co">#&gt; *  e42dep = independent</span></span></code></pre></div>
 <p>A possible call to ggplot could look like this:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -318,7 +315,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">conf.low</span>, ymax <span class="op">=</span> <span class="va">conf.high</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-4-1.png"><!-- --></p>
 <p>However, there is also a <code><a href="reference/plot.html">plot()</a></code>-method. This method uses convenient defaults, to easily create the most suitable plot for the predictions.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-5-1.png"><!-- --></p>
@@ -327,7 +324,7 @@
 <h3 id="adjusted-predictions-for-several-focal-predictors">Adjusted predictions for several focal predictors<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-several-focal-predictors"></a>
 </h3>
 <p>With three variables, predictions can be grouped and faceted.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"neg_c_7"</span>, <span class="st">"c161sex"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># we want a more compact table, thus we use `print()` explicitly</span></span>
 <span><span class="fu"><a href="reference/print.html">print</a></span><span class="op">(</span><span class="va">result</span>, collapse_table <span class="op">=</span> <span class="cn">TRUE</span>, collapse_ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -369,15 +366,14 @@
 <span><span class="co">#&gt;      28 |         |                      |  29.78 (13.33,  46.23)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
-<span><span class="co">#&gt; * c12hour = 42.10</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; * c12hour = 42.10</span></span>
+<span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">result</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-6-1.png"><!-- --></p>
 <p><code><a href="reference/plot.html">plot()</a></code> works for this case, as well:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-7-1.png"><!-- --></p>
 </div>
@@ -385,13 +381,13 @@
 <h3 id="contrasts-and-pairwise-comparisons">Contrasts and pairwise comparisons<a class="anchor" aria-label="anchor" href="#contrasts-and-pairwise-comparisons"></a>
 </h3>
 <p>Next, an example of an interaction term. We want to know whether the two slopes are significantly different from each other.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"barthtot"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot.html">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-8-1.png"><!-- --></p>
 <p>This can be achieved by <code><a href="reference/test_predictions.html">test_predictions()</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for barthtot</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -413,7 +409,7 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-dickerman_counterfactual_2020" class="csl-entry">
-Dickerman, Barbra A., and Miguel A. Hernán. 2020. “Counterfactual Prediction Is Not Only for Causal Inference.” <em>European Journal of Epidemiology</em> 35 (7): 615–17. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7393612/" class="external-link uri">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7393612/</a>.
+Dickerman, Barbra A., and Miguel A. Hernán. 2020. “Counterfactual Prediction Is Not Only for Causal Inference.” <em>European Journal of Epidemiology</em> 35 (7): 615–17. <a href="https://link.springer.com/article/10.1007/s10654-020-00659-8" class="external-link uri">https://link.springer.com/article/10.1007/s10654-020-00659-8</a>.
 </div>
 <div id="ref-daniel_ludecke_2018_1249216" class="csl-entry">
 Lüdecke, Daniel. 2018. “Sjlabelled: Labelled Data Utility Functions,” May. <a href="https://doi.org/10.5281/zenodo.1249215" class="external-link uri">https://doi.org/10.5281/zenodo.1249215</a>.
