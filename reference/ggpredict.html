@@ -49,7 +49,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -190,7 +190,6 @@ the preferred way to do this now.</p>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back_transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ppd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -306,7 +305,7 @@ passing a <code>glm</code> object would allow the options <code>"response"</code
 <code>"terms"</code>. For models with zero-inflation component, the below mentioned
 options <code>"fixed"</code>, <code>"zero_inflated"</code> and <code>"zi_prob"</code> can also be used and will
 be "translated" into the corresponding <code>type</code> option of the model's respective
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p><ul><li><p><code>"fixed"</code> (or <code>"fe"</code> or <code>"count"</code>)</p>
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p><ul><li><p><code>"fixed"</code> (or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
 and <em>confidence intervals</em> are returned, i.e. <code>re.form = NA</code> when calling
@@ -316,7 +315,7 @@ zero-inflation). For models with zero-inflation component, this type calls
 <code>predict(..., type = "link")</code> (however, predicted values are
 back-transformed to the response scale, i.e. the conditional mean of the
 response).</p></li>
-<li><p><code>"random"</code> (or <code>"re"</code>)</p>
+<li><p><code>"random"</code></p>
 <p>This only applies to mixed models, and <code>type = "random"</code> does not condition
 on the zero-inflation component of the model. <code>type = "random"</code> still
 returns population-level predictions, however, conditioned on random effects
@@ -333,7 +332,7 @@ to the response scale).</p>
 name of the related random effect term to the <code>terms</code>-argument
 (for more details, see
 <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
-<li><p><code>"zero_inflated"</code> (or <code>"fe.zi"</code> or <code>"zi"</code>)</p>
+<li><p><code>"zero_inflated"</code> (or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the zero-inflation
 component. For instance, for models fitted with <code>zeroinfl</code> from <strong>pscl</strong>,
 this would return the predicted (or expected) response (<code>mu*(1-p)</code>),
@@ -342,26 +341,26 @@ and for <strong>glmmTMB</strong>, this would return the expected response <code>
 are not taken into account for the confidence intervals). For models with
 zero-inflation component, this type calls <code>predict(..., type = "response")</code>.
 See 'Details'.</p></li>
-<li><p><code>"zi_random"</code> (or <code>"re.zi"</code> or <code>"zero_inflated_random"</code>)</p>
+<li><p><code>"zi_random"</code> (or <code>"zero_inflated_random"</code>)</p>
 <p>Predicted values are conditioned on the zero-inflation component and
 take the random effects uncertainty into account. For models fitted with
 <code>glmmTMB()</code>, <code>hurdle()</code> or <code>zeroinfl()</code>, this would return the
 expected value <code>mu*(1-p)</code>. For <strong>glmmTMB</strong>, prediction intervals
 also consider the uncertainty in the random effects variances. This
 type calls <code>predict(..., type = "response")</code>. See 'Details'.</p></li>
-<li><p><code>"zi_prob"</code> (or <code>"zi.prob"</code>)</p>
+<li><p><code>"zi_prob"</code></p>
 <p>Predicted zero-inflation probability. For <strong>glmmTMB</strong> models with
 zero-inflation component, this type calls <code>predict(..., type = "zlink")</code>;
 models from <strong>pscl</strong> call <code>predict(..., type = "zero")</code> and for
 <strong>GLMMadaptive</strong>, <code>predict(..., type = "zero_part")</code> is called.</p></li>
-<li><p><code>"simulate"</code> (or <code>"sim"</code>)</p>
+<li><p><code>"simulate"</code></p>
 <p>Predicted values and confidence resp. prediction intervals are
 based on simulations, i.e. calls to <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. This type
 of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
 class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code> and <code>merMod</code>.
 See <code>...</code> for details on number of simulations.</p></li>
-<li><p><code>"survival"</code> and <code>"cumulative_hazard"</code> (or <code>"surv"</code> and <code>"cumhaz"</code>)</p>
+<li><p><code>"survival"</code> and <code>"cumulative_hazard"</code></p>
 <p>Applies only to <code>coxph</code>-objects from the <strong>survial</strong>-package and
 calculates the survival probability or the cumulative hazard of an event.</p></li>
 </ul><p>When <code>margin = "empirical"</code> (or when calling <code>ggaverage()</code>), the <code>type</code>
@@ -474,18 +473,6 @@ for all models, but only for models that work with <code><a href="https://easyst
 For Bayesian models, when <code>interval = "confidence"</code>, predictions are based on
 posterior draws of the linear predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>.
 If <code>interval = "prediction"</code>, <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code> is called.</p></dd>
-
-
-<dt id="arg-ppd">ppd<a class="anchor" aria-label="anchor" href="#arg-ppd"></a></dt>
-<dd><p>Logical, if <code>TRUE</code>, predictions for Stan-models are based on the
-posterior predictive distribution <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>. If
-<code>FALSE</code> (the default), predictions are based on posterior draws of the linear
-predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>. This is roughly comparable to
-the distinction between <em>confidence</em> and <em>prediction</em> intervals. <code>ppd = TRUE</code>
-incorporates the residual variance and hence returned intervals are similar to
-prediction intervals. Consequently, if <code>interval = "prediction"</code>, <code>ppd</code> is
-automatically set to <code>TRUE</code>. The <code>ppd</code> argument will be deprecated in a
-future version. Please use <code>interval = "prediction"</code> instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
