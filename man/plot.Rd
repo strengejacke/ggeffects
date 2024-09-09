@@ -41,10 +41,6 @@
   ci.style = ci_style,
   rawdata = show_data,
   add.data = show_data,
-  residuals = show_residuals,
-  residuals.line = show_residuals_line,
-  label.data = data_labels,
-  limit.range = limit_range,
   collapse.group = collapse_group,
   dot.alpha = dot_alpha,
   dot.size = dot_size,
@@ -177,11 +173,10 @@ multiiple rows, to avoid that plots are too small.}
 
 \item{verbose}{Logical, toggle warnings and messages.}
 
-\item{ci, add.data, rawdata, residuals, residuals.line, label.data, limit.range, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y}{Deprecated
-arguments. Use \code{show_ci}, \code{show_data}, \code{show_residuals}, \code{show_residuals_line},
-\code{data_labels}, \code{limit_range}, \code{collapse_group}, \code{dot_alpha}, \code{dot_size},
-\code{line_size}, \code{connect_lines}, \code{show_title}, \code{show_x_title}, \code{show_y_title},
-\code{use_theme}, \code{ci_style}, \code{show_legend}, \code{log_y} and \code{one_plot} instead.}
+\item{ci, add.data, rawdata, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y}{Deprecated arguments. Use \code{show_ci}, \code{show_data}, \code{collapse_group},
+\code{dot_alpha}, \code{dot_size}, \code{line_size}, \code{connect_lines}, \code{show_title},
+\code{show_x_title}, \code{show_y_title}, \code{use_theme}, \code{ci_style}, \code{show_legend},
+\code{log_y} and \code{one_plot} instead.}
 
 \item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}

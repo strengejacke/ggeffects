@@ -4,6 +4,8 @@
 
 * The deprecated argument `ppd` was removed.
 
+* Some of the deprecated arguments in `plot()` were removed.
+
 # ggeffects 1.7.1
 
 ## General

@@ -87,11 +87,11 @@
 #' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
-#' @param ci,add.data,rawdata,residuals,residuals.line,label.data,limit.range,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend,log.y Deprecated
-#'   arguments. Use `show_ci`, `show_data`, `show_residuals`, `show_residuals_line`,
-#'   `data_labels`, `limit_range`, `collapse_group`, `dot_alpha`, `dot_size`,
-#'   `line_size`, `connect_lines`, `show_title`, `show_x_title`, `show_y_title`,
-#'   `use_theme`, `ci_style`, `show_legend`, `log_y` and `one_plot` instead.
+#' @param ci,add.data,rawdata,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend,log.y
+#'   Deprecated arguments. Use `show_ci`, `show_data`, `collapse_group`,
+#'   `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`,
+#'   `show_x_title`, `show_y_title`, `use_theme`, `ci_style`, `show_legend`,
+#'   `log_y` and `one_plot` instead.
 #'
 #' @inheritParams get_title
 #'
@@ -181,10 +181,6 @@ plot.ggeffects <- function(x,
                            ci.style = ci_style,
                            rawdata = show_data,
                            add.data = show_data,
-                           residuals = show_residuals,
-                           residuals.line = show_residuals_line,
-                           label.data = data_labels,
-                           limit.range = limit_range,
                            collapse.group = collapse_group,
                            dot.alpha = dot_alpha,
                            dot.size = dot_size,
@@ -218,22 +214,6 @@ plot.ggeffects <- function(x,
   if (!missing(ci.style)) {
     ci_style <- ci.style
     .deprecated_warning(old = "ci.style", new = "ci_style")
-  }
-  if (!missing(residuals)) {
-    show_residuals <- residuals
-    .deprecated_warning(old = "residuals", new = "show_residuals")
-  }
-  if (!missing(residuals.line)) {
-    show_residuals_line <- residuals.line
-    .deprecated_warning(old = "residuals.line", new = "show_residuals_line")
-  }
-  if (!missing(label.data)) {
-    data_labels <- label.data
-    .deprecated_warning(old = "label.data", new = "data_labels")
-  }
-  if (!missing(limit.range)) {
-    limit_range <- limit.range
-    .deprecated_warning(old = "limit.range", new = "limit_range")
   }
   if (!missing(collapse.group)) {
     collapse_group <- collapse.group
@@ -421,7 +401,7 @@ plot.ggeffects <- function(x,
     attr(x, "continuous.group") <- FALSE
 
     # no additional residuals or raw data
-    show_data <- residuals <- FALSE
+    show_data <- show_residuals <- FALSE
     attr(x, "residual_data") <- NULL
   }
 
