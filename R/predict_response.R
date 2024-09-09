@@ -86,7 +86,7 @@
 #' be "translated" into the corresponding `type` option of the model's respective
 #' `predict()`-method.
 #'
-#'   - `"fixed"` (or `"fe"` or `"count"`)
+#'   - `"fixed"` (or `"count"`)
 #'
 #'     Predicted values are conditioned on the fixed effects or conditional
 #'     model only (for mixed models: predicted values are on the population-level
@@ -98,7 +98,7 @@
 #'     back-transformed to the response scale, i.e. the conditional mean of the
 #'     response).
 #'
-#'   - `"random"` (or `"re"`)
+#'   - `"random"`
 #'
 #'     This only applies to mixed models, and `type = "random"` does not condition
 #'     on the zero-inflation component of the model. `type = "random"` still
@@ -118,7 +118,7 @@
 #'     (for more details, see
 #'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
 #'
-#'   - `"zero_inflated"` (or `"fe.zi"` or `"zi"`)
+#'   - `"zero_inflated"` (or `"zi"`)
 #'
 #'     Predicted values are conditioned on the fixed effects and the zero-inflation
 #'     component. For instance, for models fitted with `zeroinfl` from **pscl**,
@@ -129,7 +129,7 @@
 #'     zero-inflation component, this type calls `predict(..., type = "response")`.
 #'     See 'Details'.
 #'
-#'   - `"zi_random"` (or `"re.zi"` or `"zero_inflated_random"`)
+#'   - `"zi_random"` (or `"zero_inflated_random"`)
 #'
 #'     Predicted values are conditioned on the zero-inflation component and
 #'     take the random effects uncertainty into account. For models fitted with
@@ -138,14 +138,14 @@
 #'     also consider the uncertainty in the random effects variances. This
 #'     type calls `predict(..., type = "response")`. See 'Details'.
 #'
-#'   - `"zi_prob"` (or `"zi.prob"`)
+#'   - `"zi_prob"`
 #'
 #'     Predicted zero-inflation probability. For **glmmTMB** models with
 #'     zero-inflation component, this type calls `predict(..., type = "zlink")`;
 #'     models from **pscl** call `predict(..., type = "zero")` and for
 #'     **GLMMadaptive**, `predict(..., type = "zero_part")` is called.
 #'
-#'   - `"simulate"` (or `"sim"`)
+#'   - `"simulate"`
 #'
 #'     Predicted values and confidence resp. prediction intervals are
 #'     based on simulations, i.e. calls to `simulate()`. This type
@@ -154,7 +154,7 @@
 #'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`.
 #'     See `...` for details on number of simulations.
 #'
-#'   - `"survival"` and `"cumulative_hazard"` (or `"surv"` and `"cumhaz"`)
+#'   - `"survival"` and `"cumulative_hazard"`
 #'
 #'     Applies only to `coxph`-objects from the **survial**-package and
 #'     calculates the survival probability or the cumulative hazard of an event.
@@ -174,15 +174,6 @@
 #' log-, log-log, exp, sqrt and similar transformed responses will be
 #' back-transformed to original response-scale. See
 #' [`insight::find_transformation()`] for more details.
-#' @param ppd Logical, if `TRUE`, predictions for Stan-models are based on the
-#' posterior predictive distribution [`rstantools::posterior_predict()`]. If
-#' `FALSE` (the default), predictions are based on posterior draws of the linear
-#' predictor [`rstantools::posterior_epred()`]. This is roughly comparable to
-#' the distinction between *confidence* and *prediction* intervals. `ppd = TRUE`
-#' incorporates the residual variance and hence returned intervals are similar to
-#' prediction intervals. Consequently, if `interval = "prediction"`, `ppd` is
-#' automatically set to `TRUE`. The `ppd` argument will be deprecated in a
-#' future version. Please use `interval = "prediction"` instead.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -611,7 +602,6 @@ predict_response <- function(model,
                              type = "fixed",
                              condition = NULL,
                              back_transform = TRUE,
-                             ppd = FALSE,
                              vcov_fun = NULL,
                              vcov_type = NULL,
                              vcov_args = NULL,
@@ -630,12 +620,6 @@ predict_response <- function(model,
 
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
-
-  ## TODO: remove deprecated later
-  if (!missing(ppd) && isTRUE(ppd)) {
-    insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval = \"prediction\"` instead.") # nolint
-    interval <- "prediction"
-  }
 
   # validate type arguments
   type <- .validate_type_argument(

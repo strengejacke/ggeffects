@@ -62,7 +62,6 @@ ggpredict(
   typical = "mean",
   condition = NULL,
   back_transform = TRUE,
-  ppd = FALSE,
   vcov_fun = NULL,
   vcov_type = NULL,
   vcov_args = NULL,
@@ -163,7 +162,7 @@ options \code{"fixed"}, \code{"zero_inflated"} and \code{"zi_prob"} can also be 
 be "translated" into the corresponding \code{type} option of the model's respective
 \code{predict()}-method.
 \itemize{
-\item \code{"fixed"} (or \code{"fe"} or \code{"count"})
+\item \code{"fixed"} (or \code{"count"})
 
 Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the population-level
@@ -174,7 +173,7 @@ zero-inflation). For models with zero-inflation component, this type calls
 \code{predict(..., type = "link")} (however, predicted values are
 back-transformed to the response scale, i.e. the conditional mean of the
 response).
-\item \code{"random"} (or \code{"re"})
+\item \code{"random"}
 
 This only applies to mixed models, and \code{type = "random"} does not condition
 on the zero-inflation component of the model. \code{type = "random"} still
@@ -193,7 +192,7 @@ To get predicted values for each level of the random effects groups, add the
 name of the related random effect term to the \code{terms}-argument
 (for more details, see
 \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
-\item \code{"zero_inflated"} (or \code{"fe.zi"} or \code{"zi"})
+\item \code{"zero_inflated"} (or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
 component. For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
@@ -203,7 +202,7 @@ and for \strong{glmmTMB}, this would return the expected response \code{mu*(1-p)
 are not taken into account for the confidence intervals). For models with
 zero-inflation component, this type calls \code{predict(..., type = "response")}.
 See 'Details'.
-\item \code{"zi_random"} (or \code{"re.zi"} or \code{"zero_inflated_random"})
+\item \code{"zi_random"} (or \code{"zero_inflated_random"})
 
 Predicted values are conditioned on the zero-inflation component and
 take the random effects uncertainty into account. For models fitted with
@@ -211,13 +210,13 @@ take the random effects uncertainty into account. For models fitted with
 expected value \code{mu*(1-p)}. For \strong{glmmTMB}, prediction intervals
 also consider the uncertainty in the random effects variances. This
 type calls \code{predict(..., type = "response")}. See 'Details'.
-\item \code{"zi_prob"} (or \code{"zi.prob"})
+\item \code{"zi_prob"}
 
 Predicted zero-inflation probability. For \strong{glmmTMB} models with
 zero-inflation component, this type calls \code{predict(..., type = "zlink")};
 models from \strong{pscl} call \code{predict(..., type = "zero")} and for
 \strong{GLMMadaptive}, \code{predict(..., type = "zero_part")} is called.
-\item \code{"simulate"} (or \code{"sim"})
+\item \code{"simulate"}
 
 Predicted values and confidence resp. prediction intervals are
 based on simulations, i.e. calls to \code{simulate()}. This type
@@ -225,7 +224,7 @@ of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
 class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}.
 See \code{...} for details on number of simulations.
-\item \code{"survival"} and \code{"cumulative_hazard"} (or \code{"surv"} and \code{"cumhaz"})
+\item \code{"survival"} and \code{"cumulative_hazard"}
 
 Applies only to \code{coxph}-objects from the \strong{survial}-package and
 calculates the survival probability or the cumulative hazard of an event.
@@ -328,16 +327,6 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 For Bayesian models, when \code{interval = "confidence"}, predictions are based on
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
-
-\item{ppd}{Logical, if \code{TRUE}, predictions for Stan-models are based on the
-posterior predictive distribution \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}. If
-\code{FALSE} (the default), predictions are based on posterior draws of the linear
-predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}. This is roughly comparable to
-the distinction between \emph{confidence} and \emph{prediction} intervals. \code{ppd = TRUE}
-incorporates the residual variance and hence returned intervals are similar to
-prediction intervals. Consequently, if \code{interval = "prediction"}, \code{ppd} is
-automatically set to \code{TRUE}. The \code{ppd} argument will be deprecated in a
-future version. Please use \code{interval = "prediction"} instead.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

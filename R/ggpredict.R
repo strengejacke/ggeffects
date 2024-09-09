@@ -65,7 +65,6 @@ ggpredict <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
-                      ppd = FALSE,
                       vcov_fun = NULL,
                       vcov_type = NULL,
                       vcov_args = NULL,
@@ -77,12 +76,6 @@ ggpredict <- function(model,
                       vcov.type = vcov_type,
                       vcov.args = vcov_args,
                       ...) {
-  ## TODO: remove deprecated later
-  if (!missing(ppd) && isTRUE(ppd)) {
-    insight::format_warning("Argument `ppd` is deprecated and will be removed in the future. Please use `interval` instead.") # nolint
-    interval <- "prediction"
-  }
-
   # check arguments
   type <- .validate_type_argument(model, type)
 

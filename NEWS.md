@@ -1,3 +1,9 @@
+# ggeffects 1.7.2
+
+## Breaking
+
+* The deprecated argument `ppd` was removed.
+
 # ggeffects 1.7.1
 
 ## General
