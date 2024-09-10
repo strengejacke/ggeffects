@@ -17,7 +17,7 @@ if (!requireNamespace("ggplot2", quietly = TRUE)) {
 
 Plotting partial residuals on top of the estimated marginal means allows detecting missed modeling, like unmodeled non-linear relationships or unmodeled interactions. In a nutshell, it allows _Visualizing Fit and Lack of Fit in Complex Regression Models with Predictor Effect Plots and Partial Residuals_ (Fox & Weisberg 2018).
 
-To add partial residuals to a plot, add `show_residuals = TRUE` to the `plot()` function call. Unlike plotting raw data, partial residuals are much better in detecting spurious patterns of relationships between predictors and outcome. 
+To add partial residuals to a plot, add `show_residuals = TRUE` to the `plot()` function call. Unlike plotting raw data, partial residuals are much better in detecting spurious patterns of relationships between predictors and outcome.
 
 ## Detecting non-linear relationship
 
@@ -99,7 +99,7 @@ y <- 5 * sin(x / 2) + x / 2 + 10 * z
 m <- lm(y ~ x + z)
 pr <- predict_response(m, "x")
 
-plot(pr, residuals = TRUE)
+plot(pr, show_residuals = TRUE)
 ```
 
 In such cases, it is recommended to use the `all`-tag in the `terms`-argument.
