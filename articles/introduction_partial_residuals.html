@@ -206,7 +206,7 @@ the residuals, which is hidden by default:</p>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span></span>
 <span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, residuals <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, show_residuals <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_partial_residuals_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>In such cases, it is recommended to use the <code>all</code>-tag in
 the <code>terms</code>-argument.</p>
