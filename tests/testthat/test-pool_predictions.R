@@ -14,5 +14,5 @@ test_that("ggeffects, pool predictions with transformed response", {
     pool_pre <- pool_predictions(predictions)
   })
   expect_equal(pool_pre$predicted, c(29.6686, 24.9858, 23.1923), tolerance = 1e-3)
-  expect_equal(pool_pre$conf.low, c(25.391, 22.1176, 19.5893), tolerance = 1e-3)
+  expect_equal(pool_pre$conf.low, c(10.812922, 11.334209, 7.76223), tolerance = 1e-3)
 })

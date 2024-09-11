@@ -54,39 +54,51 @@ pool_comparisons <- function(x, ...) {
 
   len <- length(x)
   ci <- attributes(x[[1]])$ci_level
+  dof <- attributes(x[[1]])$df
+
+  if (is.null(dof)) {
+    dof <- Inf
+  }
 
   # pool predictions -----
 
-  pooled_predictions <- original_x[[1]]
-  pooled_predictions$std.error <- NA
+  pooled_comparisons <- original_x[[1]]
+  pooled_comparisons$std.error <- NA
   n_rows <- nrow(original_x[[1]])
 
   for (i in 1:n_rows) {
     # pooled estimate
-    pooled_pred <- unlist(lapply(original_x, function(j) {
+    pooled_comp <- unlist(lapply(original_x, function(j) {
       j[[estimate_name]][i]
     }), use.names = FALSE)
-    pooled_predictions[[estimate_name]][i] <- mean(pooled_pred, na.rm = TRUE)
+    pooled_comparisons[[estimate_name]][i] <- mean(pooled_comp, na.rm = TRUE)
 
     # pooled standard error
     pooled_se <- unlist(lapply(original_x, function(j) {
       attributes(j)$standard_error[i]
     }), use.names = FALSE)
     ubar <- mean(pooled_se^2, na.rm = TRUE)
-    tmp <- ubar + (1 + 1 / len) * stats::var(pooled_pred)
-    pooled_predictions$std.error[i] <- sqrt(tmp)
+    tmp <- ubar + (1 + 1 / len) * stats::var(pooled_comp)
+    pooled_comparisons$std.error[i] <- sqrt(tmp)
   }
 
+  # pooled degrees of freedom for t-statistics
+  pooled_df <- .barnad_rubin(
+    m = nrow(pooled_comparisons),
+    b = stats::var(pooled_comparisons[[estimate_name]]),
+    t = pooled_comparisons$std.error^2,
+    dfcom = dof
+  )
+
   # confidence intervals ----
-
   alpha <- (1 + ci) / 2
-  fac <- stats::qnorm(alpha)
-  pooled_predictions$conf.low <- pooled_predictions[[estimate_name]] - fac * pooled_predictions$std.error
-  pooled_predictions$conf.high <- pooled_predictions[[estimate_name]] + fac * pooled_predictions$std.error
+  fac <- stats::qt(alpha, df = dof)
+  pooled_comparisons$conf.low <- pooled_comparisons[[estimate_name]] - fac * pooled_comparisons$std.error
+  pooled_comparisons$conf.high <- pooled_comparisons[[estimate_name]] + fac * pooled_comparisons$std.error
 
-  attributes(pooled_predictions) <- utils::modifyList(attributes(original_x[[1]]), attributes(pooled_predictions))
-  attr(pooled_predictions, "standard_error") <- pooled_predictions$std.error
-  pooled_predictions$std.error <- NULL
+  attributes(pooled_comparisons) <- utils::modifyList(attributes(original_x[[1]]), attributes(pooled_comparisons))
+  attr(pooled_comparisons, "standard_error") <- pooled_comparisons$std.error
+  pooled_comparisons$std.error <- NULL
 
-  pooled_predictions
+  pooled_comparisons
 }
