@@ -54,6 +54,11 @@ pool_comparisons <- function(x, ...) {
 
   len <- length(x)
   ci <- attributes(x[[1]])$ci_level
+  dof <- attributes(x[[1]])$df
+
+  if (is.null(dof)) {
+    dof <- Inf
+  }
 
   # pool predictions -----
 
@@ -80,7 +85,7 @@ pool_comparisons <- function(x, ...) {
   # confidence intervals ----
 
   alpha <- (1 + ci) / 2
-  fac <- stats::qnorm(alpha)
+  fac <- stats::qt(alpha, df = dof)
   pooled_predictions$conf.low <- pooled_predictions[[estimate_name]] - fac * pooled_predictions$std.error
   pooled_predictions$conf.high <- pooled_predictions[[estimate_name]] + fac * pooled_predictions$std.error
 

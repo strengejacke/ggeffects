@@ -53,6 +53,7 @@ pool_predictions <- function(x, ...) {
 
   len <- length(x)
   ci <- attributes(x[[1]])$ci.lvl
+  dof <- attributes(x[[1]])$df
   link_inv <- attributes(x[[1]])$link_inverse
   link_fun <- attributes(x[[1]])$link_function
   back_transform <- isTRUE(attributes(x[[1]])$back.transform)
@@ -62,6 +63,9 @@ pool_predictions <- function(x, ...) {
   }
   if (is.null(link_fun)) {
     link_fun <- function(x) x
+  }
+  if (is.null(dof)) {
+    dof <- Inf
   }
 
   # pool predictions -----
@@ -97,7 +101,7 @@ pool_predictions <- function(x, ...) {
   # confidence intervals ----
 
   alpha <- (1 + ci) / 2
-  fac <- stats::qnorm(alpha)
+  fac <- stats::qt(alpha, df = dof)
   pooled_predictions$conf.low <- link_inv(pooled_predictions$predicted - fac * pooled_predictions$std.error)
   pooled_predictions$conf.high <- link_inv(pooled_predictions$predicted + fac * pooled_predictions$std.error)
 
