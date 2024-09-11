@@ -6,6 +6,11 @@
 
 * Some of the deprecated arguments in `plot()` were removed.
 
+## changes
+
+* Pooling functions now use the model's degrees of freedom to calculate the
+  critical values for the confidence intervals.
+
 # ggeffects 1.7.1
 
 ## General
