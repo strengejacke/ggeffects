@@ -98,10 +98,17 @@ pool_predictions <- function(x, ...) {
     pooled_predictions$std.error[i] <- sqrt(tmp)
   }
 
-  # confidence intervals ----
+  # pooled degrees of freedom for t-statistics
+  pooled_df <- .barnad_rubin(
+    m = nrow(pooled_predictions),
+    b = stats::var(pooled_predictions$predicted),
+    t = pooled_predictions$std.error^2,
+    dfcom = dof
+  )
 
+  # confidence intervals ----
   alpha <- (1 + ci) / 2
-  fac <- stats::qt(alpha, df = dof)
+  fac <- stats::qt(alpha, df = pooled_df)
   pooled_predictions$conf.low <- link_inv(pooled_predictions$predicted - fac * pooled_predictions$std.error)
   pooled_predictions$conf.high <- link_inv(pooled_predictions$predicted + fac * pooled_predictions$std.error)
 
@@ -132,4 +139,21 @@ pool_predictions <- function(x, ...) {
   })
 
   pooled_predictions
+}
+
+
+# helper ------
+
+# adjustment for degrees of freedom
+.barnad_rubin <- function(m, b, t, dfcom = 999999) {
+  # fix for z-statistic
+  if (is.null(dfcom) || all(is.na(dfcom)) || all(is.infinite(dfcom))) {
+    return(Inf)
+  }
+  lambda <- (1 + 1 / m) * b / t
+  lambda[lambda < 1e-04] <- 1e-04
+  dfold <- (m - 1) / lambda^2
+  dfobs <- (dfcom + 1) / (dfcom + 3) * dfcom * (1 - lambda)
+  result <- dfold * dfobs / (dfold + dfobs)
+  pmax(round(mean(result, na.rm = TRUE)), 1)
 }
