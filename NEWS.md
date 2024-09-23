@@ -1,12 +1,10 @@
 # ggeffects 1.7.2
 
-## Breaking
+## Breaking changes
 
 * The deprecated argument `ppd` was removed.
 
 * Some of the deprecated arguments in `plot()` were removed.
-
-## changes
 
 * Pooling functions now use the model's degrees of freedom to calculate the
   critical values for the confidence intervals.
