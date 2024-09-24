@@ -380,7 +380,7 @@ test_predictions.default <- function(object,
   )
 
   # handle alias - "slope" or "trend" are aliases for simply setting it to NULL
-  if (!is.null(test) && test %in% c("trend", "slope")) {
+  if (!is.null(test) && !is.data.frame(test) && test %in% c("trend", "slope")) {
     test <- NULL
   }
 
