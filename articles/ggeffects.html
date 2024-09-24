@@ -151,11 +151,12 @@
 <p>After fitting a model, it is useful generate model-based estimates
 (expected values, or <em>adjusted predictions</em>) of the response
 variable for different combinations of predictor values. Such estimates
-can be used to make inferences about relationships between variables.
-Even for complex models, the visualization of <em>marginal means</em> or
-<em>adjusted predictions</em> is far easier to understand and allows to
-intuitively get the idea of how predictors and outcome are
-associated.</p>
+can be used to make inferences about relationships between variables -
+adjusted predictions tell you: what is the expected ouctome for certain
+values or levels of my predictors? Even for complex models, the
+visualization of <em>marginal means</em> or <em>adjusted
+predictions</em> is far easier to understand and allows to intuitively
+get the idea of how predictors and outcome are associated.</p>
 <p>There are three major goals that you can achieve with
 <em>ggeffects</em>: computing marginal means and adjusted predictions,
 testing these predictions for statistical significance, and creating
@@ -237,10 +238,10 @@ mode (factors, or “most common” value in case of character vectors).</p>
 <p>Predictions based on <code>"mean_reference"</code> and
 <code>"mean_mode"</code> represent a rather “theoretical” view on your
 data, which does not necessarily exactly reflect the characteristics of
-your sample. It helps answer the question, “What is the predicted value
-of the response at meaningful values or levels of my focal terms for a
-‘typical’ observation in my data?”, where ‘typical’ refers to certain
-characteristics of the remaining predictors.</p>
+your sample. It helps answer the question, “What is the predicted (or:
+expected) value of the response at meaningful values or levels of my
+focal terms for a ‘typical’ observation in my data?”, where ‘typical’
+refers to certain characteristics of the remaining predictors.</p>
 </li>
 <li>
 <p><code>"marginalmeans"</code>: calls <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>,
@@ -254,10 +255,11 @@ weighting options that can be chosen with the <code>weights</code>
 argument.</p>
 <p><code>"marginalmeans"</code> comes closer to the sample, because it
 takes all possible values and levels of your non-focal predictors into
-account. It would answer thr question, “What is the predicted value of
-the response at meaningful values or levels of my focal terms for an
-‘average’ observation in my data?”. It refers to randomly picking a
-subject of your sample and the result you get on average.</p>
+account. It would answer thr question, “What is the predicted (or:
+expected) value of the response at meaningful values or levels of my
+focal terms for an ‘average’ observation in my data?”. It refers to
+randomly picking a subject of your sample and the result you get on
+average.</p>
 </li>
 <li>
 <p><code>"empirical"</code> (or <code>"counterfactual"</code>):
@@ -270,12 +272,12 @@ particular, averaging is applied to <em>counterfactual predictions</em>
 vignette</a>.</p>
 <p><code>"empirical"</code>is probably the most “realistic” approach,
 insofar as the results can also be transferred to other contexts. It
-answers the question, “What is the predicted value of the response at
-meaningful values or levels of my focal terms for the ‘average’
-observation in the population?”. It does not only refer to the actual
-data in your sample, but also “what would be if” we had more data, or if
-we had data from a different population. This is where “counterfactual”
-refers to.</p>
+answers the question, “What is the predicted (or: expected) value of the
+response at meaningful values or levels of my focal terms for the
+‘average’ observation in the population?”. It does not only refer to the
+actual data in your sample, but also “what would be if” we had more
+data, or if we had data from a different population. This is where
+“counterfactual” refers to.</p>
 </li>
 </ul>
 <p>You can set a default-option for the <code>margin</code> argument via
@@ -616,7 +618,7 @@ terms, just like before, specify all three terms in the
 <span><span class="co"># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span></span>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
