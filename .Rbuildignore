@@ -3,6 +3,7 @@
 ^_pkgdown\.yml$
 ^README\.rmd
 
+^.quarto$
 ^revdep$
 ^pkgdown$
 ^Meta$

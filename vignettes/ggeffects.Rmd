@@ -52,7 +52,7 @@ includeCSS("../man/figures/callout.css")
 
 # Aims of the ggeffects-package
 
-After fitting a model, it is useful generate model-based estimates (expected values, or _adjusted predictions_) of the response variable for different combinations of predictor values. Such estimates can be used to make inferences about relationships between variables. Even for complex models, the visualization of _marginal means_ or _adjusted predictions_ is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated. 
+After fitting a model, it is useful generate model-based estimates (expected values, or _adjusted predictions_) of the response variable for different combinations of predictor values. Such estimates can be used to make inferences about relationships between variables - adjusted predictions tell you: what is the expected ouctome for certain values or levels of my predictors? Even for complex models, the visualization of _marginal means_ or _adjusted predictions_ is far easier to understand and allows to intuitively get the idea of how predictors and outcome are associated.
 
 There are three major goals that you can achieve with *ggeffects*: computing marginal means and adjusted predictions, testing these predictions for statistical significance, and creating figures (plots). What you basically would need for your workflow is: `predict_response()`, `test_predictions()` and `plot()`.
 
@@ -82,15 +82,15 @@ It is important to know, which question you would like to answer. See the follow
 
 - `"mean_reference"` and `"mean_mode"`: `"mean_reference"` calls `ggpredict()`, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. `"mean_mode"` calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors).
 
-  Predictions based on `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view on your data, which does not necessarily exactly reflect the characteristics of your sample. It helps answer the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
+  Predictions based on `"mean_reference"` and `"mean_mode"` represent a rather "theoretical" view on your data, which does not necessarily exactly reflect the characteristics of your sample. It helps answer the question, "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
 
 - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant. Thus, non-focal categorical terms are conditioned on "weighted averages" of their levels. There are different weighting options that can be chosen with the `weights` argument.
 
-  `"marginalmeans"` comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. It would answer thr question, "What is the predicted value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
+  `"marginalmeans"` comes closer to the sample, because it takes all possible values and levels of your non-focal predictors into account. It would answer thr question, "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
 
 - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. In particular, averaging is applied to _counterfactual predictions_ (Dickerman and Hernan 2020). There is a more detailed description in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
-  `"empirical"`is probably the most "realistic" approach, insofar as the results can also be transferred to other contexts. It answers the question, "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population. This is where "counterfactual" refers to.
+  `"empirical"`is probably the most "realistic" approach, insofar as the results can also be transferred to other contexts. It answers the question, "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population. This is where "counterfactual" refers to.
 
 You can set a default-option for the `margin` argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`, so you don't have to specify your "default" marginalization method each time you call `predict_response()`. Use `options(ggeffects_margin = NULL)` to remove that setting.
 
@@ -212,7 +212,7 @@ fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
 # select only levels 30, 50 and 70 from continuous variable Barthel-Index
 mydf <- predict_response(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
 
-ggplot(mydf, aes(x, predicted, colour = group)) + 
+ggplot(mydf, aes(x, predicted, colour = group)) +
   geom_line() +
   facet_wrap(~facet)
 ```

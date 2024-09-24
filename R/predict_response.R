@@ -265,12 +265,12 @@
 #'   variables) or mode (factors, or "most common" value in case of character
 #'   vectors).
 #'
-#'   These predictons represent a rather "theoretical" view on your data,
-#'   which does not necessarily exactly reflect the characteristics of your
-#'   sample. It helps answer the question, "What is the predicted value of the
-#'   response at meaningful values or levels of my focal terms for a 'typical'
-#'   observation in my data?", where 'typical' refers to certain characteristics
-#'   of the remaining predictors.
+#'   These predictons represent a rather "theoretical" view on your data, which
+#'   does not necessarily exactly reflect the characteristics of your sample. It
+#'   helps answer the question, "What is the predicted (or: expected) value of
+#'   the response at meaningful values or levels of my focal terms for a
+#'   'typical' observation in my data?", where 'typical' refers to certain
+#'   characteristics of the remaining predictors.
 #'
 #' - `"marginalmeans"`: non-focal predictors are set to their mean (numeric
 #'   variables) or averaged over the levels or "values" for factors and
@@ -282,10 +282,10 @@
 #'
 #'   These predictions come closer to the sample, because all possible values
 #'   and levels of the non-focal predictors are taken into account. It would
-#'   answer the question, "What is the predicted value of the response at
-#'   meaningful values or levels of my focal terms for an 'average' observation
-#'   in my data?". It refers to randomly picking a subject of your sample and
-#'   the result you get on average.
+#'   answer the question, "What is the predicted (or: expected) value of the
+#'   response at meaningful values or levels of my focal terms for an 'average'
+#'   observation in my data?". It refers to randomly picking a subject of your
+#'   sample and the result you get on average.
 #'
 #' - `"empirical"` (or `"counterfactual"`): non-focal predictors are averaged
 #'   over the observations in the sample. The response is predicted for each
@@ -295,13 +295,13 @@
 #'   There is a more detailed description in
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
-#'   Counterfactual predictions are useful, insofar as the results can also
-#'   be transferred to other contexts. It answers the question, "What is the
-#'   predicted value of the response at meaningful values or levels of my focal
-#'   terms for the 'average' observation in the population?". It does not only
-#'   refer to the actual data in your sample, but also "what would be if" we had
-#'   more data, or if we had data from a different population. This is where
-#'   "counterfactual" refers to.
+#'   Counterfactual predictions are useful, insofar as the results can also be
+#'   transferred to other contexts. It answers the question, "What is the
+#'   predicted (or: expected) value of the response at meaningful values or
+#'   levels of my focal terms for the 'average' observation in the population?".
+#'   It does not only refer to the actual data in your sample, but also "what
+#'   would be if" we had more data, or if we had data from a different
+#'   population. This is where "counterfactual" refers to.
 #'
 #' You can set a default-option for the `margin` argument via `options()`, e.g.
 #' `options(ggeffects_margin = "empirical")`, so you don't have to specify your

@@ -49,7 +49,7 @@ Lüdecke D (2018). _ggeffects: Tidy Data Frames of Marginal Effects from Regress
 
 ## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
-After fitting a model, it is useful generate model-based estimates (expected values, or _adjusted predictions_) of the response variable for different combinations of predictor values. Such estimates can be used to make inferences about relationships between variables.
+After fitting a model, it is useful generate model-based estimates (expected values, or _adjusted predictions_) of the response variable for different combinations of predictor values. Such estimates can be used to make inferences about relationships between variables - adjusted predictions tell you: what is the expected ouctome for certain values or levels of my predictors?
 
 _Adjusted predictions_ or _marginal means_ are often easier to understand than raw regression coefficients. In particular, their visualization allows to intuitively get the idea of how predictors and outcome are associated, even for complex models.
 
@@ -115,15 +115,15 @@ The `margin` argument in `predict_response()` indicates how to marginalize over 
 
 - `"mean_reference"` and `"mean_mode"`: `"mean_reference"` calls `ggpredict()`, i.e. non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. `"mean_mode"` calls `ggpredict(typical = c(numeric = "mean", factor = "mode"))`, i.e. non-focal predictors are set to their mean (numeric variables) or mode (factors, or "most common" value in case of character vectors).
 
-  Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
+  Question answered: "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for a 'typical' observation in my data?", where 'typical' refers to certain characteristics of the remaining predictors.
 
 - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are set to their mean (numeric variables) or marginalized over the levels or "values" for factors and character vectors. Marginalizing over the factor levels of non-focal terms computes a kind of "weighted average" for the values at which these terms are hold constant. There are different weighting options that can be chosen with the `weights` argument.
 
-  Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
+  Question answered: "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for an 'average' observation in my data?". It refers to randomly picking a subject of your sample and the result you get on average.
 
 - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`, i.e. non-focal predictors are marginalized over the observations in your sample. The response is predicted for each subject in the data and predicted values are then averaged across all subjects, aggregated/grouped by the focal terms. Averaging is applied to "counterfactual" predictions [@dickerman_counterfactual_2020]. There is a more detailed description in [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
-  Question answered: "What is the predicted value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population.
+  Question answered: "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population.
 
 **And what about marginal effects?** Marginal effects refer to the difference between two adjacent predictions. They are not the same as marginal means or adjusted predictions. However, calculating contrasts or pairwise comparisons with `test_predictions()` can be used to test for differences in predictions (aka marginal effects).
 

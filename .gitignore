@@ -44,3 +44,5 @@ inst/doc
 revdep
 vignettes/*.html
 Rplots.pdf
+
+/.quarto/
