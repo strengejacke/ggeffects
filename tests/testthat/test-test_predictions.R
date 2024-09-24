@@ -93,6 +93,11 @@ test_that("test_predictions, categorical, NULL", {
     out$groups,
     structure(c(1L, 2L, 1L, 2L, 1L, 2L), levels = c("control", "treatment"), class = "factor")
   )
+  out <- test_predictions(model1, c("groups", "episode"), test = "slope")
+  expect_equal(out$Predicted, c(0.028, -0.3903, 0.2316, 0.1763, -0.0428, -0.0931),
+    tolerance = 1e-3,
+    ignore_attr = FALSE
+  )
 })
 
 

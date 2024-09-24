@@ -11,6 +11,9 @@
 #' @param test Hypothesis to test, defined as character string. Can be one of:
 #'
 #'   - `"pairwise"` (default), to test pairwise comparisons.
+#'   - `"trend"` (or `"slope"`) to test for the linear trend/slope of (usually)
+#'     continuous predictors. These options are just aliases for setting
+#'     `trend = NULL`.
 #'   - `"contrast"` to test simple contrasts (i.e. each level is tested against
 #'     the average over _all_ levels).
 #'   - `"exclude"` to test simple contrasts (i.e. each level is tested against
@@ -171,6 +174,7 @@
 #' `test` is...
 #'   - `"pairwise"` (default), pairwise comparisons are based on the **marginaleffects**
 #'     package.
+#'   - `"trend"` or `"slope"` also uses the **marginaleffects** package.
 #'   - `"contrast"` uses the **emmeans** package, i.e. `emmeans::contrast(method = "eff")`
 #'     is called.
 #'   - `"exclude"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "del.eff")`
@@ -374,6 +378,11 @@ test_predictions.default <- function(object,
     marginalmeans = "marginalmeans",
     "empirical"
   )
+
+  # handle alias - "slope" or "trend" are aliases for simply setting it to NULL
+  if (!is.null(test) && test %in% c("trend", "slope")) {
+    test <- NULL
+  }
 
   # check for installed packages ----------------------------------------------
   # check if we have the appropriate package version installed
@@ -658,10 +667,8 @@ test_predictions.default <- function(object,
 
   # if *first* focal predictor is numeric, compute average slopes
   if (isTRUE(focal_numeric[1])) {
-
     # just the "trend" (slope) of one focal predictor
     if (length(focal) == 1) {
-
       # contrasts of slopes ---------------------------------------------------
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
@@ -681,9 +688,7 @@ test_predictions.default <- function(object,
       # "extracting" labels for this simple case is easy...
       out <- data.frame(x_ = "slope", stringsAsFactors = FALSE)
       colnames(out) <- focal
-
     } else {
-
       # pairwise comparison of slopes -----------------------------------------
       # here comes the code to test wether slopes between groups are
       # significantly different from each other (pairwise comparison)
@@ -710,7 +715,6 @@ test_predictions.default <- function(object,
 
       # for pairwise comparisons, we need to extract contrasts
       if (!is.null(test) && all(test == "pairwise")) {
-
         # pairwise comparisons of slopes --------------------------------------
         # here comes the code to extract labels for pairwise comparison of slopes
         # ---------------------------------------------------------------------
@@ -745,7 +749,6 @@ test_predictions.default <- function(object,
             stringsAsFactors = FALSE
           )
         } else {
-
           out <- data.frame(
             x_ = "slope",
             x__ = gsub(" ", "", .comparisons$term, fixed = TRUE),
@@ -753,9 +756,7 @@ test_predictions.default <- function(object,
           )
         }
         colnames(out) <- focal
-
       } else if (is.null(test)) {
-
         # contrasts of slopes -------------------------------------------------
         # here comes the code to extract labels for trends of slopes
         # ---------------------------------------------------------------------
@@ -768,9 +769,7 @@ test_predictions.default <- function(object,
         )
         out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
         colnames(out) <- focal
-
       } else {
-
         # hypothesis testing of slopes ----------------------------------------
         # here comes the code to extract labels for special hypothesis tests
         # ---------------------------------------------------------------------
@@ -805,9 +804,7 @@ test_predictions.default <- function(object,
       }
     }
     estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
-
   } else {
-
     # testing groups (factors) ------------------------------------------------
     # Here comes the code for pairwise comparisons of categorical focal terms
     # -------------------------------------------------------------------------
@@ -868,7 +865,6 @@ test_predictions.default <- function(object,
     # pairwise comparisons - we now extract the group levels from the "term"
     # column and create separate columns for contrats of focal predictors
     if (!is.null(test) && all(test == "pairwise")) {
-
       ## pairwise comparisons of group levels -----
 
       # for "predictions()", term name is "Row 1 - Row 2" etc. For
@@ -939,9 +935,7 @@ test_predictions.default <- function(object,
             paste(.contrasts, collapse = "-")
           }))
         }), stringsAsFactors = FALSE)
-
       } else {
-
         # only for temporary use, for colnames, see below
         updated_focal <- focal
         # check whether we have row numbers, or (e.g., for polr or ordinal models)
@@ -965,22 +959,17 @@ test_predictions.default <- function(object,
             }))
           }), stringsAsFactors = FALSE)
         }
-
       }
       # the final result is a data frame with one column per focal predictor,
       # and the pairwise combinations of factor levels are the values
       colnames(out) <- updated_focal
-
     } else if (is.null(test)) {
-
       ## contrasts of group levels -----
 
       # we have simple contrasts - we can just copy from the data frame
       # returned by "marginaleffects" to get nice labels
       out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
-
     } else {
-
       ## hypothesis testing of group levels -----
 
       # if we have specific comparisons of estimates, like "b1 = b2", we
@@ -1443,7 +1432,6 @@ test_predictions.ggeffects <- function(object,
 
   # only proceed if valid argument-value
   if (tolower(p_adjust) %in% all_methods) {
-
     if (tolower(p_adjust) %in% tolower(stats::p.adjust.methods)) {
       # base R adjustments
       params$p.value <- stats::p.adjust(params$p.value, method = p_adjust)

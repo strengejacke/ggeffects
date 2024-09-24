@@ -81,6 +81,9 @@ categorical predictors.}
 \item{test}{Hypothesis to test, defined as character string. Can be one of:
 \itemize{
 \item \code{"pairwise"} (default), to test pairwise comparisons.
+\item \code{"trend"} (or \code{"slope"}) to test for the linear trend/slope of (usually)
+continuous predictors. These options are just aliases for setting
+\code{trend = NULL}.
 \item \code{"contrast"} to test simple contrasts (i.e. each level is tested against
 the average over \emph{all} levels).
 \item \code{"exclude"} to test simple contrasts (i.e. each level is tested against
@@ -230,6 +233,7 @@ Here are some technical details about the packages used as back-end. When
 \itemize{
 \item \code{"pairwise"} (default), pairwise comparisons are based on the \strong{marginaleffects}
 package.
+\item \code{"trend"} or \code{"slope"} also uses the \strong{marginaleffects} package.
 \item \code{"contrast"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "eff")}
 is called.
 \item \code{"exclude"} relies on the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "del.eff")}
