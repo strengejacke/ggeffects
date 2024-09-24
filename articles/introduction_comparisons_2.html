@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -242,12 +242,14 @@ numeric and categorical variable.</p>
 within each group of <code>Species</code>.</p>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>Since we don’t want to do pairwise comparisons, we set
-<code>test = NULL</code>. In this case, when interaction terms are
-included, the linear trend (<em>slope</em>) for our numeric focal
-predictor, <code>Sepal.Length</code>, is tested for each level of
+<code>test = "slope"</code> (or <code>test = "trend"</code>). In this
+case, when interaction terms are included, the linear trend
+(<em>slope</em>) for our numeric focal predictor,
+<code>Sepal.Length</code>, is tested for each level of
 <code>Species</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># test = "slope" is just an alias for test = NULL</span></span>
+<span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"slope"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Slope |     95% CI |      p</span></span>
@@ -362,9 +364,9 @@ and -1 SD) work in the same way as if <code>Petal.Width</code> was a
 categorical predictor with three levels.</p>
 <p>First, we want to see at which value of <code>Petal.Width</code> the
 slopes of <code>Petal.Length</code> are significant. We do no pairwise
-comparison here, hence we set <code>test = NULL</code>.</p>
+comparison here, hence we set <code>test = "slope"</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="st">"slope"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Petal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Petal.Width | Slope |       95% CI |      p</span></span>
