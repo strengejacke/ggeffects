@@ -15,7 +15,9 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 After fitting a model, it is useful generate model-based estimates
 (expected values, or *adjusted predictions*) of the response variable
 for different combinations of predictor values. Such estimates can be
-used to make inferences about relationships between variables.
+used to make inferences about relationships between variables - adjusted
+predictions tell you: what is the expected ouctome for certain values or
+levels of my predictors?
 
 *Adjusted predictions* or *marginal means* are often easier to
 understand than raw regression coefficients. In particular, their
@@ -143,9 +145,9 @@ questions. Possible values are:
   i.e. non-focal predictors are set to their mean (numeric variables) or
   mode (factors, or “most common” value in case of character vectors).
 
-  Question answered: “What is the predicted value of the response at
-  meaningful values or levels of my focal terms for a ‘typical’
-  observation in my data?”, where ‘typical’ refers to certain
+  Question answered: “What is the predicted (or: expected) value of the
+  response at meaningful values or levels of my focal terms for a
+  ‘typical’ observation in my data?”, where ‘typical’ refers to certain
   characteristics of the remaining predictors.
 
 - `"marginalmeans"`: calls `ggemmeans()`, i.e. non-focal predictors are
@@ -156,10 +158,10 @@ questions. Possible values are:
   different weighting options that can be chosen with the `weights`
   argument.
 
-  Question answered: “What is the predicted value of the response at
-  meaningful values or levels of my focal terms for an ‘average’
-  observation in my data?”. It refers to randomly picking a subject of
-  your sample and the result you get on average.
+  Question answered: “What is the predicted (or: expected) value of the
+  response at meaningful values or levels of my focal terms for an
+  ‘average’ observation in my data?”. It refers to randomly picking a
+  subject of your sample and the result you get on average.
 
 - `"empirical"` (or `"counterfactual"`): calls `ggaverage()`,
   i.e. non-focal predictors are marginalized over the observations in
@@ -170,11 +172,11 @@ questions. Possible values are:
   more detailed description in [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
-  Question answered: “What is the predicted value of the response at
-  meaningful values or levels of my focal terms for the ‘average’
-  observation in the population?”. It does not only refer to the actual
-  data in your sample, but also “what would be if” we had more data, or
-  if we had data from a different population.
+  Question answered: “What is the predicted (or: expected) value of the
+  response at meaningful values or levels of my focal terms for the
+  ‘average’ observation in the population?”. It does not only refer to
+  the actual data in your sample, but also “what would be if” we had
+  more data, or if we had data from a different population.
 
 **And what about marginal effects?** Marginal effects refer to the
 difference between two adjacent predictions. They are not the same as
