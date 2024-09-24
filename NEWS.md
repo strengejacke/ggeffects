@@ -9,6 +9,11 @@
 * Pooling functions now use the model's degrees of freedom to calculate the
   critical values for the confidence intervals.
 
+## Changes
+
+* `test = "slope"` (or `test = "trend"`) are aliases in `test_predictions()` for
+  `test = NULL` with numeric predictors.
+
 # ggeffects 1.7.1
 
 ## General

@@ -172,10 +172,11 @@ p + geom_segment(
 ggtitle("Linear trend of `Sepal.Length` by `Species`")
 ```
 
-Since we don't want to do pairwise comparisons, we set `test = NULL`. In this case, when interaction terms are included, the linear trend (_slope_) for our numeric focal predictor, `Sepal.Length`, is tested for each level of `Species`.
+Since we don't want to do pairwise comparisons, we set `test = "slope"` (or `test = "trend"`). In this case, when interaction terms are included, the linear trend (_slope_) for our numeric focal predictor, `Sepal.Length`, is tested for each level of `Species`.
 
 ```{r}
-test_predictions(m, c("Sepal.Length", "Species"), test = NULL)
+# test = "slope" is just an alias for test = NULL
+test_predictions(m, c("Sepal.Length", "Species"), test = "slope")
 ```
 
 As we can see, each of the three slopes is significant, i.e. we have "significant" linear trends.
@@ -313,10 +314,10 @@ plot(pred)
 
 For `test_predictions()`, these three values (mean, +1 SD and -1 SD) work in the same way as if `Petal.Width` was a categorical predictor with three levels.
 
-First, we want to see at which value of `Petal.Width` the slopes of `Petal.Length` are significant. We do no pairwise comparison here, hence we set `test = NULL`.
+First, we want to see at which value of `Petal.Width` the slopes of `Petal.Length` are significant. We do no pairwise comparison here, hence we set `test = "slope"`.
 
 ```{r}
-test_predictions(pred, test = NULL)
+test_predictions(pred, test = "slope")
 # same as:
 # test_predictions(m, c("Petal.Length", "Petal.Width"), test = NULL)
 ```

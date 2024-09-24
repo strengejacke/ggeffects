@@ -20,10 +20,10 @@
   }
 
   # check test-argument
-  if (is.null(test)) {
-    test <- "contrasts"
+  if (is.null(test) || test %in% c("trend", "slope")) {
+    test <- "contrast"
   }
-  test <- match.arg(test, c("contrasts", "pairwise", "interaction"))
+  test <- match.arg(test, c("contrast", "pairwise", "interaction"))
 
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names
@@ -139,9 +139,8 @@
   by <- .validate_by_argument(by, predictions)
 
   # compute contrasts or comparisons
-  out <- switch(
-    test,
-    contrasts = .compute_contrasts(predictions, df),
+  out <- switch(test,
+    contrast = .compute_contrasts(predictions, df),
     pairwise = .compute_comparisons(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor),
     interaction = .compute_interactions(predictions, df, vcov_matrix, at_list, focal_terms, crit_factor)
   )
