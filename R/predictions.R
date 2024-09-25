@@ -181,7 +181,13 @@ select_prediction_method <- function(model_class,
   # for poisson model, we need to compute prediction intervals in a different way
   info <- insight::model_info(model)
   if (info$is_poisson && (!is.null(interval) && interval == "prediction")) {
-    pred_int <- .prediction_interval_glm(model, .predicted, info, ci.lvl)
+    pred_int <- .prediction_interval_glm(
+      model,
+      predictions = .predicted,
+      info = info,
+      ci = ci.lvl,
+      linkinv = linv
+    )
     data_grid$conf.low <- pred_int$CI_low
     data_grid$conf.high <- pred_int$CI_high
   } else {
@@ -234,9 +240,11 @@ select_prediction_method <- function(model_class,
 }
 
 
-.prediction_interval_glm <- function(x, predictions, info, ci = 0.95, ...) {
+.prediction_interval_glm <- function(x, predictions, info, ci = 0.95, linkinv = NULL, ...) {
   linkfun <- insight::link_function(x)
-  linkinv <- insight::link_inverse(x)
+  if (is.null(linkinv)) {
+    linkinv <- insight::link_inverse(x)
+  }
   alpha <- 1 - ci
   prob <- c(alpha / 2, 1 - alpha / 2)
 
