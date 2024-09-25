@@ -266,7 +266,7 @@
   }
   # extract residual variance, if not provided
   if (is.null(residual_variance)) {
-    residual_variance <- .get_residual_variance(model)
+    residual_variance <- .get_residual_variance(model) # returns sigma^2
   }
   # we need residual variance
   if (is.null(residual_variance)) {
