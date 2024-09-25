@@ -257,6 +257,8 @@
 }
 
 
+# apply bias-correction for back-transformation of predictions on the link-scale
+# we want sigma^2 (residual_variance) here to calculate the correction
 .bias_correction <- function(model = NULL, residual_variance = NULL) {
   # we need a model object
   if (is.null(model)) {
