@@ -241,3 +241,33 @@
 
   mydf
 }
+
+
+.bias_correction <- function(model = NULL, residual_variance = NULL) {
+  # we need a model object
+  if (is.null(model)) {
+    return(NULL)
+  }
+  # extract residual variance, if not provided
+  if (is.null(residual_variance)) {
+    residual_variance <- .get_residual_variance(model)
+  }
+
+  # extract current link function
+  link <- .safe(insight::get_family(model))
+
+  link$inv <- link$linkinv
+  link$der <- link$mu.eta
+  link$residual_variance <- residual_variance / 2
+
+  link$der2 <- function(eta) {
+    with(link, 1000 * (der(eta + 5e-4) - der(eta - 5e-4)))
+  }
+  link$linkinv <- function(eta) {
+    with(link, inv(eta) + residual_variance * der2(eta))
+  }
+  link$mu.eta <- function(eta) {
+    with(link, der(eta) + 1000 * residual_variance * (der2(eta + 5e-4) - der2(eta - 5e-4)))
+  }
+  link
+}
