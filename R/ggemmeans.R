@@ -17,11 +17,17 @@ ggemmeans <- function(model,
                       back.transform = back_transform,
                       ...) {
   insight::check_if_installed("emmeans")
+  additional_dot_args <- list(...)
 
   # check arguments
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
+
+  # check if sigma is provided when `bias_correction = TRUE`
+  if (isTRUE(bias_correction) && is.null(additional_dot_args$sigma) && verbose) {
+    insight::format_alert("If `bias_correction = TRUE`, argument `sigma` must also be provided.")
+  }
 
   ## TODO: remove deprecated later
 
@@ -104,7 +110,6 @@ ggemmeans <- function(model,
     # -----------------------------------------------------------
 
     preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, bias_correction = bias_correction, ...)
-    additional_dot_args <- list(...)
 
     if ("nsim" %in% names(additional_dot_args)) {
       nsim <- eval(additional_dot_args[["nsim"]])
