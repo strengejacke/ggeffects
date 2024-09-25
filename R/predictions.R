@@ -40,7 +40,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "glmmTMB") {
-    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, verbose = verbose, ...) # nolint
+    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, bias_correction = bias_correction, verbose = verbose, ...) # nolint
   } else if (model_class == "sdmTMB") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci.lvl, linv, type, ...)
   } else if (model_class == "glmgee") {
@@ -48,7 +48,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci.lvl, linv, type, terms, condition, ...)
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
-    prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, bias_correction = bias_correction, ...) # nolint
   } else if (model_class == "geeglm") {
     prediction_data <- get_predictions_geeglm(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
@@ -114,7 +114,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "lm") {
     prediction_data <- get_predictions_lm(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) # nolint
   } else if (model_class == "MixMod") {
-    prediction_data <- get_predictions_MixMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) # nolint
+    prediction_data <- get_predictions_MixMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, bias_correction = bias_correction, ...) # nolint
   } else if (model_class == "MCMCglmm") {
     prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, terms, value_adjustment, condition, ...) # nolint
   } else {

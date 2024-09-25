@@ -7,6 +7,7 @@ get_predictions_glmmTMB <- function(model,
                                     value_adjustment,
                                     condition,
                                     interval = NULL,
+                                    bias_correction = FALSE,
                                     verbose = TRUE,
                                     ...) {
   # does user want standard errors?
@@ -73,6 +74,16 @@ get_predictions_glmmTMB <- function(model,
       allow.new.levels = TRUE,
       ...
     ))
+
+    # link function, for later use
+    lf <- insight::link_function(model)
+
+    # if we have bias-correction, we must also adjust the predictions
+    # this has not been done before, since we return predictions on
+    # the response scale directly, without any adjustment
+    if (isTRUE(bias_correction)) {
+      prdat <- linv(lf(prdat))
+    }
 
     if (se) {
 
@@ -141,7 +152,6 @@ get_predictions_glmmTMB <- function(model,
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           if (!is.null(revar)) {
-            lf <- insight::link_function(model)
             predicted_data$conf.low <- exp(lf(predicted_data$conf.low) - tcrit * sqrt(revar))
             predicted_data$conf.high <- exp(lf(predicted_data$conf.high) + tcrit * sqrt(revar))
             predicted_data$std.error <- sqrt(predicted_data$std.error^2 + revar)
