@@ -246,6 +246,10 @@
 # internal to return possibly bias correct link-function
 .link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL, ...) {
   if (bias_correction) {
+    dots <- list(...)
+    if (!is.null(dots$sigma) && !is.na(sigma)) {
+      residual_variance <- dots$sigma^2
+    }
     l <- .bias_correction(model, residual_variance)$linkinv
     if (is.null(l)) {
       l <- insight::link_inverse(model)

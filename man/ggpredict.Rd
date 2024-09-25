@@ -332,10 +332,14 @@ If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rst
 
 \item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction in
 back-transforming the predicted values for non-Gaussian models. This requires
-a valid value of sigma to exist, which is extracted by default when \code{ggpredict()}
-is called or \code{margin = "mean_reference"} (the default). If \code{ggemmeans()} is
-called or \code{margin = "marginalmeans"}, an additional argument \code{sigma} must be
-specified if it cannot be extracted from the model.}
+a valid value of sigma to exist, which is extracted by default (using
+\code{\link[insight:get_sigma]{insight::get_sigma()}}) when \code{ggpredict()} is called or \code{margin = "mean_reference"} (the default). If \code{ggemmeans()} is called or \code{margin = "marginalmeans"}, an additional argument \code{sigma} must be specified to apply
+bias-correction. For \code{ggpredict()} (or \code{margin = "mean_reference"}), it is
+also possible to define own values for \code{sigma}. This can be particular
+helpful for mixed models, where extracting the random effects variances
+(e.g., using the \code{sqrt()} of \code{\link[insight:get_variance]{insight::get_variance_residual()}}) is
+probably a more accurate value for \code{sigma} then the default value extracted
+by \code{\link[insight:get_sigma]{insight::get_sigma()}}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
