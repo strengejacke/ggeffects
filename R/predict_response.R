@@ -177,15 +177,23 @@
 #' @param bias_correction Logical, if `TRUE`, adjusts for bias-correction in
 #' back-transforming the predicted values for non-Gaussian models. This requires
 #' a valid value of sigma to exist, which is extracted by default (using
-#' [`insight::get_sigma()`]) when `ggpredict()` is called or `margin =
-#' "mean_reference"` (the default). If `ggemmeans()` is called or `margin =
-#' "marginalmeans"`, an additional argument `sigma` must be specified to apply
-#' bias-correction. For `ggpredict()` (or `margin = "mean_reference"`), it is
-#' also possible to define own values for `sigma`. This can be particular
+#' [`insight::get_sigma()`]) when `ggpredict()` is called or
+#' `margin = "mean_reference"` (the default). If `ggemmeans()` is called or
+#' `margin = "marginalmeans"`, an additional argument `sigma` must be specified
+#' to apply bias-correction. `ggaverage()` and `ggeffects()` currently do not
+#' support bias correction. For `ggpredict()` (or `margin = "mean_reference"`),
+#' it is also possible to define own values for `sigma`. This can be particular
 #' helpful for mixed models, where extracting the random effects variances
-#' (e.g., using the `sqrt()` of [`insight::get_variance_residual()`]) is
-#' probably a more accurate value for `sigma` then the default value extracted
-#' by [`insight::get_sigma()`].
+#' (e.g., using the `sqrt()` of [`insight::get_variance_residual()`] for `sigma`)
+#' is probably a more accurate value for `sigma` then the default value extracted
+#' by [`insight::get_sigma()`]. The here discussed bias occurs when predictions
+#' from non-Gaussian models (e.g. logistic regression) are back-transformed to
+#' their response scale (in the case of logistic regression, back-transformed
+#' to predicted probabilites), which relates to _Jensen's inequality_: the
+#' transformation of an averaged prediction is not identical to the average
+#' of transformed predictions. If the goal is not to compare adjusted
+#' predictions, but rather to get accurate estimates of the adjusted
+#' predictions, using bias-correction is recommended.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
