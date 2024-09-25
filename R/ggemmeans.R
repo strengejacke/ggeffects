@@ -245,6 +245,7 @@ ggemmeans <- function(model,
     response.transform = response.transform,
     margin = "marginalmeans",
     vcov.args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
+    bias_correction = bias_correction,
     verbose = verbose
   )
 }
