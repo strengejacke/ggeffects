@@ -16,7 +16,7 @@ select_prediction_method <- function(model_class,
                                      verbose = TRUE,
                                      ...) {
   # get link-inverse-function
-  linv <- .link_inverse(model, bias_correction = bias_correction)
+  linv <- .link_inverse(model, bias_correction = bias_correction, ...)
   if (is.null(linv)) linv <- function(x) x
 
   if (model_class == "svyglm") { # nolint

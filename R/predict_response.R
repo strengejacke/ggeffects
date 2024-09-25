@@ -174,6 +174,12 @@
 #' log-, log-log, exp, sqrt and similar transformed responses will be
 #' back-transformed to original response-scale. See
 #' [`insight::find_transformation()`] for more details.
+#' @param bias_correction Logical, if `TRUE`, adjusts for bias-correction in
+#' back-transforming the predicted values for non-Gaussian models. This requires
+#' a valid value of sigma to exist, which is extracted by default when `ggpredict()`
+#' is called or `margin = "mean_reference"` (the default). If `ggemmeans()` is
+#' called or `margin = "marginalmeans"`, an additional argument `sigma` must be
+#' specified if it cannot be extracted from the model.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -688,6 +694,7 @@ predict_response <- function(model,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     ),

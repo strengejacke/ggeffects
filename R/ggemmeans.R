@@ -11,6 +11,7 @@ ggemmeans <- function(model,
                       vcov_type = NULL,
                       vcov_args = NULL,
                       interval = "confidence",
+                      bias_correction = FALSE,
                       verbose = TRUE,
                       ci.lvl = ci_level,
                       back.transform = back_transform,
@@ -102,7 +103,7 @@ ggemmeans <- function(model,
     # point estimates are not simulated                ----------
     # -----------------------------------------------------------
 
-    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
+    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, bias_correction = bias_correction, ...)
     additional_dot_args <- list(...)
 
     if ("nsim" %in% names(additional_dot_args)) {
@@ -133,7 +134,7 @@ ggemmeans <- function(model,
     # .emmeans_mixed_zi() returns a list with two items, the first one is the
     # emmeans object for the conditional component, the second one is the
     # zero-inflated part
-    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ci.lvl, ...)
+    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ci.lvl, bias_correction = bias_correction, ...)
     prediction_data <- data.frame(
       predicted = stats::plogis(preds$x2$emmean),
       std.error = preds$x2$SE,
@@ -167,6 +168,7 @@ ggemmeans <- function(model,
       model_info,
       interval = interval,
       vcov_info = vcov_info,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     )

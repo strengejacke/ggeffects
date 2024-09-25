@@ -1,8 +1,8 @@
-.emmeans_mixed_zi <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
+.emmeans_mixed_zi <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, bias_correction = FALSE, ...) {
   if (inherits(model, "glmmTMB")) {
-    .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ci.lvl, ...)
+    .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ci.lvl, bias_correction, ...)
   } else {
-    .ggemmeans_MixMod(model, data_grid, cleaned_terms, ci.lvl, ...)
+    .ggemmeans_MixMod(model, data_grid, cleaned_terms, ci.lvl, bias_correction, ...)
   }
 }
 
@@ -17,6 +17,7 @@
                                      interval = NULL,
                                      model_data = NULL,
                                      vcov_info = NULL,
+                                     bias_correction = FALSE,
                                      verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
@@ -27,7 +28,8 @@
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
     .ggemmeans_predict_ordinal(
       model, data_grid, cleaned_terms, ci.lvl, type,
-      interval = interval, model_data = model_data, ...
+      interval = interval, model_data = model_data,
+      bias_correction = bias_correction, ...
     )
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
@@ -38,13 +40,13 @@
     .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
       interval = interval, model_data = model_data, vcov_info = vcov_info,
-      verbose = verbose, ...
+      verbose = verbose, bias_correction = bias_correction, ...
     )
   }
 }
 
 
-.ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
+.ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, bias_correction = FALSE, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for MixMod-models")
 
   x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
@@ -52,6 +54,7 @@
     specs = cleaned_terms,
     at = data_grid,
     level = ci.lvl,
+    bias.adjust = bias_correction,
     ...
   )))
 
@@ -61,6 +64,7 @@
     at = data_grid,
     mode = "zero_part",
     level = ci.lvl,
+    bias.adjust = bias_correction,
     ...
   )))
 
@@ -68,7 +72,7 @@
 }
 
 
-.ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
+.ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, bias_correction = FALSE, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for glmmTMB-models")
   # all model variables
   vars <- insight::find_variables(model)
@@ -83,6 +87,7 @@
     at = data_grid[cleaned_terms_cond],
     component = "cond",
     level = ci.lvl,
+    bias.adjust = bias_correction,
     ...
   )))
 
@@ -92,6 +97,7 @@
     at = data_grid[cleaned_terms_zi],
     component = "zi",
     level = ci.lvl,
+    bias.adjust = bias_correction,
     ...
   )))
 
@@ -106,12 +112,14 @@
                                        type,
                                        interval = NULL,
                                        model_data = NULL,
+                                       bias_correction = FALSE,
                                        ...) {
   tmp <- suppressMessages(emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
     mode = "prob",
+    bias.adjust = bias_correction,
     ...
   ))
 
@@ -150,6 +158,7 @@
                                        interval = NULL,
                                        model_data = NULL,
                                        vcov_info = NULL,
+                                       bias_correction = FALSE,
                                        verbose = TRUE,
                                        ...) {
   # setup arguments
@@ -157,7 +166,8 @@
     model,
     specs = cleaned_terms,
     at = data_grid,
-    mode = pmode
+    mode = pmode,
+    bias.adjust = bias_correction
   )
   # add vcov-information if available
   if (!is.null(vcov_info)) {

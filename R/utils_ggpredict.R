@@ -244,7 +244,7 @@
 
 
 # internal to return possibly bias correct link-function
-.link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL) {
+.link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL, ...) {
   if (bias_correction) {
     l <- .bias_correction(model, residual_variance)$linkinv
     if (is.null(l)) {

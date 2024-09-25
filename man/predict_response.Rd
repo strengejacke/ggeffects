@@ -237,6 +237,13 @@ For Bayesian models, when \code{interval = "confidence"}, predictions are based 
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
+\item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction in
+back-transforming the predicted values for non-Gaussian models. This requires
+a valid value of sigma to exist, which is extracted by default when \code{ggpredict()}
+is called or \code{margin = "mean_reference"} (the default). If \code{ggemmeans()} is
+called or \code{margin = "marginalmeans"}, an additional argument \code{sigma} must be
+specified if it cannot be extracted from the model.}
+
 \item{verbose}{Toggle messages or warnings.}
 
 \item{...}{If \code{margin} is set to \code{"mean_reference"} or \code{"mean_mode"}, arguments
