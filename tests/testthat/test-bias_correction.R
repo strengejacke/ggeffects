@@ -23,6 +23,12 @@ test_that("ggpredict, bias_correction", {
     predict_response(model, c("treatment", "time"), margin = "marginalmeans", bias_correction = TRUE),
     regex = "bias_correction = TRUE"
   )
+
+  out4 <- predict_response(model, c("treatment", "time"), bias_correction = TRUE, interval = "prediction")
+  out5 <- predict_response(model, c("treatment", "time"), interval = "prediction")
+  expect_equal(out1$predicted, out4$predicted, tolerance = 1e-3)
+  expect_equal(out4$conf.low, c(0.14164, 0.07946, 0.30262, 0.05329, 0.21638, 0.14164), tolerance = 1e-3)
+  expect_equal(out5$conf.low, c(0.10461, 0.05599, 0.25616, 0.03685, 0.16983, 0.10461), tolerance = 1e-3)
 })
 
 skip_if_not_installed("lme4")
