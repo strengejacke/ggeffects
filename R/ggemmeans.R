@@ -191,7 +191,7 @@ ggemmeans <- function(model,
   }
 
   # apply link inverse function
-  linv <- insight::link_inverse(model)
+  linv <- .link_inverse(model, bias_correction = bias_correction)
   if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "zero_inflated"))) { # nolint
     prediction_data$predicted <- linv(prediction_data$predicted)
     prediction_data$conf.low <- linv(prediction_data$conf.low)

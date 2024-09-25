@@ -12,10 +12,11 @@ select_prediction_method <- function(model_class,
                                      vcov.args,
                                      condition,
                                      interval,
+                                     bias_correction = FALSE,
                                      verbose = TRUE,
                                      ...) {
   # get link-inverse-function
-  linv <- insight::link_inverse(model)
+  linv <- .link_inverse(model, bias_correction = bias_correction)
   if (is.null(linv)) linv <- function(x) x
 
   if (model_class == "svyglm") { # nolint

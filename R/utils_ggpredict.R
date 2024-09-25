@@ -243,6 +243,20 @@
 }
 
 
+# internal to return possibly bias correct link-function
+.link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL) {
+  if (bias_correction) {
+    l <- .bias_correction(model, residual_variance)$linkinv
+    if (is.null(l)) {
+      l <- insight::link_inverse(model)
+    }
+  } else {
+    l <- insight::link_inverse(model)
+  }
+  l
+}
+
+
 .bias_correction <- function(model = NULL, residual_variance = NULL) {
   # we need a model object
   if (is.null(model)) {
@@ -252,9 +266,17 @@
   if (is.null(residual_variance)) {
     residual_variance <- .get_residual_variance(model)
   }
+  # we need residual variance
+  if (is.null(residual_variance)) {
+    return(NULL)
+  }
 
   # extract current link function
   link <- .safe(insight::get_family(model))
+  # we need a link function
+  if (is.null(link)) {
+    return(NULL)
+  }
 
   link$inv <- link$linkinv
   link$der <- link$mu.eta
