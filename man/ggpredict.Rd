@@ -72,6 +72,7 @@ ggpredict(
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
   vcov.args = vcov_args,
+  bias_correction = FALSE,
   ...
 )
 }

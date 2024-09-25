@@ -607,6 +607,7 @@ predict_response <- function(model,
                              vcov_args = NULL,
                              weights = NULL,
                              interval,
+                             bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
   # default for "margin" argument?
@@ -655,6 +656,7 @@ predict_response <- function(model,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     ),
@@ -670,6 +672,7 @@ predict_response <- function(model,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     ),

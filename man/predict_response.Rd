@@ -17,6 +17,7 @@ predict_response(
   vcov_args = NULL,
   weights = NULL,
   interval,
+  bias_correction = FALSE,
   verbose = TRUE,
   ...
 )

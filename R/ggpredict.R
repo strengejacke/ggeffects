@@ -75,6 +75,7 @@ ggpredict <- function(model,
                       vcov.fun = vcov_fun,
                       vcov.type = vcov_type,
                       vcov.args = vcov_args,
+                      bias_correction = FALSE,
                       ...) {
   # check arguments
   type <- .validate_type_argument(model, type)
@@ -152,6 +153,7 @@ ggpredict <- function(model,
     vcov.type = vcov_type,
     vcov.args = vcov_args,
     interval = interval,
+    bias_correction = bias_correction,
     verbose = verbose
   )
 
@@ -202,6 +204,7 @@ ggpredict_helper <- function(model,
                              vcov.type,
                              vcov.args,
                              interval,
+                             bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
 
@@ -262,6 +265,7 @@ ggpredict_helper <- function(model,
     vcov.args = vcov.args,
     condition = condition,
     interval = interval,
+    bias_correction = bias_correction,
     verbose = verbose,
     ...
   )
