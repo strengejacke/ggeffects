@@ -53,7 +53,7 @@ get_predictions_glmmTMB <- function(model,
   }
 
   # check additional arguments, like number of simulations
-  additional_dot_args <- match.call(expand.dots = FALSE)[["..."]]
+  additional_dot_args <- list(...)
 
   if ("nsim" %in% names(additional_dot_args)) {
     nsim <- eval(additional_dot_args[["nsim"]])
@@ -65,15 +65,22 @@ get_predictions_glmmTMB <- function(model,
 
   if (type %in% c("zero_inflated", "zero_inflated_random")) {
 
-    prdat <- as.vector(stats::predict(
+    # prepare argument list
+    pr_args <- list(
       model,
       newdata = data_grid,
       type = "response",
       se.fit = FALSE,
       re.form = ref,
-      allow.new.levels = TRUE,
-      ...
-    ))
+      allow.new.levels = TRUE
+    )
+    # add `...` arguments
+    pr_args <- c(pr_args, additional_dot_args)
+    # remove arguments not supported by `predict()`
+    pr_args$sigma <- NULL
+
+    # call predict with argument list
+    prdat <- as.vector(do.call(stats::predict, pr_args))
 
     # link function, for later use
     lf <- insight::link_function(model)
@@ -184,29 +191,29 @@ get_predictions_glmmTMB <- function(model,
     }
 
     # predictions conditioned on count or zi-component only
-
     if (type == "zi_prob") {
-      prdat <- stats::predict(
-        model,
-        newdata = data_grid,
-        type = "zlink",
-        se.fit = se,
-        re.form = ref,
-        allow.new.levels = TRUE,
-        ...
-      )
+      ptype <- "zlink"
       linv <- stats::plogis
     } else {
-      prdat <- stats::predict(
-        model,
-        newdata = data_grid,
-        type = "link",
-        se.fit = se,
-        re.form = ref,
-        allow.new.levels = TRUE,
-        ...
-      )
+      ptype <- "link"
     }
+
+    # prepare argument list
+    pr_args <- list(
+      model,
+      newdata = data_grid,
+      type = ptype,
+      se.fit = se,
+      re.form = ref,
+      allow.new.levels = TRUE
+    )
+    # add `...` arguments
+    pr_args <- c(pr_args, additional_dot_args)
+    # remove arguments not supported by `predict()`
+    pr_args$sigma <- NULL
+
+    # call predict with argument list
+    prdat <- do.call(stats::predict, pr_args)
 
     # did user request standard errors? if yes, compute CI
     if (se) {

@@ -247,7 +247,7 @@
 .link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL, ...) {
   if (bias_correction) {
     dots <- list(...)
-    if (!is.null(dots$sigma) && !is.na(sigma)) {
+    if (!is.null(dots$sigma) && !is.na(dots$sigma)) {
       residual_variance <- dots$sigma^2
     }
     l <- .bias_correction(model, residual_variance)$linkinv

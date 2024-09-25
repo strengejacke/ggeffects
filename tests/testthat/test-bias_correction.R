@@ -52,3 +52,28 @@ test_that("ggpredict, bias_correction, mixed", {
   expect_equal(out1$predicted, out3$prob, tolerance = 1e-3)
   expect_equal(out2$predicted, out4$prob, tolerance = 1e-3)
 })
+
+skip_if_not_installed("glmmTMB")
+
+test_that("ggpredict, bias_correction, glmmTMB", {
+  data(Salamanders, package = "glmmTMB")
+
+  m3 <- glmmTMB::glmmTMB(
+    count ~ spp + mined + (1 | site),
+    ziformula = ~ spp + mined,
+    family = glmmTMB::truncated_poisson(),
+    data = Salamanders
+  )
+
+  out1 <- as.data.frame(emmeans::emmeans(m3, "mined", type = "response"))
+  out2 <- as.data.frame(emmeans::emmeans(m3, "mined", type = "response", bias.adjust = TRUE, sigma = insight::get_sigma(model)))
+  out3 <- predict_response(m3, "mined", margin = "marginalmeans")
+  out4 <- predict_response(m3, "mined", margin = "marginalmeans", bias_correction = TRUE, sigma = insight::get_sigma(model))
+  expect_equal(out1$rate, out3$predicted, tolerance = 1e-3)
+  expect_equal(out2$rate, out4$predicted, tolerance = 1e-3)
+
+  out5 <- predict_response(m3, "mined")
+  expect_equal(out5$predicted, c(0.93517, 2.57911), tolerance = 1e-3)
+  out6 <- predict_response(m3, "mined", bias_correction = TRUE, sigma = insight::get_sigma(model))
+  expect_equal(out6$predicted, c(1.40276, 3.86866), tolerance = 1e-3)
+})
