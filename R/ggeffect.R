@@ -1,6 +1,6 @@
 #' @rdname ggpredict
 #' @export
-ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_level, ...) {
+ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, verbose = TRUE, ci.lvl = ci_level, ...) {
   insight::check_if_installed("effects")
   model_name <- deparse(substitute(model))
 
@@ -25,7 +25,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
   }
 
   if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
-    res <- lapply(model, .ggeffect_helper, terms, ci.lvl = ci_level, verbose, ...)
+    res <- lapply(model, .ggeffect_helper, terms, ci.lvl = ci_level, bias_correction = bias_correction, verbose, ...)
   } else if (missing(terms) || is.null(terms)) {
     predictors <- insight::find_predictors(
       model,
@@ -36,7 +36,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
     res <- lapply(
       predictors,
       function(.x) {
-        tmp <- .ggeffect_helper(model, terms = .x, ci.lvl = ci_level, verbose, ...)
+        tmp <- .ggeffect_helper(model, terms = .x, ci.lvl = ci_level, bias_correction = bias_correction, verbose, ...)
         if (!is.null(tmp)) {
           tmp$group <- .x
         }
@@ -52,7 +52,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
       res <- NULL
     }
   } else {
-    res <- .ggeffect_helper(model, terms, ci.lvl = ci_level, verbose, ...)
+    res <- .ggeffect_helper(model, terms, ci.lvl = ci_level, bias_correction = bias_correction, verbose, ...)
   }
 
   if (!is.null(res)) {
@@ -62,7 +62,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
 }
 
 
-.ggeffect_helper <- function(model, terms, ci.lvl, verbose = TRUE, ...) {
+.ggeffect_helper <- function(model, terms, ci.lvl, bias_correction = FALSE, verbose = TRUE, ...) {
   # check terms argument
   original_terms <- terms
 
@@ -210,7 +210,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_
 
 
   if (!no.transform) {
-    linv <- insight::link_inverse(model)
+    linv <- .link_inverse(model, bias_correction = bias_correction, ...)
     tmp$predicted <- linv(tmp$predicted)
     tmp$conf.low <- linv(tmp$conf.low)
     tmp$conf.high <- linv(tmp$conf.high)

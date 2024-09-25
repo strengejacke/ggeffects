@@ -34,7 +34,15 @@ ggaverage(
   ...
 )
 
-ggeffect(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_level, ...)
+ggeffect(
+  model,
+  terms,
+  ci_level = 0.95,
+  bias_correction = FALSE,
+  verbose = TRUE,
+  ci.lvl = ci_level,
+  ...
+)
 
 ggemmeans(
   model,
@@ -315,6 +323,27 @@ for details.
 
 \item{verbose}{Toggle messages or warnings.}
 
+\item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction in
+back-transforming the predicted values for non-Gaussian models. This requires
+a valid value of sigma to exist, which is extracted by default (using
+\code{\link[insight:get_sigma]{insight::get_sigma()}}) when \code{ggpredict()} is called or
+\code{margin = "mean_reference"} (the default). If \code{ggemmeans()} is called or
+\code{margin = "marginalmeans"}, an additional argument \code{sigma} is \emph{required}
+to apply bias-correction. Bias correction is not yet supported for
+\code{ggaverage()}. For \code{ggpredict()} (or \code{margin = "mean_reference"}), defining
+own values for \code{sigma} is optional. This can be particular helpful for mixed
+models, where extracting the random effects variances (e.g., using the
+\code{sqrt()} of \code{\link[insight:get_variance]{insight::get_variance_residual()}} for \code{sigma}) is probably a
+more accurate value for \code{sigma} then the default value extracted by
+\code{\link[insight:get_sigma]{insight::get_sigma()}}. The here discussed bias occurs when predictions
+from non-Gaussian models (e.g. logistic regression) are back-transformed to
+their response scale (in the case of logistic regression, back-transformed to
+predicted probabilites), which relates to \emph{Jensen's inequality}: the
+transformation of an averaged prediction is not identical to the average of
+transformed predictions. If the goal is not to compare adjusted predictions,
+but rather to get accurate estimates of the adjusted predictions, using
+bias-correction is recommended.}
+
 \item{ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
 Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
 instead.}
@@ -329,27 +358,6 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 For Bayesian models, when \code{interval = "confidence"}, predictions are based on
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
-
-\item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction in
-back-transforming the predicted values for non-Gaussian models. This requires
-a valid value of sigma to exist, which is extracted by default (using
-\code{\link[insight:get_sigma]{insight::get_sigma()}}) when \code{ggpredict()} is called or
-\code{margin = "mean_reference"} (the default). If \code{ggemmeans()} is called or
-\code{margin = "marginalmeans"}, an additional argument \code{sigma} must be specified
-to apply bias-correction. \code{ggaverage()} and \code{ggeffects()} currently do not
-support bias correction. For \code{ggpredict()} (or \code{margin = "mean_reference"}),
-it is also possible to define own values for \code{sigma}. This can be particular
-helpful for mixed models, where extracting the random effects variances
-(e.g., using the \code{sqrt()} of \code{\link[insight:get_variance]{insight::get_variance_residual()}} for \code{sigma})
-is probably a more accurate value for \code{sigma} then the default value extracted
-by \code{\link[insight:get_sigma]{insight::get_sigma()}}. The here discussed bias occurs when predictions
-from non-Gaussian models (e.g. logistic regression) are back-transformed to
-their response scale (in the case of logistic regression, back-transformed
-to predicted probabilites), which relates to \emph{Jensen's inequality}: the
-transformation of an averaged prediction is not identical to the average
-of transformed predictions. If the goal is not to compare adjusted
-predictions, but rather to get accurate estimates of the adjusted
-predictions, using bias-correction is recommended.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
