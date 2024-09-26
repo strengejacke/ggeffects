@@ -58,7 +58,9 @@
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
       model, data_grid, cleaned_terms, ci.lvl, type,
-      interval = interval, model_data = model_data, ...
+      interval = interval, model_data = model_data,
+      bias_correction = bias_correction,
+      residual_variance = residual_variance, ...
     )
   } else {
     .ggemmeans_predict_generic(
@@ -285,16 +287,26 @@
                                     type,
                                     interval = NULL,
                                     model_data = NULL,
+                                    bias_correction = FALSE,
+                                    residual_variance = NULL,
                                     ...) {
+  # get additional arguments
+  dot_args <- list(...)
+  # modify sigma, if necessary
+  if (!is.null(residual_variance)) {
+    dot_args$sigma <- sqrt(residual_variance)
+  }
+
+  # setup arguments
+  emmeans_args <- list(
+    model,
+    specs = cleaned_terms,
+    at = data_grid,
+    bias.adjust = bias_correction
+  )
+
   tmp <- tryCatch(
-    suppressWarnings(
-      emmeans::emmeans(
-        model,
-        specs = cleaned_terms,
-        at = data_grid,
-        ...
-      )
-    ),
+    suppressWarnings(do.call(emmeans::emmeans, c(emmeans_args, dot_args))),
     error = function(e) {
       insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
       cat(sprintf("Reason: %s\n", e$message))
