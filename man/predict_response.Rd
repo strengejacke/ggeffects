@@ -238,12 +238,14 @@ posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
 \item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction when
-back-transforming the predicted values for \emph{mixed models}. This requires a
-valid value of sigma to exist, which is extracted by default (using
-\code{\link[insight:get_variance]{insight::get_variance_residual()}}). Optionally, to provide own estimates
-of uncertainty, use the \code{sigma} argument. Note that \code{bias_correction}
-currently only applies to mixed models, where there are additive random
-components involved and where that bias-adjustment can be appropriate.}
+back-transforming the predicted values (to the response scale) for
+non-Gaussian \emph{mixed models}. This requires a valid value of sigma to exist,
+which is extracted by default using \code{\link[insight:get_variance]{insight::get_variance_residual()}}.
+Optionally, to provide own estimates of uncertainty, use the \code{sigma}
+argument. Note that \code{bias_correction} currently only applies to mixed models,
+where there are additive random components involved and where that
+bias-adjustment can be appropriate. If \code{ggemmeans()} is called, bias-correction
+is also applied to GEE-models.}
 
 \item{verbose}{Toggle messages or warnings.}
 
