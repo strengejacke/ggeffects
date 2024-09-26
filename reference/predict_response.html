@@ -381,16 +381,16 @@ If <code>interval = "prediction"</code>, <code><a href="https://mc-stan.org/rsta
 <dt id="arg-bias-correction">bias_correction<a class="anchor" aria-label="anchor" href="#arg-bias-correction"></a></dt>
 <dd><p>Logical, if <code>TRUE</code>, adjusts for bias-correction when
 back-transforming the predicted values (to the response scale) for
-non-Gaussian <em>mixed models</em>. Back-transforming the population mean ignores
-the effect of the variation around the population mean, so the result on the
-original data scale is biased due to <em>Jensen's inequality</em>. To apply
-bias-correction, a valid value of sigma is required, which is extracted by
-default using <code><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">insight::get_variance_residual()</a></code>. Optionally, to provide
-own estimates of uncertainty, use the <code>sigma</code> argument. Note that
-<code>bias_correction</code> currently only applies to mixed models, where there are
-additive random components involved and where that bias-adjustment can be
-appropriate. If <code><a href="ggpredict.html">ggemmeans()</a></code> is called, bias-correction can also be applied
-to GEE-models.</p></dd>
+non-Gaussian <em>mixed models</em>. Back-transforming the the population-level
+predictions ignores the effect of the variation around the population mean,
+so the result on the original data scale is biased due to <em>Jensen's
+inequality</em>. To apply bias-correction, a valid value of sigma is required,
+which is extracted by default using <code><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">insight::get_variance_residual()</a></code>.
+Optionally, to provide own estimates of uncertainty, use the <code>sigma</code>
+argument. Note that <code>bias_correction</code> currently only applies to mixed models,
+where there are additive random components involved and where that
+bias-adjustment can be appropriate. If <code><a href="ggpredict.html">ggemmeans()</a></code> is called,
+bias-correction can also be applied to GEE-models.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -938,9 +938,11 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu">sjlabelled</span><span class="fu">::</span><span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_label.html" class="external-link">as_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">predict_response</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>,</span></span>
+<span class="r-in"><span><span class="fu">predict_response</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"c12hour"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"c172code [low level of education, high level of education]"</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"c161sex [1]"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="st">"c161sex [1]"</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: low level of education</span></span>
@@ -975,8 +977,8 @@ inference. Eur J Epidemiol 35, 615–617 (2020).</p></li>
 <span class="r-in"><span><span class="fu">predict_response</span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  c12hour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">170</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  c172code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low level of education"</span>, <span class="st">"high level of education"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  c161sex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>  c161sex <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Predicted values of Total score BARTHEL INDEX</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">c172code: low level of education</span></span>
