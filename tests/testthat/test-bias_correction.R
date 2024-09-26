@@ -27,7 +27,7 @@ test_that("ggpredict, bias_correction, mixed", {
     "var_binom",
     type = "response",
     bias.adjust = TRUE,
-    sigma = insight::get_variance_residual(m1)
+    sigma = sqrt(insight::get_variance_residual(m1))
   ))
 
   expect_equal(out1$predicted, out3$prob, tolerance = 1e-3)
@@ -61,5 +61,5 @@ test_that("ggpredict, bias_correction, glmmTMB", {
   out5 <- predict_response(m3, "mined")
   expect_equal(out5$predicted, c(0.93517, 2.57911), tolerance = 1e-3)
   out6 <- predict_response(m3, "mined", bias_correction = TRUE, sigma = sqrt(insight::get_variance_residual(m3)))
-  expect_equal(out6$predicted, c(1.40276, 3.86866), tolerance = 1e-3)
+  expect_equal(out6$predicted, c(1.07207, 2.95666), tolerance = 1e-3)
 })
