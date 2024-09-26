@@ -234,7 +234,7 @@ ggpredict_helper <- function(model,
   }
 
   # sanity check - bias correction only for mixed models for now
-  if (isTRUE(bias_correction) && (!insight::is_mixed_model(model) || !inherits(model, c("gee", "geeglm")))) {
+  if (isTRUE(bias_correction) && !insight::is_mixed_model(model) && !inherits(model, c("gee", "geeglm"))) {
     bias_correction <- FALSE
     if (verbose) {
       insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
