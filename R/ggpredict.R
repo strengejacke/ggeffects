@@ -207,7 +207,6 @@ ggpredict_helper <- function(model,
                              bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
-
   # check class of fitted model, to make sure we have just one class-attribute
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
@@ -232,6 +231,14 @@ ggpredict_helper <- function(model,
   # better to `margin = "empirical"`
   if (!type %in% c("random", "zero_inflated_random")) {
     .check_focal_for_random(model, terms, verbose)
+  }
+
+  # sanity check - bias correction only for mixed models for now
+  if (isTRUE(bias_correction) && (!insight::is_mixed_model(model) || !inherits(model, c("gee", "geeglm")))) {
+    bias_correction <- FALSE
+    if (verbose) {
+      insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
+    }
   }
 
   # get model frame

@@ -16,7 +16,7 @@
 
 * `predict_response()` (and `ggpredict()` and `ggemmeans()`) and `ggeffect()`
   get an argument `bias_correction`, to correct for bias when back-transforming
-  predictions for non-Gaussian models.
+  predictions for mixed models models.
 
 # ggeffects 1.7.1
 

@@ -1,45 +1,7 @@
+skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("emmeans")
 skip_if_not_installed("datawizard")
-
-test_that("ggpredict, bias_correction", {
-  data(coffee_data, package = "ggeffects")
-  # dichotomize outcome variable
-  coffee_data$alertness <- datawizard::categorize(coffee_data$alertness, lowest = 0)
-  # rename variable
-  coffee_data$treatment <- coffee_data$coffee
-
-  # model
-  model <- glm(alertness ~ treatment * time, data = coffee_data, family = binomial())
-
-  out1 <- predict_response(model, c("treatment", "time"), bias_correction = TRUE)
-  out2 <- predict_response(model, c("treatment", "time"), margin = "marginalmeans", bias_correction = TRUE, sigma = insight::get_sigma(model))
-  out3 <- as.data.frame(emmeans::emmeans(model, c("treatment", "time"), bias.adjust = TRUE, type = "response", sigma = insight::get_sigma(model)))
-  out3 <- out3[order(out3$treatment), ]
-
-  expect_equal(out1$predicted, out2$predicted, tolerance = 1e-3)
-  expect_equal(out1$predicted, out3$prob, tolerance = 1e-3)
-  expect_message(
-    predict_response(model, c("treatment", "time"), margin = "marginalmeans", bias_correction = TRUE),
-    regex = "bias_correction = TRUE"
-  )
-
-  out4 <- predict_response(model, c("treatment", "time"), bias_correction = TRUE, interval = "prediction")
-  out5 <- predict_response(model, c("treatment", "time"), interval = "prediction")
-  expect_equal(out1$predicted, out4$predicted, tolerance = 1e-3)
-  expect_equal(out4$conf.low, c(0.14164, 0.07946, 0.30262, 0.05329, 0.21638, 0.14164), tolerance = 1e-3)
-  expect_equal(out5$conf.low, c(0.10461, 0.05599, 0.25616, 0.03685, 0.16983, 0.10461), tolerance = 1e-3)
-
-  # test_prediction with bias-correction
-  model <- glm(alertness ~ treatment + time, data = coffee_data, family = binomial())
-  out1 <- predict_response(model, "treatment", bias_correction = TRUE)
-  out2 <- predict_response(model, "treatment")
-  result1 <- test_predictions(out1, engine = "ggeffects")
-  result2 <- test_predictions(out2, engine = "ggeffects")
-  expect_equal(result1$Contrast, 0.05203394, tolerance = 1e-4)
-  expect_equal(result2$Contrast, 0.0652105, tolerance = 1e-4)
-})
-
 skip_if_not_installed("lme4")
 
 test_that("ggpredict, bias_correction, mixed", {
@@ -60,14 +22,19 @@ test_that("ggpredict, bias_correction, mixed", {
   out1 <- predict_response(m1, "var_binom")
   out2 <- predict_response(m1, "var_binom", bias_correction = TRUE)
   out3 <- as.data.frame(emmeans::emmeans(m1, "var_binom", type = "response"))
-  out4 <- as.data.frame(emmeans::emmeans(m1, "var_binom", type = "response", bias.adjust = TRUE, sigma = 1))
+  out4 <- as.data.frame(emmeans::emmeans(
+    m1,
+    "var_binom",
+    type = "response",
+    bias.adjust = TRUE,
+    sigma = insight::get_variance_residual(m1)
+  ))
 
   expect_equal(out1$predicted, out3$prob, tolerance = 1e-3)
   expect_equal(out2$predicted, out4$prob, tolerance = 1e-3)
 })
 
 skip_if_not_installed("glmmTMB")
-
 test_that("ggpredict, bias_correction, glmmTMB", {
   data(Salamanders, package = "glmmTMB")
 
@@ -79,14 +46,20 @@ test_that("ggpredict, bias_correction, glmmTMB", {
   )
 
   out1 <- as.data.frame(emmeans::emmeans(m3, "mined", type = "response"))
-  out2 <- as.data.frame(emmeans::emmeans(m3, "mined", type = "response", bias.adjust = TRUE, sigma = insight::get_sigma(m3)))
+  out2 <- as.data.frame(emmeans::emmeans(
+    m3,
+    "mined",
+    type = "response",
+    bias.adjust = TRUE,
+    sigma = sqrt(insight::get_variance_residual(m3))
+  ))
   out3 <- predict_response(m3, "mined", margin = "marginalmeans")
-  out4 <- predict_response(m3, "mined", margin = "marginalmeans", bias_correction = TRUE, sigma = insight::get_sigma(m3))
+  out4 <- predict_response(m3, "mined", margin = "marginalmeans", bias_correction = TRUE)
   expect_equal(out1$rate, out3$predicted, tolerance = 1e-3)
   expect_equal(out2$rate, out4$predicted, tolerance = 1e-3)
 
   out5 <- predict_response(m3, "mined")
   expect_equal(out5$predicted, c(0.93517, 2.57911), tolerance = 1e-3)
-  out6 <- predict_response(m3, "mined", bias_correction = TRUE, sigma = insight::get_sigma(m3))
+  out6 <- predict_response(m3, "mined", bias_correction = TRUE, sigma = sqrt(insight::get_variance_residual(m3)))
   expect_equal(out6$predicted, c(1.40276, 3.86866), tolerance = 1e-3)
 })

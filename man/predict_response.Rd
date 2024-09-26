@@ -237,26 +237,13 @@ For Bayesian models, when \code{interval = "confidence"}, predictions are based 
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
-\item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction in
-back-transforming the predicted values for non-Gaussian models. This requires
-a valid value of sigma to exist, which is extracted by default (using
-\code{\link[insight:get_sigma]{insight::get_sigma()}}) when \code{ggpredict()} is called or
-\code{margin = "mean_reference"} (the default). If \code{ggemmeans()} is called or
-\code{margin = "marginalmeans"}, an additional argument \code{sigma} is \emph{required}
-to apply bias-correction. Bias correction is not yet supported for
-\code{ggaverage()}. For \code{ggpredict()} (or \code{margin = "mean_reference"}), defining
-own values for \code{sigma} is optional. This can be particular helpful for mixed
-models, where extracting the random effects variances (e.g., using the
-\code{sqrt()} of \code{\link[insight:get_variance]{insight::get_variance_residual()}} for \code{sigma}) is probably a
-more accurate value for \code{sigma} then the default value extracted by
-\code{\link[insight:get_sigma]{insight::get_sigma()}}. The here discussed bias occurs when predictions
-from non-Gaussian models (e.g. logistic regression) are back-transformed to
-their response scale (in the case of logistic regression, back-transformed to
-predicted probabilites), which relates to \emph{Jensen's inequality}: the
-transformation of an averaged prediction is not identical to the average of
-transformed predictions. If the goal is not to compare adjusted predictions,
-but rather to get accurate estimates of the adjusted predictions, using
-bias-correction is recommended.}
+\item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction when
+back-transforming the predicted values for \emph{mixed models}. This requires a
+valid value of sigma to exist, which is extracted by default (using
+\code{\link[insight:get_variance]{insight::get_variance_residual()}}). Optionally, to provide own estimates
+of uncertainty, use the \code{sigma} argument. Note that \code{bias_correction}
+currently only applies to mixed models, where there are additive random
+components involved and where that bias-adjustment can be appropriate.}
 
 \item{verbose}{Toggle messages or warnings.}
 

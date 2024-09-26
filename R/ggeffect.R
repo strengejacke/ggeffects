@@ -24,7 +24,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
     model <- model$fit
   }
 
-  if (inherits(model, "list")  && !inherits(model, c("bamlss", "maxLik"))) {
+  if (inherits(model, "list") && !inherits(model, c("bamlss", "maxLik"))) {
     res <- lapply(model, .ggeffect_helper, terms, ci.lvl = ci_level, bias_correction = bias_correction, verbose, ...)
   } else if (missing(terms) || is.null(terms)) {
     predictors <- insight::find_predictors(
@@ -87,6 +87,14 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
     ),
     fun = "ggeffect()"
   )
+
+  # sanity check - bias correction only for mixed models for now
+  if (isTRUE(bias_correction) && (!insight::is_mixed_model(model) || !inherits(model, c("gee", "geeglm")))) {
+    bias_correction <- FALSE
+    if (verbose) {
+      insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
+    }
+  }
 
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have non-transformed effects
@@ -164,7 +172,6 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
     }
     fx.term <- eff$term
   } else {
-
     # check for multi response
 
     .ne <- names(eff)
