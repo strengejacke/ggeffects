@@ -176,16 +176,16 @@
 #' [`insight::find_transformation()`] for more details.
 #' @param bias_correction Logical, if `TRUE`, adjusts for bias-correction when
 #' back-transforming the predicted values (to the response scale) for
-#' non-Gaussian _mixed models_. Back-transforming the population mean ignores
-#' the effect of the variation around the population mean, so the result on the
-#' original data scale is biased due to _Jensen's inequality_. To apply
-#' bias-correction, a valid value of sigma is required, which is extracted by
-#' default using [`insight::get_variance_residual()`]. Optionally, to provide
-#' own estimates of uncertainty, use the `sigma` argument. Note that
-#' `bias_correction` currently only applies to mixed models, where there are
-#' additive random components involved and where that bias-adjustment can be
-#' appropriate. If `ggemmeans()` is called, bias-correction can also be applied
-#' to GEE-models.
+#' non-Gaussian _mixed models_. Back-transforming the the population-level
+#' predictions ignores the effect of the variation around the population mean,
+#' so the result on the original data scale is biased due to _Jensen's
+#' inequality_. To apply bias-correction, a valid value of sigma is required,
+#' which is extracted by default using [`insight::get_variance_residual()`].
+#' Optionally, to provide own estimates of uncertainty, use the `sigma`
+#' argument. Note that `bias_correction` currently only applies to mixed models,
+#' where there are additive random components involved and where that
+#' bias-adjustment can be appropriate. If `ggemmeans()` is called,
+#' bias-correction can also be applied to GEE-models.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -556,16 +556,18 @@
 #' data(efc)
 #' efc$c172code <- sjlabelled::as_label(efc$c172code)
 #' fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-#' predict_response(fit, terms = c("c12hour",
+#' predict_response(fit, terms = c(
+#'   "c12hour",
 #'   "c172code [low level of education, high level of education]",
-#'   "c161sex [1]"))
+#'   "c161sex [1]"
+#' ))
 #'
 #' # when "terms" is a named list
 #' predict_response(fit, terms = list(
 #'   c12hour = seq(0, 170, 30),
 #'   c172code = c("low level of education", "high level of education"),
-#'   c161sex = 1)
-#' )
+#'   c161sex = 1
+#' ))
 #'
 #' # use categorical value on x-axis, use axis-labels, add error bars
 #' dat <- predict_response(fit, terms = c("c172code", "c161sex"))
@@ -627,8 +629,10 @@ predict_response <- function(model,
   # validate "margin" argument
   margin <- match.arg(
     margin,
-    c("mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data", "ame", "marginaleffects")
+    c(
+      "mean_reference", "mean_mode", "marginalmeans", "empirical",
+      "counterfactual", "full_data", "ame", "marginaleffects"
+    )
   )
 
   # save name, so it can later be retrieved from environment
