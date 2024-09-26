@@ -58,6 +58,12 @@ test_that("ggpredict, bias_correction, glmmTMB", {
   expect_equal(out1$rate, out3$predicted, tolerance = 1e-3)
   expect_equal(out2$rate, out4$predicted, tolerance = 1e-3)
 
+  # test_predictions
+  result1 <- test_predictions(out3, engine = "ggeffects")
+  result2 <- test_predictions(out4, engine = "ggeffects")
+  expect_equal(result1$Contrast, -1.84456, tolerance = 1e-3)
+  expect_equal(result2$Contrast, -2.11459, tolerance = 1e-3)
+
   out5 <- predict_response(m3, "mined")
   expect_equal(out5$predicted, c(0.93517, 2.57911), tolerance = 1e-3)
   out6 <- predict_response(m3, "mined", bias_correction = TRUE, sigma = sqrt(insight::get_variance_residual(m3)))
