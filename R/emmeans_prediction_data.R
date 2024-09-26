@@ -184,7 +184,7 @@
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
     mode = "prob",
-    bias.adjust = bias_correction,
+    bias.adjust = bias_correction
   )
 
   tmp <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
@@ -249,10 +249,7 @@
   emmeans_args <- c(emmeans_args, dot_args)
 
   # first attempt
-  tmp <- tryCatch(
-    suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
-    error = function(e) NULL
-  )
+  tmp <- .safe(suppressWarnings(do.call(emmeans::emmeans, emmeans_args)))
 
   # if data could not be recovered, tmp is NULL. Try again, this time
   # providing the data directly
