@@ -200,7 +200,7 @@
   attr(out, "datagrid") <- datagrid
   attr(out, "scale_label") <- .scale_label(minfo, pred_type)
   attr(out, "standard_error") <- out$std.error
-  attr(out, "link_inverse") <- insight::link_inverse(object)
+  attr(out, "link_inverse") <- .link_inverse(object, ...)
   attr(out, "link_function") <- insight::link_function(object)
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- "Contrast"

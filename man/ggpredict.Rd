@@ -34,7 +34,15 @@ ggaverage(
   ...
 )
 
-ggeffect(model, terms, ci_level = 0.95, verbose = TRUE, ci.lvl = ci_level, ...)
+ggeffect(
+  model,
+  terms,
+  ci_level = 0.95,
+  bias_correction = FALSE,
+  verbose = TRUE,
+  ci.lvl = ci_level,
+  ...
+)
 
 ggemmeans(
   model,
@@ -48,6 +56,7 @@ ggemmeans(
   vcov_type = NULL,
   vcov_args = NULL,
   interval = "confidence",
+  bias_correction = FALSE,
   verbose = TRUE,
   ci.lvl = ci_level,
   back.transform = back_transform,
@@ -72,6 +81,7 @@ ggpredict(
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
   vcov.args = vcov_args,
+  bias_correction = FALSE,
   ...
 )
 }
@@ -312,6 +322,19 @@ for details.
 }}
 
 \item{verbose}{Toggle messages or warnings.}
+
+\item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction when
+back-transforming the predicted values (to the response scale) for
+non-Gaussian \emph{mixed models}. Back-transforming the population mean ignores
+the effect of the variation around the population mean, so the result on the
+original data scale is biased due to \emph{Jensen's inequality}. To apply
+bias-correction, a valid value of sigma is required, which is extracted by
+default using \code{\link[insight:get_variance]{insight::get_variance_residual()}}. Optionally, to provide
+own estimates of uncertainty, use the \code{sigma} argument. Note that
+\code{bias_correction} currently only applies to mixed models, where there are
+additive random components involved and where that bias-adjustment can be
+appropriate. If \code{ggemmeans()} is called, bias-correction can also be applied
+to GEE-models.}
 
 \item{ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
 Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}

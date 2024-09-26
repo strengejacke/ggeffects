@@ -15,6 +15,7 @@
                                     response.transform = NULL,
                                     vcov.args = NULL,
                                     margin = NULL,
+                                    bias_correction = FALSE,
                                     verbose = TRUE) {
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
@@ -55,6 +56,7 @@
     original_model_frame = original_model_frame,
     vcov.args = vcov.args,
     margin = margin,
+    bias_correction = bias_correction,
     verbose = verbose
   )
 }

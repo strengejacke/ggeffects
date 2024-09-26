@@ -11,16 +11,33 @@ ggemmeans <- function(model,
                       vcov_type = NULL,
                       vcov_args = NULL,
                       interval = "confidence",
+                      bias_correction = FALSE,
                       verbose = TRUE,
                       ci.lvl = ci_level,
                       back.transform = back_transform,
                       ...) {
   insight::check_if_installed("emmeans")
+  additional_dot_args <- list(...)
 
   # check arguments
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
+
+  # sanity check - bias correction only for mixed models for now
+  if (isTRUE(bias_correction) && !insight::is_mixed_model(model) && !inherits(model, c("gee", "geeglm"))) {
+    bias_correction <- FALSE
+    if (verbose) {
+      insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
+    }
+  }
+
+  # check if sigma is provided when `bias_correction = TRUE`, else use default
+  if (isTRUE(bias_correction) && is.null(additional_dot_args$sigma)) {
+    residual_variance <- insight::get_variance_residual(model)
+  } else {
+    residual_variance <- NULL
+  }
 
   ## TODO: remove deprecated later
 
@@ -102,8 +119,14 @@ ggemmeans <- function(model,
     # point estimates are not simulated                ----------
     # -----------------------------------------------------------
 
-    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ...)
-    additional_dot_args <- list(...)
+    preds <- .emmeans_mixed_zi(
+      model,
+      data_grid,
+      cleaned_terms,
+      bias_correction = bias_correction,
+      residual_variance = residual_variance,
+      ...
+    )
 
     if ("nsim" %in% names(additional_dot_args)) {
       nsim <- eval(additional_dot_args[["nsim"]])
@@ -124,7 +147,6 @@ ggemmeans <- function(model,
       type = type
     )
     pmode <- "response"
-
   } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi_prob") { # nolint
 
     # here we go zero-inflation probabilities. ----------
@@ -133,7 +155,16 @@ ggemmeans <- function(model,
     # .emmeans_mixed_zi() returns a list with two items, the first one is the
     # emmeans object for the conditional component, the second one is the
     # zero-inflated part
-    preds <- .emmeans_mixed_zi(model, data_grid, cleaned_terms, ci.lvl, ...)
+    preds <- .emmeans_mixed_zi(
+      model,
+      data_grid,
+      cleaned_terms,
+      ci.lvl,
+      bias_correction = bias_correction,
+      residual_variance = residual_variance,
+      ...
+    )
+
     prediction_data <- data.frame(
       predicted = stats::plogis(preds$x2$emmean),
       std.error = preds$x2$SE,
@@ -143,9 +174,7 @@ ggemmeans <- function(model,
     term_pos <- which(colnames(preds$x2) == "emmean")
     prediction_data <- cbind(preds$x2[1:(term_pos - 1)], prediction_data)
     pmode <- .get_prediction_mode_argument(model, model_info, type)
-
   } else {
-
     # here we go with all other prediction-types. ----------
     # ------------------------------------------------------
 
@@ -167,6 +196,8 @@ ggemmeans <- function(model,
       model_info,
       interval = interval,
       vcov_info = vcov_info,
+      bias_correction = bias_correction,
+      residual_variance = residual_variance,
       verbose = verbose,
       ...
     )
@@ -180,18 +211,20 @@ ggemmeans <- function(model,
   }
 
   # return NULL on error
-  if (is.null(prediction_data)) return(NULL)
+  if (is.null(prediction_data)) {
+    return(NULL)
+  }
 
   attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
 
   if (!is.null(model_info) &&
-       (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) &&
-       colnames(prediction_data)[1] != "x") {
+    (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) &&
+    colnames(prediction_data)[1] != "x") {
     colnames(prediction_data)[1] <- "response.level"
   }
 
   # apply link inverse function
-  linv <- insight::link_inverse(model)
+  linv <- .link_inverse(model, bias_correction = bias_correction, residual_variance = residual_variance, ...)
   if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "zero_inflated"))) { # nolint
     prediction_data$predicted <- linv(prediction_data$predicted)
     prediction_data$conf.low <- linv(prediction_data$conf.low)
@@ -243,6 +276,7 @@ ggemmeans <- function(model,
     response.transform = response.transform,
     margin = "marginalmeans",
     vcov.args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
+    bias_correction = bias_correction,
     verbose = verbose
   )
 }

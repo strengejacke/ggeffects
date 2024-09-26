@@ -1104,7 +1104,7 @@ test_predictions.default <- function(object,
   attr(out, "engine") <- "marginaleffects"
   attr(out, "datagrid") <- datagrid
   attr(out, "standard_error") <- .comparisons$std.error
-  attr(out, "link_inverse") <- insight::link_inverse(object)
+  attr(out, "link_inverse") <- .link_inverse(object, ...)
   attr(out, "link_function") <- insight::link_function(object)
 
   out

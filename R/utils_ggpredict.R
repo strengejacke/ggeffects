@@ -241,3 +241,65 @@
 
   mydf
 }
+
+
+# internal to return possibly bias correct link-function
+.link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL, ...) {
+  if (bias_correction) {
+    dots <- list(...)
+    if (!is.null(dots$sigma) && !is.na(dots$sigma)) {
+      residual_variance <- dots$sigma^2
+    }
+    l <- .bias_correction(model, residual_variance)$linkinv
+    if (is.null(l)) {
+      l <- insight::link_inverse(model)
+    }
+  } else {
+    l <- insight::link_inverse(model)
+  }
+  l
+}
+
+
+# apply bias-correction for back-transformation of predictions on the link-scale
+# we want sigma^2 (residual_variance) here to calculate the correction
+.bias_correction <- function(model = NULL, residual_variance = NULL) {
+  # we need a model object
+  if (is.null(model)) {
+    return(NULL)
+  }
+  # extract residual variance, if not provided
+  if (is.null(residual_variance)) {
+    if (insight::is_mixed_model(model)) {
+      residual_variance <- .safe(insight::get_variance_residual(model))
+    } else {
+      residual_variance <- .get_residual_variance(model) # returns sigma^2
+    }
+  }
+  # we need residual variance
+  if (is.null(residual_variance)) {
+    return(NULL)
+  }
+
+  # extract current link function
+  link <- .safe(insight::get_family(model))
+  # we need a link function
+  if (is.null(link)) {
+    return(NULL)
+  }
+
+  link$inv <- link$linkinv
+  link$der <- link$mu.eta
+  link$residual_variance <- residual_variance / 2
+
+  link$der2 <- function(eta) {
+    with(link, 1000 * (der(eta + 5e-4) - der(eta - 5e-4)))
+  }
+  link$linkinv <- function(eta) {
+    with(link, inv(eta) + residual_variance * der2(eta))
+  }
+  link$mu.eta <- function(eta) {
+    with(link, der(eta) + 1000 * residual_variance * (der2(eta + 5e-4) - der2(eta - 5e-4)))
+  }
+  link
+}

@@ -174,6 +174,18 @@
 #' log-, log-log, exp, sqrt and similar transformed responses will be
 #' back-transformed to original response-scale. See
 #' [`insight::find_transformation()`] for more details.
+#' @param bias_correction Logical, if `TRUE`, adjusts for bias-correction when
+#' back-transforming the predicted values (to the response scale) for
+#' non-Gaussian _mixed models_. Back-transforming the population mean ignores
+#' the effect of the variation around the population mean, so the result on the
+#' original data scale is biased due to _Jensen's inequality_. To apply
+#' bias-correction, a valid value of sigma is required, which is extracted by
+#' default using [`insight::get_variance_residual()`]. Optionally, to provide
+#' own estimates of uncertainty, use the `sigma` argument. Note that
+#' `bias_correction` currently only applies to mixed models, where there are
+#' additive random components involved and where that bias-adjustment can be
+#' appropriate. If `ggemmeans()` is called, bias-correction can also be applied
+#' to GEE-models.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used
@@ -607,6 +619,7 @@ predict_response <- function(model,
                              vcov_args = NULL,
                              weights = NULL,
                              interval,
+                             bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
   # default for "margin" argument?
@@ -655,6 +668,7 @@ predict_response <- function(model,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     ),
@@ -670,6 +684,7 @@ predict_response <- function(model,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     ),
@@ -685,6 +700,7 @@ predict_response <- function(model,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       interval = interval,
+      bias_correction = bias_correction,
       verbose = verbose,
       ...
     ),

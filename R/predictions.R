@@ -12,10 +12,11 @@ select_prediction_method <- function(model_class,
                                      vcov.args,
                                      condition,
                                      interval,
+                                     bias_correction = FALSE,
                                      verbose = TRUE,
                                      ...) {
   # get link-inverse-function
-  linv <- insight::link_inverse(model)
+  linv <- .link_inverse(model, bias_correction = bias_correction, ...)
   if (is.null(linv)) linv <- function(x) x
 
   if (model_class == "svyglm") { # nolint
@@ -39,7 +40,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci.lvl, linv, ...)
   } else if (model_class == "glmmTMB") {
-    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, verbose = verbose, ...) # nolint
+    prediction_data <- get_predictions_glmmTMB(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, bias_correction = bias_correction, verbose = verbose, ...) # nolint
   } else if (model_class == "sdmTMB") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci.lvl, linv, type, ...)
   } else if (model_class == "glmgee") {
@@ -47,7 +48,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci.lvl, linv, type, terms, condition, ...)
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
-    prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_merMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, interval, bias_correction = bias_correction, ...) # nolint
   } else if (model_class == "geeglm") {
     prediction_data <- get_predictions_geeglm(model, data_grid, ci.lvl, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
@@ -113,7 +114,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "lm") {
     prediction_data <- get_predictions_lm(model, data_grid, ci.lvl, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) # nolint
   } else if (model_class == "MixMod") {
-    prediction_data <- get_predictions_MixMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) # nolint
+    prediction_data <- get_predictions_MixMod(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, bias_correction = bias_correction, ...) # nolint
   } else if (model_class == "MCMCglmm") {
     prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci.lvl, interval, terms, value_adjustment, condition, ...) # nolint
   } else {
@@ -180,7 +181,13 @@ select_prediction_method <- function(model_class,
   # for poisson model, we need to compute prediction intervals in a different way
   info <- insight::model_info(model)
   if (info$is_poisson && (!is.null(interval) && interval == "prediction")) {
-    pred_int <- .prediction_interval_glm(model, .predicted, info, ci.lvl)
+    pred_int <- .prediction_interval_glm(
+      model,
+      predictions = .predicted,
+      info = info,
+      ci = ci.lvl,
+      linkinv = linv
+    )
     data_grid$conf.low <- pred_int$CI_low
     data_grid$conf.high <- pred_int$CI_high
   } else {
@@ -233,9 +240,11 @@ select_prediction_method <- function(model_class,
 }
 
 
-.prediction_interval_glm <- function(x, predictions, info, ci = 0.95, ...) {
+.prediction_interval_glm <- function(x, predictions, info, ci = 0.95, linkinv = NULL, ...) {
   linkfun <- insight::link_function(x)
-  linkinv <- insight::link_inverse(x)
+  if (is.null(linkinv)) {
+    linkinv <- insight::link_inverse(x)
+  }
   alpha <- 1 - ci
   prob <- c(alpha / 2, 1 - alpha / 2)
 

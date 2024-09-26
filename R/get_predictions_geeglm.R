@@ -1,4 +1,13 @@
-get_predictions_geeglm <- function(model, fitfram, ci.lvl, linv, type, model_class, value_adjustment, terms, condition, ...) {
+get_predictions_geeglm <- function(model,
+                                   fitfram,
+                                   ci.lvl,
+                                   linv,
+                                   type,
+                                   model_class,
+                                   value_adjustment,
+                                   terms,
+                                   condition,
+                                   ...) {
   se <- (!is.null(ci.lvl) && !is.na(ci.lvl))
 
   # compute ci, two-ways

@@ -133,7 +133,7 @@ plot(pr1, limits = c(200, 400)) +
 ```
 
 It is also possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()`. The predicted values come closer to _marginal predictions_ estimates, but the intervals come closer to _prediction intervals_.
- 
+
 ```{r}
 predict_response(m, "Days", type = "simulate")
 ```
@@ -221,7 +221,7 @@ predict_response(m, "spp", type = "zero_inflated")
 ### Simulated outcome (full model)
 
 In the above example, we get the conditional, not the marginal predictions (for example, not averaged over random effects groups). Furthermore, predictions are conditioned on `mined` when it is set to `"no"`. Therefore, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response, averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. Note that intervals of this type will be wider than those of `type = "zero_inflated"`, because they account for the full uncertainty of model parameters.
- 
+
 ```{r}
 predict_response(m, "spp", type = "simulate")
 ```
@@ -232,6 +232,23 @@ In a similar fashion, you can obtain average marginal predictions for zero-infla
 
 ```{r}
 predict_response(m, "spp", type = "zero_inflated", margin = "empirical")
+```
+
+## Bias-correction for non-Gaussian models
+
+For non-Gaussian models, predicted values are back-transformed to the response scale. However, back-transforming the population-level predictions (in _mixed_ models) ignores the effect of the variation around the population mean, so the result on the original data scale is biased due to _Jensen's inequality_. In this case, it can be appropriate to apply a bias-correction. This is done by setting `bias_correction = TRUE`. By default, [`insight::get_variance_residual()`](https://easystats.github.io/insight/reference/get_variance_residual.html) is used to extract the residual variance, which is used to calculate the amount of correction. Optionally, you can provide your own estimates of uncertainty, e.g. based on [`insight::get_variance_random()`](https://easystats.github.io/insight/reference/get_variance_random.html), using the `sigma` argument.
+
+Bias-correction comes closer to the expected values of the response, averaged across all random effects groups and all non-focal terms. The following example shows the bias-corrected predicted values of `spp`, which are closer to the simulated values than the non-bias-corrected ones.
+
+```{r}
+# no bias-correction
+predict_response(m, "spp")
+
+# bias-correction
+predict_response(m, "spp", bias_correction = TRUE)
+
+# closer to "simulate" for some of the predicted values
+predict_response(m, "spp", type = "simulate")
 ```
 
 ## Unit-level predictions (predictions for each level of random effects)

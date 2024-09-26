@@ -1,4 +1,4 @@
-get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, ...) {
+get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, bias_correction = FALSE, ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
 
@@ -141,6 +141,12 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       } else {
         lf <- insight::link_function(model)
         if (is.null(lf)) lf <- function(x) x
+      }
+      # if we have bias-correction, we must also adjust the predictions
+      # this has not been done before, since we return predictions on
+      # the response scale directly, without any adjustment
+      if (isTRUE(bias_correction)) {
+        data_grid$predicted <- linv(lf(data_grid$predicted))
       }
       predicted_data$conf.low <- linv(lf(predicted_data$predicted) - tcrit * prdat$se.fit)
       predicted_data$conf.high <- linv(lf(predicted_data$predicted) + tcrit * prdat$se.fit)

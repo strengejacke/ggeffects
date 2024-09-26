@@ -281,7 +281,7 @@
   attr(out, "scale") <- scale
   attr(out, "scale_label") <- .scale_label(minfo, scale)
   attr(out, "standard_error") <- out$std.error
-  attr(out, "link_inverse") <- insight::link_inverse(object)
+  attr(out, "link_inverse") <- .link_inverse(object, ...)
   attr(out, "link_function") <- insight::link_function(object)
   attr(out, "digits") <- NULL
 

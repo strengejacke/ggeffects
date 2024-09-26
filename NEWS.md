@@ -14,6 +14,10 @@
 * `test = "slope"` (or `test = "trend"`) are aliases in `test_predictions()` for
   `test = NULL` with numeric predictors.
 
+* `predict_response()` (and `ggpredict()` and `ggemmeans()`) and `ggeffect()`
+  get an argument `bias_correction`, to correct for bias when back-transforming
+  predictions for mixed models models.
+
 # ggeffects 1.7.1
 
 ## General

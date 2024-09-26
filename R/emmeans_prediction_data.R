@@ -1,8 +1,30 @@
-.emmeans_mixed_zi <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
+.emmeans_mixed_zi <- function(model,
+                              data_grid,
+                              cleaned_terms,
+                              ci.lvl = NULL,
+                              bias_correction = FALSE,
+                              residual_variance = NULL,
+                              ...) {
   if (inherits(model, "glmmTMB")) {
-    .ggemmeans_glmmTMB(model, data_grid, cleaned_terms, ci.lvl, ...)
+    .ggemmeans_glmmTMB(
+      model,
+      data_grid,
+      cleaned_terms,
+      ci.lvl,
+      bias_correction,
+      residual_variance,
+      ...
+    )
   } else {
-    .ggemmeans_MixMod(model, data_grid, cleaned_terms, ci.lvl, ...)
+    .ggemmeans_MixMod(
+      model,
+      data_grid,
+      cleaned_terms,
+      ci.lvl,
+      bias_correction,
+      residual_variance,
+      ...
+    )
   }
 }
 
@@ -17,6 +39,8 @@
                                      interval = NULL,
                                      model_data = NULL,
                                      vcov_info = NULL,
+                                     bias_correction = FALSE,
+                                     residual_variance = NULL,
                                      verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
@@ -32,43 +56,69 @@
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
       model, data_grid, cleaned_terms, ci.lvl, type,
-      interval = interval, model_data = model_data, ...
+      interval = interval, model_data = model_data,
+      bias_correction = bias_correction,
+      residual_variance = residual_variance, ...
     )
   } else {
     .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci.lvl, pmode, type,
       interval = interval, model_data = model_data, vcov_info = vcov_info,
-      verbose = verbose, ...
+      verbose = verbose, bias_correction = bias_correction,
+      residual_variance = residual_variance, ...
     )
   }
 }
 
 
-.ggemmeans_MixMod <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
+.ggemmeans_MixMod <- function(model,
+                              data_grid,
+                              cleaned_terms,
+                              ci.lvl = NULL,
+                              bias_correction = FALSE,
+                              residual_variance = NULL,
+                              ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for MixMod-models")
 
-  x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
+  # get additional arguments
+  dot_args <- list(...)
+  # modify sigma, if necessary
+  if (!is.null(residual_variance)) {
+    dot_args$sigma <- sqrt(residual_variance)
+  }
+
+  arg_list <- list(
     model,
     specs = cleaned_terms,
     at = data_grid,
     level = ci.lvl,
-    ...
-  )))
+    bias.adjust = bias_correction
+  )
 
-  x2 <- as.data.frame(suppressWarnings(emmeans::emmeans(
+  x1 <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
+
+  arg_list <- list(
     model,
     specs = all.vars(stats::formula(model, type = "zi_fixed")),
     at = data_grid,
     mode = "zero_part",
     level = ci.lvl,
-    ...
-  )))
+    bias.adjust = bias_correction
+  )
+
+  x2 <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
 
   list(x1 = x1, x2 = x2)
 }
 
 
-.ggemmeans_glmmTMB <- function(model, data_grid, cleaned_terms, ci.lvl = NULL, ...) {
+.ggemmeans_glmmTMB <- function(model,
+                               data_grid,
+                               cleaned_terms,
+                               ci.lvl = NULL,
+                               bias_correction = FALSE,
+                               residual_variance = NULL,
+                               ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for glmmTMB-models")
   # all model variables
   vars <- insight::find_variables(model)
@@ -77,23 +127,34 @@
   # match variables for zi model
   cleaned_terms_zi <- cleaned_terms[cleaned_terms %in% vars$zero_inflated]
 
-  x1 <- as.data.frame(suppressWarnings(emmeans::emmeans(
+  # get additional arguments
+  dot_args <- list(...)
+  # modify sigma, if necessary
+  if (!is.null(residual_variance)) {
+    dot_args$sigma <- sqrt(residual_variance)
+  }
+
+  arg_list <- list(
     model,
     specs = cleaned_terms_cond,
     at = data_grid[cleaned_terms_cond],
     component = "cond",
     level = ci.lvl,
-    ...
-  )))
+    bias.adjust = bias_correction
+  )
 
-  x2 <- as.data.frame(suppressWarnings(emmeans::emmeans(
+  x1 <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
+
+  arg_list <- list(
     model,
     specs = cleaned_terms_zi,
     at = data_grid[cleaned_terms_zi],
     component = "zi",
     level = ci.lvl,
-    ...
-  )))
+    bias.adjust = bias_correction
+  )
+
+  x2 <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
 
   list(x1 = x1, x2 = x2)
 }
@@ -150,26 +211,33 @@
                                        interval = NULL,
                                        model_data = NULL,
                                        vcov_info = NULL,
+                                       bias_correction = FALSE,
+                                       residual_variance = NULL,
                                        verbose = TRUE,
                                        ...) {
+  # get additional arguments
+  dot_args <- list(...)
+  # modify sigma, if necessary
+  if (!is.null(residual_variance)) {
+    dot_args$sigma <- sqrt(residual_variance)
+  }
+
   # setup arguments
   emmeans_args <- list(
     model,
     specs = cleaned_terms,
     at = data_grid,
-    mode = pmode
+    mode = pmode,
+    bias.adjust = bias_correction
   )
   # add vcov-information if available
   if (!is.null(vcov_info)) {
     emmeans_args <- c(emmeans_args, vcov = vcov_info$vcov.fun, vcov_info$vcov.args)
   }
-  emmeans_args <- c(emmeans_args, list(...))
+  emmeans_args <- c(emmeans_args, dot_args)
 
   # first attempt
-  tmp <- tryCatch(
-    suppressWarnings(do.call(emmeans::emmeans, emmeans_args)),
-    error = function(e) NULL
-  )
+  tmp <- .safe(suppressWarnings(do.call(emmeans::emmeans, emmeans_args)))
 
   # if data could not be recovered, tmp is NULL. Try again, this time
   # providing the data directly
@@ -204,16 +272,26 @@
                                     type,
                                     interval = NULL,
                                     model_data = NULL,
+                                    bias_correction = FALSE,
+                                    residual_variance = NULL,
                                     ...) {
+  # get additional arguments
+  dot_args <- list(...)
+  # modify sigma, if necessary
+  if (!is.null(residual_variance)) {
+    dot_args$sigma <- sqrt(residual_variance)
+  }
+
+  # setup arguments
+  emmeans_args <- list(
+    model,
+    specs = cleaned_terms,
+    at = data_grid,
+    bias.adjust = bias_correction
+  )
+
   tmp <- tryCatch(
-    suppressWarnings(
-      emmeans::emmeans(
-        model,
-        specs = cleaned_terms,
-        at = data_grid,
-        ...
-      )
-    ),
+    suppressWarnings(do.call(emmeans::emmeans, c(emmeans_args, dot_args))),
     error = function(e) {
       insight::print_color("Can't compute estimated marginal means, 'emmeans::emmeans()' returned an error.\n\n", "red")
       cat(sprintf("Reason: %s\n", e$message))

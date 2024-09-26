@@ -7,6 +7,7 @@ get_predictions_merMod <- function(model,
                                    value_adjustment,
                                    condition,
                                    interval = NULL,
+                                   bias_correction = FALSE,
                                    ...) {
   # does user want standard errors?
   se <- !is.null(ci.lvl) && !is.na(ci.lvl)
@@ -90,6 +91,12 @@ get_predictions_merMod <- function(model,
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
           lf <- insight::link_function(model)
+          # if we have bias-correction, we must also adjust the predictions
+          # this has not been done before, since we return predictions on
+          # the response scale directly, without any adjustment
+          if (isTRUE(bias_correction)) {
+            data_grid$predicted <- linv(lf(data_grid$predicted))
+          }
           # calculate CI for glmm
           data_grid$conf.low <- linv(lf(data_grid$predicted) - tcrit * standard_errors)
           data_grid$conf.high <- linv(lf(data_grid$predicted) + tcrit * standard_errors)
