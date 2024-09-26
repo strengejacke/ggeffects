@@ -51,9 +51,7 @@
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
     .ggemmeans_predict_ordinal(
       model, data_grid, cleaned_terms, ci.lvl, type,
-      interval = interval, model_data = model_data,
-      bias_correction = bias_correction,
-      residual_variance = residual_variance, ...
+      interval = interval, model_data = model_data, ...
     )
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
@@ -169,25 +167,15 @@
                                        type,
                                        interval = NULL,
                                        model_data = NULL,
-                                       bias_correction = FALSE,
-                                       residual_variance = NULL,
                                        ...) {
-  # get additional arguments
-  dot_args <- list(...)
-  # modify sigma, if necessary
-  if (!is.null(residual_variance)) {
-    dot_args$sigma <- sqrt(residual_variance)
-  }
-
   arg_list <- list(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
-    mode = "prob",
-    bias.adjust = bias_correction
+    mode = "prob"
   )
 
-  tmp <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
+  tmp <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, list(...)))))
   .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interval)
 }
 
