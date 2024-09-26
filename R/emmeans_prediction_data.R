@@ -168,14 +168,14 @@
                                        interval = NULL,
                                        model_data = NULL,
                                        ...) {
-  arg_list <- list(
+  tmp <- suppressMessages(emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
-    mode = "prob"
-  )
+    mode = "prob",
+    ...
+  ))
 
-  tmp <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, list(...)))))
   .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interval)
 }
 
