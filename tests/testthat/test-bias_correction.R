@@ -4,6 +4,19 @@ skip_if_not_installed("emmeans")
 skip_if_not_installed("datawizard")
 skip_if_not_installed("lme4")
 
+test_that("ggpredict, bias_correction, glm", {
+  set.seed(123)
+  dat <- data.frame(
+    outcome = rbinom(n = 100, size = 1, prob = 0.35),
+    var_binom = as.factor(rbinom(n = 100, size = 1, prob = 0.2))
+  )
+  m1 <- glm(outcome ~ var_binom, data = dat, family = binomial(link = "logit"))
+  expect_message(
+    predict_response(m1, "var_binom", bias_correction = TRUE),
+    regex = "Bias-correction is currently only supported"
+  )
+})
+
 test_that("ggpredict, bias_correction, mixed", {
   set.seed(123)
   dat <- data.frame(
