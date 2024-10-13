@@ -168,7 +168,6 @@ the preferred way to do this now.</p>
 <span>  ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  bias_correction <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ci.lvl <span class="op">=</span> <span class="va">ci_level</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -186,7 +185,6 @@ the preferred way to do this now.</p>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
 <span>  bias_correction <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ci.lvl <span class="op">=</span> <span class="va">ci_level</span>,</span>
 <span>  back.transform <span class="op">=</span> <span class="va">back_transform</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -204,7 +202,6 @@ the preferred way to do this now.</p>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">interval</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ci.lvl <span class="op">=</span> <span class="va">ci_level</span>,</span>
 <span>  back.transform <span class="op">=</span> <span class="va">back_transform</span>,</span>
 <span>  vcov.fun <span class="op">=</span> <span class="va">vcov_fun</span>,</span>
 <span>  vcov.type <span class="op">=</span> <span class="va">vcov_type</span>,</span>
@@ -481,12 +478,6 @@ bias-adjustment can be appropriate. If <code>ggemmeans()</code> is called,
 bias-correction can also be applied to GEE-models.</p></dd>
 
 
-<dt id="arg-ci-lvl-vcov-fun-vcov-type-vcov-args-back-transform">ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform<a class="anchor" aria-label="anchor" href="#arg-ci-lvl-vcov-fun-vcov-type-vcov-args-back-transform"></a></dt>
-<dd><p>Deprecated arguments.
-Please use <code>ci_level</code>, <code>vcov_fun</code>, <code>vcov_type</code>, <code>vcov_args</code> and <code>back_transform</code>
-instead.</p></dd>
-
-
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
 <dd><p>Type of interval calculation, can either be <code>"confidence"</code>
 (default) or <code>"prediction"</code>. May be abbreviated. Unlike <em>confidence intervals</em>,
@@ -498,6 +489,12 @@ for all models, but only for models that work with <code><a href="https://easyst
 For Bayesian models, when <code>interval = "confidence"</code>, predictions are based on
 posterior draws of the linear predictor <code><a href="https://mc-stan.org/rstantools/reference/posterior_epred.html" class="external-link">rstantools::posterior_epred()</a></code>.
 If <code>interval = "prediction"</code>, <code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code> is called.</p></dd>
+
+
+<dt id="arg-vcov-fun-vcov-type-vcov-args-back-transform">vcov.fun, vcov.type, vcov.args, back.transform<a class="anchor" aria-label="anchor" href="#arg-vcov-fun-vcov-type-vcov-args-back-transform"></a></dt>
+<dd><p>Deprecated arguments.
+Please use <code>ci_level</code>, <code>vcov_fun</code>, <code>vcov_type</code>, <code>vcov_args</code> and <code>back_transform</code>
+instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
