@@ -56,7 +56,7 @@ pool_predictions <- function(x, ...) {
   dof <- attributes(x[[1]])$df
   link_inv <- attributes(x[[1]])$link_inverse
   link_fun <- attributes(x[[1]])$link_function
-  back_transform <- isTRUE(attributes(x[[1]])$back.transform)
+  back_transform <- isTRUE(attributes(x[[1]])$back_transform)
 
   if (is.null(link_inv)) {
     link_inv <- function(x) x
@@ -120,7 +120,7 @@ pool_predictions <- function(x, ...) {
     pooled_predictions <- .back_transform_response(
       model = NULL,
       pooled_predictions,
-      back.transform = TRUE,
+      back_transform = TRUE,
       response.name = attributes(original_x[[1]])$response.transform
     )
   }

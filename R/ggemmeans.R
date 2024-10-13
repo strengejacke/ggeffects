@@ -13,7 +13,6 @@ ggemmeans <- function(model,
                       interval = "confidence",
                       bias_correction = FALSE,
                       verbose = TRUE,
-                      back.transform = back_transform,
                       ...) {
   insight::check_if_installed("emmeans")
   additional_dot_args <- list(...)
@@ -36,14 +35,6 @@ ggemmeans <- function(model,
     residual_variance <- insight::get_variance_residual(model)
   } else {
     residual_variance <- NULL
-  }
-
-  ## TODO: remove deprecated later
-
-  # handle deprectated arguments
-  if (!missing(back.transform)) {
-    back_transform <- back.transform
-    insight::format_warning("Argument `back.transform` is deprecated and will be removed in the future. Please use `back_transform` instead.") # nolint
   }
 
   # process "terms", so we have the default character format. Furthermore,
@@ -250,7 +241,7 @@ ggemmeans <- function(model,
   attr(result, "rawdata") <- .back_transform_data(
     model,
     mydf = .get_raw_data(model, original_model_frame, cleaned_terms),
-    back.transform = back_transform
+    back_transform = back_transform
   )
 
   .post_processing_labels(
@@ -267,7 +258,7 @@ ggemmeans <- function(model,
     condition = condition,
     ci_level = ci_level,
     untransformed.predictions = untransformed.predictions,
-    back.transform = back_transform,
+    back_transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
     vcov.args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,

@@ -89,7 +89,7 @@
 }
 
 
-.back_transform_response <- function(model, mydf, back.transform, response.name = NULL, verbose = TRUE) {
+.back_transform_response <- function(model, mydf, back_transform, response.name = NULL, verbose = TRUE) {
   # skip if no information available
   if (is.null(model) && is.null(response.name)) {
     return(mydf)
@@ -128,7 +128,7 @@
 
   # transformed response, but no back-transform requested?
   # Tell user and return untransformed predictions
-  if (!back.transform) {
+  if (!back_transform) {
     if (verbose) {
       insight::format_alert(
         paste0("Model has ", transformation, " transformed response. Predictions are on transformed scale.")
@@ -183,12 +183,12 @@
 }
 
 
-.back_transform_data <- function(model, mydf, back.transform, response.name = NULL) {
+.back_transform_data <- function(model, mydf, back_transform, response.name = NULL) {
   # skip if no information available
   if (is.null(mydf)) {
     return(NULL)
   }
-  if (back.transform) {
+  if (back_transform) {
     return(mydf)
   }
 

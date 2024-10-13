@@ -17,7 +17,7 @@
                                       ci_level = 0.95,
                                       type = NULL,
                                       untransformed.predictions = NULL,
-                                      back.transform = FALSE,
+                                      back_transform = FALSE,
                                       response.transform = NULL,
                                       original_model_frame = NULL,
                                       vcov.args = NULL,
@@ -53,7 +53,7 @@
   attr(data, "ci_level") <- ci_level
   attr(data, "type") <- type
   attr(data, "response.name") <- insight::find_response(model)
-  attr(data, "back.transform") <- back.transform
+  attr(data, "back_transform") <- back_transform
   attr(data, "response.transform") <- response.transform
   attr(data, "untransformed.predictions") <- untransformed.predictions
   attr(data, "standard_error") <- data$std.error
