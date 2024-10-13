@@ -78,7 +78,7 @@
       
       mined  | Contrast |       95% CI |      p
       -----------------------------------------
-      yes-no |    -1.99 | -2.41, -1.58 | < .001
+      yes-no |    -1.99 | -2.44, -1.55 | < .001
     Message
       
       Contrasts are presented as counts.
@@ -92,8 +92,8 @@
       
       mined | Predicted |     95% CI
       ------------------------------
-      yes   |      0.27 | 0.15, 0.40
-      no    |      2.27 | 1.86, 2.67
+      yes   |      0.27 | 0.17, 0.37
+      no    |      2.27 | 1.83, 2.70
       
 
 ---
@@ -105,7 +105,7 @@
       
       mined  | Contrast |       95% CI |      p
       -----------------------------------------
-      yes-no |    -1.99 | -2.41, -1.58 | < .001
+      yes-no |    -1.99 | -2.44, -1.55 | < .001
     Message
       
       Contrasts are presented as counts.
@@ -146,10 +146,10 @@
     Output
       # Average predicted zero-inflation probabilities of count
       
-      mined | Predicted
-      -----------------
-      yes   |      0.76
-      no    |      0.36
+      mined | Predicted |     95% CI
+      ------------------------------
+      yes   |      0.76 | 0.67, 0.84
+      no    |      0.36 | 0.30, 0.41
       
 
 ---
