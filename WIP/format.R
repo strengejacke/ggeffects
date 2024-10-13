@@ -47,7 +47,7 @@ format.ggeffects <- function(x,
 
   consv <- attr(x, "constant.values")
   terms <- attr(x, "terms")
-  ci.lvl <- attr(x, "ci.lvl")
+  ci_level <- attr(x, "ci_level")
 
   # fix terms for survival models
   a1 <- attr(x, "fitfun", exact = TRUE)
@@ -123,13 +123,13 @@ format.ggeffects <- function(x,
         } else {
           table_caption <- sprintf("%s", i$response.level[1])
         }
-        formatted_text <- .format_block(i, n, digits, ci.lvl, ...)
+        formatted_text <- .format_block(i, n, digits, ci_level, ...)
         attr(formatted_text, "table_caption") <- table_caption
         final_table <- c(final_table, list(formatted_text))
       }
     } else {
       if (.obj_has_name(x, "group")) x <- .remove_column(x, "group")
-      formatted_text <- .format_block(x, n, digits, ci.lvl, ...)
+      formatted_text <- .format_block(x, n, digits, ci_level, ...)
       attr(formatted_text, "table_caption") <- table_caption
       final_table <- list(formatted_text)
     }
@@ -142,7 +142,7 @@ format.ggeffects <- function(x,
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n\n", i$response.level[1], i$group[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci_level, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$group), NULL)
@@ -150,7 +150,7 @@ format.ggeffects <- function(x,
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n\n", i$group[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci_level, ...)
       }
     }
 
@@ -162,7 +162,7 @@ format.ggeffects <- function(x,
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci_level, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$group, x$facet), NULL)
@@ -170,7 +170,7 @@ format.ggeffects <- function(x,
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n\n", i$group[1], i$facet[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci_level, ...)
       }
     }
 
@@ -182,7 +182,7 @@ format.ggeffects <- function(x,
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n# %s\n\n", i$response.level[1], i$group[1], i$facet[1], i$panel[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci_level, ...)
       }
     } else {
       x$.nest <- tapply(x$predicted, list(x$group, x$facet, x$panel), NULL)
@@ -190,7 +190,7 @@ format.ggeffects <- function(x,
 
       for (i in xx) {
         insight::print_color(sprintf("\n# %s\n# %s\n# %s\n\n", i$group[1], i$facet[1], i$panel[1]), "red")
-        .format_block(i, n, digits, ci.lvl, ...)
+        .format_block(i, n, digits, ci_level, ...)
       }
     }
   }
@@ -244,7 +244,7 @@ format.ggeffects <- function(x,
 
 
 
-.format_block <- function(i, n, digits, ci.lvl, ci_width = "auto", ci_brackets = TRUE, ...) {
+.format_block <- function(i, n, digits, ci_level, ci_width = "auto", ci_brackets = TRUE, ...) {
   i <- i[setdiff(colnames(i), c("group", "facet", "panel", "response.level", ".nest"))]
   # print.data.frame(, ..., row.names = FALSE, quote = FALSE)
   dd <- i[.get_sample_rows(i, n), , drop = FALSE]
@@ -253,8 +253,8 @@ format.ggeffects <- function(x,
     dd$CI <- insight::format_ci(dd$conf.low, dd$conf.high, digits = digits, width = ci_width, brackets = ci_brackets)
     dd$CI <- gsub("95% CI ", "", dd$CI, fixed = TRUE)
 
-    if (is.null(ci.lvl)) ci.lvl <- 0.95
-    colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci.lvl)
+    if (is.null(ci_level)) ci_level <- 0.95
+    colnames(dd)[which(colnames(dd) == "CI")] <- sprintf("%g%% CI", 100 * ci_level)
 
     dd$conf.low <- NULL
     dd$conf.high <- NULL

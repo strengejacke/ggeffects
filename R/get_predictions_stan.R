@@ -1,6 +1,6 @@
 get_predictions_stan <- function(model,
                                  data_grid,
-                                 ci.lvl,
+                                 ci_level,
                                  type,
                                  model_info,
                                  interval,
@@ -11,7 +11,7 @@ get_predictions_stan <- function(model,
   insight::check_if_installed("rstantools")
 
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- !is.null(ci_level) && !is.na(ci_level)
 
   # check whether predictions should be conditioned
   # on random effects (grouping level) or not.
@@ -167,16 +167,16 @@ get_predictions_stan <- function(model,
     if (inherits(prdat2, "array")) {
       if (length(dim(prdat2)) == 3) {
         tmp <- do.call(rbind, lapply(seq_len(dim(prdat2)[3]), function(.x) {
-          as.data.frame(rstantools::posterior_interval(as.matrix(prdat2[, , .x]), prob = ci.lvl))
+          as.data.frame(rstantools::posterior_interval(as.matrix(prdat2[, , .x]), prob = ci_level))
         }))
       } else {
-        tmp <- as.data.frame(rstantools::posterior_interval(prdat2, prob = ci.lvl))
+        tmp <- as.data.frame(rstantools::posterior_interval(prdat2, prob = ci_level))
       }
     } else {
-      tmp <- rstantools::posterior_interval(prdat2, prob = ci.lvl)
+      tmp <- rstantools::posterior_interval(prdat2, prob = ci_level)
     }
   } else {
-    tmp <- rstantools::posterior_interval(as.matrix(prdat), prob = ci.lvl)
+    tmp <- rstantools::posterior_interval(as.matrix(prdat), prob = ci_level)
   }
 
   predint <- list(tmp[, 1], tmp[, 2])

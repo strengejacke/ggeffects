@@ -1,10 +1,10 @@
-get_predictions_polr <- function(model, fitfram, ci.lvl, linv, value_adjustment, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_polr <- function(model, fitfram, ci_level, linv, value_adjustment, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
 
-  se <- (!is.null(ci.lvl) && !is.na(ci.lvl)) || !is.null(vcov.fun)
+  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov.fun)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+  if (!is.null(ci_level) && !is.na(ci_level))
+    ci <- (1 + ci_level) / 2
   else
     ci <- 0.975
 

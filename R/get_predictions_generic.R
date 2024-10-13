@@ -1,4 +1,4 @@
-get_predictions_generic <- function(model, data_grid, ci.lvl = NULL, linv, ...) {
+get_predictions_generic <- function(model, data_grid, ci_level = NULL, linv, ...) {
   prdat <- as.data.frame(insight::get_predicted(
     model,
     data = data_grid,

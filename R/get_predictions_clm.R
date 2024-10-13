@@ -1,10 +1,10 @@
-get_predictions_clm <- function(model, data_grid, ci.lvl, linv, ...) {
+get_predictions_clm <- function(model, data_grid, ci_level, linv, ...) {
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
-    ci <- ci.lvl
+  if (!is.null(ci_level) && !is.na(ci_level)) {
+    ci <- ci_level
   } else {
     ci <- 0.95
   }

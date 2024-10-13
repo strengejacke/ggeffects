@@ -1,10 +1,10 @@
-get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, value_adjustment, condition, bias_correction = FALSE, ...) {
+get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms, value_adjustment, condition, bias_correction = FALSE, ...) {
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+  if (!is.null(ci_level) && !is.na(ci_level))
+    ci <- (1 + ci_level) / 2
   else
     ci <- 0.975
 
@@ -68,7 +68,7 @@ get_predictions_MixMod <- function(model, data_grid, ci.lvl, linv, type, terms, 
       type = prtype,
       type_pred = "response",
       se.fit = se,
-      level = ci.lvl,
+      level = ci_level,
       ...
     )
 

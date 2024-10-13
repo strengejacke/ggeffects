@@ -1,4 +1,4 @@
-get_predictions_rqs <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_rqs <- function(model, fitfram, ci_level, ...) {
   # predictions, no SE
   prdat <- stats::predict(model, newdata = fitfram, ...)
 
@@ -12,7 +12,7 @@ get_predictions_rqs <- function(model, fitfram, ci.lvl, ...) {
   # name cleanup
   prediction_data$tau <- gsub("tau= ", "", prediction_data$tau, fixed = TRUE)
 
-  if (!is.na(ci.lvl) && !is.null(ci.lvl)) {
+  if (!is.na(ci_level) && !is.null(ci_level)) {
     # standard errors
     model_data <- insight::get_data(model, verbose = FALSE)
     fitfram[setdiff(colnames(model_data), colnames(fitfram))] <- 0
@@ -24,7 +24,7 @@ get_predictions_rqs <- function(model, fitfram, ci.lvl, ...) {
     }))
 
     # ci-value
-    ci <- (1 + ci.lvl) / 2
+    ci <- (1 + ci_level) / 2
     # degrees of freedom
     dof <- .get_df(model)
     tcrit <- stats::qt(ci, df = dof)

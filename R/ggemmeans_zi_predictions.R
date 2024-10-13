@@ -1,7 +1,7 @@
 .ggemmeans_zi_predictions <- function(model,
                                       model_frame,
                                       preds,
-                                      ci.lvl,
+                                      ci_level,
                                       terms,
                                       cleaned_terms,
                                       value_adjustment,
@@ -11,8 +11,8 @@
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+  if (!is.null(ci_level) && !is.na(ci_level))
+    ci <- (1 + ci_level) / 2
   else
     ci <- 0.975
 

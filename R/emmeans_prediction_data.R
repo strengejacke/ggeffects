@@ -1,7 +1,7 @@
 .emmeans_mixed_zi <- function(model,
                               data_grid,
                               cleaned_terms,
-                              ci.lvl = NULL,
+                              ci_level = NULL,
                               bias_correction = FALSE,
                               residual_variance = NULL,
                               ...) {
@@ -10,7 +10,7 @@
       model,
       data_grid,
       cleaned_terms,
-      ci.lvl,
+      ci_level,
       bias_correction,
       residual_variance,
       ...
@@ -20,7 +20,7 @@
       model,
       data_grid,
       cleaned_terms,
-      ci.lvl,
+      ci_level,
       bias_correction,
       residual_variance,
       ...
@@ -32,7 +32,7 @@
 .emmeans_prediction_data <- function(model,
                                      data_grid,
                                      cleaned_terms,
-                                     ci.lvl,
+                                     ci_level,
                                      pmode,
                                      type,
                                      model_info,
@@ -45,24 +45,24 @@
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
     .ggemmeans_predict_MCMCglmm(
-      model, data_grid, cleaned_terms, ci.lvl, pmode, type,
+      model, data_grid, cleaned_terms, ci_level, pmode, type,
       interval = interval, model_data = model_data, ...
     )
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
     .ggemmeans_predict_ordinal(
-      model, data_grid, cleaned_terms, ci.lvl, type,
+      model, data_grid, cleaned_terms, ci_level, type,
       interval = interval, model_data = model_data, ...
     )
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
-      model, data_grid, cleaned_terms, ci.lvl, type,
+      model, data_grid, cleaned_terms, ci_level, type,
       interval = interval, model_data = model_data,
       bias_correction = bias_correction,
       residual_variance = residual_variance, ...
     )
   } else {
     .ggemmeans_predict_generic(
-      model, data_grid, cleaned_terms, ci.lvl, pmode, type,
+      model, data_grid, cleaned_terms, ci_level, pmode, type,
       interval = interval, model_data = model_data, vcov_info = vcov_info,
       verbose = verbose, bias_correction = bias_correction,
       residual_variance = residual_variance, ...
@@ -74,7 +74,7 @@
 .ggemmeans_MixMod <- function(model,
                               data_grid,
                               cleaned_terms,
-                              ci.lvl = NULL,
+                              ci_level = NULL,
                               bias_correction = FALSE,
                               residual_variance = NULL,
                               ...) {
@@ -91,7 +91,7 @@
     model,
     specs = cleaned_terms,
     at = data_grid,
-    level = ci.lvl,
+    level = ci_level,
     bias.adjust = bias_correction
   )
 
@@ -102,7 +102,7 @@
     specs = all.vars(stats::formula(model, type = "zi_fixed")),
     at = data_grid,
     mode = "zero_part",
-    level = ci.lvl,
+    level = ci_level,
     bias.adjust = bias_correction
   )
 
@@ -115,7 +115,7 @@
 .ggemmeans_glmmTMB <- function(model,
                                data_grid,
                                cleaned_terms,
-                               ci.lvl = NULL,
+                               ci_level = NULL,
                                bias_correction = FALSE,
                                residual_variance = NULL,
                                ...) {
@@ -139,7 +139,7 @@
     specs = cleaned_terms_cond,
     at = data_grid[cleaned_terms_cond],
     component = "cond",
-    level = ci.lvl,
+    level = ci_level,
     bias.adjust = bias_correction
   )
 
@@ -150,7 +150,7 @@
     specs = cleaned_terms_zi,
     at = data_grid[cleaned_terms_zi],
     component = "zi",
-    level = ci.lvl,
+    level = ci_level,
     bias.adjust = bias_correction
   )
 
@@ -163,7 +163,7 @@
 .ggemmeans_predict_ordinal <- function(model,
                                        data_grid,
                                        cleaned_terms,
-                                       ci.lvl,
+                                       ci_level,
                                        type,
                                        interval = NULL,
                                        model_data = NULL,
@@ -176,14 +176,14 @@
     ...
   ))
 
-  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode = "prob", interval)
+  .ggemmeans_add_confint(model, tmp, ci_level, type, pmode = "prob", interval)
 }
 
 
 .ggemmeans_predict_MCMCglmm <- function(model,
                                         data_grid,
                                         cleaned_terms,
-                                        ci.lvl,
+                                        ci_level,
                                         pmode,
                                         type,
                                         interval = NULL,
@@ -198,14 +198,14 @@
     ...
   )
 
-  .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
+  .ggemmeans_add_confint(model, tmp, ci_level, type, pmode, interval)
 }
 
 
 .ggemmeans_predict_generic <- function(model,
                                        data_grid,
                                        cleaned_terms,
-                                       ci.lvl,
+                                       ci_level,
                                        pmode,
                                        type,
                                        interval = NULL,
@@ -258,7 +258,7 @@
 
   # if we succeded, add confidence intervals
   if (!is.null(tmp)) {
-    .ggemmeans_add_confint(model, tmp, ci.lvl, type, pmode, interval)
+    .ggemmeans_add_confint(model, tmp, ci_level, type, pmode, interval)
   } else {
     NULL
   }
@@ -268,7 +268,7 @@
 .ggemmeans_predict_nlme <- function(model,
                                     data_grid,
                                     cleaned_terms,
-                                    ci.lvl,
+                                    ci_level,
                                     type,
                                     interval = NULL,
                                     model_data = NULL,
@@ -301,7 +301,7 @@
   )
 
   if (!is.null(tmp)) {
-    .ggemmeans_add_confint(model, tmp, ci.lvl, type)
+    .ggemmeans_add_confint(model, tmp, ci_level, type)
   } else {
     NULL
   }

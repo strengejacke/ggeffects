@@ -1,10 +1,10 @@
-get_predictions_mblogit <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_mblogit <- function(model, fitfram, ci_level, linv, ...) {
 
-  se <- (!is.null(ci.lvl) && !is.na(ci.lvl))
+  se <- (!is.null(ci_level) && !is.na(ci_level))
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+  if (!is.null(ci_level) && !is.na(ci_level))
+    ci <- (1 + ci_level) / 2
   else
     ci <- 0.975
 

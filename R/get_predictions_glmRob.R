@@ -1,6 +1,6 @@
-get_predictions_glmRob <- function(model, data_grid, ci.lvl, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
+get_predictions_glmRob <- function(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) {
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov.fun)
 
   # for models from "robust"-pkg (glmRob) we need to
   # suppress warnings about fake models
@@ -19,7 +19,7 @@ get_predictions_glmRob <- function(model, data_grid, ci.lvl, linv, value_adjustm
     linv,
     prdat,
     se,
-    ci.lvl,
+    ci_level,
     model_class,
     value_adjustment,
     terms,

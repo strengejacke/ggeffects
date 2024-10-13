@@ -1,6 +1,6 @@
 get_predictions_glm <- function(model,
                                 data_grid,
-                                ci.lvl,
+                                ci_level,
                                 linv,
                                 value_adjustment,
                                 model_class,
@@ -13,12 +13,12 @@ get_predictions_glm <- function(model,
                                 type,
                                 ...) {
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl) && is.null(vcov.fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov.fun)
 
   if (type == "simulate") {
     # compute ci, two-ways
-    if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
-      ci <- (1 + ci.lvl) / 2
+    if (!is.null(ci_level) && !is.na(ci_level)) {
+      ci <- (1 + ci_level) / 2
     } else {
       ci <- 0.975
     }
@@ -52,7 +52,7 @@ get_predictions_glm <- function(model,
       linv,
       prdat,
       se,
-      ci.lvl,
+      ci_level,
       model_class,
       value_adjustment,
       terms,

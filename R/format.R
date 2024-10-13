@@ -36,7 +36,7 @@ format.ggeffects <- function(x,
   # data frame including attributes, that's why this code comes first
   nrow_to_print <- .nrows_to_print(x, n)
   focal_terms <- attributes(x)$terms
-  ci_level <- attributes(x)$ci.lvl
+  ci_level <- attributes(x)$ci_level
   response_name <- attributes(x)$response.name
   # default name, used later
   if (is.null(response_name)) {
