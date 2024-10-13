@@ -87,11 +87,6 @@
 #' @param verbose Logical, toggle warnings and messages.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
-#' @param ci,add.data,rawdata,collapse.group,dot.alpha,dot.size,line.size,connect.lines,show.title,show.x.title,show.y.title,use.theme,one.plot,ci.style,show.legend,log.y
-#'   Deprecated arguments. Use `show_ci`, `show_data`, `collapse_group`,
-#'   `dot_alpha`, `dot_size`, `line_size`, `connect_lines`, `show_title`,
-#'   `show_x_title`, `show_y_title`, `use_theme`, `ci_style`, `show_legend`,
-#'   `log_y` and `one_plot` instead.
 #'
 #' @inheritParams get_title
 #'
@@ -176,93 +171,8 @@ plot.ggeffects <- function(x,
                            one_plot = TRUE,
                            n_rows = NULL,
                            verbose = TRUE,
-                           # deprecated arguments
-                           ci = show_ci,
-                           ci.style = ci_style,
-                           rawdata = show_data,
-                           add.data = show_data,
-                           collapse.group = collapse_group,
-                           dot.alpha = dot_alpha,
-                           dot.size = dot_size,
-                           line.size = line_size,
-                           connect.lines = connect_lines,
-                           show.title = show_title,
-                           show.x.title = show_x_title,
-                           show.y.title = show_y_title,
-                           use.theme = use_theme,
-                           show.legend = show_legend,
-                           one.plot = one_plot,
-                           log.y = log_y,
                            ...) {
   insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
-
-  ## TODO: handle deprecated arguments
-
-  # check alias
-  if (!missing(rawdata)) {
-    show_data <- rawdata
-    .deprecated_warning(old = "rawdata", new = "show_data")
-  }
-  if (!missing(add.data)) {
-    show_data <- add.data
-    .deprecated_warning(old = "add.data", new = "show_data")
-  }
-  if (!missing(ci)) {
-    show_ci <- ci
-    .deprecated_warning(old = "ci", new = "show_ci")
-  }
-  if (!missing(ci.style)) {
-    ci_style <- ci.style
-    .deprecated_warning(old = "ci.style", new = "ci_style")
-  }
-  if (!missing(collapse.group)) {
-    collapse_group <- collapse.group
-    .deprecated_warning(old = "collapse.group", new = "collapse_group")
-  }
-  if (!missing(dot.alpha)) {
-    dot_alpha <- dot.alpha
-    .deprecated_warning(old = "dot.alpha", new = "dot_alpha")
-  }
-  if (!missing(dot.size)) {
-    dot_size <- dot.size
-    .deprecated_warning(old = "dot.size", new = "dot_size")
-  }
-  if (!missing(one.plot)) {
-    one_plot <- one.plot
-    .deprecated_warning(old = "one.plot", new = "one_plot")
-  }
-  if (!missing(line.size)) {
-    line_size <- line.size
-    .deprecated_warning(old = "line.size", new = "line_size")
-  }
-  if (!missing(connect.lines)) {
-    connect_lines <- connect.lines
-    .deprecated_warning(old = "connect.lines", new = "connect_lines")
-  }
-  if (!missing(show.title)) {
-    show_title <- show.title
-    .deprecated_warning(old = "show.title", new = "show_title")
-  }
-  if (!missing(show.x.title)) {
-    show_x_title <- show.x.title
-    .deprecated_warning(old = "show.x.title", new = "show_x_title")
-  }
-  if (!missing(show.y.title)) {
-    show_y_title <- show.y.title
-    .deprecated_warning(old = "show.y.title", new = "show_y_title")
-  }
-  if (!missing(use.theme)) {
-    use_theme <- use.theme
-    .deprecated_warning(old = "use.theme", new = "use_theme")
-  }
-  if (!missing(show.legend)) {
-    show_legend <- show.legend
-    .deprecated_warning(old = "show.legend", new = "show_legend")
-  }
-  if (!missing(log.y)) {
-    log_y <- log.y
-    .deprecated_warning(old = "log.y", new = "log_y")
-  }
 
   # set some defaults for jittering
   jitter.miss <- missing(jitter)
@@ -491,13 +401,13 @@ plot.ggeffects <- function(x,
         is_black_white = is_black_white,
         x_is_factor = x_is_factor,
         alpha = alpha,
-        dot.alpha = dot_alpha,
+        dot_alpha = dot_alpha,
         dodge = dodge,
-        show.ci = show_ci,
-        ci.style = ci_style,
-        dot.size = dot_size,
-        line.size = line_size,
-        connect.lines = connect_lines,
+        show_ci = show_ci,
+        ci_style = ci_style,
+        dot_size = dot_size,
+        line_size = line_size,
+        connect_lines = connect_lines,
         case = case,
         jitter = jitter,
         jitter.miss = jitter.miss,
@@ -505,14 +415,14 @@ plot.ggeffects <- function(x,
         label.data = data_labels,
         residuals = show_residuals,
         residuals.line = show_residuals_line,
-        show.title = show_title,
-        show.x.title = show_x_title,
-        show.y.title = show_y_title,
-        show.legend = show_l,
-        log.y = log_y,
+        show_title = show_title,
+        show_x_title = show_x_title,
+        show_y_title = show_y_title,
+        show_legend = show_legend,
+        log_y = log_y,
         y.breaks = y.breaks,
         y.limits = y.limits,
-        use.theme = use_theme,
+        use_theme = use_theme,
         n_rows = NULL,
         latent_thresholds = latent_thresholds,
         verbose = verbose,
@@ -541,13 +451,13 @@ plot.ggeffects <- function(x,
       is_black_white = is_black_white,
       x_is_factor = x_is_factor,
       alpha = alpha,
-      dot.alpha = dot_alpha,
+      dot_alpha = dot_alpha,
       dodge = dodge,
-      show.ci = show_ci,
-      ci.style = ci_style,
-      dot.size = dot_size,
-      line.size = line_size,
-      connect.lines = connect_lines,
+      show_ci = show_ci,
+      ci_style = ci_style,
+      dot_size = dot_size,
+      line_size = line_size,
+      connect_lines = connect_lines,
       case = case,
       jitter = jitter,
       jitter.miss = jitter.miss,
@@ -555,14 +465,14 @@ plot.ggeffects <- function(x,
       label.data = data_labels,
       residuals = show_residuals,
       residuals.line = show_residuals_line,
-      show.title = show_title,
-      show.x.title = show_x_title,
-      show.y.title = show_y_title,
-      show.legend = show_legend,
-      log.y = log_y,
+      show_title = show_title,
+      show_x_title = show_x_title,
+      show_y_title = show_y_title,
+      show_legend = show_legend,
+      log_y = log_y,
       y.breaks = y.breaks,
       y.limits = y.limits,
-      use.theme = use_theme,
+      use_theme = use_theme,
       n_rows = n_rows,
       latent_thresholds = latent_thresholds,
       verbose = verbose,
@@ -588,13 +498,13 @@ plot_panel <- function(x,
                        is_black_white,
                        x_is_factor,
                        alpha,
-                       dot.alpha,
+                       dot_alpha,
                        dodge,
-                       show.ci,
-                       ci.style,
-                       dot.size,
-                       line.size,
-                       connect.lines,
+                       show_ci,
+                       ci_style,
+                       dot_size,
+                       line_size,
+                       connect_lines,
                        case,
                        jitter,
                        jitter.miss,
@@ -602,14 +512,14 @@ plot_panel <- function(x,
                        label.data,
                        residuals,
                        residuals.line,
-                       show.title,
-                       show.x.title,
-                       show.y.title,
-                       show.legend,
-                       log.y,
+                       show_title,
+                       show_x_title,
+                       show_y_title,
+                       show_legend,
+                       log_y,
                        y.breaks,
                        y.limits,
-                       use.theme,
+                       use_theme,
                        n_rows,
                        latent_thresholds,
                        verbose = TRUE,
@@ -726,7 +636,7 @@ plot_panel <- function(x,
   rawdat <- attr(x, "rawdata", exact = TRUE)
   if (show_data) {
     p <- .add_raw_data_to_plot(
-      p, x, rawdat, label.data, ci.style, dot.alpha, dot.size, dodge, jitter,
+      p, x, rawdat, label.data, ci_style, dot_alpha, dot_size, dodge, jitter,
       jitter.miss, colors, verbose = verbose
     )
   }
@@ -738,8 +648,8 @@ plot_panel <- function(x,
   residual_data <- attr(x, "residual_data", exact = TRUE)
   if (isTRUE(residuals)) {
     p <- .add_residuals_to_plot(
-      p, x, residual_data, residuals.line, ci.style, line.size, dot.alpha,
-      dot.size, dodge, jitter, colors, x_is_factor, verbose = verbose
+      p, x, residual_data, residuals.line, ci_style, line_size, dot_alpha,
+      dot_size, dodge, jitter, colors, x_is_factor, verbose = verbose
     )
   }
 
@@ -750,7 +660,7 @@ plot_panel <- function(x,
   random_effects_data <- attr(x, "random_effects_data", exact = TRUE)
   if (!is.null(random_effects_data)) {
     p <- .add_re_data_to_plot(
-      p, x, random_effects_data, dot.alpha, dot.size, dodge, jitter,
+      p, x, random_effects_data, dot_alpha, dot_size, dodge, jitter,
       verbose = verbose
     )
   }
@@ -768,13 +678,13 @@ plot_panel <- function(x,
     if (single_color) {
       p <- p + ggplot2::geom_point(
         position = ggplot2::position_dodge(width = dodge),
-        size = dot.size,
+        size = dot_size,
         colour = colors
       )
     } else {
       p <- p + ggplot2::geom_point(
         position = ggplot2::position_dodge(width = dodge),
-        size = dot.size
+        size = dot_size
       )
     }
     # classical line
@@ -782,30 +692,30 @@ plot_panel <- function(x,
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
     p <- p + ggplot2::geom_line(
-      linewidth = line.size,
+      linewidth = line_size,
       ggplot2::aes(group = .data[["group"]]),
       colour = colors
     )
   } else {
     p <- p + ggplot2::geom_line(
-      linewidth = line.size,
+      linewidth = line_size,
       ggplot2::aes(group = .data[["group"]])
     )
   }
 
   # connect dots with lines...
-  if (x_is_factor && connect.lines) {
+  if (x_is_factor && connect_lines) {
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
     if (single_color) {
       p <- p + ggplot2::geom_line(
-        linewidth = line.size,
+        linewidth = line_size,
         position = ggplot2::position_dodge(width = dodge),
         colour = colors
       )
     } else {
       p <- p + ggplot2::geom_line(
-        linewidth = line.size,
+        linewidth = line_size,
         position = ggplot2::position_dodge(width = dodge)
       )
     }
@@ -814,13 +724,13 @@ plot_panel <- function(x,
 
   # CI ----
 
-  if (show.ci) {
+  if (show_ci) {
 
     # for a factor on x-axis, use error bars
 
     if (x_is_factor) {
 
-      if (ci.style == "errorbar") {
+      if (ci_style == "errorbar") {
         # when user provides a single color, we do not use the color-aes.
         # Thus, we need to specify the color directly as argument
         if (single_color) {
@@ -828,7 +738,7 @@ plot_panel <- function(x,
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
-            linewidth = line.size,
+            linewidth = line_size,
             colour = colors
           )
         } else {
@@ -836,12 +746,12 @@ plot_panel <- function(x,
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
-            linewidth = line.size
+            linewidth = line_size
           )
         }
       } else {
         lt <- switch(
-          ci.style,
+          ci_style,
           dash = 2,
           dot = 3,
           2
@@ -855,7 +765,7 @@ plot_panel <- function(x,
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             linetype = lt,
-            linewidth = line.size,
+            linewidth = line_size,
             colour = colors
           )
         } else {
@@ -864,13 +774,13 @@ plot_panel <- function(x,
             position = ggplot2::position_dodge(width = dodge),
             width = 0,
             linetype = lt,
-            linewidth = line.size
+            linewidth = line_size
           )
         }
       }
 
       # for continuous x, use ribbons by default
-    } else if (ci.style == "ribbon") {
+    } else if (ci_style == "ribbon") {
       # when user provides a single color, we do not use the color-aes.
       # Thus, we need to specify the color directly as argument
       if (single_color) {
@@ -899,38 +809,38 @@ plot_panel <- function(x,
           alpha = alpha
         )
       }
-    } else if (ci.style == "errorbar") {
+    } else if (ci_style == "errorbar") {
       # when user provides a single color, we do not use the color-aes.
       # Thus, we need to specify the color directly as argument
       if (single_color) {
         p <- p + ggplot2::geom_point(
           position = ggplot2::position_dodge(width = dodge),
-          size = dot.size,
+          size = dot_size,
           colour = colors
         ) +
           ggplot2::geom_errorbar(
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
-            linewidth = line.size,
+            linewidth = line_size,
             width = 0,
             colour = colors
           )
       } else {
         p <- p + ggplot2::geom_point(
           position = ggplot2::position_dodge(width = dodge),
-          size = dot.size
+          size = dot_size
         ) +
           ggplot2::geom_errorbar(
             ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
             position = ggplot2::position_dodge(width = dodge),
-            linewidth = line.size,
+            linewidth = line_size,
             width = 0
           )
       }
     } else {
 
       lt <- switch(
-        ci.style,
+        ci_style,
         dash = 2,
         dot = 3,
         2
@@ -1024,10 +934,10 @@ plot_panel <- function(x,
 
   # show/hide titles ----
 
-  if (!show.title) attr(x, "title") <- NULL
-  if (!show.title) attr(x, "n.trials") <- NULL
-  if (!show.x.title) attr(x, "x.title") <- NULL
-  if (!show.y.title) attr(x, "y.title") <- NULL
+  if (!show_title) attr(x, "title") <- NULL
+  if (!show_title) attr(x, "n.trials") <- NULL
+  if (!show_x_title) attr(x, "x.title") <- NULL
+  if (!show_y_title) attr(x, "y.title") <- NULL
 
 
   # set axis titles ----
@@ -1040,7 +950,7 @@ plot_panel <- function(x,
     subtitle = get_sub_title(x)
   )
 
-  if (has_groups && show.legend)
+  if (has_groups && show_legend)
     p <- p + ggplot2::labs(
       colour = get_legend_title(x, case),
       linetype = get_legend_title(x, case),
@@ -1063,7 +973,7 @@ plot_panel <- function(x,
 
   # show or hide legend -----
 
-  if (!show.legend) {
+  if (!show_legend) {
     p <- p + ggplot2::labs(
       colour = NULL,
       linetype = NULL,
@@ -1076,7 +986,7 @@ plot_panel <- function(x,
   # for binomial family, fix coord ----
 
   if (attr(x, "logistic", exact = TRUE) == "1" && attr(x, "is.trial", exact = TRUE) == "0") {
-    if (log.y) {
+    if (log_y) {
       if (is.null(y.breaks)) {
         p <- p + ggplot2::scale_y_log10(labels = .percents, ...)
       } else {
@@ -1085,7 +995,7 @@ plot_panel <- function(x,
     } else {
       p <- p + ggplot2::scale_y_continuous(labels = .percents, ...)
     }
-  } else if (log.y) {
+  } else if (log_y) {
     if (is.null(y.breaks)) {
       p <- p + ggplot2::scale_y_log10(...)
     } else {
@@ -1096,8 +1006,9 @@ plot_panel <- function(x,
   }
 
   # tweak theme
-  if (use.theme)
+  if (use_theme) {
     p <- p + theme_ggeffects()
+  }
 
   suppressWarnings(p)
 }
@@ -1303,9 +1214,9 @@ plot.see_equivalence_test_ggeffects <- function(x,
                                   x,
                                   rawdat,
                                   label.data,
-                                  ci.style,
-                                  dot.alpha,
-                                  dot.size,
+                                  ci_style,
+                                  dot_alpha,
+                                  dot_size,
                                   dodge,
                                   jitter,
                                   jitter.miss,
@@ -1385,8 +1296,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
       p <- p + ggplot2::geom_point(
         data = rawdat,
         mapping = mp,
-        alpha = dot.alpha,
-        size = dot.size,
+        alpha = dot_alpha,
+        size = dot_size,
         show.legend = FALSE,
         inherit.aes = FALSE,
         shape = 16
@@ -1400,13 +1311,13 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
       # if we have error bars, these are dodged, so we need to dodge the
       # data points as well
-      if (ci.style == "errorbar") {
+      if (ci_style == "errorbar") {
         if (grps) {
           p <- p + ggplot2::geom_point(
             data = rawdat,
             mapping = ggplot2::aes(x = .data[["x"]], y = .data[["response"]], colour = .data[["group_col"]]),
-            alpha = dot.alpha,
-            size = dot.size,
+            alpha = dot_alpha,
+            size = dot_size,
             position = ggplot2::position_jitterdodge(
               jitter.width = jitter[1],
               jitter.height = jitter[2],
@@ -1420,8 +1331,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
           p <- p + ggplot2::geom_point(
             data = rawdat,
             mapping = ggplot2::aes(x = .data[["x"]], y = .data[["response"]], fill = .data[["group_col"]]),
-            alpha = dot.alpha,
-            size = dot.size,
+            alpha = dot_alpha,
+            size = dot_size,
             position = ggplot2::position_jitterdodge(
               jitter.width = jitter[1],
               jitter.height = jitter[2],
@@ -1437,8 +1348,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
         p <- p + ggplot2::geom_jitter(
           data = rawdat,
           mapping = mp,
-          alpha = dot.alpha,
-          size = dot.size,
+          alpha = dot_alpha,
+          size = dot_size,
           width = jitter[1],
           height = jitter[2],
           show.legend = FALSE,
@@ -1466,7 +1377,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
         p <- p + ggrepel::geom_text_repel(
           data = rawdat,
           mapping = mp2,
-          alpha = dot.alpha,
+          alpha = dot_alpha,
           show.legend = FALSE,
           inherit.aes = FALSE
         )
@@ -1474,7 +1385,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
         p <- p + ggplot2::geom_text(
           data = rawdat,
           mapping = mp2,
-          alpha = dot.alpha,
+          alpha = dot_alpha,
           show.legend = FALSE,
           inherit.aes = FALSE
         )
@@ -1493,10 +1404,10 @@ plot.see_equivalence_test_ggeffects <- function(x,
                                    x,
                                    residuals,
                                    residuals.line,
-                                   ci.style,
-                                   line.size,
-                                   dot.alpha,
-                                   dot.size,
+                                   ci_style,
+                                   line_size,
+                                   dot_alpha,
+                                   dot_size,
                                    dodge,
                                    jitter,
                                    colors,
@@ -1577,8 +1488,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
       p <- p + ggplot2::geom_point(
         data = residuals,
         mapping = mp,
-        alpha = dot.alpha,
-        size = dot.size,
+        alpha = dot_alpha,
+        size = dot_size,
         show.legend = FALSE,
         inherit.aes = FALSE,
         shape = 16
@@ -1590,8 +1501,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
       p <- p + ggplot2::geom_jitter(
         data = residuals,
         mapping = mp,
-        alpha = dot.alpha,
-        size = dot.size,
+        alpha = dot_alpha,
+        size = dot_size,
         width = jitter[1],
         height = jitter[2],
         show.legend = FALSE,
@@ -1606,7 +1517,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
         mapping = mp,
         method = "loess",
         inherit.aes = FALSE,
-        size = line.size,
+        size = line_size,
         se = FALSE
       )
     }
@@ -1623,8 +1534,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
 .add_re_data_to_plot <- function(p,
                                  x,
                                  random_effects_data,
-                                 dot.alpha,
-                                 dot.size,
+                                 dot_alpha,
+                                 dot_size,
                                  dodge,
                                  jitter,
                                  verbose = TRUE) {
@@ -1651,8 +1562,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
     p <- p + ggplot2::geom_point(
       data = random_effects_data,
       mapping = mp,
-      alpha = dot.alpha,
-      size = dot.size,
+      alpha = dot_alpha,
+      size = dot_size,
       position = ggplot2::position_dodge(width = dodge),
       show.legend = FALSE,
       inherit.aes = FALSE,
@@ -1665,8 +1576,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
     p <- p + ggplot2::geom_point(
       data = random_effects_data,
       mapping = mp,
-      alpha = dot.alpha,
-      size = dot.size,
+      alpha = dot_alpha,
+      size = dot_size,
       position = ggplot2::position_jitterdodge(
         jitter.width = jitter[1],
         jitter.height = jitter[2],
