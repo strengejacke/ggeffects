@@ -202,38 +202,37 @@
 #' For Bayesian models, when `interval = "confidence"`, predictions are based on
 #' posterior draws of the linear predictor [`rstantools::posterior_epred()`].
 #' If `interval = "prediction"`, [`rstantools::posterior_predict()`] is called.
-#' @param vcov_fun Variance-covariance matrix used to compute uncertainty
-#' estimates (e.g., for confidence intervals based on robust standard errors).
-#' This argument accepts a covariance matrix, a function which returns a
-#' covariance matrix, or a string which identifies the function to be used to
-#' compute the covariance matrix.
-#' - A (variance-covariance) matrix
-#' - A function which returns a covariance matrix (e.g., `stats::vcov()`)
-#' - A string which indicates the estimation type for the heteroscedasticity-consistent
-#'   variance-covariance matrix, e.g. `vcov_fun = "HC0"`. Possible values are
-#'   `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, and `"HC5"`, which
-#'   will then call the `vcovHC()`-function from the **sandwich** package, using
-#'   the specified type. Further possible values are `"CR0"`, `"CR1"`, `"CR1p"`,
-#'   `"CR1S"`, `"CR2"`, and `"CR3"`, which will call the `vcovCR()`-function from
-#'   the **clubSandwich** package.
-#' - A string which indicates the name of the `vcov*()`-function from the
-#'   **sandwich** or **clubSandwich** packages, e.g. `vcov_fun = "vcovCL"`,
-#'   which is used to compute (cluster) robust standard errors for predictions.
+#' @param vcov Variance-covariance matrix used to compute uncertainty estimates
+#' (e.g., for confidence intervals based on robust standard errors). This
+#' argument accepts a covariance matrix, a function which returns a covariance
+#' matrix, or a string which identifies the function to be used to compute the
+#' covariance matrix.
+#'  * A covariance matrix
+#'  * A function which returns a covariance matrix (e.g., `stats::vcov()`)
+#'  * A string which indicates the kind of uncertainty estimates to return.
+#'    - Heteroskedasticity-consistent: `"HC"`, `"HC0"`, `"HC1"`, `"HC2"`,
+#'      `"HC3"`, `"HC4"`, `"HC4m"`, `"HC5"`. See `?sandwich::vcovHC`
+#'    - Cluster-robust: `"vcovCR"`, `"CR0"`, `"CR1"`, `"CR1p"`, `"CR1S"`,
+#'      `"CR2"`, `"CR3"`. See `?clubSandwich::vcovCR()`
+#'    - Bootstrap: `"BS"`, `"xy"`, `"fractional"`, `"jackknife"`, `"residual"`,
+#'      `"wild"`, `"mammen"`, `"norm"`, `"webb"`. See `?sandwich::vcovBS`
+#'    - Other `sandwich` package functions: `"HAC"`, `"PC"`, `"CL"`, `"PL"`.
 #'
 #' If `NULL`, standard errors (and confidence intervals) for predictions are
 #' based on the standard errors as returned by the `predict()`-function.
-#' **Note** that probably not all model objects that work with `predict_response()`
-#' are also supported by the **sandwich** or **clubSandwich** packages.
+#' **Note** that probably not all model objects that work with
+#' `predict_response()` are also supported by the **sandwich** or
+#' **clubSandwich** packages.
 #'
 #' See details in [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html).
-#' @param vcov_type Character vector, specifying the estimation type for the
-#' robust covariance matrix estimation (see `?sandwich::vcovHC`
-#' or `?clubSandwich::vcovCR` for details). Only used when `vcov_fun` is a
-#' character string indicating one of the functions from those packages.
-#' When `vcov_fun` is a function, a possible `type` argument _must_ be provided
-#' via the `vcov_args` argument.
-#' @param vcov_args List of named vectors, used as additional arguments that
-#' are passed down to `vcov_fun`.
+#' @param vcov_args List of arguments to be passed to the function identified by
+#'   the `vcov` argument. This function is typically supplied by the
+#'   **sandwich** or **clubSandwich** packages. Please refer to their
+#'   documentation (e.g., `?sandwich::vcovHAC`) to see the list of available
+#'   arguments. If no estimation type (argument `type`) is given, the default
+#'   type for `"HC"` equals the default from the **sandwich** package; for type
+#'   `"CR"` the default is set to `"CR3"`. For other defaults, refer to the
+#'   documentation in the **sandwich** or **clubSandwich** package.
 #' @param weights This argument is used in two different ways, depending on the
 #' `margin` argument.
 #' - When `margin = "empirical"`, `weights` can either be a character vector,
@@ -616,8 +615,7 @@ predict_response <- function(model,
                              type = "fixed",
                              condition = NULL,
                              back_transform = TRUE,
-                             vcov_fun = NULL,
-                             vcov_type = NULL,
+                             vcov = NULL,
                              vcov_args = NULL,
                              weights = NULL,
                              interval,
@@ -634,6 +632,12 @@ predict_response <- function(model,
       "counterfactual", "full_data", "ame", "marginaleffects"
     )
   )
+
+  ## TODO: remove deprecated later
+  dots <- list(...)
+  if (!is.null(dots$vcov_fun) || !is.null(dots$vcov_type)) {
+    insight::format_warning("The arguments `vcov_fun` and `vcov_type` are deprecated and no longer. Please only use `vcov` to specify a variance-covariance matrix or a string to identify the function to compute heteroscedasticity-consistent standard errors, and the `vcov_args` argument for further arguments passed to that function.") # nolint
+  }
 
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
@@ -668,8 +672,7 @@ predict_response <- function(model,
       typical = "mean",
       condition = condition,
       back_transform = back_transform,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       interval = interval,
       bias_correction = bias_correction,
@@ -684,8 +687,7 @@ predict_response <- function(model,
       typical = c(numeric = "mean", factor = "mode"),
       condition = condition,
       back_transform = back_transform,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       interval = interval,
       bias_correction = bias_correction,
@@ -700,8 +702,7 @@ predict_response <- function(model,
       typical = "mean",
       condition = condition,
       back_transform = back_transform,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       interval = interval,
       bias_correction = bias_correction,
@@ -719,8 +720,7 @@ predict_response <- function(model,
       typical = "mean",
       condition = condition,
       back_transform = back_transform,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       weights = weights,
       verbose = verbose,

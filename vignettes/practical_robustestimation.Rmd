@@ -52,47 +52,56 @@ plot(me)
 
 ## Predictions with HC-estimated standard errors
 
-Now, we use `sandwich::vcovHC()` to estimate heteroskedasticity-consistent standard errors. To do so, first the function name, `vcovHC()`, must be supplied to the `vcov_fun`-argument. `sandwich::vcovHC()`, in turn, has different types of estimation. This must be specified in `vcov_type`. As a shortcut, the estimation type can be directly passed to `vcov_fun`, however, this would only call `sandwich::vcovHC()`.
+Now, we use `sandwich::vcovHC()` to estimate heteroskedasticity-consistent standard errors. To do so, first the *name* of a related *function* must be supplied or the *type* of the HC-estimation as string.
+
+E.g., to use the default `sandwich::vcovHC()` function, set `vcov = "HC"`, in which case the default type in `sandwich::vcovHC()` is called. Setting `vcov = "HC1"` is a convenient shortcut for `vcov = "HC", vcov_args = list(type = "HC1")`, which would call `sandwich::vcovHC(type = "HC1")`.
 
 ```{r message = TRUE}
-# shorter: predict_response(model, "X1", vcov_fun = "HC0"). This is equivalent to the following:
-predict_response(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
+# shorter: predict_response(model, "X1", vcov = "HC0"). This is equivalent to the following:
+predict_response(model, "X1", vcov = "HC", vcov_args = list(type = "HC0"))
 ```
 
 ```{r message = FALSE}
-me <- predict_response(model, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
+me <- predict_response(model, "X1", vcov = "HC", vcov_args = list(type = "HC0"))
 plot(me)
 ```
 
-## Passing a function to `vcov_fun`
+## Passing a function to `vcov`
 
-Instead of character strings, the `vcov_fun` argument also accepts a function that returns a variance-covariance matrix. Further arguments that need to be passed to that functions should be provided as list to the `vcov_args` argument. Thus, we can rewrite the above code-chunk in the following way:
+Instead of character strings, the `vcov` argument also accepts a function that returns a variance-covariance matrix. Further arguments that need to be passed to that functions should be provided as list to the `vcov_args` argument. Thus, we can rewrite the above code-chunk in the following way:
 
 ```{r message = TRUE}
 predict_response(
   model,
   "X1",
-  vcov_fun = sandwich::vcovHC,
+  vcov = sandwich::vcovHC,
   vcov_args = list(type = "HC0")
 )
 ```
 
 ## Predictions with cluster-robust standard errors
 
-The last example shows how to define cluster-robust standard errors. These are based on `clubSandwich::vcovCR()`. Thus, `vcov_fun = "vcovCR"` is always required when estimating cluster robust standard errors. `clubSandwich::vcovCR()` has also different estimation types, which must be specified in `vcov_type`. Furthermore, `clubSandwich::vcovCR()` *requires* the `cluster`-argument, which must be specified in `vcov_args`:
+The last example shows how to define cluster-robust standard errors. These are based on `clubSandwich::vcovCR()`. Thus, `vcov = "CR"` is always required when estimating cluster robust standard errors. `clubSandwich::vcovCR()` has also different estimation types, which must be specified in `vcov_args`. Furthermore, `clubSandwich::vcovCR()` *requires* the `cluster`-argument, which must also be specified in `vcov_args`:
 
 ```{r message = TRUE}
+# shorter:
+# predict_response(model, "X1", vcov = "CR0",
+#                  vcov_args = list(cluster = dat$cluster)).
+# This is equivalent to the following:
 predict_response(
-  model, "X1", vcov_fun = "vcovCR", vcov_type = "CR0",
-  vcov_args = list(cluster = dat$cluster)
+  model,
+  "X1",
+  vcov = "CR",
+  vcov_args = list(type = "CR0", cluster = dat$cluster)
 )
 ```
 
 ```{r message = FALSE}
 me <- predict_response(
-  model, "X1", vcov_fun = "vcovCR", vcov_type = "CR0",
-  vcov_args = list(cluster = dat$cluster)
+  model,
+  "X1",
+  vcov = "CR",
+  vcov_args = list(type = "CR0", cluster = dat$cluster)
 )
 plot(me)
 ```
-
