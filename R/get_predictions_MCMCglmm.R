@@ -1,4 +1,4 @@
-get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, interval, terms, value_adjustment, condition, ...) {
+get_predictions_MCMCglmm <- function(model, fitfram, ci_level, interval, terms, value_adjustment, condition, ...) {
   if (!(interval %in% c("confidence", "prediction"))) {
     interval <- "confidence"
   }
@@ -19,7 +19,7 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci.lvl, interval, terms, va
     newdata = new_grid,
     type = "response",
     interval = interval,
-    level = ci.lvl,
+    level = ci_level,
     ...
   )
 

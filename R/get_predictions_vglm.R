@@ -1,14 +1,14 @@
-get_predictions_vglm <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_vglm <- function(model, fitfram, ci_level, linv, ...) {
   insight::check_if_installed("VGAM", "to calculate adjusted predictions for a vector generalized linear model")
 
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- !is.null(ci_level) && !is.na(ci_level)
   mi <- insight::model_info(model)
 
   is_multivariate <- isTRUE(model@extra$multiple.responses)
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- (1 + ci.lvl) / 2
+  if (!is.null(ci_level) && !is.na(ci_level))
+    ci <- (1 + ci_level) / 2
   else
     ci <- 0.975
 

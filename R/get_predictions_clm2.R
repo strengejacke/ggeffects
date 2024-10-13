@@ -1,4 +1,4 @@
-get_predictions_clm2 <- function(model, data_grid, ci.lvl, linv, ...) {
+get_predictions_clm2 <- function(model, data_grid, ci_level, linv, ...) {
   insight::check_if_installed("datawizard")
 
   # for predict.clm2, we need all unique levels of all included variables

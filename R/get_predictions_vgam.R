@@ -1,4 +1,4 @@
-get_predictions_vgam <- function(model, fitfram, ci.lvl, linv, ...) {
+get_predictions_vgam <- function(model, fitfram, ci_level, linv, ...) {
   prdat <- stats::predict(
     model,
     newdata = fitfram,

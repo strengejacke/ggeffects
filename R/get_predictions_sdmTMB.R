@@ -1,10 +1,10 @@
-get_predictions_sdmTMB <- function(model, data_grid, ci.lvl, linv, type, ...) {
+get_predictions_sdmTMB <- function(model, data_grid, ci_level, linv, type, ...) {
 
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci
-  if (se) ci <- (1 + ci.lvl) / 2
+  if (se) ci <- (1 + ci_level) / 2
 
   # copy object
   predicted_data <- data_grid

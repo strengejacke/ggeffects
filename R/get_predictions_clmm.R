@@ -1,4 +1,4 @@
-get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.lvl, linv, ...) {
+get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci_level, linv, ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for clmm-models")
 
   values.at <- .data_grid(
@@ -32,7 +32,7 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci.l
     at = values.at,
     mode = "prob"
   )
-  data_grid <- as.data.frame(stats::confint(emmpred, level = ci.lvl))
+  data_grid <- as.data.frame(stats::confint(emmpred, level = ci_level))
   data_grid <- .var_rename(
     data_grid,
     prob = "predicted",

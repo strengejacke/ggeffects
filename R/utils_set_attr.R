@@ -14,7 +14,7 @@
                                       n.trials = NULL,
                                       prediction.interval = NULL,
                                       condition = NULL,
-                                      ci.lvl = 0.95,
+                                      ci_level = 0.95,
                                       type = NULL,
                                       untransformed.predictions = NULL,
                                       back.transform = FALSE,
@@ -50,7 +50,7 @@
   attr(data, "at.list") <- at_list
   attr(data, "prediction.interval") <- prediction.interval
   attr(data, "condition") <- condition
-  attr(data, "ci.lvl") <- ci.lvl
+  attr(data, "ci_level") <- ci_level
   attr(data, "type") <- type
   attr(data, "response.name") <- insight::find_response(model)
   attr(data, "back.transform") <- back.transform

@@ -177,7 +177,7 @@ print.ggeffects <- function(x, group_name = TRUE, digits = 2, verbose = TRUE, ..
 .print_footnote <- function(x, format = "text") {
   msg <- NULL
   consv <- attr(x, "constant.values")
-  ci.lvl <- attr(x, "ci.lvl")
+  ci_level <- attr(x, "ci_level")
 
   cv <- lapply(consv, function(.x) {
     if (is.numeric(.x)) {

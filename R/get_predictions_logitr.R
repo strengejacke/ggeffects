@@ -1,4 +1,4 @@
-get_predictions_logitr <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_logitr <- function(model, fitfram, ci_level, ...) {
   # bind obsID to new data
   obsID <- parse(text = insight::safe_deparse(insight::get_call(model)))[[1]]$obsID
   fitfram[[obsID]] <- model$data[[obsID]][1]
@@ -7,7 +7,7 @@ get_predictions_logitr <- function(model, fitfram, ci.lvl, ...) {
     model,
     newdata = fitfram,
     obsID = obsID,
-    ci = ci.lvl,
+    ci = ci_level,
     ...
   )
 

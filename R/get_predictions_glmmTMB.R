@@ -1,6 +1,6 @@
 get_predictions_glmmTMB <- function(model,
                                     data_grid,
-                                    ci.lvl,
+                                    ci_level,
                                     linv,
                                     type,
                                     terms,
@@ -11,12 +11,12 @@ get_predictions_glmmTMB <- function(model,
                                     verbose = TRUE,
                                     ...) {
   # does user want standard errors?
-  se <- !is.null(ci.lvl) && !is.na(ci.lvl)
+  se <- !is.null(ci_level) && !is.na(ci_level)
   pred.interval <- FALSE
 
   # compute ci, two-ways
-  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
-    ci <- (1 + ci.lvl) / 2
+  if (!is.null(ci_level) && !is.na(ci_level)) {
+    ci <- (1 + ci_level) / 2
   } else {
     ci <- 0.975
   }

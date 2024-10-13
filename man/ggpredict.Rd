@@ -40,7 +40,6 @@ ggeffect(
   ci_level = 0.95,
   bias_correction = FALSE,
   verbose = TRUE,
-  ci.lvl = ci_level,
   ...
 )
 
@@ -58,7 +57,6 @@ ggemmeans(
   interval = "confidence",
   bias_correction = FALSE,
   verbose = TRUE,
-  ci.lvl = ci_level,
   back.transform = back_transform,
   ...
 )
@@ -76,7 +74,6 @@ ggpredict(
   vcov_args = NULL,
   interval,
   verbose = TRUE,
-  ci.lvl = ci_level,
   back.transform = back_transform,
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
@@ -336,10 +333,6 @@ where there are additive random components involved and where that
 bias-adjustment can be appropriate. If \code{ggemmeans()} is called,
 bias-correction can also be applied to GEE-models.}
 
-\item{ci.lvl, vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
-Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
-instead.}
-
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
 \emph{prediction intervals} include the residual variance (sigma^2) to account for
@@ -350,6 +343,10 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 For Bayesian models, when \code{interval = "confidence"}, predictions are based on
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
+
+\item{vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
+Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
+instead.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

@@ -1,6 +1,6 @@
-get_predictions_rq <- function(model, fitfram, ci.lvl, ...) {
+get_predictions_rq <- function(model, fitfram, ci_level, ...) {
 
-  if (!is.null(ci.lvl) && !is.na(ci.lvl)) {
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- "confidence"
   } else {
     ci <- "none"
@@ -10,7 +10,7 @@ get_predictions_rq <- function(model, fitfram, ci.lvl, ...) {
     model,
     newdata = fitfram,
     interval = ci,
-    level = ci.lvl,
+    level = ci_level,
     ...
   )
 

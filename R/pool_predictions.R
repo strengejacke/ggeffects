@@ -52,7 +52,7 @@ pool_predictions <- function(x, ...) {
   # preparation ----
 
   len <- length(x)
-  ci <- attributes(x[[1]])$ci.lvl
+  ci <- attributes(x[[1]])$ci_level
   dof <- attributes(x[[1]])$df
   link_inv <- attributes(x[[1]])$link_inverse
   link_fun <- attributes(x[[1]])$link_function

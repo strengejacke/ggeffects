@@ -1144,7 +1144,7 @@ test_predictions.ggeffects <- function(object,
   # retrieve focal predictors
   focal <- attributes(object)$original.terms
   # retrieve ci level predictors
-  ci_level <- attributes(object)$ci.lvl
+  ci_level <- attributes(object)$ci_level
   # check prediction type - we set the default scale here. This is only
   # required for models with zero-inflation component (see later)
   type <- attributes(object)$type
