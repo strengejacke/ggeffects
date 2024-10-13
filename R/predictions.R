@@ -7,9 +7,9 @@ select_prediction_method <- function(model_class,
                                      model_info,
                                      terms,
                                      value_adjustment,
-                                     vcov.fun,
-                                     vcov.type,
-                                     vcov.args,
+                                     vcov_fun,
+                                     vcov_type,
+                                     vcov_args,
                                      condition,
                                      interval,
                                      bias_correction = FALSE,
@@ -22,11 +22,11 @@ select_prediction_method <- function(model_class,
   if (model_class == "svyglm") { # nolint
     prediction_data <- get_predictions_svyglm(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "svyglm.nb") {
-    prediction_data <- get_predictions_svyglmnb(model, data_grid, ci_level, linv, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_svyglmnb(model, data_grid, ci_level, linv, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class %in% c("stanreg", "brmsfit")) {
     prediction_data <- get_predictions_stan(model, data_grid, ci_level, type, model_info, interval, terms, verbose = verbose, ...) # nolint
   } else if (model_class == "coxph" && type != "survival" && type != "cumulative_hazard") {
-    prediction_data <- get_predictions_coxph(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_coxph(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
     prediction_data <- get_predictions_survival(model, data_grid, ci_level, type, terms, ...)
   } else if (model_class == "ols") {
@@ -44,7 +44,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "sdmTMB") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci_level, linv, type, ...)
   } else if (model_class == "glmgee") {
-    prediction_data <- get_predictions_glmgee(model, data_grid, ci_level, linv, vcov = vcov.fun, ...)
+    prediction_data <- get_predictions_glmgee(model, data_grid, ci_level, linv, vcov = vcov_fun, ...)
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci_level, linv, type, terms, condition, ...)
   } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
@@ -68,7 +68,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "tobit") {
     prediction_data <- get_predictions_tobit(model, data_grid, ci_level, linv, ...)
   } else if (model_class %in% c("lme", "gls", "plm")) {
-    prediction_data <- get_predictions_lme(model, data_grid, ci_level, linv, type, terms, value_adjustment, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_lme(model, data_grid, ci_level, linv, type, terms, value_adjustment, model_class, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class == "gee") {
     prediction_data <- get_predictions_gee(model, terms, ...)
   } else if (model_class %in% c("multinom", "bracl", "brmultinom", "multinom_weightit", "ordinal_weightit")) {
@@ -84,13 +84,13 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "mixor") {
     prediction_data <- get_predictions_mixor(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, condition, interval, ...) # nolint
   } else if (model_class == "polr") {
-    prediction_data <- get_predictions_polr(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_polr(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class %in% c("averaging", "betareg", "truncreg", "ivreg", "vgam", "fixest", "feglm", "glmx")) {
-    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class %in% c("zeroinfl", "hurdle", "zerotrunc")) {
-    prediction_data <- get_predictions_zeroinfl(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_zeroinfl(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class %in% c("glm", "glm.nb")) {
-    prediction_data <- get_predictions_glm(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) # nolint
+    prediction_data <- get_predictions_glm(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov_fun, vcov_type, vcov_args, condition, interval, type, ...) # nolint
   } else if (model_class == "rq") {
     prediction_data <- get_predictions_rq(model, data_grid, ci_level, ...)
   } else if (model_class == "rqs") {
@@ -100,19 +100,19 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "glmrob") {
     prediction_data <- get_predictions_glmrob_base(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "glmRob") {
-    prediction_data <- get_predictions_glmRob(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_glmRob(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class == "logistf") {
     prediction_data <- get_predictions_logistf(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "mblogit") {
     prediction_data <- get_predictions_mblogit(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "phylolm") {
-    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, ...) # nolint
   } else if (model_class == "mclogit") {
-    prediction_data <- get_predictions_mclogit(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, ...) # nolint
+    prediction_data <- get_predictions_mclogit(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, ...) # nolint
   } else if (model_class == "mlogit") {
     prediction_data <- get_predictions_mlogit(model, data_grid, ...)
   } else if (model_class == "lm") {
-    prediction_data <- get_predictions_lm(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) # nolint
+    prediction_data <- get_predictions_lm(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, type, ...) # nolint
   } else if (model_class == "MixMod") {
     prediction_data <- get_predictions_MixMod(model, data_grid, ci_level, linv, type, terms, value_adjustment, condition, bias_correction = bias_correction, ...) # nolint
   } else if (model_class == "MCMCglmm") {
@@ -143,9 +143,9 @@ select_prediction_method <- function(model_class,
                                      model_class,
                                      value_adjustment,
                                      terms,
-                                     vcov.fun,
-                                     vcov.type,
-                                     vcov.args,
+                                     vcov_fun,
+                                     vcov_type,
+                                     vcov_args,
                                      condition = NULL,
                                      interval = NULL) {
   # compute ci, two-ways
@@ -192,16 +192,16 @@ select_prediction_method <- function(model_class,
     data_grid$conf.high <- pred_int$CI_high
   } else {
     # did user request robust standard errors?
-    if (!is.null(vcov.fun) || (!is.null(interval) && se)) {
+    if (!is.null(vcov_fun) || (!is.null(interval) && se)) {
       se.pred <- .standard_error_predictions(
         model = model,
         prediction_data = data_grid,
         value_adjustment = value_adjustment,
         terms = terms,
         model_class = model_class,
-        vcov.fun = vcov.fun,
-        vcov.type = vcov.type,
-        vcov.args = vcov.args,
+        vcov_fun = vcov_fun,
+        vcov_type = vcov_type,
+        vcov_args = vcov_args,
         condition = condition,
         interval = interval
       )

@@ -1,6 +1,6 @@
-get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, interval, type, ...) {
+get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, type, ...) {
   # does user want standard errors?
-  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov.fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov_fun)
 
   # compute ci, two-ways
   if (!is.null(ci_level) && !is.na(ci_level))
@@ -25,7 +25,7 @@ get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_ad
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, ...)
 
-  } else if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
+  } else if (!is.null(vcov_fun) || (!is.null(interval) && interval == "prediction")) {
 
     # did user request standard errors? if yes, compute CI
 
@@ -42,9 +42,9 @@ get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_ad
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
-      vcov.args = vcov.args,
+      vcov_fun = vcov_fun,
+      vcov_type = vcov_type,
+      vcov_args = vcov_args,
       condition = condition,
       interval = interval
     )

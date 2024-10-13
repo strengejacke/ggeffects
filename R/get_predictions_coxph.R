@@ -4,9 +4,9 @@ get_predictions_coxph <- function(model,
                                   model_class,
                                   value_adjustment,
                                   terms,
-                                  vcov.fun,
-                                  vcov.type,
-                                  vcov.args,
+                                  vcov_fun,
+                                  vcov_type,
+                                  vcov_args,
                                   condition,
                                   interval,
                                   ...) {
@@ -33,7 +33,7 @@ get_predictions_coxph <- function(model,
   )
 
   # did user request standard errors? if yes, compute CI
-  if (!is.null(vcov.fun) || (!is.null(interval) && interval == "prediction")) {
+  if (!is.null(vcov_fun) || (!is.null(interval) && interval == "prediction")) {
     # copy predictions
     data_grid$predicted <- exp(prdat$fit)
 
@@ -43,9 +43,9 @@ get_predictions_coxph <- function(model,
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
-      vcov.args = vcov.args,
+      vcov_fun = vcov_fun,
+      vcov_type = vcov_type,
+      vcov_args = vcov_args,
       condition = condition,
       interval = interval
     )

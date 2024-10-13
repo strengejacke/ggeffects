@@ -6,9 +6,9 @@ get_predictions_generic2 <- function(model,
                                      model_class,
                                      value_adjustment,
                                      terms,
-                                     vcov.fun,
-                                     vcov.type,
-                                     vcov.args,
+                                     vcov_fun,
+                                     vcov_type,
+                                     vcov_args,
                                      condition,
                                      interval,
                                      ...) {
@@ -23,7 +23,7 @@ get_predictions_generic2 <- function(model,
     "response"
   )
 
-  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov.fun)
+  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov_fun)
 
   # compute ci, two-ways
   if (!is.null(ci_level) && !is.na(ci_level))
@@ -54,9 +54,9 @@ get_predictions_generic2 <- function(model,
     type = type,
     terms = terms,
     model_class = model_class,
-    vcov.fun = vcov.fun,
-    vcov.type = vcov.type,
-    vcov.args = vcov.args,
+    vcov_fun = vcov_fun,
+    vcov_type = vcov_type,
+    vcov_args = vcov_args,
     condition = condition,
     interval = interval
   )

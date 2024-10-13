@@ -22,12 +22,12 @@ ggeffects:::.safe_se_from_vcov(
   m,
   nd,
   value_adjustment = "mean",
-  vcov.fun = NULL,
+  vcov_fun = NULL,
   terms = "Species",
   condition = c(Sepal.Width = 50),
   type = "fixed",
-  vcov.args = NULL,
-  vcov.type = NULL,
+  vcov_args = NULL,
+  vcov_type = NULL,
   interval = NULL,
   model_class = "lm"
 )

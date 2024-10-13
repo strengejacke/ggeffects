@@ -2,8 +2,8 @@
 
 ## Breaking changes
 
-* The deprecated arguments `back.transform` and `ci.lvl` have been removed.
-  Please use `back_transform` and `ci_level` instead.
+* The deprecated arguments for `ggpredict()`, `vcov()`, `ggeffect()` and
+  `ggemmeans()` have been removed.
 
 * The deprecated arguments for the `plot()` method have been removed.
 

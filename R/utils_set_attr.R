@@ -20,7 +20,7 @@
                                       back_transform = FALSE,
                                       response.transform = NULL,
                                       original_model_frame = NULL,
-                                      vcov.args = NULL,
+                                      vcov_args = NULL,
                                       margin = NULL,
                                       latent = FALSE,
                                       latent_thresholds = NULL,
@@ -57,7 +57,7 @@
   attr(data, "response.transform") <- response.transform
   attr(data, "untransformed.predictions") <- untransformed.predictions
   attr(data, "standard_error") <- data$std.error
-  attr(data, "vcov") <- vcov.args
+  attr(data, "vcov") <- vcov_args
   attr(data, "margin") <- margin
   attr(data, "df") <- .get_df(model)
 
