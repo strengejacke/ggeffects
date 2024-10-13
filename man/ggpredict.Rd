@@ -74,9 +74,6 @@ ggpredict(
   interval,
   bias_correction = FALSE,
   verbose = TRUE,
-  vcov.fun = vcov_fun,
-  vcov.type = vcov_type,
-  vcov.args = vcov_args,
   ...
 )
 }
@@ -341,10 +338,6 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 For Bayesian models, when \code{interval = "confidence"}, predictions are based on
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
-
-\item{vcov.fun, vcov.type, vcov.args}{Deprecated arguments.
-Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
-instead.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

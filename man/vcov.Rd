@@ -10,9 +10,6 @@
   vcov_fun = NULL,
   vcov_type = NULL,
   vcov_args = NULL,
-  vcov.fun = vcov_fun,
-  vcov.type = vcov_type,
-  vcov.args = vcov_args,
   verbose = TRUE,
   ...
 )
@@ -56,9 +53,6 @@ via the \code{vcov_args} argument.}
 
 \item{vcov_args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov_fun}.}
-
-\item{vcov.fun, vcov.type, vcov.args}{Deprecated. Use \code{vcov_fun}, \code{vcov_type}
-and \code{vcov_args} instead.}
 
 \item{verbose}{Toggle messages or warnings.}
 

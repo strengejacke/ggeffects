@@ -43,9 +43,6 @@
 #' weights are available, the function falls back to `"mean"`. **Note** that this
 #' argument is ignored for `predict_response()`, because the `margin` argument
 #' takes care of this.
-#' @param vcov.fun,vcov.type,vcov.args Deprecated arguments.
-#' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
-#' instead.
 #' @param ... Arguments are passed down to `ggpredict()` (further down to `predict()`)
 #' or `ggemmeans()` (and thereby to `emmeans::emmeans()`), If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
@@ -71,9 +68,6 @@ ggpredict <- function(model,
                       interval,
                       bias_correction = FALSE,
                       verbose = TRUE,
-                      vcov.fun = vcov_fun,
-                      vcov.type = vcov_type,
-                      vcov.args = vcov_args,
                       ...) {
   # check arguments
   type <- .validate_type_argument(model, type)
@@ -90,22 +84,6 @@ ggpredict <- function(model,
 
   # make sure we have valid values
   interval <- match.arg(interval, c("confidence", "prediction"))
-
-  ## TODO: remove deprecated later
-
-  # handle deprectated arguments
-  if (!missing(vcov.fun)) {
-    vcov_fun <- vcov.fun
-    insight::format_warning("Argument `vcov.fun` is deprecated and will be removed in the future. Please use `vcov_fun` instead.") # nolint
-  }
-  if (!missing(vcov.type)) {
-    vcov_type <- vcov.type
-    insight::format_warning("Argument `vcov.type` is deprecated and will be removed in the future. Please use `vcov_type` instead.") # nolint
-  }
-  if (!missing(vcov.args)) {
-    vcov_args <- vcov.args
-    insight::format_warning("Argument `vcov.args` is deprecated and will be removed in the future. Please use `vcov_args` instead.") # nolint
-  }
 
   model.name <- deparse(substitute(model))
 
@@ -139,9 +117,9 @@ ggpredict <- function(model,
     typical = typical,
     condition = condition,
     back_transform = back_transform,
-    vcov.fun = vcov_fun,
-    vcov.type = vcov_type,
-    vcov.args = vcov_args,
+    vcov_fun = vcov_fun,
+    vcov_type = vcov_type,
+    vcov_args = vcov_args,
     interval = interval,
     bias_correction = bias_correction,
     verbose = verbose
@@ -190,9 +168,9 @@ ggpredict_helper <- function(model,
                              typical,
                              condition,
                              back_transform,
-                             vcov.fun,
-                             vcov.type,
-                             vcov.args,
+                             vcov_fun,
+                             vcov_type,
+                             vcov_args,
                              interval,
                              bias_correction = FALSE,
                              verbose = TRUE,
@@ -257,9 +235,9 @@ ggpredict_helper <- function(model,
     model_info = model_info,
     terms = original_terms,
     value_adjustment = typical,
-    vcov.fun = vcov.fun,
-    vcov.type = vcov.type,
-    vcov.args = vcov.args,
+    vcov_fun = vcov_fun,
+    vcov_type = vcov_type,
+    vcov_args = vcov_args,
     condition = condition,
     interval = interval,
     bias_correction = bias_correction,
@@ -336,7 +314,7 @@ ggpredict_helper <- function(model,
     untransformed.predictions = untransformed.predictions,
     back_transform = back_transform,
     response.transform = response.transform,
-    vcov.args = .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type, skip_if_null = TRUE, verbose = FALSE), # nolint
+    vcov_args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint
     margin = "mean_reference",
     bias_correction = bias_correction,
     verbose = verbose

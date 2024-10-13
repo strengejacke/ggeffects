@@ -1,6 +1,6 @@
-get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value_adjustment, terms, vcov.fun, vcov.type, vcov.args, condition, ...) {
+get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, ...) {
   # does user want standard errors?
-  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov.fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov_fun)
 
   # compute ci, two-ways
   if (!is.null(ci_level) && !is.na(ci_level))
@@ -29,7 +29,7 @@ get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value
   )
 
   # did user request standard errors? if yes, compute CI
-  if (!is.null(vcov.fun)) {
+  if (!is.null(vcov_fun)) {
 
     # copy predictions
     if ("fit" %in% names(prdat))
@@ -43,9 +43,9 @@ get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
-      vcov.args = vcov.args,
+      vcov_fun = vcov_fun,
+      vcov_type = vcov_type,
+      vcov_args = vcov_args,
       condition = condition
     )
 

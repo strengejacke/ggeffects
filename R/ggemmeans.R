@@ -49,17 +49,17 @@ ggemmeans <- function(model,
     vcov_info <- NULL
   } else if (is.function(vcov_fun)) {
     vcov_info <- list(
-      vcov.fun = vcov_fun,
-      vcov.args = vcov_args
+      vcov_fun = vcov_fun,
+      vcov_args = vcov_args
     )
   } else if (is.matrix(vcov_fun)) {
-    vcov_info <- list(vcov.fun = list(vcov_fun))
+    vcov_info <- list(vcov_fun = list(vcov_fun))
   } else {
     vcov_info <- .prepare_vcov_args(
       model,
-      vcov.fun = vcov_fun,
-      vcov.type = vcov_type,
-      vcov.args = vcov_args,
+      vcov_fun = vcov_fun,
+      vcov_type = vcov_type,
+      vcov_args = vcov_args,
       include_model = FALSE,
       verbose = verbose
     )
@@ -261,7 +261,7 @@ ggemmeans <- function(model,
     back_transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
-    vcov.args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
+    vcov_args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
     bias_correction = bias_correction,
     verbose = verbose
   )

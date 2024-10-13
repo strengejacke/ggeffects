@@ -39,9 +39,9 @@ get_predictions_geeglm <- function(model,
     type = type,
     terms = terms,
     model_class = model_class,
-    vcov.fun = NULL,
-    vcov.type = NULL,
-    vcov.args = NULL,
+    vcov_fun = NULL,
+    vcov_type = NULL,
+    vcov_args = NULL,
     condition = condition,
     interval = NULL
   )

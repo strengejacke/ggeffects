@@ -6,8 +6,6 @@
 #' @param object An object of class `"ggeffects"`, as returned by `predict_response()`.
 #' @param ... Currently not used.
 #' @inheritParams predict_response
-#' @param vcov.fun,vcov.type,vcov.args Deprecated. Use `vcov_fun`, `vcov_type`
-#' and `vcov_args` instead.
 #'
 #' @return The variance-covariance matrix for the predicted values from `object`.
 #'
@@ -44,9 +42,6 @@ vcov.ggeffects <- function(object,
                            vcov_fun = NULL,
                            vcov_type = NULL,
                            vcov_args = NULL,
-                           vcov.fun = vcov_fun,
-                           vcov.type = vcov_type,
-                           vcov.args = vcov_args,
                            verbose = TRUE,
                            ...) {
   model <- .get_model_object(object)
@@ -138,7 +133,7 @@ vcov.ggeffects <- function(object,
   tryCatch(
     .vcov_helper(
       model, model_frame, get_predict_function(model), newdata,
-      vcov.fun = vcov_fun, vcov.type = vcov_type, vcov.args = vcov_args,
+      vcov_fun = vcov_fun, vcov_type = vcov_type, vcov_args = vcov_args,
       original_terms = original_terms, full.vcov = TRUE
     ),
     error = function(e) {
@@ -158,13 +153,13 @@ vcov.ggeffects <- function(object,
                          model_frame,
                          model_class,
                          newdata,
-                         vcov.fun,
-                         vcov.type,
-                         vcov.args,
+                         vcov_fun,
+                         vcov_type,
+                         vcov_args,
                          original_terms,
                          full.vcov = FALSE) {
   # get variance-covariance matrix
-  vcm <- .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type)
+  vcm <- .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type)
 
   model_terms <- tryCatch(
     stats::terms(model),
@@ -319,33 +314,33 @@ vcov.ggeffects <- function(object,
 
 
 .get_variance_covariance_matrix <- function(model,
-                                            vcov.fun,
-                                            vcov.args,
-                                            vcov.type,
+                                            vcov_fun,
+                                            vcov_args,
+                                            vcov_type,
                                             skip_if_null = FALSE,
                                             verbose = TRUE) {
   # check if robust vcov-matrix is requested
-  if (is.null(vcov.fun) && skip_if_null) {
+  if (is.null(vcov_fun) && skip_if_null) {
     vcm <- NULL
-  } else if (!is.null(vcov.fun)) {
+  } else if (!is.null(vcov_fun)) {
     # user provided a function?
-    if (is.function(vcov.fun)) {
-      if (is.null(vcov.args) || !is.list(vcov.args)) {
+    if (is.function(vcov_fun)) {
+      if (is.null(vcov_args) || !is.list(vcov_args)) {
         arguments <- list(model)
       } else {
-        arguments <- c(list(model), vcov.args)
+        arguments <- c(list(model), vcov_args)
       }
-      vcm <- as.matrix(do.call("vcov.fun", arguments))
-    } else if (is.matrix(vcov.fun)) {
+      vcm <- as.matrix(do.call("vcov_fun", arguments))
+    } else if (is.matrix(vcov_fun)) {
       # user provided a vcov-matrix?
-      vcm <- as.matrix(vcov.fun)
+      vcm <- as.matrix(vcov_fun)
     } else {
-      vcov_info <- .prepare_vcov_args(model, vcov.fun, vcov.type, vcov.args, verbose = verbose)
+      vcov_info <- .prepare_vcov_args(model, vcov_fun, vcov_type, vcov_args, verbose = verbose)
       # do nothing if vcov cannot be computed
       if (is.null(vcov_info)) {
         return(NULL)
       }
-      vcm <- as.matrix(do.call(vcov_info$vcov.fun, vcov_info$vcov.args))
+      vcm <- as.matrix(do.call(vcov_info$vcov_fun, vcov_info$vcov_args))
     }
     # for zero-inflated models, remove zero-inflation part from vcov
     if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
@@ -360,34 +355,34 @@ vcov.ggeffects <- function(object,
 
 
 .prepare_vcov_args <- function(model,
-                               vcov.fun,
-                               vcov.type,
-                               vcov.args,
+                               vcov_fun,
+                               vcov_type,
+                               vcov_args,
                                include_model = TRUE,
                                verbose = TRUE) {
   # check for existing vcov-prefix
-  if (!startsWith(vcov.fun, "vcov")) {
+  if (!startsWith(vcov_fun, "vcov")) {
     vcov_shortcuts <- c("HC0", "HC1", "HC2", "HC3", "HC4", "HC5", "HC4m",
                         "CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")
-    # check whether a "type" is provided in vcov.fun
-    if (is.null(vcov.type) && vcov.fun %in% vcov_shortcuts) {
-      vcov.type <- vcov.fun
-      if (startsWith(vcov.fun, "HC")) {
-        vcov.fun <- "HC"
+    # check whether a "type" is provided in vcov_fun
+    if (is.null(vcov_type) && vcov_fun %in% vcov_shortcuts) {
+      vcov_type <- vcov_fun
+      if (startsWith(vcov_fun, "HC")) {
+        vcov_fun <- "HC"
       } else {
-        vcov.fun <- "CR"
+        vcov_fun <- "CR"
       }
     }
-    vcov.fun <- paste0("vcov", vcov.fun)
+    vcov_fun <- paste0("vcov", vcov_fun)
   }
   # set default for clubSandwich
-  if (vcov.fun == "vcovCR" && is.null(vcov.type)) {
-    vcov.type <- "CR0"
+  if (vcov_fun == "vcovCR" && is.null(vcov_type)) {
+    vcov_type <- "CR0"
   }
-  if (!is.null(vcov.type) && vcov.type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
+  if (!is.null(vcov_type) && vcov_type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
     insight::check_if_installed("clubSandwich")
     robust_package <- "clubSandwich"
-    vcov.fun <- "vcovCR"
+    vcov_fun <- "vcovCR"
   } else {
     insight::check_if_installed("sandwich")
     robust_package <- "sandwich"
@@ -405,14 +400,14 @@ vcov.ggeffects <- function(object,
   }
   # compute robust standard errors based on vcov
   if (robust_package == "sandwich") {
-    vcov.fun <- get(vcov.fun, asNamespace("sandwich"))
+    vcov_fun <- get(vcov_fun, asNamespace("sandwich"))
   } else {
-    vcov.fun <- clubSandwich::vcovCR
+    vcov_fun <- clubSandwich::vcovCR
   }
 
   if (include_model) {
-    list(vcov.fun = vcov.fun, vcov.args = c(list(model, type = vcov.type), vcov.args))
+    list(vcov_fun = vcov_fun, vcov_args = c(list(model, type = vcov_type), vcov_args))
   } else {
-    list(vcov.fun = vcov.fun, vcov.args = c(list(type = vcov.type), vcov.args))
+    list(vcov_fun = vcov_fun, vcov_args = c(list(type = vcov_type), vcov_args))
   }
 }

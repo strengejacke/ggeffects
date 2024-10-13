@@ -176,7 +176,7 @@ ggaverage <- function(model,
     untransformed.predictions = untransformed.predictions,
     back_transform = back_transform,
     response.transform = response.transform,
-    vcov.args = if (isTRUE(vcov_arg)) NULL else vcov_arg,
+    vcov_args = if (isTRUE(vcov_arg)) NULL else vcov_arg,
     margin = "empirical",
     verbose = verbose
   )

@@ -13,7 +13,7 @@
                                     untransformed.predictions = NULL,
                                     back_transform = FALSE,
                                     response.transform = NULL,
-                                    vcov.args = NULL,
+                                    vcov_args = NULL,
                                     margin = NULL,
                                     bias_correction = FALSE,
                                     verbose = TRUE) {
@@ -54,7 +54,7 @@
     back_transform = back_transform,
     response.transform = response.transform,
     original_model_frame = original_model_frame,
-    vcov.args = vcov.args,
+    vcov_args = vcov_args,
     margin = margin,
     bias_correction = bias_correction,
     verbose = verbose

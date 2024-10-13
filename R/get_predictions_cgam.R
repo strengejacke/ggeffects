@@ -47,9 +47,9 @@ get_predictions_cgam <- function(model, data_grid, ci_level, linv, value_adjustm
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov.fun = NULL,
-      vcov.type = NULL,
-      vcov.args = NULL,
+      vcov_fun = NULL,
+      vcov_type = NULL,
+      vcov_args = NULL,
       condition = condition,
       interval = interval
     )
