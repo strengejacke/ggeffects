@@ -37,22 +37,6 @@
   one_plot = TRUE,
   n_rows = NULL,
   verbose = TRUE,
-  ci = show_ci,
-  ci.style = ci_style,
-  rawdata = show_data,
-  add.data = show_data,
-  collapse.group = collapse_group,
-  dot.alpha = dot_alpha,
-  dot.size = dot_size,
-  line.size = line_size,
-  connect.lines = connect_lines,
-  show.title = show_title,
-  show.x.title = show_x_title,
-  show.y.title = show_y_title,
-  use.theme = use_theme,
-  show.legend = show_legend,
-  one.plot = one_plot,
-  log.y = log_y,
   ...
 )
 
@@ -172,11 +156,6 @@ in one row. For facets, or multiple panels, plots can also be aligned in
 multiiple rows, to avoid that plots are too small.}
 
 \item{verbose}{Logical, toggle warnings and messages.}
-
-\item{ci, add.data, rawdata, collapse.group, dot.alpha, dot.size, line.size, connect.lines, show.title, show.x.title, show.y.title, use.theme, one.plot, ci.style, show.legend, log.y}{Deprecated arguments. Use \code{show_ci}, \code{show_data}, \code{collapse_group},
-\code{dot_alpha}, \code{dot_size}, \code{line_size}, \code{connect_lines}, \code{show_title},
-\code{show_x_title}, \code{show_y_title}, \code{use_theme}, \code{ci_style}, \code{show_legend},
-\code{log_y} and \code{one_plot} instead.}
 
 \item{...}{Further arguments passed down to \verb{ggplot::scale_y*()}, to
 control the appearance of the y-axis.}
