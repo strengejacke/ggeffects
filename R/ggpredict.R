@@ -43,7 +43,7 @@
 #' weights are available, the function falls back to `"mean"`. **Note** that this
 #' argument is ignored for `predict_response()`, because the `margin` argument
 #' takes care of this.
-#' @param ci.lvl,vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
+#' @param vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
 #' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #' instead.
 #' @param ... Arguments are passed down to `ggpredict()` (further down to `predict()`)
@@ -70,7 +70,6 @@ ggpredict <- function(model,
                       vcov_args = NULL,
                       interval,
                       verbose = TRUE,
-                      ci.lvl = ci_level,
                       back.transform = back_transform,
                       vcov.fun = vcov_fun,
                       vcov.type = vcov_type,
@@ -96,10 +95,6 @@ ggpredict <- function(model,
   ## TODO: remove deprecated later
 
   # handle deprectated arguments
-  if (!missing(ci.lvl)) {
-    ci_level <- ci.lvl
-    insight::format_warning("Argument `ci.lvl` is deprecated and will be removed in the future. Please use `ci_level` instead.") # nolint
-  }
   if (!missing(back.transform)) {
     back_transform <- back.transform
     insight::format_warning("Argument `back.transform` is deprecated and will be removed in the future. Please use `back_transform` instead.") # nolint
@@ -144,7 +139,7 @@ ggpredict <- function(model,
 
   # prepare common arguments, for do.cal()
   fun_args <- list(
-    ci.lvl = ci_level,
+    ci_level = ci_level,
     type = type,
     typical = typical,
     condition = condition,
@@ -195,7 +190,7 @@ ggpredict <- function(model,
 # and creates the tidy data frames
 ggpredict_helper <- function(model,
                              terms,
-                             ci.lvl,
+                             ci_level,
                              type,
                              typical,
                              condition,
@@ -262,7 +257,7 @@ ggpredict_helper <- function(model,
     model_class = model_class,
     model = model,
     data_grid = data_grid,
-    ci.lvl = ci.lvl,
+    ci_level = ci_level,
     type = type,
     model_info = model_info,
     terms = original_terms,
@@ -342,7 +337,7 @@ ggpredict_helper <- function(model,
       emmeans.only = TRUE, verbose = FALSE
     ),
     condition = condition,
-    ci.lvl = ci.lvl,
+    ci_level = ci_level,
     untransformed.predictions = untransformed.predictions,
     back.transform = back.transform,
     response.transform = response.transform,

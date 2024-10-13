@@ -13,7 +13,6 @@ ggemmeans <- function(model,
                       interval = "confidence",
                       bias_correction = FALSE,
                       verbose = TRUE,
-                      ci.lvl = ci_level,
                       back.transform = back_transform,
                       ...) {
   insight::check_if_installed("emmeans")
@@ -42,10 +41,6 @@ ggemmeans <- function(model,
   ## TODO: remove deprecated later
 
   # handle deprectated arguments
-  if (!missing(ci.lvl)) {
-    ci_level <- ci.lvl
-    insight::format_warning("Argument `ci.lvl` is deprecated and will be removed in the future. Please use `ci_level` instead.") # nolint
-  }
   if (!missing(back.transform)) {
     back_transform <- back.transform
     insight::format_warning("Argument `back.transform` is deprecated and will be removed in the future. Please use `back_transform` instead.") # nolint
@@ -138,7 +133,7 @@ ggemmeans <- function(model,
       model = model,
       model_frame = model_frame,
       preds = preds,
-      ci.lvl = ci_level,
+      ci_level = ci_level,
       terms = terms,
       cleaned_terms = cleaned_terms,
       value_adjustment = typical,
@@ -159,7 +154,7 @@ ggemmeans <- function(model,
       model,
       data_grid,
       cleaned_terms,
-      ci.lvl,
+      ci_level,
       bias_correction = bias_correction,
       residual_variance = residual_variance,
       ...
@@ -190,7 +185,7 @@ ggemmeans <- function(model,
       model,
       data_grid,
       cleaned_terms,
-      ci.lvl = ci_level,
+      ci_level = ci_level,
       pmode,
       type,
       model_info,
@@ -270,7 +265,7 @@ ggemmeans <- function(model,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = data_grid,
     condition = condition,
-    ci.lvl = ci_level,
+    ci_level = ci_level,
     untransformed.predictions = untransformed.predictions,
     back.transform = back_transform,
     response.transform = response.transform,
