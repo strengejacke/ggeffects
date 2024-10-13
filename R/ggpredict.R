@@ -72,10 +72,7 @@ ggpredict <- function(model,
   type <- .validate_type_argument(model, type)
 
   ## TODO: remove deprecated later
-  dots <- list(...)
-  if (!is.null(dots$vcov_fun) || !is.null(dots$vcov_type)) {
-    insight::format_warning("The arguments `vcov_fun` and `vcov_type` are deprecated and no longer. Please only use `vcov` to specify a variance-covariance matrix or a string to identify the function to compute heteroscedasticity-consistent standard errors, and the `vcov_args` argument for further arguments passed to that function.") # nolint
-  }
+  vcov <- .prepare_vcov_args(vcov, ...)
 
   if (missing(interval)) {
     if (type %in% c("random", "zero_inflated_random")) {

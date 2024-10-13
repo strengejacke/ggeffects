@@ -26,8 +26,7 @@ ggaverage(
   typical = "mean",
   condition = NULL,
   back_transform = TRUE,
-  vcov_fun = NULL,
-  vcov_type = NULL,
+  vcov = NULL,
   vcov_args = NULL,
   weights = NULL,
   verbose = TRUE,
@@ -262,6 +261,34 @@ log-, log-log, exp, sqrt and similar transformed responses will be
 back-transformed to original response-scale. See
 \code{\link[insight:find_transformation]{insight::find_transformation()}} for more details.}
 
+\item{vcov}{Variance-covariance matrix used to compute uncertainty estimates
+(e.g., for confidence intervals based on robust standard errors). This
+argument accepts a covariance matrix, a function which returns a covariance
+matrix, or a string which identifies the function to be used to compute the
+covariance matrix.
+\itemize{
+\item A covariance matrix
+\item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
+\item A string which indicates the kind of uncertainty estimates to return.
+\itemize{
+\item Heteroskedasticity-consistent: \code{"HC"}, \code{"HC0"}, \code{"HC1"}, \code{"HC2"},
+\code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, \code{"HC5"}. See \code{?sandwich::vcovHC}
+\item Cluster-robust: \code{"vcovCR"}, \code{"CR0"}, \code{"CR1"}, \code{"CR1p"}, \code{"CR1S"},
+\code{"CR2"}, \code{"CR3"}. See \code{?clubSandwich::vcovCR()}
+\item Bootstrap: \code{"BS"}, \code{"xy"}, \code{"fractional"}, \code{"jackknife"}, \code{"residual"},
+\code{"wild"}, \code{"mammen"}, \code{"norm"}, \code{"webb"}. See \code{?sandwich::vcovBS}
+\item Other \code{sandwich} package functions: \code{"HAC"}, \code{"PC"}, \code{"CL"}, \code{"PL"}.
+}
+}
+
+If \code{NULL}, standard errors (and confidence intervals) for predictions are
+based on the standard errors as returned by the \code{predict()}-function.
+\strong{Note} that probably not all model objects that work with
+\code{predict_response()} are also supported by the \strong{sandwich} or
+\strong{clubSandwich} packages.
+
+See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
+
 \item{vcov_args}{List of arguments to be passed to the function identified by
 the \code{vcov} argument. This function is typically supplied by the
 \strong{sandwich} or \strong{clubSandwich} packages. Please refer to their
@@ -309,34 +336,6 @@ for all models, but only for models that work with \code{\link[insight:get_sigma
 For Bayesian models, when \code{interval = "confidence"}, predictions are based on
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
-
-\item{vcov}{Variance-covariance matrix used to compute uncertainty estimates
-(e.g., for confidence intervals based on robust standard errors). This
-argument accepts a covariance matrix, a function which returns a covariance
-matrix, or a string which identifies the function to be used to compute the
-covariance matrix.
-\itemize{
-\item A covariance matrix
-\item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
-\item A string which indicates the kind of uncertainty estimates to return.
-\itemize{
-\item Heteroskedasticity-consistent: \code{"HC"}, \code{"HC0"}, \code{"HC1"}, \code{"HC2"},
-\code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, \code{"HC5"}. See \code{?sandwich::vcovHC}
-\item Cluster-robust: \code{"vcovCR"}, \code{"CR0"}, \code{"CR1"}, \code{"CR1p"}, \code{"CR1S"},
-\code{"CR2"}, \code{"CR3"}. See \code{?clubSandwich::vcovCR()}
-\item Bootstrap: \code{"BS"}, \code{"xy"}, \code{"fractional"}, \code{"jackknife"}, \code{"residual"},
-\code{"wild"}, \code{"mammen"}, \code{"norm"}, \code{"webb"}. See \code{?sandwich::vcovBS}
-\item Other \code{sandwich} package functions: \code{"HAC"}, \code{"PC"}, \code{"CL"}, \code{"PL"}.
-}
-}
-
-If \code{NULL}, standard errors (and confidence intervals) for predictions are
-based on the standard errors as returned by the \code{predict()}-function.
-\strong{Note} that probably not all model objects that work with
-\code{predict_response()} are also supported by the \strong{sandwich} or
-\strong{clubSandwich} packages.
-
-See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
