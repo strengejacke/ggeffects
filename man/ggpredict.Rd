@@ -40,7 +40,6 @@ ggeffect(
   ci_level = 0.95,
   bias_correction = FALSE,
   verbose = TRUE,
-  ci.lvl = ci_level,
   ...
 )
 
