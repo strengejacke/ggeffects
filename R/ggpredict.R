@@ -43,7 +43,7 @@
 #' weights are available, the function falls back to `"mean"`. **Note** that this
 #' argument is ignored for `predict_response()`, because the `margin` argument
 #' takes care of this.
-#' @param vcov.fun,vcov.type,vcov.args,back.transform Deprecated arguments.
+#' @param vcov.fun,vcov.type,vcov.args Deprecated arguments.
 #' Please use `ci_level`, `vcov_fun`, `vcov_type`, `vcov_args` and `back_transform`
 #' instead.
 #' @param ... Arguments are passed down to `ggpredict()` (further down to `predict()`)
@@ -69,12 +69,11 @@ ggpredict <- function(model,
                       vcov_type = NULL,
                       vcov_args = NULL,
                       interval,
+                      bias_correction = FALSE,
                       verbose = TRUE,
-                      back.transform = back_transform,
                       vcov.fun = vcov_fun,
                       vcov.type = vcov_type,
                       vcov.args = vcov_args,
-                      bias_correction = FALSE,
                       ...) {
   # check arguments
   type <- .validate_type_argument(model, type)
@@ -95,10 +94,6 @@ ggpredict <- function(model,
   ## TODO: remove deprecated later
 
   # handle deprectated arguments
-  if (!missing(back.transform)) {
-    back_transform <- back.transform
-    insight::format_warning("Argument `back.transform` is deprecated and will be removed in the future. Please use `back_transform` instead.") # nolint
-  }
   if (!missing(vcov.fun)) {
     vcov_fun <- vcov.fun
     insight::format_warning("Argument `vcov.fun` is deprecated and will be removed in the future. Please use `vcov_fun` instead.") # nolint
@@ -143,7 +138,7 @@ ggpredict <- function(model,
     type = type,
     typical = typical,
     condition = condition,
-    back.transform = back_transform,
+    back_transform = back_transform,
     vcov.fun = vcov_fun,
     vcov.type = vcov_type,
     vcov.args = vcov_args,
@@ -194,7 +189,7 @@ ggpredict_helper <- function(model,
                              type,
                              typical,
                              condition,
-                             back.transform,
+                             back_transform,
                              vcov.fun,
                              vcov.type,
                              vcov.args,
@@ -301,19 +296,19 @@ ggpredict_helper <- function(model,
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
   # but first, save original predicted values, to save as attribute
-  if (back.transform) {
+  if (back_transform) {
     untransformed.predictions <- result$predicted
     response.transform <- insight::find_terms(model)[["response"]]
   } else {
     untransformed.predictions <- response.transform <- NULL
   }
-  result <- .back_transform_response(model, result, back.transform, verbose = verbose)
+  result <- .back_transform_response(model, result, back_transform, verbose = verbose)
 
   # add raw data as well
   attr(result, "rawdata") <- .back_transform_data(
     model,
     mydf = .get_raw_data(model, original_model_frame, terms),
-    back.transform = back.transform
+    back_transform = back_transform
   )
 
   # no adjustment for type = "simulate"
@@ -339,7 +334,7 @@ ggpredict_helper <- function(model,
     condition = condition,
     ci_level = ci_level,
     untransformed.predictions = untransformed.predictions,
-    back.transform = back.transform,
+    back_transform = back_transform,
     response.transform = response.transform,
     vcov.args = .get_variance_covariance_matrix(model, vcov.fun, vcov.args, vcov.type, skip_if_null = TRUE, verbose = FALSE), # nolint
     margin = "mean_reference",

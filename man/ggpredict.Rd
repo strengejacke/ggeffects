@@ -57,7 +57,6 @@ ggemmeans(
   interval = "confidence",
   bias_correction = FALSE,
   verbose = TRUE,
-  back.transform = back_transform,
   ...
 )
 
@@ -73,12 +72,11 @@ ggpredict(
   vcov_type = NULL,
   vcov_args = NULL,
   interval,
+  bias_correction = FALSE,
   verbose = TRUE,
-  back.transform = back_transform,
   vcov.fun = vcov_fun,
   vcov.type = vcov_type,
   vcov.args = vcov_args,
-  bias_correction = FALSE,
   ...
 )
 }
@@ -344,7 +342,7 @@ For Bayesian models, when \code{interval = "confidence"}, predictions are based 
 posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
 If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
-\item{vcov.fun, vcov.type, vcov.args, back.transform}{Deprecated arguments.
+\item{vcov.fun, vcov.type, vcov.args}{Deprecated arguments.
 Please use \code{ci_level}, \code{vcov_fun}, \code{vcov_type}, \code{vcov_args} and \code{back_transform}
 instead.}
 }

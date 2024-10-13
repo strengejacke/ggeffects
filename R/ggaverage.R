@@ -155,7 +155,7 @@ ggaverage <- function(model,
   attr(result, "rawdata") <- .back_transform_data(
     model,
     mydf = .get_raw_data(model, original_model_frame, terms),
-    back.transform = back_transform
+    back_transform = back_transform
   )
 
   attr(result, "model.name") <- model_name
@@ -174,7 +174,7 @@ ggaverage <- function(model,
     condition = condition,
     ci_level = ci_level,
     untransformed.predictions = untransformed.predictions,
-    back.transform = back_transform,
+    back_transform = back_transform,
     response.transform = response.transform,
     vcov.args = if (isTRUE(vcov_arg)) NULL else vcov_arg,
     margin = "empirical",
