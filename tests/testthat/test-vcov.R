@@ -129,14 +129,11 @@ test_that("ggaverage, hypothesis test, robust SE", {
   expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
   out_later <- hypothesis_test(pr, vcov = "HC1")
   # robust vcov
-  pr <- predict_response(fit, terms = "Species", vcov_fun = "HC1", margin = "ame")
+  pr <- predict_response(fit, terms = "Species", vcov = "HC1", margin = "ame")
   out1 <- hypothesis_test(pr)
-  out2 <- hypothesis_test(fit, "Species", vcov_fun = "HC1")
-  out3 <- hypothesis_test(fit, "Species", vcov = "HC1")
+  out2 <- hypothesis_test(fit, "Species", vcov = "HC1")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
-  expect_equal(out1$Contrast, out3$Contrast, tolerance = 1e-4)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
-  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
   expect_equal(out1$conf.low, out_later$conf.low, tolerance = 1e-4)
   # johnson-neymann
   data(efc, package = "ggeffects")
@@ -146,9 +143,9 @@ test_that("ggaverage, hypothesis test, robust SE", {
   out1 <- johnson_neyman(pr)
   expect_equal(attributes(out1)$intervals$pos_lower, 47, tolerance = 1e-3)
   # robust vcov
-  pr <- predict_response(fit, c("c12hour", "barthtot"), vcov_fun = "HC1", margin = "ame")
+  pr <- predict_response(fit, c("c12hour", "barthtot"), vcov = "HC1", margin = "ame")
   out2 <- johnson_neyman(pr)
-  out3 <- johnson_neyman(pr, vcov_fun = "HC1")
+  out3 <- johnson_neyman(pr, vcov = "HC1")
   expect_equal(attributes(out2)$intervals$pos_lower, 44.6, tolerance = 1e-3)
   expect_equal(attributes(out2)$intervals$pos_lower, attributes(out3)$intervals$pos_lower, tolerance = 1e-3)
 })

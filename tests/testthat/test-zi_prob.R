@@ -63,22 +63,23 @@ test_that("ggpredict pscl, sandwich", {
     m1,
     "mined",
     type = "count",
-    vcov_fun = "vcovCL",
-    vcov_type = "HC0",
-    vcov_args = list(cluster = Salamanders$site)
+    vcov = "CL",
+    vcov_args = list(type = "HC0", cluster = Salamanders$site)
   )
   expect_named(out, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
   expect_equal(out$conf.low, c(1.08279, 3.06608), tolerance = 1e-3)
-  expect_message(expect_message({
-    out <- ggpredict(
-      m1,
-      "mined",
-      type = "count",
-      vcov_fun = "vcovCR",
-      vcov_type = "CR0",
-      vcov_args = list(cluster = Salamanders$site)
-    )
-  }, regex = "robust"), regex = "variance-covariance")
+  expect_message(expect_message(
+    {
+      out <- ggpredict(
+        m1,
+        "mined",
+        type = "count",
+        vcov = "CR0",
+        vcov_args = list(cluster = Salamanders$site)
+      )
+    },
+    regex = "robust"
+  ), regex = "variance-covariance")
   expect_named(out, c("x", "predicted", "group"))
   expect_null(out$conf.low)
 })
