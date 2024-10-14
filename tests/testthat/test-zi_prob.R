@@ -68,9 +68,9 @@ test_that("ggpredict pscl, sandwich", {
   )
   expect_named(out, c("x", "predicted", "std.error", "conf.low", "conf.high", "group"))
   expect_equal(out$conf.low, c(1.08279, 3.06608), tolerance = 1e-3)
-  expect_message(expect_message(
+  expect_error(
     {
-      out <- ggpredict(
+      ggpredict(
         m1,
         "mined",
         type = "count",
@@ -78,10 +78,8 @@ test_that("ggpredict pscl, sandwich", {
         vcov_args = list(cluster = Salamanders$site)
       )
     },
-    regex = "robust"
-  ), regex = "variance-covariance")
-  expect_named(out, c("x", "predicted", "group"))
-  expect_null(out$conf.low)
+    regex = "Unable to extract"
+  )
 })
 
 test_that("ggemmeans glmmTMB, zprob", {
