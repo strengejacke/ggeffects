@@ -19,6 +19,15 @@ ggemmeans <- function(model,
   ## TODO: remove deprecated later
   vcov <- .prepare_vcov_args(vcov, ...)
 
+  # process vcov-arguments
+  vcov <- .get_variance_covariance_matrix(
+    model,
+    vcov,
+    vcov_args,
+    skip_if_null = TRUE,
+    verbose = verbose
+  )
+
   # check arguments
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
@@ -242,7 +251,7 @@ ggemmeans <- function(model,
     back_transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
-    vcov_args = .get_variance_covariance_matrix(model, vcov, vcov_args, skip_if_null = TRUE, verbose = FALSE), # nolint,
+    vcov_args = vcov,
     bias_correction = bias_correction,
     verbose = verbose
   )
