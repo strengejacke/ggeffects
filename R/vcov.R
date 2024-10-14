@@ -316,12 +316,19 @@ vcov.ggeffects <- function(object,
                                             vcov_args,
                                             skip_if_null = FALSE,
                                             verbose = TRUE) {
+  browser()
+
   # check if robust vcov-matrix is requested
   if (is.null(vcov) && skip_if_null) {
     vcm <- NULL
   } else if (!is.null(vcov)) {
-    # user provided a function?
-    if (is.function(vcov)) {
+    if (isTRUE(vcov)) {
+      # vcov = TRUE - this is the case for `test_prediction()`, to set the
+      # vcov-argument for *marginaleffects*
+      return(TRUE)
+    } else if (is.function(vcov)) {
+      # user provided a function? then prepare arguments and call function
+      # to return a vcov-matrix
       if (is.null(vcov_args) || !is.list(vcov_args)) {
         arguments <- list(model)
       } else {
@@ -329,10 +336,11 @@ vcov.ggeffects <- function(object,
       }
       vcm <- as.matrix(do.call("vcov", arguments))
     } else if (is.matrix(vcov)) {
-      # user provided a vcov-matrix?
+      # user provided a vcov-matrix? directly return in
       vcm <- as.matrix(vcov)
     } else {
-      # user provided string?
+      # user provided string? get the related covariance matrix estimation
+      # from the *sandwich* or *clubSandwich* packages
       vcm <- as.matrix(suppressMessages(insight::get_varcov(
         model,
         vcov = vcov,
@@ -350,6 +358,7 @@ vcov.ggeffects <- function(object,
   }
   vcm
 }
+
 
 ## TODO: deprecate handling, remove later
 .prepare_vcov_args <- function(vcov, ...) {
