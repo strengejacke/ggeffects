@@ -49,7 +49,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,8 +154,7 @@ the preferred way to do this now.</p>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back_transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -179,8 +178,7 @@ the preferred way to do this now.</p>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back_transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  interval <span class="op">=</span> <span class="st">"confidence"</span>,</span>
 <span>  bias_correction <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -196,8 +194,7 @@ the preferred way to do this now.</p>
 <span>  typical <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  back_transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  vcov_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  vcov_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">interval</span>,</span>
 <span>  bias_correction <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -403,42 +400,38 @@ back-transformed to original response-scale. See
 <code><a href="https://easystats.github.io/insight/reference/find_transformation.html" class="external-link">insight::find_transformation()</a></code> for more details.</p></dd>
 
 
-<dt id="arg-vcov-fun">vcov_fun<a class="anchor" aria-label="anchor" href="#arg-vcov-fun"></a></dt>
-<dd><p>Variance-covariance matrix used to compute uncertainty
-estimates (e.g., for confidence intervals based on robust standard errors).
-This argument accepts a covariance matrix, a function which returns a
-covariance matrix, or a string which identifies the function to be used to
-compute the covariance matrix.</p><ul><li><p>A (variance-covariance) matrix</p></li>
+<dt id="arg-vcov">vcov<a class="anchor" aria-label="anchor" href="#arg-vcov"></a></dt>
+<dd><p>Variance-covariance matrix used to compute uncertainty estimates
+(e.g., for confidence intervals based on robust standard errors). This
+argument accepts a covariance matrix, a function which returns a covariance
+matrix, or a string which identifies the function to be used to compute the
+covariance matrix.</p><ul><li><p>A covariance matrix</p></li>
 <li><p>A function which returns a covariance matrix (e.g., <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">stats::vcov()</a></code>)</p></li>
-<li><p>A string which indicates the estimation type for the heteroscedasticity-consistent
-variance-covariance matrix, e.g. <code>vcov_fun = "HC0"</code>. Possible values are
-<code>"HC0"</code>, <code>"HC1"</code>, <code>"HC2"</code>, <code>"HC3"</code>, <code>"HC4"</code>, <code>"HC4m"</code>, and <code>"HC5"</code>, which
-will then call the <code>vcovHC()</code>-function from the <strong>sandwich</strong> package, using
-the specified type. Further possible values are <code>"CR0"</code>, <code>"CR1"</code>, <code>"CR1p"</code>,
-<code>"CR1S"</code>, <code>"CR2"</code>, and <code>"CR3"</code>, which will call the <code>vcovCR()</code>-function from
-the <strong>clubSandwich</strong> package.</p></li>
-<li><p>A string which indicates the name of the <code>vcov*()</code>-function from the
-<strong>sandwich</strong> or <strong>clubSandwich</strong> packages, e.g. <code>vcov_fun = "vcovCL"</code>,
-which is used to compute (cluster) robust standard errors for predictions.</p></li>
+<li><p>A string which indicates the kind of uncertainty estimates to return.</p><ul><li><p>Heteroskedasticity-consistent: <code>"HC"</code>, <code>"HC0"</code>, <code>"HC1"</code>, <code>"HC2"</code>,
+<code>"HC3"</code>, <code>"HC4"</code>, <code>"HC4m"</code>, <code>"HC5"</code>. See <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code></p></li>
+<li><p>Cluster-robust: <code>"vcovCR"</code>, <code>"CR0"</code>, <code>"CR1"</code>, <code>"CR1p"</code>, <code>"CR1S"</code>,
+<code>"CR2"</code>, <code>"CR3"</code>. See <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code>.</p></li>
+<li><p>Bootstrap: <code>"BS"</code>, <code>"xy"</code>, <code>"fractional"</code>, <code>"jackknife"</code>, <code>"residual"</code>,
+<code>"wild"</code>, <code>"mammen"</code>, <code>"norm"</code>, <code>"webb"</code>. See <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovBS.html" class="external-link">?sandwich::vcovBS</a></code></p></li>
+<li><p>Other <code>sandwich</code> package functions: <code>"HAC"</code>, <code>"PC"</code>, <code>"CL"</code>, or <code>"PL"</code>.</p></li>
+</ul></li>
 </ul><p>If <code>NULL</code>, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-function.
-<strong>Note</strong> that probably not all model objects that work with <code><a href="predict_response.html">predict_response()</a></code>
-are also supported by the <strong>sandwich</strong> or <strong>clubSandwich</strong> packages.</p>
+<strong>Note</strong> that probably not all model objects that work with
+<code><a href="predict_response.html">predict_response()</a></code> are also supported by the <strong>sandwich</strong> or
+<strong>clubSandwich</strong> packages.</p>
 <p>See details in <a href="https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html">this vignette</a>.</p></dd>
 
 
-<dt id="arg-vcov-type">vcov_type<a class="anchor" aria-label="anchor" href="#arg-vcov-type"></a></dt>
-<dd><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code>
-or <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">?clubSandwich::vcovCR</a></code> for details). Only used when <code>vcov_fun</code> is a
-character string indicating one of the functions from those packages.
-When <code>vcov_fun</code> is a function, a possible <code>type</code> argument <em>must</em> be provided
-via the <code>vcov_args</code> argument.</p></dd>
-
-
 <dt id="arg-vcov-args">vcov_args<a class="anchor" aria-label="anchor" href="#arg-vcov-args"></a></dt>
-<dd><p>List of named vectors, used as additional arguments that
-are passed down to <code>vcov_fun</code>.</p></dd>
+<dd><p>List of arguments to be passed to the function identified by
+the <code>vcov</code> argument. This function is typically supplied by the
+<strong>sandwich</strong> or <strong>clubSandwich</strong> packages. Please refer to their
+documentation (e.g., <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHAC.html" class="external-link">?sandwich::vcovHAC</a></code>) to see the list of available
+arguments. If no estimation type (argument <code>type</code>) is given, the default
+type for <code>"HC"</code> equals the default from the <strong>sandwich</strong> package; for type
+<code>"CR"</code> the default is set to <code>"CR3"</code>. For other defaults, refer to the
+documentation in the <strong>sandwich</strong> or <strong>clubSandwich</strong> package.</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>

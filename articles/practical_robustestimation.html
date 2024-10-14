@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,17 +168,20 @@ factor.</p>
 <div class="section level2">
 <h2 id="predictions-with-hc-estimated-standard-errors">Predictions with HC-estimated standard errors<a class="anchor" aria-label="anchor" href="#predictions-with-hc-estimated-standard-errors"></a>
 </h2>
-<p>Now, we use <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code> to estimate
+<p>Now, we use <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code> to estimate
 heteroskedasticity-consistent standard errors. To do so, first the
-function name, <code>vcovHC()</code>, must be supplied to the
-<code>vcov_fun</code>-argument. <code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code>, in
-turn, has different types of estimation. This must be specified in
-<code>vcov_type</code>. As a shortcut, the estimation type can be
-directly passed to <code>vcov_fun</code>, however, this would only call
-<code><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code>.</p>
+<em>name</em> of a related <em>function</em> must be supplied or the
+<em>type</em> of the HC-estimation as string.</p>
+<p>E.g., to use the default <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code> function,
+set <code>vcov = "HC"</code>, in which case the default type in
+<code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code> is called. Setting
+<code>vcov = "HC1"</code> is a convenient shortcut for
+<code>vcov = "HC", vcov_args = list(type = "HC1")</code>, which would
+call <code>sandwich::vcovHC(type = "HC1")</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># shorter: predict_response(model, "X1", vcov_fun = "HC0"). This is equivalent to the following:</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov_type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># short: predict_response(model, "X1", vcov = "HC0")</span></span>
+<span><span class="co"># This is equivalent to the following:</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov <span class="op">=</span> <span class="st">"HC"</span>, vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;    X1 | Predicted |       95% CI</span></span>
@@ -199,14 +202,14 @@ directly passed to <code>vcov_fun</code>, however, this would only call
 <span><span class="co">#&gt; Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span></span>
 <span><span class="co">#&gt;   all rows.</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovHC"</span>, vcov_type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">"X1"</span>, vcov <span class="op">=</span> <span class="st">"HC"</span>, vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div class="section level2">
-<h2 id="passing-a-function-to-vcov_fun">Passing a function to <code>vcov_fun</code><a class="anchor" aria-label="anchor" href="#passing-a-function-to-vcov_fun"></a>
+<h2 id="passing-a-function-to-vcov">Passing a function to <code>vcov</code><a class="anchor" aria-label="anchor" href="#passing-a-function-to-vcov"></a>
 </h2>
-<p>Instead of character strings, the <code>vcov_fun</code> argument also
+<p>Instead of character strings, the <code>vcov</code> argument also
 accepts a function that returns a variance-covariance matrix. Further
 arguments that need to be passed to that functions should be provided as
 list to the <code>vcov_args</code> argument. Thus, we can rewrite the
@@ -215,7 +218,7 @@ above code-chunk in the following way:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
 <span>  <span class="st">"X1"</span>,</span>
-<span>  vcov_fun <span class="op">=</span> <span class="fu">sandwich</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">vcovHC</a></span>,</span>
+<span>  vcov <span class="op">=</span> <span class="fu">sandwich</span><span class="fu">::</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span>,</span>
 <span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"HC0"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
@@ -243,16 +246,22 @@ above code-chunk in the following way:</p>
 </h2>
 <p>The last example shows how to define cluster-robust standard errors.
 These are based on <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code>. Thus,
-<code>vcov_fun = "vcovCR"</code> is always required when estimating
-cluster robust standard errors. <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> has
-also different estimation types, which must be specified in
-<code>vcov_type</code>. Furthermore, <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code>
-<em>requires</em> the <code>cluster</code>-argument, which must be
+<code>vcov = "CR"</code> is always required when estimating cluster
+robust standard errors. <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> has also
+different estimation types, which must be specified in
+<code>vcov_args</code>. Furthermore, <code><a href="http://jepusto.github.io/clubSandwich/reference/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code>
+<em>requires</em> the <code>cluster</code>-argument, which must also be
 specified in <code>vcov_args</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
-<span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov_type <span class="op">=</span> <span class="st">"CR0"</span>,</span>
-<span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># short:</span></span>
+<span><span class="co"># predict_response(model, "X1", vcov = "CR0",</span></span>
+<span><span class="co">#                  vcov_args = list(cluster = dat$cluster)).</span></span>
+<span><span class="co"># This is equivalent to the following:</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="st">"X1"</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="st">"CR"</span>,</span>
+<span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"CR0"</span>, cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of y</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -275,8 +284,10 @@ specified in <code>vcov_args</code>:</p>
 <span><span class="co">#&gt;   all rows.</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
-<span>  <span class="va">model</span>, <span class="st">"X1"</span>, vcov_fun <span class="op">=</span> <span class="st">"vcovCR"</span>, vcov_type <span class="op">=</span> <span class="st">"CR0"</span>,</span>
-<span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="st">"X1"</span>,</span>
+<span>  vcov <span class="op">=</span> <span class="st">"CR"</span>,</span>
+<span>  vcov_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"CR0"</span>, cluster <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_robustestimation_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
