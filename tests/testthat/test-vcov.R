@@ -66,6 +66,11 @@ test_that("ggemmeans, vcov can be own function", {
   expect_equal(out$conf.low, c(4.86213, 5.79213, 6.44413), tolerance = 1e-4)
   out <- predict_response(fit, terms = "Species", vcov = "HC3", margin = "marginalmeans")
   expect_equal(out$conf.low, c(4.906485, 5.790275, 6.408479), tolerance = 1e-4)
+  out2 <- predict_response(fit, terms = "Species", vcov = sandwich::vcovHC, margin = "marginalmeans")
+  expect_equal(out$conf.low, out2$conf.low, tolerance = 1e-4)
+  vc <- sandwich::vcovHC(fit, type = "HC3")
+  out3 <- as.data.frame(emmeans::emmeans(fit, "Species", vcov = vc))
+  expect_equal(out$conf.low, out3$lower.CL, tolerance = 1e-4)
 })
 
 
