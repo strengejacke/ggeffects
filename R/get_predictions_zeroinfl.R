@@ -117,7 +117,6 @@ get_predictions_zeroinfl <- function(model,
       terms = terms,
       model_class = model_class,
       vcov = vcov,
-      vcov_type = vcov_type,
       vcov_args = vcov_args,
       condition = condition,
       interval = interval
