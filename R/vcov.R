@@ -316,8 +316,6 @@ vcov.ggeffects <- function(object,
                                             vcov_args,
                                             skip_if_null = FALSE,
                                             verbose = TRUE) {
-  browser()
-
   # check if robust vcov-matrix is requested
   if (is.null(vcov) && skip_if_null) {
     vcm <- NULL
