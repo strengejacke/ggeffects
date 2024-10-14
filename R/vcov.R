@@ -221,7 +221,6 @@ vcov.ggeffects <- function(object,
   contrs <- attr(mm, "contrasts")
 
   if (!.is_empty(contrs)) {
-
     # check which contrasts are actually in terms-argument,
     # and which terms also appear in contrasts
     keep.c <- names(contrs) %in% original_terms
@@ -236,12 +235,13 @@ vcov.ggeffects <- function(object,
       if (!is.factor(f)) {
         f <- factor(f, levels = sort(unique(f)))
       }
-      if (.x %in% c("contr.sum", "contr.helmert"))
+      if (.x %in% c("contr.sum", "contr.helmert")) {
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
-      else if (.x == "contr.poly")
+      } else if (.x == "contr.poly") {
         sprintf("%s%s", .y, c(".L", ".Q", ".C"))
-      else
+      } else {
         sprintf("%s%s", .y, levels(f)[2:nlevels(f)])
+      }
     }, contrs, names(contrs)))
 
     original_terms <- c(original_terms, add.terms)
@@ -337,8 +337,8 @@ vcov.ggeffects <- function(object,
         model,
         vcov = vcov,
         vcov_args = vcov_args,
-        component = "conditional")
-      ))
+        component = "conditional"
+      )))
     }
     # for zero-inflated models, remove zero-inflation part from vcov
     if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
@@ -370,7 +370,7 @@ vcov.ggeffects <- function(object,
     }
   }
   vcov_fun <- dots$vcov_fun
-  if (startsWith(vcov_fun, "vcov")) {
+  if (!is.null(vcov_fun) && startsWith(vcov_fun, "vcov")) {
     vcov_fun <- gsub("^vcov(.*)", "\\1", vcov_fun)
   }
   vcov_fun
