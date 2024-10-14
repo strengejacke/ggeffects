@@ -1,12 +1,22 @@
-get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, ...) {
+get_predictions_mclogit <- function(model,
+                                    fitfram,
+                                    ci_level,
+                                    model_class,
+                                    value_adjustment,
+                                    terms,
+                                    vcov,
+                                    vcov_args,
+                                    condition,
+                                    ...) {
   # does user want standard errors?
-  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov_fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -29,13 +39,13 @@ get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value
   )
 
   # did user request standard errors? if yes, compute CI
-  if (!is.null(vcov_fun)) {
-
+  if (!is.null(vcov)) {
     # copy predictions
-    if ("fit" %in% names(prdat))
+    if ("fit" %in% names(prdat)) {
       fitfram$predicted <- as.vector(prdat$fit)
-    else
+    } else {
       fitfram$predicted <- as.vector(prdat)
+    }
 
     se.pred <- .standard_error_predictions(
       model = model,
@@ -43,8 +53,7 @@ get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       condition = condition
     )
@@ -75,7 +84,6 @@ get_predictions_mclogit <- function(model, fitfram, ci_level, model_class, value
 
     # copy standard errors
     attr(fitfram, "std.error") <- prdat$se.fit
-
   } else {
     # copy predictions
     fitfram$predicted <- as.vector(prdat)
