@@ -64,7 +64,7 @@ test_that("ggemmeans, vcov can be own function", {
   fit <- lm(Sepal.Length ~ Species, data = iris)
   out <- predict_response(fit, terms = "Species", margin = "marginalmeans")
   expect_equal(out$conf.low, c(4.86213, 5.79213, 6.44413), tolerance = 1e-4)
-  out <- predict_response(fit, terms = "Species", vcov = "HC1", margin = "marginalmeans")
+  out <- predict_response(fit, terms = "Species", vcov = "HC3", margin = "marginalmeans")
   expect_equal(out$conf.low, c(4.906485, 5.790275, 6.408479), tolerance = 1e-4)
 })
 
