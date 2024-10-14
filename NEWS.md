@@ -1,4 +1,4 @@
-# ggeffects (development)
+# ggeffects 1.8.0
 
 ## Breaking changes
 
