@@ -232,7 +232,7 @@
   )
   # add vcov-information if available
   if (!is.null(vcov_info)) {
-    emmeans_args <- c(emmeans_args, vcov = vcov_info$vcov, vcov_info$vcov_args)
+    emmeans_args <- c(emmeans_args, list(vcov = vcov_info$vcov), vcov_info$vcov_args)
   }
   emmeans_args <- c(emmeans_args, dot_args)
 
