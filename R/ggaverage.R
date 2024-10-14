@@ -7,13 +7,15 @@ ggaverage <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
-                      vcov_fun = NULL,
-                      vcov_type = NULL,
+                      vcov = NULL,
                       vcov_args = NULL,
                       weights = NULL,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("marginaleffects")
+
+  ## TODO: remove deprecated later
+  vcov <- .prepare_vcov_args(vcov, ...)
 
   # check arguments
   type <- .validate_type_argument(model, type, marginaleffects = TRUE)
@@ -55,10 +57,10 @@ ggaverage <- function(model,
   # clear argument from brackets
   terms <- cleaned_terms
 
-  # if we have "vcov_fun" arguments, and `margin` is "empirical", we
+  # if we have "vcov" arguments, and `margin` is "empirical", we
   # need to prepare the `vcov` argument for "marginaleffects".
-  if (!is.null(vcov_fun)) {
-    vcov_arg <- .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE)
+  if (!is.null(vcov)) {
+    vcov_arg <- .get_variance_covariance_matrix(model, vcov, vcov_args, skip_if_null = TRUE)
   } else {
     vcov_arg <- TRUE
   }

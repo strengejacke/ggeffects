@@ -6,30 +6,29 @@ get_predictions_generic2 <- function(model,
                                      model_class,
                                      value_adjustment,
                                      terms,
-                                     vcov_fun,
-                                     vcov_type,
+                                     vcov,
                                      vcov_args,
                                      condition,
                                      interval,
                                      ...) {
   # get prediction type.
-  prediction_type <- switch(
-    model_class,
+  prediction_type <- switch(model_class,
     betareg = ,
-    vgam    = ,
-    feglm   = ,
-    glmx    = ,
-    fixest  = "link",
+    vgam = ,
+    feglm = ,
+    glmx = ,
+    fixest = "link",
     "response"
   )
 
-  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov_fun)
+  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -54,8 +53,7 @@ get_predictions_generic2 <- function(model,
     type = type,
     terms = terms,
     model_class = model_class,
-    vcov_fun = vcov_fun,
-    vcov_type = vcov_type,
+    vcov = vcov,
     vcov_args = vcov_args,
     condition = condition,
     interval = interval

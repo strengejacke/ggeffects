@@ -15,12 +15,12 @@ test_that("ggpredict, vcov can be own function", {
 
   # fit linear model
   model_vcov <- lm(y ~ X1 + X2 + X3, data = dat)
-  out1 <- ggpredict(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
-  out2 <- ggpredict(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
+  out1 <- ggpredict(model_vcov, "X1", vcov = "HC0")
+  out2 <- ggpredict(model_vcov, "X1", vcov = sandwich::vcovHC, vcov_args = list(type = "HC0"))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
   expect_message(
-    ggeffect(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0"),
+    ggeffect(model_vcov, "X1", vcov = "HC0"),
     "The following arguments are not supported"
   )
 
@@ -28,10 +28,10 @@ test_that("ggpredict, vcov can be own function", {
   skip_if_not_installed("clubSandwich")
   out1 <- ggpredict(
     model_vcov, "X1",
-    vcov_fun = "vcovCR", vcov_type = "CR0",
-    vcov_args = list(cluster = dat$cluster)
+    vcov = clubSandwich::vcovCR,
+    vcov_args = list(type = "CR0", cluster = dat$cluster)
   )
-  out2 <- ggpredict(model_vcov, "X1", vcov_fun = "CR0", vcov_args = list(cluster = dat$cluster))
+  out2 <- ggpredict(model_vcov, "X1", vcov = "CR0", vcov_args = list(cluster = dat$cluster))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 })
 
@@ -53,36 +53,33 @@ test_that("ggemmeans, vcov can be own function", {
   # fit linear model
   model_vcov <- lm(y ~ X1 + X2 + X3, data = dat)
 
-  out1 <- ggemmeans(model_vcov, "X1", vcov_fun = "vcovHC", vcov_type = "HC0")
-  out2 <- ggemmeans(model_vcov, "X1", vcov_fun = sandwich::vcovHC, vcov_args = list(type = "HC0"))
+  out1 <- ggemmeans(model_vcov, "X1", vcov = "HC0")
+  out2 <- ggemmeans(model_vcov, "X1", vcov = sandwich::vcovHC, vcov_args = list(type = "HC0"))
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
-  out3 <- ggemmeans(model_vcov, "X1", vcov_fun = sandwich::vcovHC(model_vcov, type = "HC0"))
-  expect_equal(
-    out3$conf.low,
-    c(
-      -0.99269, -0.72491, -0.47334, -0.25747, -0.11929, -0.0971,
-      -0.16364, -0.27276, -0.40091, -0.53844, -0.68113
-    ),
-    tolerance = 1e-4
-  )
-
+  out3 <- ggemmeans(model_vcov, "X1", vcov = sandwich::vcovHC(model_vcov, type = "HC0"))
+  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
 
   data(iris)
   fit <- lm(Sepal.Length ~ Species, data = iris)
   out <- predict_response(fit, terms = "Species", margin = "marginalmeans")
   expect_equal(out$conf.low, c(4.86213, 5.79213, 6.44413), tolerance = 1e-4)
-  out <- predict_response(fit, terms = "Species", vcov_fun = "vcovHC", vcov_type = "HC1", margin = "marginalmeans")
+  out <- predict_response(fit, terms = "Species", vcov = "HC3", margin = "marginalmeans")
   expect_equal(out$conf.low, c(4.906485, 5.790275, 6.408479), tolerance = 1e-4)
+  out2 <- predict_response(fit, terms = "Species", vcov = sandwich::vcovHC, margin = "marginalmeans")
+  expect_equal(out$conf.low, out2$conf.low, tolerance = 1e-4)
+  vc <- sandwich::vcovHC(fit, type = "HC3")
+  out3 <- as.data.frame(emmeans::emmeans(fit, "Species", vcov = vc))
+  expect_equal(out$conf.low, out3$lower.CL, tolerance = 1e-4)
 })
 
 
 test_that("ggpredict, CI based on robust SE", {
   data(iris)
   fit <- lm(Sepal.Length ~ Species, data = iris)
-  out <- ggpredict(fit, terms = "Species", vcov_fun = "vcovHC", vcov_type = "HC1")
+  out <- ggpredict(fit, terms = "Species", vcov = "HC1")
   expect_equal(out$conf.low, c(4.90749, 5.79174, 6.41028), tolerance = 1e-4)
-  out2 <- ggpredict(fit, terms = "Species", vcov_fun = "HC1")
+  out2 <- ggpredict(fit, terms = "Species", vcov = "HC1")
   expect_equal(out$conf.low, out2$conf.low, tolerance = 1e-4)
 })
 
@@ -96,7 +93,7 @@ test_that("ggemmeans and clubsandwich", {
   out <- ggemmeans(
     fit,
     terms = "cyl",
-    vcov_fun = clubSandwich::vcovCR(fit, type = "CR0", cluster = mtcars$gear)
+    vcov = clubSandwich::vcovCR(fit, type = "CR0", cluster = mtcars$gear)
   )
   expect_equal(out$conf.low, c(21.60913, 17.71294, 14.6084), tolerance = 1e-4)
 })
@@ -109,9 +106,9 @@ test_that("ggaverage, CI based on robust SE", {
   fit <- lm(Sepal.Length ~ Species, data = iris)
   out <- predict_response(fit, terms = "Species", margin = "ame")
   expect_equal(out$conf.low, c(4.86213, 5.79213, 6.44413), tolerance = 1e-4)
-  out <- predict_response(fit, terms = "Species", vcov_fun = "vcovHC", vcov_type = "HC1", margin = "ame")
+  out <- predict_response(fit, terms = "Species", vcov = "HC1", margin = "ame")
   expect_equal(out$conf.low, c(4.90749, 5.79174, 6.41028), tolerance = 1e-4)
-  out <- ggaverage(fit, terms = "Species", vcov_fun = "vcovHC", vcov_type = "HC1")
+  out <- ggaverage(fit, terms = "Species", vcov = "HC1")
   expect_equal(out$conf.low, c(4.90749, 5.79174, 6.41028), tolerance = 1e-4)
 })
 
@@ -129,14 +126,11 @@ test_that("ggaverage, hypothesis test, robust SE", {
   expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
   out_later <- hypothesis_test(pr, vcov = "HC1")
   # robust vcov
-  pr <- predict_response(fit, terms = "Species", vcov_fun = "HC1", margin = "ame")
+  pr <- predict_response(fit, terms = "Species", vcov = "HC1", margin = "ame")
   out1 <- hypothesis_test(pr)
-  out2 <- hypothesis_test(fit, "Species", vcov_fun = "HC1")
-  out3 <- hypothesis_test(fit, "Species", vcov = "HC1")
+  out2 <- hypothesis_test(fit, "Species", vcov = "HC1")
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
-  expect_equal(out1$Contrast, out3$Contrast, tolerance = 1e-4)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
-  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
   expect_equal(out1$conf.low, out_later$conf.low, tolerance = 1e-4)
   # johnson-neymann
   data(efc, package = "ggeffects")
@@ -146,9 +140,9 @@ test_that("ggaverage, hypothesis test, robust SE", {
   out1 <- johnson_neyman(pr)
   expect_equal(attributes(out1)$intervals$pos_lower, 47, tolerance = 1e-3)
   # robust vcov
-  pr <- predict_response(fit, c("c12hour", "barthtot"), vcov_fun = "HC1", margin = "ame")
+  pr <- predict_response(fit, c("c12hour", "barthtot"), vcov = "HC1", margin = "ame")
   out2 <- johnson_neyman(pr)
-  out3 <- johnson_neyman(pr, vcov_fun = "HC1")
+  out3 <- johnson_neyman(pr, vcov = "HC1")
   expect_equal(attributes(out2)$intervals$pos_lower, 44.6, tolerance = 1e-3)
   expect_equal(attributes(out2)$intervals$pos_lower, attributes(out3)$intervals$pos_lower, tolerance = 1e-3)
 })

@@ -79,8 +79,8 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
   .validate_dot_arguments(
     additional_dot_args,
     not_allowed = c(
-      "type", "typical", "condition", "back_transform", "vcov_fun",
-      "vcov_type", "vcov_args", "weights"
+      "type", "typical", "condition", "back_transform", "vcov",
+      "vcov_args", "weights"
     ),
     fun = "ggeffect()"
   )

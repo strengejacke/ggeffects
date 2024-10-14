@@ -7,8 +7,7 @@
   terms,
   model_class = NULL,
   type = "fixed",
-  vcov_fun = NULL,
-  vcov_type = NULL,
+  vcov = NULL,
   vcov_args = NULL,
   condition = NULL,
   interval = NULL) {
@@ -21,8 +20,7 @@
       terms,
       model_class,
       type,
-      vcov_fun,
-      vcov_type,
+      vcov,
       vcov_args,
       condition,
       interval
@@ -54,8 +52,7 @@
                                terms,
                                model_class,
                                type,
-                               vcov_fun,
-                               vcov_type,
+                               vcov,
                                vcov_args,
                                condition,
                                interval) {
@@ -134,7 +131,7 @@
   rownames(prediction_data) <- NULL
 
   vmatrix <- .safe(
-    .vcov_helper(model, model_frame, model_class, newdata, vcov_fun, vcov_type, vcov_args, terms, full.vcov = FALSE)
+    .vcov_helper(model, model_frame, model_class, newdata, vcov, vcov_args, terms, full.vcov = FALSE)
   )
 
   pr_int <- FALSE

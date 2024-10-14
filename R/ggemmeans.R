@@ -7,8 +7,7 @@ ggemmeans <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
-                      vcov_fun = NULL,
-                      vcov_type = NULL,
+                      vcov = NULL,
                       vcov_args = NULL,
                       interval = "confidence",
                       bias_correction = FALSE,
@@ -16,6 +15,18 @@ ggemmeans <- function(model,
                       ...) {
   insight::check_if_installed("emmeans")
   additional_dot_args <- list(...)
+
+  ## TODO: remove deprecated later
+  vcov <- .prepare_vcov_args(vcov, ...)
+
+  # process vcov-arguments
+  vcov <- .get_variance_covariance_matrix(
+    model,
+    vcov,
+    vcov_args,
+    skip_if_null = TRUE,
+    verbose = verbose
+  )
 
   # check arguments
   interval <- match.arg(interval, choices = c("confidence", "prediction"))
@@ -42,27 +53,6 @@ ggemmeans <- function(model,
   # indeed existing in the data
   if (!missing(terms)) {
     terms <- .reconstruct_focal_terms(terms, model)
-  }
-
-  # prepare vcov arguments
-  if (is.null(vcov_fun)) {
-    vcov_info <- NULL
-  } else if (is.function(vcov_fun)) {
-    vcov_info <- list(
-      vcov_fun = vcov_fun,
-      vcov_args = vcov_args
-    )
-  } else if (is.matrix(vcov_fun)) {
-    vcov_info <- list(vcov_fun = list(vcov_fun))
-  } else {
-    vcov_info <- .prepare_vcov_args(
-      model,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
-      vcov_args = vcov_args,
-      include_model = FALSE,
-      verbose = verbose
-    )
   }
 
   # tidymodels?
@@ -181,7 +171,7 @@ ggemmeans <- function(model,
       type,
       model_info,
       interval = interval,
-      vcov_info = vcov_info,
+      vcov_info = list(vcov = vcov, vcov_args = vcov_args),
       bias_correction = bias_correction,
       residual_variance = residual_variance,
       verbose = verbose,
@@ -261,7 +251,7 @@ ggemmeans <- function(model,
     back_transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
-    vcov_args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint,
+    vcov_args = vcov,
     bias_correction = bias_correction,
     verbose = verbose
   )

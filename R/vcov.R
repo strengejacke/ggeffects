@@ -39,8 +39,7 @@
 #' vcov(result)
 #' @export
 vcov.ggeffects <- function(object,
-                           vcov_fun = NULL,
-                           vcov_type = NULL,
+                           vcov = NULL,
                            vcov_args = NULL,
                            verbose = TRUE,
                            ...) {
@@ -133,7 +132,7 @@ vcov.ggeffects <- function(object,
   tryCatch(
     .vcov_helper(
       model, model_frame, get_predict_function(model), newdata,
-      vcov_fun = vcov_fun, vcov_type = vcov_type, vcov_args = vcov_args,
+      vcov = vcov, vcov_args = vcov_args,
       original_terms = original_terms, full.vcov = TRUE
     ),
     error = function(e) {
@@ -153,13 +152,12 @@ vcov.ggeffects <- function(object,
                          model_frame,
                          model_class,
                          newdata,
-                         vcov_fun,
-                         vcov_type,
+                         vcov,
                          vcov_args,
                          original_terms,
                          full.vcov = FALSE) {
   # get variance-covariance matrix
-  vcm <- .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type)
+  vcm <- .get_variance_covariance_matrix(model, vcov, vcov_args)
 
   model_terms <- tryCatch(
     stats::terms(model),
@@ -223,7 +221,6 @@ vcov.ggeffects <- function(object,
   contrs <- attr(mm, "contrasts")
 
   if (!.is_empty(contrs)) {
-
     # check which contrasts are actually in terms-argument,
     # and which terms also appear in contrasts
     keep.c <- names(contrs) %in% original_terms
@@ -238,12 +235,13 @@ vcov.ggeffects <- function(object,
       if (!is.factor(f)) {
         f <- factor(f, levels = sort(unique(f)))
       }
-      if (.x %in% c("contr.sum", "contr.helmert"))
+      if (.x %in% c("contr.sum", "contr.helmert")) {
         sprintf("%s%s", .y, 1:(nlevels(f) - 1))
-      else if (.x == "contr.poly")
+      } else if (.x == "contr.poly") {
         sprintf("%s%s", .y, c(".L", ".Q", ".C"))
-      else
+      } else {
         sprintf("%s%s", .y, levels(f)[2:nlevels(f)])
+      }
     }, contrs, names(contrs)))
 
     original_terms <- c(original_terms, add.terms)
@@ -314,33 +312,39 @@ vcov.ggeffects <- function(object,
 
 
 .get_variance_covariance_matrix <- function(model,
-                                            vcov_fun,
+                                            vcov,
                                             vcov_args,
-                                            vcov_type,
                                             skip_if_null = FALSE,
                                             verbose = TRUE) {
   # check if robust vcov-matrix is requested
-  if (is.null(vcov_fun) && skip_if_null) {
+  if (is.null(vcov) && skip_if_null) {
     vcm <- NULL
-  } else if (!is.null(vcov_fun)) {
-    # user provided a function?
-    if (is.function(vcov_fun)) {
+  } else if (!is.null(vcov)) {
+    if (isTRUE(vcov)) {
+      # vcov = TRUE - this is the case for `test_prediction()`, to set the
+      # vcov-argument for *marginaleffects*
+      vcm <- TRUE
+    } else if (is.function(vcov)) {
+      # user provided a function? then prepare arguments and call function
+      # to return a vcov-matrix
       if (is.null(vcov_args) || !is.list(vcov_args)) {
         arguments <- list(model)
       } else {
         arguments <- c(list(model), vcov_args)
       }
-      vcm <- as.matrix(do.call("vcov_fun", arguments))
-    } else if (is.matrix(vcov_fun)) {
-      # user provided a vcov-matrix?
-      vcm <- as.matrix(vcov_fun)
+      vcm <- as.matrix(do.call("vcov", arguments))
+    } else if (is.matrix(vcov)) {
+      # user provided a vcov-matrix? directly return in
+      vcm <- as.matrix(vcov)
     } else {
-      vcov_info <- .prepare_vcov_args(model, vcov_fun, vcov_type, vcov_args, verbose = verbose)
-      # do nothing if vcov cannot be computed
-      if (is.null(vcov_info)) {
-        return(NULL)
-      }
-      vcm <- as.matrix(do.call(vcov_info$vcov_fun, vcov_info$vcov_args))
+      # user provided string? get the related covariance matrix estimation
+      # from the *sandwich* or *clubSandwich* packages
+      vcm <- as.matrix(suppressMessages(insight::get_varcov(
+        model,
+        vcov = vcov,
+        vcov_args = vcov_args,
+        component = "conditional"
+      )))
     }
     # for zero-inflated models, remove zero-inflation part from vcov
     if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
@@ -354,60 +358,27 @@ vcov.ggeffects <- function(object,
 }
 
 
-.prepare_vcov_args <- function(model,
-                               vcov_fun,
-                               vcov_type,
-                               vcov_args,
-                               include_model = TRUE,
-                               verbose = TRUE) {
-  # check for existing vcov-prefix
-  if (!startsWith(vcov_fun, "vcov")) {
-    vcov_shortcuts <- c("HC0", "HC1", "HC2", "HC3", "HC4", "HC5", "HC4m",
-                        "CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")
-    # check whether a "type" is provided in vcov_fun
-    if (is.null(vcov_type) && vcov_fun %in% vcov_shortcuts) {
-      vcov_type <- vcov_fun
-      if (startsWith(vcov_fun, "HC")) {
-        vcov_fun <- "HC"
-      } else {
-        vcov_fun <- "CR"
-      }
+## TODO: deprecate handling, remove later
+.prepare_vcov_args <- function(vcov, ...) {
+  # if user already used the vcov-argument, do nothing
+  if (!is.null(vcov)) {
+    return(vcov)
+  }
+  dots <- list(...)
+  if (!is.null(dots$vcov_fun) || !is.null(dots$vcov_type)) {
+    insight::format_warning("The arguments `vcov_fun` and `vcov_type` are deprecated and no longer. Please only use `vcov` to specify a variance-covariance matrix or a string to identify the function to compute heteroscedasticity-consistent standard errors, and the `vcov_args` argument for further arguments passed to that function.") # nolint
+  }
+  if (!is.null(dots$vcov_type)) {
+    return(dots$vcov_type)
+  }
+  if (!is.null(dots$vcov_fun)) {
+    if (is.matrix(dots$vcov_fun) || is.function(dots$vcov_fun)) {
+      return(dots$vcov_fun)
     }
-    vcov_fun <- paste0("vcov", vcov_fun)
   }
-  # set default for clubSandwich
-  if (vcov_fun == "vcovCR" && is.null(vcov_type)) {
-    vcov_type <- "CR0"
+  vcov_fun <- dots$vcov_fun
+  if (!is.null(vcov_fun) && startsWith(vcov_fun, "vcov")) {
+    vcov_fun <- gsub("^vcov(.*)", "\\1", vcov_fun)
   }
-  if (!is.null(vcov_type) && vcov_type %in% c("CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3")) {
-    insight::check_if_installed("clubSandwich")
-    robust_package <- "clubSandwich"
-    vcov_fun <- "vcovCR"
-  } else {
-    insight::check_if_installed("sandwich")
-    robust_package <- "sandwich"
-  }
-  # clubSandwich does not work for pscl models
-  if (robust_package == "clubSandwich" && inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
-    if (verbose) {
-      insight::format_alert(paste0(
-        "Can't compute robust standard errors for models of class `",
-        class(model)[1],
-        "` when `vcov_fun=\"vcovCR\". Please use `vcov_fun=\"vcovCL\"` from the {sandwich} package instead."
-      ))
-    }
-    return(NULL)
-  }
-  # compute robust standard errors based on vcov
-  if (robust_package == "sandwich") {
-    vcov_fun <- get(vcov_fun, asNamespace("sandwich"))
-  } else {
-    vcov_fun <- clubSandwich::vcovCR
-  }
-
-  if (include_model) {
-    list(vcov_fun = vcov_fun, vcov_args = c(list(model, type = vcov_type), vcov_args))
-  } else {
-    list(vcov_fun = vcov_fun, vcov_args = c(list(type = vcov_type), vcov_args))
-  }
+  vcov_fun
 }

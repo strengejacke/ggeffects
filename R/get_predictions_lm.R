@@ -1,12 +1,24 @@
-get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov_fun, vcov_type, vcov_args, condition, interval, type, ...) {
+get_predictions_lm <- function(model,
+                               data_grid,
+                               ci_level,
+                               model_class,
+                               value_adjustment,
+                               terms,
+                               vcov,
+                               vcov_args,
+                               condition,
+                               interval,
+                               type,
+                               ...) {
   # does user want standard errors?
-  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov_fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -21,12 +33,9 @@ get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_ad
   )
 
   if (type == "simulate") {
-
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, ...)
-
-  } else if (!is.null(vcov_fun) || (!is.null(interval) && interval == "prediction")) {
-
+  } else if (!is.null(vcov) || (!is.null(interval) && interval == "prediction")) {
     # did user request standard errors? if yes, compute CI
 
     # copy predictions
@@ -42,8 +51,7 @@ get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_ad
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
       interval = interval
@@ -75,7 +83,6 @@ get_predictions_lm <- function(model, data_grid, ci_level, model_class, value_ad
 
     # copy standard errors
     attr(data_grid, "std.error") <- prdat$se.fit
-
   } else {
     # check if we have a multivariate response model
     pdim <- dim(prdat)

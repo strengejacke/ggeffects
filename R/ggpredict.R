@@ -62,8 +62,7 @@ ggpredict <- function(model,
                       typical = "mean",
                       condition = NULL,
                       back_transform = TRUE,
-                      vcov_fun = NULL,
-                      vcov_type = NULL,
+                      vcov = NULL,
                       vcov_args = NULL,
                       interval,
                       bias_correction = FALSE,
@@ -71,6 +70,9 @@ ggpredict <- function(model,
                       ...) {
   # check arguments
   type <- .validate_type_argument(model, type)
+
+  ## TODO: remove deprecated later
+  vcov <- .prepare_vcov_args(vcov, ...)
 
   if (missing(interval)) {
     if (type %in% c("random", "zero_inflated_random")) {
@@ -117,8 +119,7 @@ ggpredict <- function(model,
     typical = typical,
     condition = condition,
     back_transform = back_transform,
-    vcov_fun = vcov_fun,
-    vcov_type = vcov_type,
+    vcov = vcov,
     vcov_args = vcov_args,
     interval = interval,
     bias_correction = bias_correction,
@@ -168,8 +169,7 @@ ggpredict_helper <- function(model,
                              typical,
                              condition,
                              back_transform,
-                             vcov_fun,
-                             vcov_type,
+                             vcov,
                              vcov_args,
                              interval,
                              bias_correction = FALSE,
@@ -235,8 +235,7 @@ ggpredict_helper <- function(model,
     model_info = model_info,
     terms = original_terms,
     value_adjustment = typical,
-    vcov_fun = vcov_fun,
-    vcov_type = vcov_type,
+    vcov = vcov,
     vcov_args = vcov_args,
     condition = condition,
     interval = interval,
@@ -314,7 +313,7 @@ ggpredict_helper <- function(model,
     untransformed.predictions = untransformed.predictions,
     back_transform = back_transform,
     response.transform = response.transform,
-    vcov_args = .get_variance_covariance_matrix(model, vcov_fun, vcov_args, vcov_type, skip_if_null = TRUE, verbose = FALSE), # nolint
+    vcov_args = .get_variance_covariance_matrix(model, vcov, vcov_args, skip_if_null = TRUE, verbose = FALSE), # nolint
     margin = "mean_reference",
     bias_correction = bias_correction,
     verbose = verbose

@@ -15,8 +15,8 @@ test_that("ggpredict, lm", {
 
 test_that("ggpredict, lm", {
   skip_if_not_installed("sandwich")
-  pr1 <- ggpredict(m1, "gear", vcov_fun = "vcovHC")
-  pr2 <- ggpredict(m2, "gear", vcov_fun = "vcovHC")
+  pr1 <- ggpredict(m1, "gear", vcov = "HC")
+  pr2 <- ggpredict(m2, "gear", vcov = "HC")
   expect_equal(pr1$conf.high, c(24.3244, 26.0561, 28.7104), tolerance = 1e-3)
   expect_equal(pr2$conf.high, c(24.3244, 26.0561, 28.7104), tolerance = 1e-3)
   expect_equal(pr1$conf.high, pr2$conf.high, tolerance = 1e-3)
