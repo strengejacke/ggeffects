@@ -213,10 +213,10 @@
 #'    - Heteroskedasticity-consistent: `"HC"`, `"HC0"`, `"HC1"`, `"HC2"`,
 #'      `"HC3"`, `"HC4"`, `"HC4m"`, `"HC5"`. See `?sandwich::vcovHC`
 #'    - Cluster-robust: `"vcovCR"`, `"CR0"`, `"CR1"`, `"CR1p"`, `"CR1S"`,
-#'      `"CR2"`, `"CR3"`. See `?clubSandwich::vcovCR()`
+#'      `"CR2"`, `"CR3"`. See `?clubSandwich::vcovCR`.
 #'    - Bootstrap: `"BS"`, `"xy"`, `"fractional"`, `"jackknife"`, `"residual"`,
 #'      `"wild"`, `"mammen"`, `"norm"`, `"webb"`. See `?sandwich::vcovBS`
-#'    - Other `sandwich` package functions: `"HAC"`, `"PC"`, `"CL"`, `"PL"`.
+#'    - Other `sandwich` package functions: `"HAC"`, `"PC"`, `"CL"`, or `"PL"`.
 #'
 #' If `NULL`, standard errors (and confidence intervals) for predictions are
 #' based on the standard errors as returned by the `predict()`-function.

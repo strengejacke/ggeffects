@@ -6,8 +6,7 @@ get_predictions_zeroinfl <- function(model,
                                      model_class,
                                      value_adjustment,
                                      terms,
-                                     vcov_fun,
-                                     vcov_type,
+                                     vcov,
                                      vcov_args,
                                      condition,
                                      interval = NULL,
@@ -22,10 +21,11 @@ get_predictions_zeroinfl <- function(model,
   }
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -61,7 +61,6 @@ get_predictions_zeroinfl <- function(model,
 
 
   if (type == "zero_inflated") {
-
     model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
     clean_terms <- .clean_terms(terms)
 
@@ -84,16 +83,13 @@ get_predictions_zeroinfl <- function(model,
     prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
-
       insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
       cat("Possibly a polynomial term is held constant (and does not appear in the `terms`-argument). Or try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`).\n")
 
       predicted_data$predicted <- as.vector(prdat)
       predicted_data$conf.low <- NA
       predicted_data$conf.high <- NA
-
     } else {
-
       # we need two data grids here: one for all combination of levels from the
       # model predictors ("newdata"), and one with the current combinations only
       # for the terms in question ("data_grid"). "sims" has always the same
@@ -110,11 +106,8 @@ get_predictions_zeroinfl <- function(model,
         attr(predicted_data, "std.error") <- predicted_data$std.error
         predicted_data <- .remove_column(predicted_data, "std.error")
       }
-
     }
-
   } else {
-
     # get standard errors from variance-covariance matrix
     se.pred <- .standard_error_predictions(
       model = model,
@@ -123,7 +116,7 @@ get_predictions_zeroinfl <- function(model,
       type = type,
       terms = terms,
       model_class = model_class,
-      vcov_fun = vcov_fun,
+      vcov = vcov,
       vcov_type = vcov_type,
       vcov_args = vcov_args,
       condition = condition,
@@ -148,7 +141,6 @@ get_predictions_zeroinfl <- function(model,
     }
 
     predicted_data$predicted <- linv(predicted_data$predicted)
-
   }
 
   predicted_data

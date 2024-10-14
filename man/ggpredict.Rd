@@ -273,10 +273,10 @@ covariance matrix.
 \item Heteroskedasticity-consistent: \code{"HC"}, \code{"HC0"}, \code{"HC1"}, \code{"HC2"},
 \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, \code{"HC5"}. See \code{?sandwich::vcovHC}
 \item Cluster-robust: \code{"vcovCR"}, \code{"CR0"}, \code{"CR1"}, \code{"CR1p"}, \code{"CR1S"},
-\code{"CR2"}, \code{"CR3"}. See \code{?clubSandwich::vcovCR()}
+\code{"CR2"}, \code{"CR3"}. See \code{?clubSandwich::vcovCR}.
 \item Bootstrap: \code{"BS"}, \code{"xy"}, \code{"fractional"}, \code{"jackknife"}, \code{"residual"},
 \code{"wild"}, \code{"mammen"}, \code{"norm"}, \code{"webb"}. See \code{?sandwich::vcovBS}
-\item Other \code{sandwich} package functions: \code{"HAC"}, \code{"PC"}, \code{"CL"}, \code{"PL"}.
+\item Other \code{sandwich} package functions: \code{"HAC"}, \code{"PC"}, \code{"CL"}, or \code{"PL"}.
 }
 }
 

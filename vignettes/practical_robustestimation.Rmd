@@ -57,7 +57,8 @@ Now, we use `sandwich::vcovHC()` to estimate heteroskedasticity-consistent stand
 E.g., to use the default `sandwich::vcovHC()` function, set `vcov = "HC"`, in which case the default type in `sandwich::vcovHC()` is called. Setting `vcov = "HC1"` is a convenient shortcut for `vcov = "HC", vcov_args = list(type = "HC1")`, which would call `sandwich::vcovHC(type = "HC1")`.
 
 ```{r message = TRUE}
-# shorter: predict_response(model, "X1", vcov = "HC0"). This is equivalent to the following:
+# short: predict_response(model, "X1", vcov = "HC0")
+# This is equivalent to the following:
 predict_response(model, "X1", vcov = "HC", vcov_args = list(type = "HC0"))
 ```
 
@@ -84,7 +85,7 @@ predict_response(
 The last example shows how to define cluster-robust standard errors. These are based on `clubSandwich::vcovCR()`. Thus, `vcov = "CR"` is always required when estimating cluster robust standard errors. `clubSandwich::vcovCR()` has also different estimation types, which must be specified in `vcov_args`. Furthermore, `clubSandwich::vcovCR()` *requires* the `cluster`-argument, which must also be specified in `vcov_args`:
 
 ```{r message = TRUE}
-# shorter:
+# short:
 # predict_response(model, "X1", vcov = "CR0",
 #                  vcov_args = list(cluster = dat$cluster)).
 # This is equivalent to the following:

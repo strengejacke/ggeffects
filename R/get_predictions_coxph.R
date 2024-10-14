@@ -32,7 +32,7 @@ get_predictions_coxph <- function(model,
   )
 
   # did user request standard errors? if yes, compute CI
-  if (!is.null(vcov_fun) || (!is.null(interval) && interval == "prediction")) {
+  if (!is.null(vcov) || (!is.null(interval) && interval == "prediction")) {
     # copy predictions
     data_grid$predicted <- exp(prdat$fit)
 
