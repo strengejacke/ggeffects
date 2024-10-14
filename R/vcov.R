@@ -323,7 +323,7 @@ vcov.ggeffects <- function(object,
     if (isTRUE(vcov)) {
       # vcov = TRUE - this is the case for `test_prediction()`, to set the
       # vcov-argument for *marginaleffects*
-      return(TRUE)
+      vcm <- TRUE
     } else if (is.function(vcov)) {
       # user provided a function? then prepare arguments and call function
       # to return a vcov-matrix

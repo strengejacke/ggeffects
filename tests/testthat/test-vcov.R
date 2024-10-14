@@ -58,15 +58,7 @@ test_that("ggemmeans, vcov can be own function", {
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
 
   out3 <- ggemmeans(model_vcov, "X1", vcov = sandwich::vcovHC(model_vcov, type = "HC0"))
-  expect_equal(
-    out3$conf.low,
-    c(
-      -0.99269, -0.72491, -0.47334, -0.25747, -0.11929, -0.0971,
-      -0.16364, -0.27276, -0.40091, -0.53844, -0.68113
-    ),
-    tolerance = 1e-4
-  )
-
+  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
 
   data(iris)
   fit <- lm(Sepal.Length ~ Species, data = iris)
