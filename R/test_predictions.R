@@ -128,11 +128,10 @@
 #' for further details.
 #'
 #' To define a heteroscedasticity-consistent variance-covariance matrix, you can
-#' either use the same arguments as for `predict_response()` etc., namely
-#' `vcov_fun`, `vcov_type` and `vcov_args`. These are then transformed into a
-#' matrix and passed down to the `vcov` argument in **marginaleffects**. Or you
-#' directly use the `vcov` argument. See `?marginaleffects::slopes` for further
-#' details.
+#' either use the same arguments as for `predict_response()` etc., namely `vcov`
+#' and `vcov_args`. These are then transformed into a matrix and passed down to
+#' the `vcov` argument in **marginaleffects**. Or you directly use the `vcov`
+#' argument. See `?marginaleffects::slopes` for further details.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #' package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -496,12 +495,10 @@ test_predictions.default <- function(object,
   dot_args$type <- .sanitize_type_argument(object, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
 
   # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
-  # from ggpredict, like "vcov_fun" etc. - then remove vcov_-arguments
-  if (!is.null(dot_args$vcov_fun)) {
-    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov_fun, dot_args$vcov_args, dot_args$vcov_type)
+  # from ggpredict, like "vcov" etc. - then remove vcov-arguments
+  if (!is.null(dot_args$vcov)) {
+    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov, dot_args$vcov_args)
     # remove non supported args
-    dot_args$vcov_fun <- NULL
-    dot_args$vcov_type <- NULL
     dot_args$vcov_args <- NULL
   }
 

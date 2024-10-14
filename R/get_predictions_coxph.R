@@ -4,8 +4,7 @@ get_predictions_coxph <- function(model,
                                   model_class,
                                   value_adjustment,
                                   terms,
-                                  vcov_fun,
-                                  vcov_type,
+                                  vcov,
                                   vcov_args,
                                   condition,
                                   interval,
@@ -43,8 +42,7 @@ get_predictions_coxph <- function(model,
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
       interval = interval
@@ -61,7 +59,6 @@ get_predictions_coxph <- function(model,
       # copy standard errors
       attr(data_grid, "std.error") <- se.fit
       attr(data_grid, "prediction.interval") <- attr(se.pred, "prediction_interval")
-
     } else {
       # CI
       data_grid$conf.low <- NA
@@ -77,7 +74,6 @@ get_predictions_coxph <- function(model,
 
     # copy standard errors
     attr(data_grid, "std.error") <- prdat$se.fit
-
   } else {
     # copy predictions
     data_grid$predicted <- exp(as.vector(prdat))

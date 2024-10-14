@@ -11,10 +11,11 @@ get_predictions_geeglm <- function(model,
   se <- (!is.null(ci_level) && !is.na(ci_level))
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -39,8 +40,7 @@ get_predictions_geeglm <- function(model,
     type = type,
     terms = terms,
     model_class = model_class,
-    vcov_fun = NULL,
-    vcov_type = NULL,
+    vcov = NULL,
     vcov_args = NULL,
     condition = condition,
     interval = NULL

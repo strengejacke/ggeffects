@@ -5,15 +5,14 @@ get_predictions_glm <- function(model,
                                 value_adjustment,
                                 model_class,
                                 terms,
-                                vcov_fun,
-                                vcov_type,
+                                vcov_,
                                 vcov_args,
                                 condition,
                                 interval,
                                 type,
                                 ...) {
   # does user want standard errors?
-  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov_fun)
+  se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov)
 
   if (type == "simulate") {
     # compute ci, two-ways
@@ -56,8 +55,7 @@ get_predictions_glm <- function(model,
       model_class,
       value_adjustment,
       terms,
-      vcov_fun,
-      vcov_type,
+      vcov,
       vcov_args,
       condition,
       interval

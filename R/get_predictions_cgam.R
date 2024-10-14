@@ -1,4 +1,12 @@
-get_predictions_cgam <- function(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, condition, ...) {
+get_predictions_cgam <- function(model,
+                                 data_grid,
+                                 ci_level,
+                                 linv,
+                                 value_adjustment,
+                                 model_class,
+                                 terms,
+                                 condition,
+                                 ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
 
@@ -47,8 +55,7 @@ get_predictions_cgam <- function(model, data_grid, ci_level, linv, value_adjustm
       value_adjustment = value_adjustment,
       terms = terms,
       model_class = model_class,
-      vcov_fun = NULL,
-      vcov_type = NULL,
+      vcov = NULL,
       vcov_args = NULL,
       condition = condition,
       interval = interval
