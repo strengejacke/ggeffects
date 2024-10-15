@@ -27,6 +27,7 @@ Imports:
     utils
 Suggests:
     AER,
+    afex,
     aod,
     bayestestR,
     betareg,
