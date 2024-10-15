@@ -6,29 +6,30 @@ get_predictions_lme <- function(model,
                                 terms,
                                 value_adjustment,
                                 model_class,
-                                vcov_fun,
-                                vcov_type,
+                                vcov,
                                 vcov_args,
                                 condition,
                                 interval,
                                 ...) {
   # does user want standard errors?
-  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov_fun)
+  se <- (!is.null(ci_level) && !is.na(ci_level)) || !is.null(vcov)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  if (inherits(model, "glmmPQL"))
+  if (inherits(model, "glmmPQL")) {
     pr.type <- "link"
-  else
+  } else {
     pr.type <- "response"
+  }
 
   prdat <- stats::predict(
     model,
@@ -50,15 +51,13 @@ get_predictions_lme <- function(model,
       terms = terms,
       model_class = model_class,
       type = type,
-      vcov_fun = vcov_fun,
-      vcov_type = vcov_type,
+      vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
       interval = interval
     )
 
     if (.check_returned_se(se.pred)) {
-
       se.fit <- se.pred$se.fit
       fitfram <- se.pred$prediction_data
 

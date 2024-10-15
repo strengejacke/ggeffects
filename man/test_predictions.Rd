@@ -58,11 +58,10 @@ See examples at the bottom of
 for further details.
 
 To define a heteroscedasticity-consistent variance-covariance matrix, you can
-either use the same arguments as for \code{predict_response()} etc., namely
-\code{vcov_fun}, \code{vcov_type} and \code{vcov_args}. These are then transformed into a
-matrix and passed down to the \code{vcov} argument in \strong{marginaleffects}. Or you
-directly use the \code{vcov} argument. See \code{?marginaleffects::slopes} for further
-details.}
+either use the same arguments as for \code{predict_response()} etc., namely \code{vcov}
+and \code{vcov_args}. These are then transformed into a matrix and passed down to
+the \code{vcov} argument in \strong{marginaleffects}. Or you directly use the \code{vcov}
+argument. See \code{?marginaleffects::slopes} for further details.}
 
 \item{terms}{If \code{object} is an object of class \code{ggeffects}, the same \code{terms}
 argument is used as for the predictions, i.e. \code{terms} can be ignored. Else,

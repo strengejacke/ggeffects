@@ -12,8 +12,7 @@ predict_response(
   type = "fixed",
   condition = NULL,
   back_transform = TRUE,
-  vcov_fun = NULL,
-  vcov_type = NULL,
+  vcov = NULL,
   vcov_args = NULL,
   weights = NULL,
   interval,
@@ -176,42 +175,42 @@ log-, log-log, exp, sqrt and similar transformed responses will be
 back-transformed to original response-scale. See
 \code{\link[insight:find_transformation]{insight::find_transformation()}} for more details.}
 
-\item{vcov_fun}{Variance-covariance matrix used to compute uncertainty
-estimates (e.g., for confidence intervals based on robust standard errors).
-This argument accepts a covariance matrix, a function which returns a
-covariance matrix, or a string which identifies the function to be used to
-compute the covariance matrix.
+\item{vcov}{Variance-covariance matrix used to compute uncertainty estimates
+(e.g., for confidence intervals based on robust standard errors). This
+argument accepts a covariance matrix, a function which returns a covariance
+matrix, or a string which identifies the function to be used to compute the
+covariance matrix.
 \itemize{
-\item A (variance-covariance) matrix
+\item A covariance matrix
 \item A function which returns a covariance matrix (e.g., \code{stats::vcov()})
-\item A string which indicates the estimation type for the heteroscedasticity-consistent
-variance-covariance matrix, e.g. \code{vcov_fun = "HC0"}. Possible values are
-\code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, and \code{"HC5"}, which
-will then call the \code{vcovHC()}-function from the \strong{sandwich} package, using
-the specified type. Further possible values are \code{"CR0"}, \code{"CR1"}, \code{"CR1p"},
-\code{"CR1S"}, \code{"CR2"}, and \code{"CR3"}, which will call the \code{vcovCR()}-function from
-the \strong{clubSandwich} package.
-\item A string which indicates the name of the \verb{vcov*()}-function from the
-\strong{sandwich} or \strong{clubSandwich} packages, e.g. \code{vcov_fun = "vcovCL"},
-which is used to compute (cluster) robust standard errors for predictions.
+\item A string which indicates the kind of uncertainty estimates to return.
+\itemize{
+\item Heteroskedasticity-consistent: \code{"HC"}, \code{"HC0"}, \code{"HC1"}, \code{"HC2"},
+\code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, \code{"HC5"}. See \code{?sandwich::vcovHC}
+\item Cluster-robust: \code{"vcovCR"}, \code{"CR0"}, \code{"CR1"}, \code{"CR1p"}, \code{"CR1S"},
+\code{"CR2"}, \code{"CR3"}. See \code{?clubSandwich::vcovCR}.
+\item Bootstrap: \code{"BS"}, \code{"xy"}, \code{"fractional"}, \code{"jackknife"}, \code{"residual"},
+\code{"wild"}, \code{"mammen"}, \code{"norm"}, \code{"webb"}. See \code{?sandwich::vcovBS}
+\item Other \code{sandwich} package functions: \code{"HAC"}, \code{"PC"}, \code{"CL"}, or \code{"PL"}.
+}
 }
 
 If \code{NULL}, standard errors (and confidence intervals) for predictions are
 based on the standard errors as returned by the \code{predict()}-function.
-\strong{Note} that probably not all model objects that work with \code{predict_response()}
-are also supported by the \strong{sandwich} or \strong{clubSandwich} packages.
+\strong{Note} that probably not all model objects that work with
+\code{predict_response()} are also supported by the \strong{sandwich} or
+\strong{clubSandwich} packages.
 
 See details in \href{https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html}{this vignette}.}
 
-\item{vcov_type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{?sandwich::vcovHC}
-or \code{?clubSandwich::vcovCR} for details). Only used when \code{vcov_fun} is a
-character string indicating one of the functions from those packages.
-When \code{vcov_fun} is a function, a possible \code{type} argument \emph{must} be provided
-via the \code{vcov_args} argument.}
-
-\item{vcov_args}{List of named vectors, used as additional arguments that
-are passed down to \code{vcov_fun}.}
+\item{vcov_args}{List of arguments to be passed to the function identified by
+the \code{vcov} argument. This function is typically supplied by the
+\strong{sandwich} or \strong{clubSandwich} packages. Please refer to their
+documentation (e.g., \code{?sandwich::vcovHAC}) to see the list of available
+arguments. If no estimation type (argument \code{type}) is given, the default
+type for \code{"HC"} equals the default from the \strong{sandwich} package; for type
+\code{"CR"} the default is set to \code{"CR3"}. For other defaults, refer to the
+documentation in the \strong{sandwich} or \strong{clubSandwich} package.}
 
 \item{weights}{This argument is used in two different ways, depending on the
 \code{margin} argument.

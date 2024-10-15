@@ -2,6 +2,11 @@
 
 ## Breaking changes
 
+* The `vcov_fun` and `vcov_type` argument were removed and are now replaced
+  by the single `vcov` argument, to be in line with the handling of
+  heteroscedasticity-consistent standard errors in other packages (mainly:
+  *easystats* eco-system).
+
 * The deprecated arguments for `ggpredict()`, `vcov()`, `ggeffect()` and
   `ggemmeans()` have been removed.
 

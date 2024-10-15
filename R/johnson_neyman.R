@@ -100,8 +100,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   if (!is.null(p_adjust)) {
     p_adjust <- match.arg(p_adjust, choices = c("esarey", "es", "fdr", "bh"))
     # just keep one shortcut
-    p_adjust <- switch(
-      p_adjust,
+    p_adjust <- switch(p_adjust,
       esarey = "es",
       bh = "fdr",
       p_adjust
@@ -121,12 +120,10 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   }
 
   # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
-  # from ggpredict, like "vcov_fun" etc. - then remove vcov_-arguments
-  if (!is.null(dot_args$vcov_fun)) {
-    dot_args$vcov <- .get_variance_covariance_matrix(model, dot_args$vcov_fun, dot_args$vcov_args, dot_args$vcov_type)
+  # from ggpredict, like "vcov" etc. - then remove vcov_-arguments
+  if (!is.null(dot_args$vcov)) {
+    dot_args$vcov <- .get_variance_covariance_matrix(model, dot_args$vcov, dot_args$vcov_args)
     # remove non supported args
-    dot_args$vcov_fun <- NULL
-    dot_args$vcov_type <- NULL
     dot_args$vcov_args <- NULL
   } else if (is.null(dot_args$vcov)) {
     dot_args$vcov <- vcov_matrix
