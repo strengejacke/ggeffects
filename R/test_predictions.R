@@ -36,6 +36,12 @@
 #' Technical details about the packages used as back-end to calculate contrasts
 #' and pairwise comparisons are provided in the section _Packages used as back-end
 #' to calculate contrasts and pairwise comparisons_ below.
+#' @param test_args Optional arguments passed to `test`, typically provided as
+#' named list. Only applies to those options that use the **emmeans** package
+#' as backend, e.g. if `test = "interaction"`, `test_args` will be passed to
+#' `emmeans::contrast(interaction = test_args)`. For other *emmeans* options
+#' (like `"cotrast"`, `"exclude"`, `"consecutive"` and so on), `test_args` will
+#' be passed to the `option` argument in `emmeans::contrast()`.
 #' @param terms If `object` is an object of class `ggeffects`, the same `terms`
 #' argument is used as for the predictions, i.e. `terms` can be ignored. Else,
 #' if `object` is a model object, `terms` must be a character vector with the
@@ -347,6 +353,7 @@ test_predictions.default <- function(object,
                                      terms = NULL,
                                      by = NULL,
                                      test = "pairwise",
+                                     test_args = NULL,
                                      equivalence = NULL,
                                      scale = "response",
                                      p_adjust = NULL,
@@ -519,6 +526,7 @@ test_predictions.default <- function(object,
       terms = terms,
       by = by,
       test = test,
+      test_args = test_args,
       equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,

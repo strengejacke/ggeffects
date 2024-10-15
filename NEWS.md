@@ -7,6 +7,11 @@
 
 * The deprecated arguments for the `plot()` method have been removed.
 
+## Changes
+
+* `test_predictions` gains a `test_args` argument, to optionally pass further
+  options to `test` for *emmeans* options.
+
 # ggeffects 1.7.2
 
 ## Breaking changes

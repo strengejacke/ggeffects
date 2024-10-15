@@ -16,6 +16,7 @@ hypothesis_test(object, ...)
   terms = NULL,
   by = NULL,
   test = "pairwise",
+  test_args = NULL,
   equivalence = NULL,
   scale = "response",
   p_adjust = NULL,
@@ -107,6 +108,13 @@ and pairwise comparisons}.
 Technical details about the packages used as back-end to calculate contrasts
 and pairwise comparisons are provided in the section \emph{Packages used as back-end
 to calculate contrasts and pairwise comparisons} below.}
+
+\item{test_args}{Optional arguments passed to \code{test}, typically provided as
+named list. Only applies to those options that use the \strong{emmeans} package
+as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed to
+\code{emmeans::contrast(interaction = test_args)}. For other \emph{emmeans} options
+(like \code{"cotrast"}, \code{"exclude"}, \code{"consecutive"} and so on), \code{test_args} will
+be passed to the \code{option} argument in \code{emmeans::contrast()}.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
