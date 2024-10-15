@@ -20,7 +20,8 @@
 #'     the average over _all other_ levels, excluding the contrast that is being
 #'     tested).
 #'   - `"interaction"` to test interaction contrasts (difference-in-difference
-#'     contrasts).
+#'     contrasts). More flexible interaction contrasts can be calcualted using
+#'     the `test_args` argument.
 #'   - `"consecutive"` to test contrasts between consecutive levels of a predictor.
 #'   - `"polynomial"` to test orthogonal polynomial contrasts, assuming
 #'     equally-spaced factor levels.
@@ -239,6 +240,8 @@
 #' `"consecutive"` to calculate contrasts between consecutive levels of a predictor,
 #' or a data frame with custom contrasts. If `test` is one of the latter options,
 #' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
+#' Additionally, the `test_args` argument can be used to specify further options
+#' for those contrasts. See 'Examples' and documentation of `test_args`.
 #'
 #' If the **marginaleffects** package is not installed, the **emmeans** package is
 #' used automatically. If this package is not installed as well,
