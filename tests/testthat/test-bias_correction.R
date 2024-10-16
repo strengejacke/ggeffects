@@ -71,7 +71,12 @@ test_that("ggpredict, bias_correction, glmmTMB", {
     bias.adjust = TRUE,
     sigma = sqrt(insight::get_variance_residual(m3))
   ))
-  out3 <- predict_response(m3, "mined", margin = "marginalmeans")
+  expect_warning(
+    {
+      out3 <- predict_response(m3, "mined", margin = "marginalmeans")
+    },
+    regex = "You are calculating"
+  )
   out4 <- predict_response(m3, "mined", margin = "marginalmeans", bias_correction = TRUE)
   expect_equal(out1$rate, out3$predicted, tolerance = 1e-3)
   expect_equal(out2$rate, out4$predicted, tolerance = 1e-3)
@@ -82,7 +87,7 @@ test_that("ggpredict, bias_correction, glmmTMB", {
   expect_equal(result1$Contrast, -1.84456, tolerance = 1e-3)
   expect_equal(result2$Contrast, -2.11459, tolerance = 1e-3)
 
-  out5 <- predict_response(m3, "mined")
+  out5 <- predict_response(m3, "mined", verbose = FALSE)
   expect_equal(out5$predicted, c(0.93517, 2.57911), tolerance = 1e-3)
   out6 <- predict_response(m3, "mined", bias_correction = TRUE, sigma = sqrt(insight::get_variance_residual(m3)))
   expect_equal(out6$predicted, c(1.07207, 2.95666), tolerance = 1e-3)
