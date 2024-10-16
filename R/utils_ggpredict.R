@@ -316,7 +316,7 @@
   info <- insight::model_info(model)
   # for GLMMs, when re.form is set to NA and bias_correction = FALSE, warn user
   if (isFALSE(bias_correction) && insight::is_mixed_model(model) && !info$is_linear && !info$is_tweedie && verbose && type %in% c("fixed", "zero_inflated")) { # nolint
-    insight::format_warning(
+    insight::format_alert(
       "You are calculating adjusted predictions on the population-level (i.e. `type = \"fixed\"`) for a *generalized* linear mixed model.",
       "This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.",
       "See also the documentation of the `bias_correction` argument."

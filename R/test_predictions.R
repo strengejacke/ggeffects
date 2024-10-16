@@ -469,7 +469,7 @@ test_predictions.default <- function(object,
 
   random_pars <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
   if (verbose && !is.null(random_pars) && all(.clean_terms(terms) %in% random_pars)) {
-    insight::format_warning(
+    insight::format_alert(
       "All focal terms are included as random effects in the model. To calculate pairwise comparisons for random effects, use `engine = \"ggeffects\"`." # nolint
     )
   }
@@ -1458,14 +1458,14 @@ test_predictions.ggeffects <- function(object,
           params$p.value <- 2 * stats::pt(abs(statistic), df = df, lower.tail = FALSE)
         }
       } else if (verbose) {
-        insight::format_warning("No test-statistic found. P-values were not adjusted.")
+        insight::format_alert("No test-statistic found. P-values were not adjusted.")
       }
     } else if (tolower(p_adjust) == "sidak") {
       # sidak adjustment
       params$p.value <- 1 - (1 - params$p.value)^rank_adjust
     }
   } else if (verbose) {
-    insight::format_warning(paste0("`p_adjust` must be one of ", toString(all_methods)))
+    insight::format_alert(paste0("`p_adjust` must be one of ", toString(all_methods)))
   }
   params
 }

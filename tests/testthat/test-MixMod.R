@@ -23,27 +23,30 @@ test_that("ggpredict", {
     family = binomial
   )
   set.seed(123)
-  expect_warning({
-    p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated")
-  })
+  expect_message(expect_message(
+    {
+      p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated")
+    },
+    regex = "You are calculating adjusted"
+  ), regex = "Results for MixMod-objects")
   expect_equal(p$predicted[1], 2.045537, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 3.296))
+  p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 3.296), verbose = FALSE)
   expect_equal(p$predicted[1], 4.982773, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 0))
+  p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 0), verbose = FALSE)
   expect_equal(p$predicted[1], 0.5115884, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated")
+  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated", verbose = FALSE)
   expect_equal(p$predicted[1], 1.816723, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated_random")
+  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated_random", verbose = FALSE)
   expect_equal(p$predicted[1], 3.457011, tolerance = 1e-2)
 
-  expect_warning(expect_message(ggpredict(m1, c("child", "camper"), type = "fixed")))
-  expect_warning(expect_message(ggpredict(m2, "zg", type = "zero_inflated")))
+  expect_message(expect_message(expect_message(ggpredict(m1, c("child", "camper"), type = "fixed"))))
+  expect_message(expect_message(expect_message(ggpredict(m2, "zg", type = "zero_inflated"))))
 })
