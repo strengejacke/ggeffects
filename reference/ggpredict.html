@@ -49,7 +49,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -457,13 +457,15 @@ back-transforming the predicted values (to the response scale) for
 non-Gaussian <em>mixed models</em>. Back-transforming the the population-level
 predictions ignores the effect of the variation around the population mean,
 so the result on the original data scale is biased due to <em>Jensen's
-inequality</em>. To apply bias-correction, a valid value of sigma is required,
-which is extracted by default using <code><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">insight::get_variance_residual()</a></code>.
-Optionally, to provide own estimates of uncertainty, use the <code>sigma</code>
-argument. Note that <code>bias_correction</code> currently only applies to mixed models,
-where there are additive random components involved and where that
-bias-adjustment can be appropriate. If <code>ggemmeans()</code> is called,
-bias-correction can also be applied to GEE-models.</p></dd>
+inequality</em>. That means, when <code>type = "fixed"</code> (the default) and population
+level predictions are returned, it is recommended to set <code>bias_correction = TRUE</code>.
+To apply bias-correction, a valid value of sigma is required, which is
+extracted by default using <code><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">insight::get_variance_residual()</a></code>. Optionally,
+to provide own estimates of uncertainty, use the <code>sigma</code> argument. Note that
+<code>bias_correction</code> currently only applies to mixed models, where there are
+additive random components involved and where that bias-adjustment can be
+appropriate. If <code>ggemmeans()</code> is called, bias-correction can also be applied
+to GEE-models.</p></dd>
 
 
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>

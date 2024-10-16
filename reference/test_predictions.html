@@ -11,7 +11,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,6 +89,7 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  terms <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
+<span>  test_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  equivalence <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  scale <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -173,7 +174,8 @@ the average over <em>all</em> levels).</p></li>
 the average over <em>all other</em> levels, excluding the contrast that is being
 tested).</p></li>
 <li><p><code>"interaction"</code> to test interaction contrasts (difference-in-difference
-contrasts).</p></li>
+contrasts). More flexible interaction contrasts can be calcualted using
+the <code>test_args</code> argument.</p></li>
 <li><p><code>"consecutive"</code> to test contrasts between consecutive levels of a predictor.</p></li>
 <li><p><code>"polynomial"</code> to test orthogonal polynomial contrasts, assuming
 equally-spaced factor levels.</p></li>
@@ -188,6 +190,15 @@ and pairwise comparisons</em>.</p></li>
 </ul><p>Technical details about the packages used as back-end to calculate contrasts
 and pairwise comparisons are provided in the section <em>Packages used as back-end
 to calculate contrasts and pairwise comparisons</em> below.</p></dd>
+
+
+<dt id="arg-test-args">test_args<a class="anchor" aria-label="anchor" href="#arg-test-args"></a></dt>
+<dd><p>Optional arguments passed to <code>test</code>, typically provided as
+named list. Only applies to those options that use the <strong>emmeans</strong> package
+as backend, e.g. if <code>test = "interaction"</code>, <code>test_args</code> will be passed to
+<code>emmeans::contrast(interaction = test_args)</code>. For other <em>emmeans</em> options
+(like <code>"cotrast"</code>, <code>"exclude"</code>, <code>"consecutive"</code> and so on), <code>test_args</code> will
+be passed to the <code>option</code> argument in <code><a href="https://rvlenth.github.io/emmeans/reference/contrast.html" class="external-link">emmeans::contrast()</a></code>.</p></dd>
 
 
 <dt id="arg-equivalence">equivalence<a class="anchor" aria-label="anchor" href="#arg-equivalence"></a></dt>
@@ -385,7 +396,9 @@ and still in development.</p>
 to calculate interaction contrasts (difference-in-difference contrasts),
 <code>"consecutive"</code> to calculate contrasts between consecutive levels of a predictor,
 or a data frame with custom contrasts. If <code>test</code> is one of the latter options,
-and <code>engine</code> is not specified, the <code>engine</code> is automatically set to <code>"emmeans"</code>.</p>
+and <code>engine</code> is not specified, the <code>engine</code> is automatically set to <code>"emmeans"</code>.
+Additionally, the <code>test_args</code> argument can be used to specify further options
+for those contrasts. See 'Examples' and documentation of <code>test_args</code>.</p>
 <p>If the <strong>marginaleffects</strong> package is not installed, the <strong>emmeans</strong> package is
 used automatically. If this package is not installed as well,
 <code>engine = "ggeffects"</code> is used.</p>

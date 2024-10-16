@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.7.2.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +66,20 @@
       <small>Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.8.0" id="ggeffects-180">ggeffects 1.8.0<a class="anchor" aria-label="anchor" href="#ggeffects-180"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-1-8-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-8-0"></a></h3>
+<ul><li><p>The <code>vcov_fun</code> and <code>vcov_type</code> argument were removed and are now replaced by the single <code>vcov</code> argument, to be in line with the handling of heteroscedasticity-consistent standard errors in other packages (mainly: <em>easystats</em> eco-system).</p></li>
+<li><p>The deprecated arguments for <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/vcov.html">vcov()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> have been removed.</p></li>
+<li><p>The deprecated arguments for the <code><a href="../reference/plot.html">plot()</a></code> method have been removed.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-1-8-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-8-0"></a></h3>
+<ul><li>
+<code>test_predictions</code> gains a <code>test_args</code> argument, to optionally pass further options to <code>test</code> for <em>emmeans</em> options.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.7.2" id="ggeffects-172">ggeffects 1.7.2<a class="anchor" aria-label="anchor" href="#ggeffects-172"></a></h2><p class="text-muted">CRAN release: 2024-10-13</p>
 <div class="section level3">
