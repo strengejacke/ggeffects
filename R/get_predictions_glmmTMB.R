@@ -58,7 +58,7 @@ get_predictions_glmmTMB <- function(model,
   if ("nsim" %in% names(additional_dot_args)) {
     nsim <- eval(additional_dot_args[["nsim"]])
   } else {
-    nsim <- 1000
+    nsim <- 500
   }
 
   # predictions conditioned on zero-inflation component
