@@ -25,12 +25,12 @@ test_that("ggpredict", {
   m_null1 <- glmmTMB::glmmTMB(qol ~ e42dep + (1 | gender:employed:age), data = d)
   m_null2 <- lme4::lmer(qol ~ e42dep + (1 | gender:employed:age), data = d)
 
-  # warning when margin is not empirical
-  expect_warning(
+  # alert when margin is not empirical
+  expect_message(
     predict_response(m_null1, c("gender", "employed", "age")),
     regex = "All focal terms"
   )
-  expect_warning(
+  expect_message(
     predict_response(m_null2, c("gender", "employed", "age")),
     regex = "All focal terms"
   )
@@ -49,7 +49,7 @@ test_that("ggpredict", {
 
   predictions <- predict_response(m_null1, c("gender", "employed", "age"), margin = "empirical")
   expect_silent(test_predictions(predictions))
-  expect_warning(
+  expect_message(
     test_predictions(m_null1, c("gender", "employed", "age")),
     regex = "All focal terms are included"
   )

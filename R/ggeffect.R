@@ -85,13 +85,13 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
     fun = "ggeffect()"
   )
 
-  # sanity check - bias correction only for mixed models for now
-  if (isTRUE(bias_correction) && !insight::is_mixed_model(model) && !inherits(model, c("gee", "geeglm"))) {
-    bias_correction <- FALSE
-    if (verbose) {
-      insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
-    }
-  }
+  # check if bias-correction is appropriate
+  bias_correction <- .check_bias_correction(
+    model,
+    type = "fixed",
+    bias_correction = bias_correction,
+    verbose = verbose
+  )
 
   # check whether we have an argument "transformation" for effects()-function
   # in this case, we need another default title, since we have non-transformed effects

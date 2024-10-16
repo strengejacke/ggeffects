@@ -22,7 +22,7 @@ test_that("predictions and SE with character focal terms", {
   )
 
   beta_fit <- betareg::betareg(y ~ x + group, data = ex)
-  expect_warning(
+  expect_message(
     ggpredict(beta_fit, terms = c("x", "group [a, b]")),
     regex = "Some of the focal terms are of type `character`"
   )

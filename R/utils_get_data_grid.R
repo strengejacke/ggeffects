@@ -77,7 +77,7 @@
   # check for character variables, might not work
   characters <- vapply(model_frame[all_terms], is.character, logical(1))
   if (any(characters) && verbose) {
-    insight::format_warning(
+    insight::format_alert(
       "Some of the focal terms are of type `character`. This may lead to unexpected results. It is recommended to convert these variables to factors before fitting the model.", # nolint
       paste0(
         "The following variables are of type character: ",

@@ -16,6 +16,7 @@ hypothesis_test(object, ...)
   terms = NULL,
   by = NULL,
   test = "pairwise",
+  test_args = NULL,
   equivalence = NULL,
   scale = "response",
   p_adjust = NULL,
@@ -89,7 +90,8 @@ the average over \emph{all} levels).
 the average over \emph{all other} levels, excluding the contrast that is being
 tested).
 \item \code{"interaction"} to test interaction contrasts (difference-in-difference
-contrasts).
+contrasts). More flexible interaction contrasts can be calcualted using
+the \code{test_args} argument.
 \item \code{"consecutive"} to test contrasts between consecutive levels of a predictor.
 \item \code{"polynomial"} to test orthogonal polynomial contrasts, assuming
 equally-spaced factor levels.
@@ -106,6 +108,13 @@ and pairwise comparisons}.
 Technical details about the packages used as back-end to calculate contrasts
 and pairwise comparisons are provided in the section \emph{Packages used as back-end
 to calculate contrasts and pairwise comparisons} below.}
+
+\item{test_args}{Optional arguments passed to \code{test}, typically provided as
+named list. Only applies to those options that use the \strong{emmeans} package
+as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed to
+\code{emmeans::contrast(interaction = test_args)}. For other \emph{emmeans} options
+(like \code{"cotrast"}, \code{"exclude"}, \code{"consecutive"} and so on), \code{test_args} will
+be passed to the \code{option} argument in \code{emmeans::contrast()}.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
 a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
@@ -295,6 +304,8 @@ to calculate interaction contrasts (difference-in-difference contrasts),
 \code{"consecutive"} to calculate contrasts between consecutive levels of a predictor,
 or a data frame with custom contrasts. If \code{test} is one of the latter options,
 and \code{engine} is not specified, the \code{engine} is automatically set to \code{"emmeans"}.
+Additionally, the \code{test_args} argument can be used to specify further options
+for those contrasts. See 'Examples' and documentation of \code{test_args}.
 
 If the \strong{marginaleffects} package is not installed, the \strong{emmeans} package is
 used automatically. If this package is not installed as well,

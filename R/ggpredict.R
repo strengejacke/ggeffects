@@ -89,6 +89,14 @@ ggpredict <- function(model,
 
   model.name <- deparse(substitute(model))
 
+  # check if bias-correction is appropriate
+  bias_correction <- .check_bias_correction(
+    model,
+    type = type,
+    bias_correction = bias_correction,
+    verbose = verbose
+  )
+
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are
   # indeed existing in the data
@@ -324,6 +332,6 @@ ggpredict_helper <- function(model,
 .check_focal_for_random <- function(model, terms, verbose) {
   random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
   if (!is.null(random_pars) && all(.clean_terms(terms) %in% random_pars) && verbose) {
-    insight::format_warning("All focal terms are included as random effects in the model. To calculate predictions for random effects, either use `margin = \"empirical\"` or set `type = \"random\"` (possibly together with `interval = \"confidence\"`) to get meaningful results.") # nolint
+    insight::format_alert("All focal terms are included as random effects in the model. To calculate predictions for random effects, either use `margin = \"empirical\"` or set `type = \"random\"` (possibly together with `interval = \"confidence\"`) to get meaningful results.") # nolint
   }
 }

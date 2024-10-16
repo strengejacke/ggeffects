@@ -2,6 +2,7 @@
                                       terms = NULL,
                                       by = NULL,
                                       test = "pairwise",
+                                      test_args = NULL,
                                       equivalence = NULL,
                                       scale = "response",
                                       p_adjust = NULL,
@@ -173,17 +174,23 @@
     ))
 
     emm <- do.call(emmeans::emmeans, my_args)
+    # set default option when test is not "interaction"
+    if (is.null(test_args) && test != "interaction") {
+      test_args <- emmeans::get_emm_option("contrast")
+    }
     .comparisons <- switch(test,
-      custom = emmeans::contrast(emm, method = custom_contrasts, adjust = p_adjust),
-      consecutive = emmeans::contrast(emm, method = "consec", adjust = p_adjust),
-      contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust),
-      exclude = emmeans::contrast(emm, method = "del.eff", adjust = p_adjust),
-      polynomial = emmeans::contrast(emm, method = "poly", adjust = p_adjust),
-      pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust),
+      custom = emmeans::contrast(emm, method = custom_contrasts, adjust = p_adjust, option = test_args),
+      consecutive = emmeans::contrast(emm, method = "consec", adjust = p_adjust, option = test_args),
+      contrast = emmeans::contrast(emm, method = "eff", adjust = p_adjust, option = test_args),
+      exclude = emmeans::contrast(emm, method = "del.eff", adjust = p_adjust, option = test_args),
+      polynomial = emmeans::contrast(emm, method = "poly", adjust = p_adjust, option = test_args),
+      pairwise = emmeans::contrast(emm, method = "pairwise", adjust = p_adjust, option = test_args),
       interaction = {
-        arg <- as.list(rep("pairwise", times = length(focal)))
-        names(arg) <- focal
-        emmeans::contrast(emm, interaction = arg, adjust = p_adjust)
+        if (is.null(test_args)) {
+          test_args <- as.list(rep("pairwise", times = length(focal)))
+          names(test_args) <- focal
+        }
+        emmeans::contrast(emm, interaction = test_args, adjust = p_adjust)
       }
     )
     estimate_name <- "Contrast"

@@ -3,10 +3,11 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
   se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -39,21 +40,17 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
   }
 
   if (type == "simulate") {
-
     predicted_data <- .do_simulate(model, terms, ci, ...)
-
   } else {
-
     response_name <- insight::find_response(model)
     if (is.null(condition) || !(response_name %in% names(condition))) {
-      insight::format_warning(sprintf(
+      insight::format_alert(sprintf(
         "Results for MixMod-objects may vary depending on which value the response is conditioned on. Make sure to choose a sensible value for '%s' using the `condition` argument.", # nolint
         response_name
       ))
     }
 
-    prtype <- switch(
-      type,
+    prtype <- switch(type,
       fe = ,
       zero_inflated = "mean_subject",
       re = ,
@@ -119,7 +116,6 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
         predicted_data$conf.low <- NA
         predicted_data$conf.high <- NA
       } else {
-
         # we need two data grids here: one for all combination of levels from the
         # model predictors ("newdata"), and one with the current combinations only
         # for the terms in question ("data_grid"). "sims" has always the same

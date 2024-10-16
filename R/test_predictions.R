@@ -20,7 +20,8 @@
 #'     the average over _all other_ levels, excluding the contrast that is being
 #'     tested).
 #'   - `"interaction"` to test interaction contrasts (difference-in-difference
-#'     contrasts).
+#'     contrasts). More flexible interaction contrasts can be calcualted using
+#'     the `test_args` argument.
 #'   - `"consecutive"` to test contrasts between consecutive levels of a predictor.
 #'   - `"polynomial"` to test orthogonal polynomial contrasts, assuming
 #'     equally-spaced factor levels.
@@ -36,6 +37,12 @@
 #' Technical details about the packages used as back-end to calculate contrasts
 #' and pairwise comparisons are provided in the section _Packages used as back-end
 #' to calculate contrasts and pairwise comparisons_ below.
+#' @param test_args Optional arguments passed to `test`, typically provided as
+#' named list. Only applies to those options that use the **emmeans** package
+#' as backend, e.g. if `test = "interaction"`, `test_args` will be passed to
+#' `emmeans::contrast(interaction = test_args)`. For other *emmeans* options
+#' (like `"cotrast"`, `"exclude"`, `"consecutive"` and so on), `test_args` will
+#' be passed to the `option` argument in `emmeans::contrast()`.
 #' @param terms If `object` is an object of class `ggeffects`, the same `terms`
 #' argument is used as for the predictions, i.e. `terms` can be ignored. Else,
 #' if `object` is a model object, `terms` must be a character vector with the
@@ -233,6 +240,8 @@
 #' `"consecutive"` to calculate contrasts between consecutive levels of a predictor,
 #' or a data frame with custom contrasts. If `test` is one of the latter options,
 #' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
+#' Additionally, the `test_args` argument can be used to specify further options
+#' for those contrasts. See 'Examples' and documentation of `test_args`.
 #'
 #' If the **marginaleffects** package is not installed, the **emmeans** package is
 #' used automatically. If this package is not installed as well,
@@ -346,6 +355,7 @@ test_predictions.default <- function(object,
                                      terms = NULL,
                                      by = NULL,
                                      test = "pairwise",
+                                     test_args = NULL,
                                      equivalence = NULL,
                                      scale = "response",
                                      p_adjust = NULL,
@@ -459,7 +469,7 @@ test_predictions.default <- function(object,
 
   random_pars <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
   if (verbose && !is.null(random_pars) && all(.clean_terms(terms) %in% random_pars)) {
-    insight::format_warning(
+    insight::format_alert(
       "All focal terms are included as random effects in the model. To calculate pairwise comparisons for random effects, use `engine = \"ggeffects\"`." # nolint
     )
   }
@@ -516,6 +526,7 @@ test_predictions.default <- function(object,
       terms = terms,
       by = by,
       test = test,
+      test_args = test_args,
       equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,
@@ -1447,14 +1458,14 @@ test_predictions.ggeffects <- function(object,
           params$p.value <- 2 * stats::pt(abs(statistic), df = df, lower.tail = FALSE)
         }
       } else if (verbose) {
-        insight::format_warning("No test-statistic found. P-values were not adjusted.")
+        insight::format_alert("No test-statistic found. P-values were not adjusted.")
       }
     } else if (tolower(p_adjust) == "sidak") {
       # sidak adjustment
       params$p.value <- 1 - (1 - params$p.value)^rank_adjust
     }
   } else if (verbose) {
-    insight::format_warning(paste0("`p_adjust` must be one of ", toString(all_methods)))
+    insight::format_alert(paste0("`p_adjust` must be one of ", toString(all_methods)))
   }
   params
 }
