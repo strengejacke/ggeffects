@@ -50,6 +50,9 @@ test_that("ggpredict, bias_correction, mixed", {
 
   expect_equal(out1$predicted, out3$prob, tolerance = 1e-3)
   expect_equal(out2$predicted, out4$prob, tolerance = 1e-3)
+
+  # no message when type = "random"
+  expect_silent(predict_response(m1, "var_binom", type = "random"))
 })
 
 skip_if_not_installed("glmmTMB")
