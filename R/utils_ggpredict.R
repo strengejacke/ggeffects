@@ -306,6 +306,10 @@
 
 
 .check_bias_correction <- function(model, type, bias_correction, verbose = TRUE) {
+  # exception: sdmTMB. return FALSE
+  if (inherits(model, "sdmTMB")) {
+    return(FALSE)
+  }
   # sanity check - bias correction only for mixed models for now
   if (isTRUE(bias_correction) && !insight::is_mixed_model(model) && !inherits(model, c("gee", "geeglm"))) {
     bias_correction <- FALSE
@@ -314,6 +318,10 @@
     }
   }
   info <- insight::model_info(model)
+  # sanity check - multivariate models?
+  if (insight::is_multivariate(model)) {
+    info <- info[[1]]
+  }
   # for GLMMs, when re.form is set to NA and bias_correction = FALSE, warn user
   if (isFALSE(bias_correction) && insight::is_mixed_model(model) && !info$is_linear && !info$is_tweedie && verbose && type %in% c("fixed", "zero_inflated")) { # nolint
     insight::format_alert(

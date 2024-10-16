@@ -88,7 +88,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
   # check if bias-correction is appropriate
   bias_correction <- .check_bias_correction(
     model,
-    type = type,
+    type = "fixed",
     bias_correction = bias_correction,
     verbose = verbose
   )
