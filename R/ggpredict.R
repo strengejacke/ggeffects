@@ -89,6 +89,14 @@ ggpredict <- function(model,
 
   model.name <- deparse(substitute(model))
 
+  # check if bias-correction is appropriate
+  bias_correction <- .check_bias_correction(
+    model,
+    type = type,
+    bias_correction = bias_correction,
+    verbose = verbose
+  )
+
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are
   # indeed existing in the data

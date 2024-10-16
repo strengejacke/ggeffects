@@ -241,13 +241,15 @@ back-transforming the predicted values (to the response scale) for
 non-Gaussian \emph{mixed models}. Back-transforming the the population-level
 predictions ignores the effect of the variation around the population mean,
 so the result on the original data scale is biased due to \emph{Jensen's
-inequality}. To apply bias-correction, a valid value of sigma is required,
-which is extracted by default using \code{\link[insight:get_variance]{insight::get_variance_residual()}}.
-Optionally, to provide own estimates of uncertainty, use the \code{sigma}
-argument. Note that \code{bias_correction} currently only applies to mixed models,
-where there are additive random components involved and where that
-bias-adjustment can be appropriate. If \code{ggemmeans()} is called,
-bias-correction can also be applied to GEE-models.}
+inequality}. That means, when \code{type = "fixed"} (the default) and population
+level predictions are returned, it is recommended to set \code{bias_correction = TRUE}.
+To apply bias-correction, a valid value of sigma is required, which is
+extracted by default using \code{\link[insight:get_variance]{insight::get_variance_residual()}}. Optionally,
+to provide own estimates of uncertainty, use the \code{sigma} argument. Note that
+\code{bias_correction} currently only applies to mixed models, where there are
+additive random components involved and where that bias-adjustment can be
+appropriate. If \code{ggemmeans()} is called, bias-correction can also be applied
+to GEE-models.}
 
 \item{verbose}{Toggle messages or warnings.}
 

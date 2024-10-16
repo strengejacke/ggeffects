@@ -33,13 +33,13 @@ ggemmeans <- function(model,
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
 
-  # sanity check - bias correction only for mixed models for now
-  if (isTRUE(bias_correction) && !insight::is_mixed_model(model) && !inherits(model, c("gee", "geeglm"))) {
-    bias_correction <- FALSE
-    if (verbose) {
-      insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
-    }
-  }
+  # check if bias-correction is appropriate
+  bias_correction <- .check_bias_correction(
+    model,
+    type = "fixed",
+    bias_correction = bias_correction,
+    verbose = verbose
+  )
 
   # check if sigma is provided when `bias_correction = TRUE`, else use default
   if (isTRUE(bias_correction) && is.null(additional_dot_args$sigma)) {
