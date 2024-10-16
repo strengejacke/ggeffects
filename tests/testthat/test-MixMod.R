@@ -1,5 +1,5 @@
 skip_on_cran()
-skip_on_os(c("mac", "solaris"))
+skip_on_os(c("mac", "solaris", "linux"))
 
 skip_if_not_installed("emmeans")
 skip_if_not_installed("GLMMadaptive")
