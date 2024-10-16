@@ -29,7 +29,7 @@ test_that("ggpredict", {
     },
     regex = "You are calculating adjusted"
   ), regex = "Results for MixMod-objects")
-  expect_equal(p$predicted[1], 2.045537, tolerance = 1e-2)
+  expect_equal(p$predicted[1], 2.040251, tolerance = 1e-2)
 
   set.seed(123)
   p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 3.296), verbose = FALSE)

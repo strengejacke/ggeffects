@@ -16,11 +16,12 @@ test_that("ggpredict prediction interval, glm", {
   out <- ggpredict(m_pr0, "c172code", interval = "prediction")
   expect_equal(out$predicted, c(62.91021, 64.69758, 66.48495), tolerance = 1e-3)
   expect_equal(out$conf.high, c(121.12437, 122.82833, 124.70898), tolerance = 1e-3)
-  out <- ggpredict(m_pr0, "c172code", type = "simulate", interval = "confidence")
-  expect_equal(out$conf.high, c(65.69125, 67.72308, 69.22982), tolerance = 1e-3)
   d <- data_grid(m_pr0, "c172code")
   out2 <- predict(m_pr0, newdata = d, interval = "prediction")
   expect_equal(out$conf.high, out2[, 3], tolerance = 1e-3, ignore_attr = TRUE)
+  set.seed(123)
+  out <- ggpredict(m_pr0, "c172code", type = "simulate", interval = "confidence")
+  expect_equal(out$conf.high, c(65.6377, 67.67501, 69.05877), tolerance = 1e-3)
 
   # poisson
   data(Salamanders, package = "glmmTMB")
