@@ -36,7 +36,7 @@ get_predictions_merMod <- function(model,
 
   if (type %in% c("simulate", "simulate_random")) {
     # simulate predictions
-    data_grid <- .do_simulate(model, terms, ci, type, ...)
+    data_grid <- .do_simulate(model, terms, ci, type, interval = interval, ...)
   } else {
     # regular predictions
     lme4_predictions <- suppressWarnings(stats::predict(

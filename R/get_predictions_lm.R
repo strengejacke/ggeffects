@@ -34,7 +34,7 @@ get_predictions_lm <- function(model,
 
   if (type == "simulate") {
     # simulate predictions
-    data_grid <- .do_simulate(model, terms, ci, ...)
+    data_grid <- .do_simulate(model, terms, ci, interval = interval, ...)
   } else if (!is.null(vcov) || (!is.null(interval) && interval == "prediction")) {
     # did user request standard errors? if yes, compute CI
 

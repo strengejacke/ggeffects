@@ -22,7 +22,7 @@ get_predictions_glm <- function(model,
       ci <- 0.975
     }
     # simulate predictions
-    .do_simulate(model, terms, ci, ...)
+    .do_simulate(model, terms, ci, interval = interval, ...)
   } else {
     if (inherits(model, "bayesglm")) {
       prdat <- stats::predict(
