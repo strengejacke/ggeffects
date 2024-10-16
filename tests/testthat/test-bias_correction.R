@@ -32,7 +32,7 @@ test_that("ggpredict, bias_correction, mixed", {
     data = dat,
     family = binomial(link = "logit")
   )
-  expect_warning(
+  expect_message(
     {
       out1 <- predict_response(m1, "var_binom")
     },
@@ -71,7 +71,7 @@ test_that("ggpredict, bias_correction, glmmTMB", {
     bias.adjust = TRUE,
     sigma = sqrt(insight::get_variance_residual(m3))
   ))
-  expect_warning(
+  expect_message(
     {
       out3 <- predict_response(m3, "mined", margin = "marginalmeans")
     },
