@@ -306,7 +306,7 @@ ggpredict_helper <- function(model,
     at_list = .data_grid(
       model = model, model_frame = original_model_frame, terms = original_terms,
       value_adjustment = typical, condition = condition, show_pretty_message = FALSE,
-      emmeans.only = TRUE, verbose = FALSE
+      emmeans_only = TRUE, verbose = FALSE
     ),
     condition = condition,
     ci_level = ci_level,

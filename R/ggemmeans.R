@@ -82,7 +82,7 @@ ggemmeans <- function(model,
 
   data_grid <- .data_grid(
     model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
-    condition = condition, emmeans.only = TRUE, show_pretty_message = verbose,
+    condition = condition, emmeans_only = TRUE, show_pretty_message = verbose,
     verbose = verbose
   )
 

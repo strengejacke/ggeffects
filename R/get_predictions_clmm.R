@@ -8,7 +8,7 @@ get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci_l
     value_adjustment = value_adjustment,
     condition = condition,
     show_pretty_message = FALSE,
-    emmeans.only = TRUE
+    emmeans_only = TRUE
   )
 
   # no predicted values at random terms allowed
