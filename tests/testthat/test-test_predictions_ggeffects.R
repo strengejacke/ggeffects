@@ -199,7 +199,7 @@ test_that("test_predictions, engine ggeffects, Bayes", {
 
   pr1 <- predict_response(m1, c("var_binom", "groups"), verbose = FALSE)
   pr2 <- suppressWarnings(predict_response(m2, c("var_binom", "groups")))
-  expect_warning(
+  expect_message(
     {
       pr3 <- predict_response(m3, c("var_binom", "groups"))
     },
