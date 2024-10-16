@@ -12,6 +12,9 @@
 
 * The deprecated arguments for the `plot()` method have been removed.
 
+* Simulating predictions using `type = "simulate"` now calculate more accurate
+  intervals for (non-Gaussian) models.
+
 ## Changes
 
 * `test_predictions` gains a `test_args` argument, to optionally pass further
