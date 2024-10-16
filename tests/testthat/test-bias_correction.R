@@ -32,7 +32,12 @@ test_that("ggpredict, bias_correction, mixed", {
     data = dat,
     family = binomial(link = "logit")
   )
-  out1 <- predict_response(m1, "var_binom")
+  expect_warning(
+    {
+      out1 <- predict_response(m1, "var_binom")
+    },
+    regex = "You are calculating"
+  )
   out2 <- predict_response(m1, "var_binom", bias_correction = TRUE)
   out3 <- as.data.frame(emmeans::emmeans(m1, "var_binom", type = "response"))
   out4 <- as.data.frame(emmeans::emmeans(
