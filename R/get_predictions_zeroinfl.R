@@ -39,7 +39,7 @@ get_predictions_zeroinfl <- function(model,
   if ("nsim" %in% names(add.args)) {
     nsim <- eval(add.args[["nsim"]])
   } else {
-    nsim <- 1000
+    nsim <- 500
   }
 
   # get predictions

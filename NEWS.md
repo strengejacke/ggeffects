@@ -1,4 +1,4 @@
-# ggeffects 1.8.0
+# ggeffects 2.0.0
 
 ## Breaking changes
 
@@ -13,6 +13,9 @@
 * The deprecated arguments for the `plot()` method have been removed.
 
 ## Changes
+
+* The `interval` argument can now also be used for simulating predictions
+  (i.e. when `type = "simulate"`).
 
 * `test_predictions` gains a `test_args` argument, to optionally pass further
   options to `test` for *emmeans* options.

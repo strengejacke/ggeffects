@@ -82,7 +82,7 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
       if ("nsim" %in% names(add.args)) {
         nsim <- eval(add.args[["nsim"]])
       } else {
-        nsim <- 1000
+        nsim <- 500
       }
 
       model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)

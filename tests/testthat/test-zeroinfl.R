@@ -27,15 +27,15 @@ test_that("ggpredict, pscl", {
   skip_on_cran()
   set.seed(123)
   pr <- ggpredict(m1, "mined", type = "zero_inflated")
-  expect_equal(pr$conf.low, c(0.1731, 2.0172), tolerance = 1e-3)
+  expect_equal(pr$conf.low, c(0.18731, 2.00199), tolerance = 1e-3)
 
   model <- pscl::zeroinfl(count ~ mined * spp | mined * spp, dist = "poisson", data = Salamanders)
   set.seed(123)
   pr <- ggpredict(model, c("mined", "spp"), type = "zero_inflated")
   expect_equal(
     pr$conf.low,
-    c(0, 0, 0.03704, 1e-05, 1e-05, 0.14815, 0.13418, 1.61886,
-      0.04808, 1.81329, 0.48571, 3.07055, 3.1093, 1.33136),
+    c(1e-05, 1e-05, 0.0452, 1e-05, 1e-05, 0.19485, 0.06506, 1.64314,
+      0.1003, 1.8247, 0.46168, 3.15703, 3.13494, 1.36434),
     tolerance = 1e-2
   )
 })

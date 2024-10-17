@@ -151,8 +151,8 @@
 #'     based on simulations, i.e. calls to `simulate()`. This type
 #'     of prediction takes all model uncertainty into account, including
 #'     random effects variances. Currently supported models are objects of
-#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`.
-#'     See `...` for details on number of simulations.
+#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`. Use `nsim`
+#'     to set the number of simulated draws (see `...` for details).
 #'
 #'   - `"survival"` and `"cumulative_hazard"`
 #'
