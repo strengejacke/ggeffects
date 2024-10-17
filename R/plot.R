@@ -386,9 +386,9 @@ plot.ggeffects <- function(x,
       )
 
       if (one_plot && .i < length(panels)) {
-        show_l <- FALSE
+        show_temp_legend <- FALSE
       } else {
-        show_l <- show_legend
+        show_temp_legend <- show_legend
       }
 
       pl <- plot_panel(
@@ -418,7 +418,7 @@ plot.ggeffects <- function(x,
         show_title = show_title,
         show_x_title = show_x_title,
         show_y_title = show_y_title,
-        show_legend = show_legend,
+        show_legend = show_temp_legend,
         log_y = log_y,
         y.breaks = y.breaks,
         y.limits = y.limits,
