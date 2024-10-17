@@ -48,7 +48,7 @@ callout_tip <- function(header = NULL, ...) {
 includeCSS("../man/figures/callout.css")
 ```
 
-This vignette shows how to calculate adjusted predictions for mixed models. However, for mixed models, since random effects are involved, we can calculate _conditional predictions_ and _marginal predictions_. We also have to distinguish between _population-level_ and _unit-level_ predictions. Additionally, _random effects uncertainty_ can be taken into account, which would lead to _prediction intervals_ instead of _confidence intervals_.
+This vignette shows how to calculate adjusted predictions for mixed models. However, for mixed models, since random effects are involved, we can calculate _conditional predictions_ and _marginal predictions_. We also have to distinguish between _population-level_ and _unit-level_ predictions.
 
 But one thing at a time...
 
@@ -58,8 +58,7 @@ callout_tip(
   tags$ul(
     tags$li("Predictions can be made on the population-level or for each level of the grouping variable (unit-level). If unit-level predictions are requested, you need to set ", tags$code("type=\"random\""), " and specify the grouping variable(s) in the ", tags$code("terms"), " argument."), # nolint
     tags$li("Population-level predictions can be either conditional (predictions for a \"typical\" group) or marginal (average predictions across all groups). Set ", tags$code("margin=\"empirical\""), " for marginal predictions. You'll notice differences in predictions especially for unequal group sizes at the random effects level."), # nolint
-    tags$li("For conditional predictions, you can either calculate confidence or prediction intervals. Prediction intervals can be obtained by setting ", tags$code("type=\"random\""), ". Marginal predictions (i.e. ", tags$code("margin=\"empirical\""), ") always return confidence intervals."), # nolint
-    tags$li("To get confidence intervals for unit-level predictions, set ", tags$code("type=\"random\""), " and ", tags$code("interval=\"confidence\""), ".") # nolint
+    tags$li("Prediction intervals, i.e. when ", tags$code("interval=\"predictions\""), " also account for the uncertainty in the random effects.") # nolint
   )
 )
 ```
@@ -71,6 +70,8 @@ Mixed models are used to account for the dependency of observations within group
 At the lowest level, you have your _fixed effects_, i.e. your "independent variables" or "predictors".
 
 Adjusted predictions can now be calculated for specified values or levels of the focal terms, however, either for the full sample (population-level) or for each level of the grouping variable (unit-level). The latter is particularly useful when the grouping variable is of interest, e.g. when you want to compare the effect of a predictor between different groups.
+
+To get population-level predictions, we set `type = "fixed"` or `type = "zero_inflation"` (for models with zero-inflation component).
 
 ### Conditional and marginal effects and predictions
 
@@ -110,39 +111,12 @@ predict_response(m, "Days [1,5,9]")
 predict_response(m, "Days [1,5,9]", margin = "empirical")
 ```
 
-### Prediction intervals (random effects uncertainty)
+### Population-level predictions and the `REML` argument
 
-For conditional predictions (i.e. when `margin` is not set to `"empirical"`), the uncertainty of the random effects can be taken into account. This leads to _prediction intervals_ instead of _confidence intervals_. To do so, we need to set `type = "random"`.
+The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margin` is set to `"mean_reference"` or `"mean_mode"`) may differ...
 
-The random-effect variance, which is included when `type = "random"`, is the _mean_ random-effect variance. Calculation is based on the proposal from _Johnson et al. 2014_, which is also implemented in functions like [`performance::r2()`](https://easystats.github.io/performance/reference/r2_nakagawa.html) or [`insight::get_variance()`](https://easystats.github.io/insight/reference/get_variance.html) to get r-squared values or random-effect variances for mixed models with more complex random effects structures.
-
-As can be seen, compared to the previous examples, predicted values are identical (both on the population-level). However, standard errors, and thus the resulting confidence (or prediction) intervals are much larger .
-
-```{r}
-predict_response(m, "Days [1,5,9]", type = "random")
-
-# Or as comparison via plots:
-library(patchwork)
-library(ggplot2)
-pr1 <- predict_response(m, "Days [1,5,9]")
-pr2 <- predict_response(m, "Days [1,5,9]", type = "random")
-plot(pr1, limits = c(200, 400)) +
-  ggtitle("Confidence Intervals") +
-  plot(pr2, limits = c(200, 400)) +
-  ggtitle("Prediction Intervals")
-```
-
-It is also possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()`. The results come closer to _marginal predictions_ estimates.
-
-```{r}
-predict_response(m, "Days", type = "simulate")
-```
-
-### When are predictions affected by `type = "fixed"` and `type = "random"`?
-
-The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margin` is set to `"mean_reference"` or `"mean_mode"`) may differ, depending on whether `type = "fixed"` or `type = "random"` is used. This is because `predict(..., re.form = NA)` is called for `type = "fixed"`, and `predict(..., re.form = NULL)` is called for `type = "random"`, which can lead to different predictions depending on whether `REML` was set to `TRUE` or `FALSE` for model fitting.
-
-When `REML = FALSE`, `re.form = NA` and `re.form = NULL` are identical, and thus predictions are not affected by `type = "fixed"` and `type = "random"`. However, when `REML = TRUE`, `re.form = NA` and `re.form = NULL` can return different predictions, also depending on whether factors are included in the model or not. The following example shows a case where predictions are affected by `type = "fixed"` and `type = "random"`.
+- depending on the setting of the `REML` argument during model fitting;
+- and depending on whether factors are included in the model or not.
 
 ```{r}
 library(glmmTMB)
@@ -153,39 +127,31 @@ m1 <- glmmTMB(Reaction ~ Days + x + (1 + Days | Subject), data = sleepstudy, REM
 # REML is TRUE
 m2 <- glmmTMB(Reaction ~ Days + x + (1 + Days | Subject), data = sleepstudy, REML = TRUE)
 
-# predictions when REML is FALSE - no difference between type = "fixed"
-# and type = "random" in predictions, only for intervals
+# predictions when REML is FALSE
 predict_response(m1, "Days [1:3]")
-predict_response(m1, "Days [1:3]", type = "random")
 
-# predictions when REML is TRUE - we now see a difference both
-# for intervals *and* predictions
+# predictions when REML is TRUE
 predict_response(m2, "Days [1:3]")
-predict_response(m2, "Days[1:3]", type = "random")
 ```
 
-### To summarize...
+### Summary of population-level predictions
 
 For conditional predictions (i.e. the default marginalization method in `predict_response()`), following differences can be observed:
 
-- `type = "fixed"`: predictions are on the population-level, and do not account for the random effect variances. `re.form = NA` when calling `predict()`. Intervals for the predicted values are _confidence intervals_.
+- `type = "fixed"`: predictions are on the population-level. `re.form = NA` when calling `predict()`. This is the default and recommended option for population-level prediction in mixed models.
 
-- `type = "random"`: predictions are on the population-level, but conditioned on the random effects (i.e. including random effect variances). `re.form = NULL` when calling `predict()`. Intervals are _prediction intervals_.
-
-- `type = "random", interval = "confidence"`: predictions are on the population-level, conditioned on the random effects (which means that `re.form = NULL` when calling `predict()`), however, intervals are _confidence intervals_.
+- `type = "random"`: if *no* random effect terms (grouping variables) are included in the `terms` argument, predictions are still on the population-level, but conditioned on the random effects. `re.form = NULL` when calling `predict()`. Thus may return different predictions than `type = "fixed"`, in particular for non-Gaussian models.
 
 ## Population-level predictions for zero-inflated mixed models
 
 For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` can return predicted values of the response, conditioned on following prediction-types:
 
-  * the fixed effects of the conditional (or "count") model only (`type = "fixed"`)
-  * the fixed effects of the conditional model only (population-level), taking the random-effect variances into account, i.e. prediction intervals are returned (`type = "random"`)
-  * the fixed effects and zero-inflation component (`type = "zero_inflated"`)
-  * the fixed effects and zero-inflation component (population-level), taking the random-effect variances into account, i.e. prediction intervals are returned (`type = "zi_random"`)
+  * population-level predictions, conditioned on the fixed effects of the conditional (or "count") model only (`type = "fixed"`)
+  * population-level predictions, conditioned on the fixed effects *and* zero-inflation component (`type = "zero_inflated"`), returning the expected (predicted) values of the response
   * the zero-inflation probabilities (`type = "zi_prob"`)
   * all model parameters (`type = "simulate"`)
 
- For `predict_response(margin = "empirical")`, `type = "simulate"` and `type = "random"` are not available. However, valid values for `type` can also be those based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`.
+ For `predict_response(margin = "empirical")`, `type = "simulate"` is not available. However, valid values for `type` can also be those based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`.
 
 ### Adjusted predictions for the conditional model
 
@@ -202,12 +168,10 @@ m <- glmmTMB(
 )
 ```
 
-Similar to mixed models without zero-inflation component, `type = "fixed"` and `type = "random"` for **glmmTMB**-models (with zero-inflation) both return predictions on the population-level, where the latter option accounts for the uncertainty of the random effects. For both, `predict(..., type = "link")` is called (however, predicted values are back-transformed to the response scale), and for the latter, prediction intervals are returned.
+Similar to mixed models without zero-inflation component, `type = "fixed"` returns predictions on the population-level, but for the conditional model only.
 
 ```{r}
 predict_response(m, "spp")
-
-predict_response(m, "spp", type = "random")
 ```
 
 ### Adjusted predictions for the full model
@@ -220,7 +184,7 @@ predict_response(m, "spp", type = "zero_inflated")
 
 ### Simulated outcome (full model)
 
-In the above example, we get the conditional, not the marginal predictions (for example, not averaged over random effects groups). Furthermore, predictions are conditioned on `mined` when it is set to `"no"`. Therefore, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response, averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. Note that intervals of this type will be wider than those of `type = "zero_inflated"`, because they account for the full uncertainty of model parameters.
+In the above examples, we get the conditional, not the marginal predictions. E.g., predictions are conditioned on `mined` when it is set to `"yes"`. However, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response, averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. Note that intervals of this type will be wider than those of `type = "zero_inflated"`, because they account for the full uncertainty of model parameters. It is even possible to return prediction intervals using `interval = "prediction"` when `type = "simulate"`.
 
 ```{r}
 predict_response(m, "spp", type = "simulate")
