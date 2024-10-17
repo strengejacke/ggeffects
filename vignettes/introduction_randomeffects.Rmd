@@ -81,7 +81,7 @@ We start with the population-level predictions. Here you can either calculate th
 
 - marginal effect: average effect of `gdp` _across all_ countries. To get marginal (or average) predictions, we use `predict_response(margin = "empirical")`.
 
-While the term "effect" referes to the strength of the relationship between a predictor and the response, "predictions" refer to the actual predicted values of the response. Thus, in the following, we will talk about conditional and marginal (or average) _predictions_.
+While the term "effect" referes to the strength of the relationship between a predictor and the response, "predictions" refer to the actual predicted values of the response. Thus, in the following, we will talk about conditional and marginal (or average) _predictions_ (instead of _effects_).
 
 In a balanced data set, where all groups have the same number of observations, the conditional and marginal predictions are often similar (maybe slightly different, depending on the non-focal predictors). However, in unbalanced data, the conditional and marginal predicted values can largely differ.
 
@@ -113,10 +113,9 @@ predict_response(m, "Days [1,5,9]", margin = "empirical")
 
 ### Population-level predictions and the `REML` argument
 
-The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margin` is set to `"mean_reference"` or `"mean_mode"`) may differ...
+The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margin = "mean_reference"` or `"mean_mode"`) may differ...
 
 - depending on the setting of the `REML` argument during model fitting;
-
 - and depending on whether factors are included in the model or not.
 
 ```{r}
@@ -134,16 +133,6 @@ predict_response(m1, "Days [1:3]")
 # predictions when REML is TRUE
 predict_response(m2, "Days [1:3]")
 ```
-
-### Summary of population-level predictions
-
-For *conditional* predictions (i.e. the default marginalization method in `predict_response()`), we can summarize how they work for mixed models like this:
-
-- `type = "fixed"`: Predictions are on the population-level (`re.form = NA` when calling `predict()`). This is the default and recommended option for (conditional) population-level prediction in mixed models.
-
-- `type = "random"`: if *no* random effect terms (grouping variables) are included in the `terms` argument, predictions are still on the population-level, but conditioned on the random effects (`re.form = NULL` when calling `predict()`). This may return different predictions than `type = "fixed"`, in particular for non-Gaussian models or depending on the setting of `REML`.
-
-*Marginal* predictions can be obtained by setting `margin = "empirical"`.
 
 ## Population-level predictions for zero-inflated mixed models
 
@@ -165,7 +154,7 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or
 
  For `predict_response(margin = "empirical")`, valid values for `type` are usually those based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. However, for zero-inflated models, `type = "fixed"` and `type = "zero_inflated"` can be used as aliases (instead of `"conditional"` or `"response"`).
 
-### Conditional predictions: Adjusted predictions for the conditional model
+### Conditional predictions: Adjusted predictions for the count model
 
 First, we show examples for conditional predictions, which is the default marginalization method in `predict_response()`.
 
@@ -218,7 +207,7 @@ For non-Gaussian models, predicted values are back-transformed to the response s
 options(ggeffects_warning_bias_correction = TRUE)
 ```
 
-```{r, warning=TRUE}
+```{r, message=TRUE}
 # no bias-correction
 predict_response(m, "spp")
 
