@@ -186,3 +186,15 @@ test_that("collapse groups works", {
     plot(gge, collapse_group = TRUE)
   )
 })
+
+
+test_that("only one legend for multiple panels", {
+  skip_if_not_installed("lme4")
+  data(efc, package = "ggeffects")
+  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+  mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
+  vdiffr::expect_doppelganger(
+    "One legend for panels",
+    plot(mydf, one_plot = TRUE)
+  )
+})
