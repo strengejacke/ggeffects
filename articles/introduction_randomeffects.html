@@ -218,7 +218,8 @@ all</em> countries. To get marginal (or average) predictions, we use
 <p>While the term “effect” referes to the strength of the relationship
 between a predictor and the response, “predictions” refer to the actual
 predicted values of the response. Thus, in the following, we will talk
-about conditional and marginal (or average) <em>predictions</em>.</p>
+about conditional and marginal (or average) <em>predictions</em>
+(instead of <em>effects</em>).</p>
 <p>In a balanced data set, where all groups have the same number of
 observations, the conditional and marginal predictions are often similar
 (maybe slightly different, depending on the non-focal predictors).
@@ -288,13 +289,13 @@ values can largely differ.</p>
 </h4>
 <p>The conditional predictions returned by
 <code><a href="../reference/predict_response.html">predict_response()</a></code> for the default marginalization
-(i.e. when <code>margin</code> is set to <code>"mean_reference"</code>
-or <code>"mean_mode"</code>) may differ…</p>
+(i.e. when <code>margin = "mean_reference"</code> or
+<code>"mean_mode"</code>) may differ…</p>
 <ul>
-<li><p>depending on the setting of the <code>REML</code> argument during
-model fitting;</p></li>
-<li><p>and depending on whether factors are included in the model or
-not.</p></li>
+<li>depending on the setting of the <code>REML</code> argument during
+model fitting;</li>
+<li>and depending on whether factors are included in the model or
+not.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
@@ -332,28 +333,6 @@ not.</p></li>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; *       x = 1</span></span>
 <span><span class="co">#&gt; * Subject = NA (population-level)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="summary-of-population-level-predictions">Summary of population-level predictions<a class="anchor" aria-label="anchor" href="#summary-of-population-level-predictions"></a>
-</h4>
-<p>For <em>conditional</em> predictions (i.e. the default
-marginalization method in <code><a href="../reference/predict_response.html">predict_response()</a></code>), we can
-summarize how they work for mixed models like this:</p>
-<ul>
-<li><p><code>type = "fixed"</code>: Predictions are on the
-population-level (<code>re.form = NA</code> when calling
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>). This is the default and recommended option for
-(conditional) population-level prediction in mixed models.</p></li>
-<li><p><code>type = "random"</code>: if <em>no</em> random effect terms
-(grouping variables) are included in the <code>terms</code> argument,
-predictions are still on the population-level, but conditioned on the
-random effects (<code>re.form = NULL</code> when calling
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>). This may return different predictions than
-<code>type = "fixed"</code>, in particular for non-Gaussian models or
-depending on the setting of <code>REML</code>.</p></li>
-</ul>
-<p><em>Marginal</em> predictions can be obtained by setting
-<code>margin = "empirical"</code>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -402,8 +381,8 @@ or <code>"disp"</code>. However, for zero-inflated models,
 be used as aliases (instead of <code>"conditional"</code> or
 <code>"response"</code>).</p>
 <div class="section level4">
-<h4 id="conditional-predictions-adjusted-predictions-for-the-conditional-model">Conditional predictions: Adjusted predictions for the conditional
-model<a class="anchor" aria-label="anchor" href="#conditional-predictions-adjusted-predictions-for-the-conditional-model"></a>
+<h4 id="conditional-predictions-adjusted-predictions-for-the-count-model">Conditional predictions: Adjusted predictions for the count
+model<a class="anchor" aria-label="anchor" href="#conditional-predictions-adjusted-predictions-for-the-count-model"></a>
 </h4>
 <p>First, we show examples for conditional predictions, which is the
 default marginalization method in <code><a href="../reference/predict_response.html">predict_response()</a></code>.</p>
@@ -547,6 +526,9 @@ users once per session whenever bias-correction can be appropriate.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># no bias-correction</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e. `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
+<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.</span></span>
+<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span>
 <span><span class="co">#&gt; # Predicted (conditional) counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
