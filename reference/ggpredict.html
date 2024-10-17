@@ -357,8 +357,8 @@ models from <strong>pscl</strong> call <code>predict(..., type = "zero")</code> 
 based on simulations, i.e. calls to <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. This type
 of prediction takes all model uncertainty into account, including
 random effects variances. Currently supported models are objects of
-class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code> and <code>merMod</code>.
-See <code>...</code> for details on number of simulations.</p></li>
+class <code>lm</code>, <code>glm</code>, <code>glmmTMB</code>, <code>wbm</code>, <code>MixMod</code> and <code>merMod</code>. Use <code>nsim</code>
+to set the number of simulated draws (see <code>...</code> for details).</p></li>
 <li><p><code>"survival"</code> and <code>"cumulative_hazard"</code></p>
 <p>Applies only to <code>coxph</code>-objects from the <strong>survial</strong>-package and
 calculates the survival probability or the cumulative hazard of an event.</p></li>

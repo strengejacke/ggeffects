@@ -336,22 +336,21 @@ larger .</p>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>It is also possible to obtain predicted values by simulating from the
 model, where predictions are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. The
-predicted values come closer to <em>marginal predictions</em> estimates,
-but the intervals come closer to <em>prediction intervals</em>.</p>
+results come closer to <em>marginal predictions</em> estimates.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Days"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Reaction</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Days | Predicted |         95% CI</span></span>
 <span><span class="co">#&gt; ---------------------------------</span></span>
-<span><span class="co">#&gt;    0 |    250.22 | 218.68, 281.83</span></span>
-<span><span class="co">#&gt;    1 |    261.51 | 230.34, 292.66</span></span>
-<span><span class="co">#&gt;    2 |    265.33 | 234.51, 296.45</span></span>
-<span><span class="co">#&gt;    3 |    279.24 | 247.73, 310.43</span></span>
-<span><span class="co">#&gt;    5 |    286.54 | 255.42, 317.50</span></span>
-<span><span class="co">#&gt;    6 |    332.07 | 301.25, 363.38</span></span>
-<span><span class="co">#&gt;    7 |    336.58 | 305.70, 367.80</span></span>
-<span><span class="co">#&gt;    9 |    331.56 | 300.30, 362.91</span></span></code></pre></div>
+<span><span class="co">#&gt;    0 |    250.30 | 204.53, 298.53</span></span>
+<span><span class="co">#&gt;    1 |    261.48 | 209.70, 308.20</span></span>
+<span><span class="co">#&gt;    2 |    265.44 | 211.57, 324.25</span></span>
+<span><span class="co">#&gt;    3 |    279.15 | 212.58, 350.15</span></span>
+<span><span class="co">#&gt;    5 |    286.54 | 217.66, 367.83</span></span>
+<span><span class="co">#&gt;    6 |    332.06 | 233.61, 400.59</span></span>
+<span><span class="co">#&gt;    7 |    336.43 | 255.88, 411.22</span></span>
+<span><span class="co">#&gt;    9 |    331.74 | 229.90, 445.53</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="when-are-predictions-affected-by-type-fixed-and-type-random">When are predictions affected by <code>type = "fixed"</code> and
@@ -571,13 +570,13 @@ al. 2017, pp.391-392</em> for details).</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      0.23 | 0.13, 0.32</span></span>
-<span><span class="co">#&gt; PR    |      0.04 | 0.02, 0.06</span></span>
-<span><span class="co">#&gt; DM    |      0.36 | 0.21, 0.50</span></span>
-<span><span class="co">#&gt; EC-A  |      0.08 | 0.05, 0.11</span></span>
-<span><span class="co">#&gt; EC-L  |      0.45 | 0.24, 0.66</span></span>
-<span><span class="co">#&gt; DES-L |      0.53 | 0.29, 0.76</span></span>
-<span><span class="co">#&gt; DF    |      0.33 | 0.20, 0.45</span></span>
+<span><span class="co">#&gt; GP    |      0.23 | 0.15, 0.31</span></span>
+<span><span class="co">#&gt; PR    |      0.04 | 0.03, 0.06</span></span>
+<span><span class="co">#&gt; DM    |      0.36 | 0.22, 0.49</span></span>
+<span><span class="co">#&gt; EC-A  |      0.08 | 0.04, 0.11</span></span>
+<span><span class="co">#&gt; EC-L  |      0.45 | 0.24, 0.65</span></span>
+<span><span class="co">#&gt; DES-L |      0.53 | 0.30, 0.76</span></span>
+<span><span class="co">#&gt; DF    |      0.33 | 0.22, 0.43</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
@@ -604,13 +603,13 @@ uncertainty of model parameters.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      1.10 | 0.00, 4.14</span></span>
-<span><span class="co">#&gt; PR    |      0.29 | 0.00, 2.25</span></span>
-<span><span class="co">#&gt; DM    |      1.52 | 0.00, 5.26</span></span>
-<span><span class="co">#&gt; EC-A  |      0.54 | 0.00, 3.08</span></span>
-<span><span class="co">#&gt; EC-L  |      2.20 | 0.00, 7.17</span></span>
-<span><span class="co">#&gt; DES-L |      2.28 | 0.00, 7.07</span></span>
-<span><span class="co">#&gt; DF    |      1.32 | 0.00, 4.69</span></span></code></pre></div>
+<span><span class="co">#&gt; GP    |      1.09 | 0.18, 1.98</span></span>
+<span><span class="co">#&gt; PR    |      0.29 | 0.02, 0.59</span></span>
+<span><span class="co">#&gt; DM    |      1.51 | 0.30, 2.79</span></span>
+<span><span class="co">#&gt; EC-A  |      0.53 | 0.05, 1.04</span></span>
+<span><span class="co">#&gt; EC-L  |      2.19 | 0.37, 4.03</span></span>
+<span><span class="co">#&gt; DES-L |      2.26 | 0.42, 4.11</span></span>
+<span><span class="co">#&gt; DF    |      1.31 | 0.27, 2.38</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="average-marginal-predictions-for-the-full-model">Average marginal predictions for the full model<a class="anchor" aria-label="anchor" href="#average-marginal-predictions-for-the-full-model"></a>
@@ -703,13 +702,13 @@ non-bias-corrected ones.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      1.09 | 0.00, 4.15</span></span>
-<span><span class="co">#&gt; PR    |      0.29 | 0.00, 2.24</span></span>
-<span><span class="co">#&gt; DM    |      1.52 | 0.00, 5.24</span></span>
-<span><span class="co">#&gt; EC-A  |      0.53 | 0.00, 3.07</span></span>
-<span><span class="co">#&gt; EC-L  |      2.19 | 0.00, 7.07</span></span>
-<span><span class="co">#&gt; DES-L |      2.27 | 0.00, 7.06</span></span>
-<span><span class="co">#&gt; DF    |      1.30 | 0.00, 4.60</span></span></code></pre></div>
+<span><span class="co">#&gt; GP    |      1.11 | 0.19, 2.08</span></span>
+<span><span class="co">#&gt; PR    |      0.30 | 0.03, 0.61</span></span>
+<span><span class="co">#&gt; DM    |      1.51 | 0.28, 2.82</span></span>
+<span><span class="co">#&gt; EC-A  |      0.53 | 0.05, 1.09</span></span>
+<span><span class="co">#&gt; EC-L  |      2.21 | 0.38, 4.09</span></span>
+<span><span class="co">#&gt; DES-L |      2.29 | 0.44, 4.10</span></span>
+<span><span class="co">#&gt; DF    |      1.31 | 0.28, 2.36</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="unit-level-predictions-predictions-for-each-level-of-random-effects">Unit-level predictions (predictions for each level of random
