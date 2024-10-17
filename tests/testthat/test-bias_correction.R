@@ -3,6 +3,7 @@ skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("emmeans")
 skip_if_not_installed("datawizard")
 skip_if_not_installed("lme4")
+skip_if_not_installed("withr")
 
 test_that("ggpredict, bias_correction, glm", {
   set.seed(123)
@@ -32,11 +33,16 @@ test_that("ggpredict, bias_correction, mixed", {
     data = dat,
     family = binomial(link = "logit")
   )
-  expect_message(
+  withr::with_options(
+    list(ggeffects_warning_bias_correction = TRUE),
     {
-      out1 <- predict_response(m1, "var_binom")
-    },
-    regex = "You are calculating"
+      expect_message(
+        {
+          out1 <- predict_response(m1, "var_binom")
+        },
+        regex = "You are calculating"
+      )
+    }
   )
   out2 <- predict_response(m1, "var_binom", bias_correction = TRUE)
   out3 <- as.data.frame(emmeans::emmeans(m1, "var_binom", type = "response"))
@@ -51,8 +57,13 @@ test_that("ggpredict, bias_correction, mixed", {
   expect_equal(out1$predicted, out3$prob, tolerance = 1e-3)
   expect_equal(out2$predicted, out4$prob, tolerance = 1e-3)
 
-  # no message when type = "random"
-  expect_silent(predict_response(m1, "var_binom", type = "random"))
+  withr::with_options(
+    list(ggeffects_warning_bias_correction = TRUE),
+    {
+      # no message when type = "random"
+      expect_silent(predict_response(m1, "var_binom", type = "random"))
+    }
+  )
 })
 
 skip_if_not_installed("glmmTMB")
@@ -74,11 +85,16 @@ test_that("ggpredict, bias_correction, glmmTMB", {
     bias.adjust = TRUE,
     sigma = sqrt(insight::get_variance_residual(m3))
   ))
-  expect_message(
+  withr::with_options(
+    list(ggeffects_warning_bias_correction = TRUE),
     {
-      out3 <- predict_response(m3, "mined", margin = "marginalmeans")
-    },
-    regex = "You are calculating"
+      expect_message(
+        {
+          out3 <- predict_response(m3, "mined", margin = "marginalmeans")
+        },
+        regex = "You are calculating"
+      )
+    }
   )
   out4 <- predict_response(m3, "mined", margin = "marginalmeans", bias_correction = TRUE)
   expect_equal(out1$rate, out3$predicted, tolerance = 1e-3)

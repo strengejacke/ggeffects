@@ -4,6 +4,7 @@ skip_on_os(c("mac", "solaris", "linux"))
 skip_if_not_installed("emmeans")
 skip_if_not_installed("GLMMadaptive")
 skip_if_not_installed("lme4")
+skip_if_not_installed("withr")
 
 test_that("ggpredict", {
   data(fish, package = "ggeffects")
@@ -22,14 +23,19 @@ test_that("ggpredict", {
     data = fish,
     family = binomial
   )
-  set.seed(123)
-  expect_message(expect_message(
+  withr::with_options(
+    list(ggeffects_warning_bias_correction = TRUE),
     {
-      p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated")
-    },
-    regex = "You are calculating adjusted"
-  ), regex = "Results for MixMod-objects")
-  expect_equal(p$predicted[1], 2.040251, tolerance = 1e-2)
+      set.seed(123)
+      expect_message(expect_message(
+        {
+          p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated")
+        },
+        regex = "You are calculating adjusted"
+      ), regex = "Results for MixMod-objects")
+      expect_equal(p$predicted[1], 2.040251, tolerance = 1e-2)
+    }
+  )
 
   set.seed(123)
   p <- ggpredict(m1, c("child", "camper"), type = "zero_inflated_random", condition = c(count = 3.296), verbose = FALSE)
@@ -47,6 +53,16 @@ test_that("ggpredict", {
   p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated_random", verbose = FALSE)
   expect_equal(p$predicted[1], 3.457011, tolerance = 1e-2)
 
-  expect_message(expect_message(expect_message(ggpredict(m1, c("child", "camper"), type = "fixed"))))
-  expect_message(expect_message(expect_message(ggpredict(m2, "zg", type = "zero_inflated"))))
+  withr::with_options(
+    list(ggeffects_warning_bias_correction = TRUE),
+    {
+      expect_message(expect_message(expect_message(ggpredict(m1, c("child", "camper"), type = "fixed"))))
+    }
+  )
+  withr::with_options(
+    list(ggeffects_warning_bias_correction = TRUE),
+    {
+      expect_message(expect_message(expect_message(ggpredict(m2, "zg", type = "zero_inflated"))))
+    }
+  )
 })
