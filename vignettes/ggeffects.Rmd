@@ -106,10 +106,6 @@ By default, `predict_response()` always returns predicted values for the _respon
 
 Typically, `predict_response()` (or `ggpredict()`) returns confidence intervals based on the standard errors as returned by the `predict()`-function, assuming normal distribution (`+/- 1.96 * SE`) resp. a Student's t-distribuion (if degrees of freedom are available). If `predict()` for a certain model object does _not_ return standard errors (for example, *merMod*-objects), these are calculated manually, by following steps: matrix-multiply `X` by the parameter vector `B` to get the predictions, then extract the variance-covariance matrix `V` of the parameters and compute `XVX'` to get the variance-covariance matrix of the predictions. The square-root of the diagonal of this matrix represent the standard errors of the predictions, which are then multiplied by the critical test-statistic value (e.g., ~1.96 for normal distribuion) for the confidence intervals.
 
-### Mixed models and prediction intervals
-
-For mixed models, if `type = "random"` or `type = "zi_random"`, the uncertainty in the random effects is accounted for when calculating the standard errors. Hence, in such cases, the intervals may be considered as _prediction intervals_.
-
 ## Consistent data frame structure
 
 The returned data frames always have the same, consistent structure and column names, so it's easy to create ggplot-plots without the need to re-write the arguments to be mapped in each ggplot-call. `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
