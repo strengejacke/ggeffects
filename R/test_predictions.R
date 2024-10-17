@@ -845,7 +845,7 @@ test_predictions.default <- function(object,
         model_frame = model_data,
         terms = terms,
         value_adjustment = "mean",
-        emmeans.only = TRUE,
+        emmeans_only = TRUE,
         verbose = FALSE
       )
     }

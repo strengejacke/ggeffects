@@ -11,7 +11,7 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci_level, interval, terms, 
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
     condition = condition,
-    emmeans.only = FALSE
+    emmeans_only = FALSE
   )
 
   prdat <- stats::predict(

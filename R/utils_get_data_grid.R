@@ -11,7 +11,8 @@
                        factor_adjustment = TRUE,
                        show_pretty_message = TRUE,
                        condition = NULL,
-                       emmeans.only = FALSE,
+                       emmeans_only = FALSE,
+                       include_random = FALSE,
                        verbose = TRUE) {
   # special handling for coxph
   if (inherits(model, c("coxph", "coxme"))) {
@@ -329,7 +330,7 @@
   # reference level for factors and most common element for character vectors
 
   # special handling for emmeans
-  if (isTRUE(emmeans.only)) {
+  if (isTRUE(emmeans_only)) {
     # check for log-terms, and if in focal terms, remove "0" from values
     log_terms <- .which_log_terms(model)
     if (!is.null(log_terms) && any(log_terms %in% names(focal_terms))) {
@@ -427,7 +428,7 @@
 
   # stop here for emmeans-objects
 
-  if (isTRUE(emmeans.only)) {
+  if (isTRUE(emmeans_only)) {
 
     # remove grouping factor of RE from constant values
     # only applicable for MixMod objects
@@ -506,6 +507,12 @@
     dat[[x]]
   })
 
+  # if we want to average across random effects, we set include_random to TRUE
+  # in this case, we create a data grid for all levels of the random effects
+  # and average across groups later...
+  if (include_random) {
+    focal_terms <- c(focal_terms, random_effect_terms)
+  }
 
   # get list names. we need to remove patterns like "log()" etc.
   names(datlist) <- names(focal_terms)
@@ -526,7 +533,7 @@
   # which will return predictions on a population level.
   # See ?glmmTMB::predict
 
-  if (inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit", "lme"))) {
+  if (!include_random && inherits(model, c("glmmTMB", "merMod", "rlmerMod", "MixMod", "brmsfit", "lme"))) {
     cleaned_terms <- .clean_terms(terms)
 
     # check if we have fixed effects as grouping factor in random effects as well...

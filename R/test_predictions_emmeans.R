@@ -66,7 +66,7 @@
     model_frame = model_data,
     terms = terms,
     value_adjustment = "mean",
-    emmeans.only = TRUE,
+    emmeans_only = TRUE,
     verbose = FALSE
   )
 
@@ -97,7 +97,6 @@
 
   # if *first* focal predictor is numeric, compute average slopes
   if (isTRUE(focal_numeric[1])) {
-
     # just the "trend" (slope) of one focal predictor
     if (length(focal) == 1) {
       # contrasts of slopes ---------------------------------------------------
@@ -159,7 +158,6 @@
     out <- .clean_levels(out, focal)
     # rename columns
     out <- .rename_emmeans_columns(out)
-
   } else {
     # testing groups (factors) ------------------------------------------------
     # Here comes the code for pairwise comparisons of categorical focal terms

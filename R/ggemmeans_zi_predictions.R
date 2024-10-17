@@ -11,10 +11,11 @@
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -39,7 +40,7 @@
     value_adjustment = value_adjustment,
     show_pretty_message = FALSE,
     condition = condition,
-    emmeans.only = FALSE,
+    emmeans_only = FALSE,
     verbose = FALSE
   )
 
