@@ -116,6 +116,7 @@ predict_response(m, "Days [1,5,9]", margin = "empirical")
 The conditional predictions returned by `predict_response()` for the default marginalization (i.e. when `margin` is set to `"mean_reference"` or `"mean_mode"`) may differ...
 
 - depending on the setting of the `REML` argument during model fitting;
+
 - and depending on whether factors are included in the model or not.
 
 ```{r}
