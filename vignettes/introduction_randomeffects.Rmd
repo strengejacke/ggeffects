@@ -163,7 +163,7 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or
 
 ### Conditional predictions: Adjusted predictions for the conditional model
 
-For now, we show examples for conditional predictions, which is the default marginalization method in `predict_response()`.
+First, we show examples for conditional predictions, which is the default marginalization method in `predict_response()`.
 
 ```{r}
 library(glmmTMB)
@@ -192,7 +192,7 @@ predict_response(m, "spp", type = "zero_inflated")
 
 ### Marginal predictions: Simulated outcome (full model)
 
-In the above examples, we get the conditional, not the marginal predictions. E.g., predictions are conditioned on `mined` when it is set to `"yes"`. However, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response (*marginal* predictions), averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. Note that intervals of this type will be wider than those of `type = "zero_inflated"`, because they account for the full uncertainty of model parameters. It is even possible to return prediction intervals using `interval = "prediction"` when `type = "simulate"`.
+In the above examples, we get the conditional, not the marginal predictions. E.g., predictions are conditioned on `mined` when it is set to `"yes"`, and predictions refer to a _typical_ (random effects) group. However, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response (*marginal* predictions), averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. It is even possible to return prediction intervals using `interval = "prediction"` with `type = "simulate"`.
 
 ```{r}
 predict_response(m, "spp", type = "simulate")
