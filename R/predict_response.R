@@ -64,10 +64,11 @@
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
 #' for more details.
 #' @param type Character, indicating whether predictions should be conditioned
-#' on specific model components or not. Consequently, most options only apply
-#' for survival models, mixed effects models and/or models with zero-inflation
-#' (and their Bayesian counter-parts); only exception is `type = "simulate"`,
-#' which is available for some other model classes as well (which respond to
+#' on specific model components or not, or whether population or unit-level
+#' predictions are desired. Consequently, most options only apply for survival
+#' models, mixed effects models and/or models with zero-inflation (and their
+#' Bayesian counter-parts); only exception is `type = "simulate"`, which is
+#' available for some other model classes as well (which respond to
 #' `simulate()`).
 #'
 #' **Note 1:** For `brmsfit`-models with zero-inflation component, there is no
@@ -118,39 +119,39 @@
 #'
 #'   - `"zero_inflated"` (or `"zi"`)
 #'
-#'     Predicted values are conditioned on the fixed effects and the zero-inflation
-#'     component. For instance, for models fitted with `zeroinfl` from **pscl**,
-#'     this would return the predicted (or expected) response (`mu*(1-p)`),
-#'     and for **glmmTMB**, this would return the expected response `mu*(1-p)`
-#'     *without* conditioning on random effects (i.e. random effect variances
-#'     are not taken into account for the confidence intervals). For models with
-#'     zero-inflation component, this type calls `predict(..., type = "response")`.
-#'     See 'Details'.
+#'     Predicted values are conditioned on the fixed effects and the
+#'     zero-inflation component, returning the expected value of the response
+#'     (`mu*(1-p)`). For models from package **glmmTMB**, this would return the
+#'     expected response `mu*(1-p)` *without* conditioning on random effects
+#'     (population-level predictions). For models with zero-inflation component,
+#'     this type calls `predict(..., type = "response")`. See 'Details'.
 #'
 #'   - `"zi_random"` (or `"zero_inflated_random"`)
 #'
-#'     Predicted values are conditioned on the zero-inflation component and
-#'     take the random effects uncertainty into account. For models fitted with
-#'     `glmmTMB()`, `hurdle()` or `zeroinfl()`, this would return the
-#'     expected value `mu*(1-p)`. For **glmmTMB**, prediction intervals
-#'     also consider the uncertainty in the random effects variances. This
-#'     type calls `predict(..., type = "response")`. See 'Details'.
+#'     Predicted values are conditioned on the zero-inflation component and on
+#'     the random effects. This type call `predict(..., type = "response")`,
+#'     with `re.form = NULL` for models from package **glmmTMB**. If *no* random
+#'     effects term (i.e. no grouping variable on the higher level) is specified
+#'     in the `terms` argument, `type = "zi_random"` still returns
+#'     population-level predictions, however, conditioned on random effects. To
+#'     get predicted values for each level of the random effects groups
+#'     (unit-level predictions), add the name of the related random effect term
+#'     to the `terms`-argument.
 #'
 #'   - `"zi_prob"`
 #'
 #'     Predicted zero-inflation probability. For **glmmTMB** models with
-#'     zero-inflation component, this type calls `predict(..., type = "zlink")`;
+#'     zero-inflation component, this type calls `predict(..., type = "zlink")`,
 #'     models from **pscl** call `predict(..., type = "zero")` and for
 #'     **GLMMadaptive**, `predict(..., type = "zero_part")` is called.
 #'
 #'   - `"simulate"`
 #'
-#'     Predicted values and confidence resp. prediction intervals are
-#'     based on simulations, i.e. calls to `simulate()`. This type
-#'     of prediction takes all model uncertainty into account, including
-#'     random effects variances. Currently supported models are objects of
-#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`. Use `nsim`
-#'     to set the number of simulated draws (see `...` for details).
+#'     Predicted values and confidence resp. prediction intervals are based on
+#'     simulations, i.e. calls to `simulate()`. This type of prediction takes
+#'     all model uncertainty into account. Currently supported models are
+#'     objects of class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`.
+#'     Use `nsim` to set the number of simulated draws (see `...` for details).
 #'
 #'   - `"survival"` and `"cumulative_hazard"`
 #'

@@ -69,10 +69,11 @@ i.e. roughly \verb{+/- 1.96 * SE}). See introduction of
 for more details.}
 
 \item{type}{Character, indicating whether predictions should be conditioned
-on specific model components or not. Consequently, most options only apply
-for survival models, mixed effects models and/or models with zero-inflation
-(and their Bayesian counter-parts); only exception is \code{type = "simulate"},
-which is available for some other model classes as well (which respond to
+on specific model components or not, or whether population or unit-level
+predictions are desired. Consequently, most options only apply for survival
+models, mixed effects models and/or models with zero-inflation (and their
+Bayesian counter-parts); only exception is \code{type = "simulate"}, which is
+available for some other model classes as well (which respond to
 \code{simulate()}).
 
 \strong{Note 1:} For \code{brmsfit}-models with zero-inflation component, there is no
@@ -119,36 +120,36 @@ To get predicted values for each level of the random effects groups
 to the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"zero_inflated"} (or \code{"zi"})
 
-Predicted values are conditioned on the fixed effects and the zero-inflation
-component. For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
-this would return the predicted (or expected) response (\code{mu*(1-p)}),
-and for \strong{glmmTMB}, this would return the expected response \code{mu*(1-p)}
-\emph{without} conditioning on random effects (i.e. random effect variances
-are not taken into account for the confidence intervals). For models with
-zero-inflation component, this type calls \code{predict(..., type = "response")}.
-See 'Details'.
+Predicted values are conditioned on the fixed effects and the
+zero-inflation component, returning the expected value of the response
+(\code{mu*(1-p)}). For models from package \strong{glmmTMB}, this would return the
+expected response \code{mu*(1-p)} \emph{without} conditioning on random effects
+(population-level predictions). For models with zero-inflation component,
+this type calls \code{predict(..., type = "response")}. See 'Details'.
 \item \code{"zi_random"} (or \code{"zero_inflated_random"})
 
-Predicted values are conditioned on the zero-inflation component and
-take the random effects uncertainty into account. For models fitted with
-\code{glmmTMB()}, \code{hurdle()} or \code{zeroinfl()}, this would return the
-expected value \code{mu*(1-p)}. For \strong{glmmTMB}, prediction intervals
-also consider the uncertainty in the random effects variances. This
-type calls \code{predict(..., type = "response")}. See 'Details'.
+Predicted values are conditioned on the zero-inflation component and on
+the random effects. This type call \code{predict(..., type = "response")},
+with \code{re.form = NULL} for models from package \strong{glmmTMB}. If \emph{no} random
+effects term (i.e. no grouping variable on the higher level) is specified
+in the \code{terms} argument, \code{type = "zi_random"} still returns
+population-level predictions, however, conditioned on random effects. To
+get predicted values for each level of the random effects groups
+(unit-level predictions), add the name of the related random effect term
+to the \code{terms}-argument.
 \item \code{"zi_prob"}
 
 Predicted zero-inflation probability. For \strong{glmmTMB} models with
-zero-inflation component, this type calls \code{predict(..., type = "zlink")};
+zero-inflation component, this type calls \code{predict(..., type = "zlink")},
 models from \strong{pscl} call \code{predict(..., type = "zero")} and for
 \strong{GLMMadaptive}, \code{predict(..., type = "zero_part")} is called.
 \item \code{"simulate"}
 
-Predicted values and confidence resp. prediction intervals are
-based on simulations, i.e. calls to \code{simulate()}. This type
-of prediction takes all model uncertainty into account, including
-random effects variances. Currently supported models are objects of
-class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}. Use \code{nsim}
-to set the number of simulated draws (see \code{...} for details).
+Predicted values and confidence resp. prediction intervals are based on
+simulations, i.e. calls to \code{simulate()}. This type of prediction takes
+all model uncertainty into account. Currently supported models are
+objects of class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}.
+Use \code{nsim} to set the number of simulated draws (see \code{...} for details).
 \item \code{"survival"} and \code{"cumulative_hazard"}
 
 Applies only to \code{coxph}-objects from the \strong{survial}-package and
