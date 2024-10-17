@@ -592,8 +592,7 @@ effects term to the <code>terms</code>-argument, and set
 <code>predict_response(margin = "empirical")</code>, you don’t need to
 set <code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
-simply plot the adjusted predictions, <em>not</em> conditioned on
-random-effect variances.</p>
+simply plot the adjusted predictions on population-level.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
@@ -602,9 +601,9 @@ random-effect variances.</p>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<p>To compute adjusted predictions for each grouping level, add the
-related random term to the <code>terms</code>-argument. In this case,
-predictions are conditioned on each unit-level of the random
+<p>To compute adjusted predictions for each grouping level (unit-level),
+add the related random effects term to the <code>terms</code>-argument.
+In this case, predictions are calculated for each level of the random
 effects.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
@@ -617,9 +616,9 @@ when <code>margin = "empirical"</code> is set.</p>
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<p>Adjusted predictions, conditioned on random effects, can also be
-calculated for specific unit-levels only. Add the related values into
-brackets after the variable name in the <code>terms</code>-argument.</p>
+<p>Adjusted predictions can also be calculated for specific unit-levels
+only. Add the related values into brackets after the variable name in
+the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
