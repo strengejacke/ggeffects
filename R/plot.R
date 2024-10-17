@@ -1421,7 +1421,6 @@ plot.see_equivalence_test_ggeffects <- function(x,
     # if we have a categorical x, we may need to reorder values, e.g. if we
     # have a reference level that results in non-alphabetical order of levels, see #288
     if (x_is_factor) {
-      insight::check_if_installed("datawizard")
       xlab <- attributes(x)$x.axis.labels
       # check if labels of original data is also present for residuals, and if
       # labels are not sorted - then resort x-values of residuals

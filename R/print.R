@@ -652,7 +652,6 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, t
     if (split_by) { # nolint
       # if we have more than one group variable, we unite them into one
       if (length(by_factor) > 1) {
-        insight::check_if_installed("datawizard")
         group_by <- datawizard::data_unite(x, "group_by", by_factor, separator = ", ")$group_by
       } else {
         group_by <- x[[by_factor]]

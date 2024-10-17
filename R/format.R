@@ -97,7 +97,6 @@ format.ggeffects <- function(x,
   }
 
   if (length(sort_columns)) {
-    insight::check_if_installed("datawizard")
     x <- datawizard::data_arrange(x, sort_columns)
   }
 
@@ -177,7 +176,6 @@ format.ggeffects <- function(x,
     # if user wants just one table, we need to preserve the group, facet and
     # panel columns, but rename those to the name of the respective focal terms
     if (isTRUE(collapse_tables)) {
-      insight::check_if_installed("datawizard")
       # first focal term is main term, we don't want to touch it here
       focal_terms <- focal_terms[-1]
       # if we have ordinal models and alike, we have a response level, which
@@ -258,7 +256,6 @@ format.ggcomparisons <- function(x,
   if (!combine_levels) {
     return(x)
   }
-  insight::check_if_installed("datawizard")
   # retrieve columns that represent focal terms, but exclude group-by variable
   focal_terms <- colnames(x)[1:(which(colnames(x) == estimate_name) - 1)]
   focal_terms <- setdiff(focal_terms, by_factor)

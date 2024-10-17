@@ -78,11 +78,9 @@
   }
 
   # add rownames, for labelling data points in plots
-  if (isTRUE(insight::check_if_installed("datawizard", quietly = TRUE))) {
-    .safe({
-      mf <- datawizard::rownames_as_column(mf)
-    })
-  }
+  .safe({
+    mf <- datawizard::rownames_as_column(mf)
+  })
 
   # sanity check, make sure we have rownames as variable
   if (is.null(mf$rowname)) {

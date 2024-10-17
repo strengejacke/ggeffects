@@ -22,7 +22,8 @@ Depends:
     R (>= 3.6)
 Imports:
     graphics,
-    insight (>= 0.19.8),
+    insight (>= 0.20.5),
+    datawizard (>= 0.13.0),
     stats,
     utils
 Suggests:
@@ -37,7 +38,6 @@ Suggests:
     car,
     carData,
     clubSandwich,
-    datawizard (>= 0.9.0),
     effects (>= 4.2-2),
     emmeans (>= 1.8.9),
     fixest,

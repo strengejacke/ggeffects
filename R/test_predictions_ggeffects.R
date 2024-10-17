@@ -9,8 +9,6 @@
                                         collapse_levels = FALSE,
                                         verbose = TRUE,
                                         ...) {
-  insight::check_if_installed("datawizard")
-
   # sanity check for certain arguments that are not (yet) supported
   if (!is.null(equivalence)) {
     insight::format_error("Equivalence testing is currently not supported for `engine = \"ggeffects\"`.")
