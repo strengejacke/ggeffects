@@ -6,7 +6,7 @@
                                       cleaned_terms,
                                       value_adjustment,
                                       condition,
-                                      nsim = 1000,
+                                      nsim = 500,
                                       type = "fixed") {
   prdat <- exp(preds$x1$emmean) * (1 - stats::plogis(preds$x2$emmean))
 

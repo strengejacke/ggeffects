@@ -12,7 +12,7 @@ test_that("ggpredict, print zero-inflated, glmmTMB", {
     data = Salamanders
   )
 
-  out <- predict_response(m, "mined")
+  out <- predict_response(m, "mined", verbose = FALSE)
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
   out <- predict_response(m, "mined", margin = "empirical")
@@ -20,7 +20,7 @@ test_that("ggpredict, print zero-inflated, glmmTMB", {
   expect_snapshot(print(test_predictions(out)), variant = "windows")
 
   set.seed(123)
-  out <- predict_response(m, "mined", type = "zero_inflated")
+  out <- predict_response(m, "mined", type = "zero_inflated", verbose = FALSE)
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
   set.seed(123)
@@ -28,7 +28,7 @@ test_that("ggpredict, print zero-inflated, glmmTMB", {
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
 
-  out <- predict_response(m, "mined", type = "zi_prob")
+  out <- predict_response(m, "mined", type = "zi_prob", verbose = FALSE)
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
   out <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")
@@ -41,7 +41,7 @@ test_that("ggpredict, print zero-inflated, pscl", {
   data(Salamanders, package = "glmmTMB")
   m <- pscl::zeroinfl(count ~ mined | mined, data = Salamanders)
 
-  out <- predict_response(m, "mined")
+  out <- predict_response(m, "mined", verbose = FALSE)
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
   out <- predict_response(m, "mined", margin = "empirical")
@@ -49,7 +49,7 @@ test_that("ggpredict, print zero-inflated, pscl", {
   expect_snapshot(print(test_predictions(out)), variant = "windows")
 
   set.seed(123)
-  out <- predict_response(m, "mined", type = "zero_inflated")
+  out <- predict_response(m, "mined", type = "zero_inflated", verbose = FALSE)
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
   set.seed(123)
@@ -57,7 +57,7 @@ test_that("ggpredict, print zero-inflated, pscl", {
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
 
-  out <- predict_response(m, "mined", type = "zi_prob")
+  out <- predict_response(m, "mined", type = "zi_prob", verbose = FALSE)
   expect_snapshot(print(out), variant = "windows")
   expect_snapshot(print(test_predictions(out)), variant = "windows")
   out <- predict_response(m, "mined", type = "zi_prob", margin = "empirical")

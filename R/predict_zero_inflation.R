@@ -87,7 +87,7 @@
 
 .simulate_zi_predictions <- function(model,
                                      newdata,
-                                     nsim = 1000,
+                                     nsim = 500,
                                      terms = NULL,
                                      value_adjustment = NULL,
                                      condition = NULL) {
@@ -230,7 +230,7 @@
 
 .simulate_predictions_zeroinfl <- function(model,
                                            newdata,
-                                           nsim = 1000,
+                                           nsim = 500,
                                            terms = NULL,
                                            value_adjustment = NULL,
                                            condition = NULL) {
@@ -372,7 +372,7 @@
 
 
 
-.get_zeroinfl_gam_predictions <- function(model, newdata, nsim = 1000) {
+.get_zeroinfl_gam_predictions <- function(model, newdata, nsim = 500) {
   tryCatch(
     {
       mm <- stats::model.matrix(model, data = newdata)
