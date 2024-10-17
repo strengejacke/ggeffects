@@ -222,7 +222,7 @@ predict_response(m, "spp", bias_correction = TRUE, sigma = insight::get_sigma(m)
 
 Adjusted predictions can also be calculated for each group level (unit-level) in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`. For `predict_response(margin = "empirical")`, you don't need to set `type = "random"`.
 
-In the following example, we fit a linear mixed model and first simply plot the adjusted predictions, _not_ conditioned on random-effect variances.
+In the following example, we fit a linear mixed model and first simply plot the adjusted predictions on population-level.
 
 ```{r}
 library(sjlabelled)
@@ -233,7 +233,7 @@ me <- predict_response(m, terms = "c12hour")
 plot(me)
 ```
 
-To compute adjusted predictions for each grouping level, add the related random term to the `terms`-argument. In this case, predictions are conditioned on each unit-level of the random effects.
+To compute adjusted predictions for each grouping level (unit-level), add the related random effects term to the `terms`-argument. In this case, predictions are calculated for each level of the random effects.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
@@ -247,7 +247,7 @@ me <- predict_response(m, terms = c("c12hour", "e15relat"), margin = "empirical"
 plot(me, show_ci = FALSE)
 ```
 
-Adjusted predictions, conditioned on random effects, can also be calculated for specific unit-levels only. Add the related values into brackets after the variable name in the `terms`-argument.
+Adjusted predictions can also be calculated for specific unit-levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
