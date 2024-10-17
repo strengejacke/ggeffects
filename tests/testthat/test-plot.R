@@ -189,12 +189,60 @@ test_that("collapse groups works", {
 
 
 test_that("only one legend for multiple panels", {
-  skip_if_not_installed("lme4")
   data(efc, package = "ggeffects")
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
   mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
   vdiffr::expect_doppelganger(
     "One legend for panels",
     plot(mydf, one_plot = TRUE)
+  )
+})
+
+
+test_that("test plots from vignette", {
+  data(efc, package = "ggeffects")
+  efc$c172code <- datawizard::to_factor(efc$c172code)
+  fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+  dat <- predict_response(fit, terms = c("c12hour", "c172code"))
+  vdiffr::expect_doppelganger(
+    "facet-by-group",
+    plot(dat, facets = TRUE)
+  )
+  vdiffr::expect_doppelganger(
+    "black-and-white",
+    plot(dat, colors = "bw", show_ci = FALSE)
+  )
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "add-data-points",
+    plot(dat, show_data = TRUE)
+  )
+  dat <- predict_response(fit, terms = c("c172code", "c161sex"))
+  vdiffr::expect_doppelganger(
+    "error-bars",
+    plot(dat)
+  )
+  vdiffr::expect_doppelganger(
+    "connect-lines",
+    plot(dat, connect_lines = TRUE)
+  )
+  vdiffr::expect_doppelganger(
+    "multiple-rows",
+    plot(dat, one_plot = TRUE, n_rows = 2) + ggplot2::theme(legend.position = "bottom")
+  )
+  dat <- predict_response(fit, terms = "c12hour")
+  vdiffr::expect_doppelganger(
+    "dashed-ci",
+    plot(dat, ci_style = "dash")
+  )
+  dat <- predict_response(fit, terms = c("c12hour", "c172code"))
+  vdiffr::expect_doppelganger(
+    "error-bars-continuous",
+    plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5)
+  )
+  dat <- predict_response(fit, terms = "c172code")
+  vdiffr::expect_doppelganger(
+    "dotted-error-bars",
+    plot(dat, ci_style = "dot")
   )
 })
