@@ -160,10 +160,8 @@ predicted values are typically at the <em>population</em> level, not
 group-specific.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_binom"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
+<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e. `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
+<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.</span></span>
 <span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -177,13 +175,7 @@ group-specific.</p>
 <span><span class="co">#&gt; *    group = 0 (population-level)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_cont"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
-<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span>
-<span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get</span></span>
-<span><span class="co">#&gt;   smooth plots.</span></span>
+<span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get smooth plots.</span></span>
 <span><span class="co">#&gt; # Predicted probabilities of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; var_cont | Predicted |     95% CI</span></span>
@@ -201,8 +193,7 @@ group-specific.</p>
 <span><span class="co">#&gt; * var_binom = 0</span></span>
 <span><span class="co">#&gt; *     group = 0 (population-level)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Not all rows are shown in the output. Use `print(..., n = Inf)` to show</span></span>
-<span><span class="co">#&gt;   all rows.</span></span></code></pre></div>
+<span><span class="co">#&gt; Not all rows are shown in the output. Use `print(..., n = Inf)` to show all rows.</span></span></code></pre></div>
 <p>To plot adjusted predictions, simply plot the returned results or use
 the pipe.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -241,21 +232,10 @@ values are chosen (typically, mean +/- one SD, see <a href="introduction_effects
 specific values</a>).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
-<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span>
-<span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get</span></span>
-<span><span class="co">#&gt;   smooth plots.</span></span></code></pre></div>
+<span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get smooth plots.</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_binom"</span>, <span class="st">"var_cont"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
-<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_binom"</span>, <span class="st">"var_cont"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 </div>
 <div class="section level2">
@@ -275,14 +255,7 @@ function call is identical to the previous examples with interaction
 terms, which had no polynomial term included.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
-<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span>
-<span><span class="co">#&gt; Model contains splines or polynomial terms. Consider using</span></span>
-<span><span class="co">#&gt;   `terms="var_cont [all]"` to get smooth plots. See also package-vignette</span></span>
-<span><span class="co">#&gt;   'Adjusted Predictions at Specific Values'.</span></span></code></pre></div>
+<span><span class="co">#&gt; Model contains splines or polynomial terms. Consider using `terms="var_cont [all]"` to get smooth plots. See also package-vignette 'Adjusted Predictions at Specific Values'.</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>As you can see, <em>ggeffects</em> also returned a message indicated
 that the plot may not look very smooth due to the involvement of
@@ -297,12 +270,7 @@ spline or polynomial terms may lead to memory allocation problems. If
 you are sure that this will not happen, add the <code>[all]</code>-tag
 to the <code>terms</code>-argument, as described in the message:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
-<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>The above plot produces much smoother curves.</p>
 </div>
@@ -334,12 +302,7 @@ groups, but also facets to plot all three “dimensions”. Three-way
 interactions are plotted simply by speficying all terms in question in
 the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; You are calculating adjusted predictions on the population-level (i.e.</span></span>
-<span><span class="co">#&gt;   `type = "fixed"`) for a *generalized* linear mixed model.</span></span>
-<span><span class="co">#&gt;   This may produce biased estimates due to Jensen's inequality. Consider</span></span>
-<span><span class="co">#&gt;   setting `bias_correction = TRUE` to correct for this bias.</span></span>
-<span><span class="co">#&gt;   See also the documentation of the `bias_correction` argument.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
