@@ -152,14 +152,18 @@ For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or
   - Conditional effects / predictions:
 
     * population-level predictions, conditioned on the fixed effects of the conditional (or "count") model only (`type = "fixed"`)
+
     * population-level predictions, conditioned on the fixed effects *and* zero-inflation component (`type = "zero_inflated"`), returning the expected (predicted) values of the response
+
     * the zero-inflation probabilities (`type = "zi_prob"`)
 
   - Marginal effects / predictions:
 
-    * `type = "simulate"` or `margin = "empirical"` can be used to obtain marginal predictions again.
+    * `type = "simulate"` can be used to obtain marginal predictions, averaged across all random effects groups and non-focal terms
 
- For `predict_response(margin = "empirical")`, `type = "simulate"` is not available. However, valid values for `type` can also be those based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`.
+    * marginal predictions using `margin = "empirical"` are also averaged across all random effects groups and non-focal terms. The major difference to `type = "simulate"` is that `margin = "empirical"` also return _counterfactual_ predictions.
+
+ For `predict_response(margin = "empirical")`, valid values for `type` are usually those based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. However, for zero-inflated models, `type = "fixed"` and `type = "zero_inflated"` can be used as aliases (instead of `"conditional"` or `"response"`).
 
 ### Conditional predictions: Adjusted predictions for the conditional model
 
