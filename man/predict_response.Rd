@@ -168,15 +168,13 @@ exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}
 See 'Examples'.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
-(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
-\emph{prediction intervals} include the residual variance (sigma^2) to account for
-the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
-is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
-\code{interval = "confidence"}. Note that prediction intervals are not available
-for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.
-For Bayesian models, when \code{interval = "confidence"}, predictions are based on
-posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
-If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
+(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence
+intervals}, \emph{prediction intervals} include the residual variance (sigma^2) to
+account for the uncertainty of predicted values. Note that prediction
+intervals are not available for all models, but only for models that work
+with \code{\link[insight:get_sigma]{insight::get_sigma()}}. For Bayesian models, when \code{interval = "confidence"}, predictions are based on posterior draws of the linear
+predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}. If \code{interval = "prediction"},
+\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
 \item{back_transform}{Logical, if \code{TRUE} (the default), predicted values for
 log-, log-log, exp, sqrt and similar transformed responses will be

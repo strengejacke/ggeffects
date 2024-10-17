@@ -194,15 +194,14 @@
 #' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' See 'Examples'.
 #' @param interval Type of interval calculation, can either be `"confidence"`
-#' (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
-#' *prediction intervals* include the residual variance (sigma^2) to account for
-#' the uncertainty of predicted values. For mixed models, `interval = "prediction"`
-#' is the default for `type = "random"`. When `type = "fixed"`, the default is
-#' `interval = "confidence"`. Note that prediction intervals are not available
-#' for all models, but only for models that work with [`insight::get_sigma()`].
-#' For Bayesian models, when `interval = "confidence"`, predictions are based on
-#' posterior draws of the linear predictor [`rstantools::posterior_epred()`].
-#' If `interval = "prediction"`, [`rstantools::posterior_predict()`] is called.
+#' (default) or `"prediction"`. May be abbreviated. Unlike *confidence
+#' intervals*, *prediction intervals* include the residual variance (sigma^2) to
+#' account for the uncertainty of predicted values. Note that prediction
+#' intervals are not available for all models, but only for models that work
+#' with [`insight::get_sigma()`]. For Bayesian models, when `interval =
+#' "confidence"`, predictions are based on posterior draws of the linear
+#' predictor [`rstantools::posterior_epred()`]. If `interval = "prediction"`,
+#' [`rstantools::posterior_predict()`] is called.
 #' @param vcov Variance-covariance matrix used to compute uncertainty estimates
 #' (e.g., for confidence intervals based on robust standard errors). This
 #' argument accepts a covariance matrix, a function which returns a covariance
