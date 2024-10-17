@@ -387,7 +387,7 @@ terms</p></li>
 <li><p>marginal predictions using <code>margin = "empirical"</code> are
 also averaged across all random effects groups and non-focal terms. The
 major difference to <code>type = "simulate"</code> is that
-<code>margin = "empirical"</code> also return <em>counterfactual</em>
+<code>margin = "empirical"</code> also returns <em>counterfactual</em>
 predictions.</p></li>
 </ul>
 </li>
@@ -418,7 +418,7 @@ default marginalization method in <code><a href="../reference/predict_response.h
 <span><span class="op">)</span></span></code></pre></div>
 <p>Similar to mixed models without zero-inflation component,
 <code>type = "fixed"</code> returns predictions on the population-level,
-but for the conditional model only.</p>
+but for the conditional (“count”) model only.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted (conditional) counts of count</span></span>
@@ -441,9 +441,9 @@ but for the conditional model only.</p>
 <h4 id="conditional-predictions-adjusted-predictions-for-the-full-model">Conditional predictions: Adjusted predictions for the full
 model<a class="anchor" aria-label="anchor" href="#conditional-predictions-adjusted-predictions-for-the-full-model"></a>
 </h4>
-<p>For <code>type = "zero_inflated"</code>, the predicted response value
-is the expected value <code>mu*(1-p)</code>. Since the zero inflation
-and the conditional model are working in “opposite directions”, a higher
+<p>For <code>type = "zero_inflated"</code>, results the expected values
+of the response, <code>mu*(1-p)</code>. Since the zero inflation and the
+conditional model are working in “opposite directions”, a higher
 expected value for the zero inflation means a lower response, but a
 higher value for the conditional (“count”) model means a higher
 response. While it is possible to calculate predicted values with
