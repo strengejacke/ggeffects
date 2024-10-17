@@ -15,6 +15,7 @@ if (!getRversion()$major >= 4 ||
     !requireNamespace("datawizard", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 }
+options(width = 800, ggeffects_warning_bias_correction = FALSE)
 ```
 
 This vignette demonstrate how to use *ggeffects* to compute and plot adjusted predictions of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, including an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [adjusted predictions of regression model](ggeffects.html).
@@ -82,7 +83,7 @@ m2 <- glmer(
 )
 ```
 
-To compute or plot adjusted predictions of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the `terms`-argument. Since we have an interaction between `var_binom` and `var_cont`, the argument would be `terms = c("var_binom", "var_cont")`. However, the _first_ variable in the `terms`-argument is used as predictor along the x-axis. Adjusted predictions are then plotted for specific values or at specific levels from the _second_ variable. 
+To compute or plot adjusted predictions of interaction terms, simply specify these terms, i.e. the names of the variables, as character vector in the `terms`-argument. Since we have an interaction between `var_binom` and `var_cont`, the argument would be `terms = c("var_binom", "var_cont")`. However, the _first_ variable in the `terms`-argument is used as predictor along the x-axis. Adjusted predictions are then plotted for specific values or at specific levels from the _second_ variable.
 
 If the second variable is a factor, adjusted predictions for each level are plotted. If the second variable is continuous, representative values are chosen (typically, mean +/- one SD, see [adjusted predictions at specific values](introduction_effectsatvalues.html)).
 
