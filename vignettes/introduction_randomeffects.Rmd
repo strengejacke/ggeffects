@@ -218,7 +218,7 @@ For non-Gaussian models, predicted values are back-transformed to the response s
 options(ggeffects_warning_bias_correction = TRUE)
 ```
 
-```{r}
+```{r, warning=TRUE}
 # no bias-correction
 predict_response(m, "spp")
 
