@@ -98,7 +98,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
 
   # check arguments
   if (!is.null(p_adjust)) {
-    p_adjust <- match.arg(p_adjust, choices = c("esarey", "es", "fdr", "bh"))
+    p_adjust <- .check_arg(p_adjust, c("esarey", "es", "fdr", "bh"))
     # just keep one shortcut
     p_adjust <- switch(p_adjust,
       esarey = "es",

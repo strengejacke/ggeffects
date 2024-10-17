@@ -465,3 +465,18 @@ is.gamm4 <- function(x) {
   }
   ifnotfound
 }
+
+
+# this is a wrapper around `match.arg()`, but provided clearer information on fail
+.check_arg <- function(argument, options) {
+  argument_name <- deparse(substitute(argument))
+  argument <- .safe(match.arg(argument, options))
+  if (is.null(argument)) {
+    insight::format_error(sprintf(
+      "Invalid option for argument `%s`. Please use one of the following options: %s",
+      argument_name,
+      toString(paste0("\"", options, "\""))
+    ))
+  }
+  argument
+}

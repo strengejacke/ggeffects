@@ -11,11 +11,11 @@ predict_response(
   ci_level = 0.95,
   type = "fixed",
   condition = NULL,
+  interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
   vcov_args = NULL,
   weights = NULL,
-  interval,
   bias_correction = FALSE,
   verbose = TRUE,
   ...
@@ -94,33 +94,29 @@ be "translated" into the corresponding \code{type} option of the model's respect
 \item \code{"fixed"} (or \code{"count"})
 
 Predicted values are conditioned on the fixed effects or conditional
-model only (for mixed models: predicted values are on the population-level
-and \emph{confidence intervals} are returned, i.e. \code{re.form = NA} when calling
-\code{predict()}). For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
-this would return the predicted mean from the count component (without
-zero-inflation). For models with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are
-back-transformed to the response scale, i.e. the conditional mean of the
-response).
+model only (for mixed models: predicted values are on the
+population-level, i.e. \code{re.form = NA} when calling \code{predict()}). For
+models with zero-inflation component, this type calls \code{predict(..., type = "link")} (however, predicted values are back-transformed to the
+response scale, i.e. the conditional mean of the response). For instance,
+for models fitted with \code{zeroinfl} from \strong{pscl}, this would return the
+predicted mean from the count component (without conditioning on the
+zero-inflation part).
 \item \code{"random"}
 
-This only applies to mixed models, and \code{type = "random"} does not condition
-on the zero-inflation component of the model. \code{type = "random"} still
-returns population-level predictions, however, conditioned on random effects
-and considering individual level predictions, i.e. \code{re.form = NULL} when
-calling \code{predict()}. This may affect the returned predicted values, depending
-on whether \code{REML = TRUE} or \code{REML = FALSE} was used for model fitting.
-Furthermore, unlike \code{type = "fixed"}, intervals also consider the uncertainty
-in the variance parameters (the mean random effect variance, see \emph{Johnson
-et al. 2014} for details) and hence can be considered as \emph{prediction intervals}.
-For models with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are back-transformed
-to the response scale).
+This only applies to mixed models, and \code{type = "random"} does not
+condition on the zero-inflation component of the model. If \emph{no} random
+effects term (i.e. no grouping variable on the higher level) is specified
+in the \code{terms} argument, \code{type = "random"} still returns population-level
+predictions, however, conditioned on random effects. Technically,
+\code{re.form = NULL} when calling \code{predict()}. This may affect the returned
+predicted values, depending on whether \code{REML = TRUE} or \code{REML = FALSE}
+was used for model fitting. For models with zero-inflation component,
+this type calls \code{predict(..., type = "link")} (however, predicted values
+are back-transformed to the response scale).
 
-To get predicted values for each level of the random effects groups, add the
-name of the related random effect term to the \code{terms}-argument
-(for more details, see
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
+To get predicted values for each level of the random effects groups
+(unit-level predictions), add the name of the related random effect term
+to the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"zero_inflated"} (or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
@@ -169,6 +165,17 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
+
+\item{interval}{Type of interval calculation, can either be \code{"confidence"}
+(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
+\emph{prediction intervals} include the residual variance (sigma^2) to account for
+the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
+is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
+\code{interval = "confidence"}. Note that prediction intervals are not available
+for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.
+For Bayesian models, when \code{interval = "confidence"}, predictions are based on
+posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
+If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
 \item{back_transform}{Logical, if \code{TRUE} (the default), predicted values for
 log-, log-log, exp, sqrt and similar transformed responses will be
@@ -224,17 +231,6 @@ is passed to \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, specifying weigh
 non-focal categorical predictors. See https://rvlenth.github.io/emmeans/reference/emmeans.html
 for details.
 }}
-
-\item{interval}{Type of interval calculation, can either be \code{"confidence"}
-(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
-\emph{prediction intervals} include the residual variance (sigma^2) to account for
-the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
-is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
-\code{interval = "confidence"}. Note that prediction intervals are not available
-for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.
-For Bayesian models, when \code{interval = "confidence"}, predictions are based on
-posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
-If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 
 \item{bias_correction}{Logical, if \code{TRUE}, adjusts for bias-correction when
 back-transforming the predicted values (to the response scale) for

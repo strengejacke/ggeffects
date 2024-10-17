@@ -53,7 +53,7 @@
       "simulate_random", "debug"
     )
   }
-  type <- match.arg(type, choices = type_choices)
+  type <- .check_arg(type, type_choices)
 
   switch(type,
     fe = ,

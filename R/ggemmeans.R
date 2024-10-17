@@ -6,10 +6,10 @@ ggemmeans <- function(model,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
+                      interval = "confidence",
                       back_transform = TRUE,
                       vcov = NULL,
                       vcov_args = NULL,
-                      interval = "confidence",
                       bias_correction = FALSE,
                       verbose = TRUE,
                       ...) {
@@ -29,7 +29,7 @@ ggemmeans <- function(model,
   )
 
   # check arguments
-  interval <- match.arg(interval, choices = c("confidence", "prediction"))
+  interval <- .check_arg(interval, c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
 

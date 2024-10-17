@@ -23,7 +23,7 @@
   if (is.null(test) || test %in% c("trend", "slope")) {
     test <- "contrast"
   }
-  test <- match.arg(test, c("contrast", "pairwise", "interaction"))
+  test <- .check_arg(test, c("contrast", "pairwise", "interaction"))
 
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names

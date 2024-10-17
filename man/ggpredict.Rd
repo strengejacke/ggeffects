@@ -49,10 +49,10 @@ ggemmeans(
   type = "fixed",
   typical = "mean",
   condition = NULL,
+  interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
   vcov_args = NULL,
-  interval = "confidence",
   bias_correction = FALSE,
   verbose = TRUE,
   ...
@@ -65,10 +65,10 @@ ggpredict(
   type = "fixed",
   typical = "mean",
   condition = NULL,
+  interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
   vcov_args = NULL,
-  interval,
   bias_correction = FALSE,
   verbose = TRUE,
   ...
@@ -164,33 +164,29 @@ be "translated" into the corresponding \code{type} option of the model's respect
 \item \code{"fixed"} (or \code{"count"})
 
 Predicted values are conditioned on the fixed effects or conditional
-model only (for mixed models: predicted values are on the population-level
-and \emph{confidence intervals} are returned, i.e. \code{re.form = NA} when calling
-\code{predict()}). For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
-this would return the predicted mean from the count component (without
-zero-inflation). For models with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are
-back-transformed to the response scale, i.e. the conditional mean of the
-response).
+model only (for mixed models: predicted values are on the
+population-level, i.e. \code{re.form = NA} when calling \code{predict()}). For
+models with zero-inflation component, this type calls \code{predict(..., type = "link")} (however, predicted values are back-transformed to the
+response scale, i.e. the conditional mean of the response). For instance,
+for models fitted with \code{zeroinfl} from \strong{pscl}, this would return the
+predicted mean from the count component (without conditioning on the
+zero-inflation part).
 \item \code{"random"}
 
-This only applies to mixed models, and \code{type = "random"} does not condition
-on the zero-inflation component of the model. \code{type = "random"} still
-returns population-level predictions, however, conditioned on random effects
-and considering individual level predictions, i.e. \code{re.form = NULL} when
-calling \code{predict()}. This may affect the returned predicted values, depending
-on whether \code{REML = TRUE} or \code{REML = FALSE} was used for model fitting.
-Furthermore, unlike \code{type = "fixed"}, intervals also consider the uncertainty
-in the variance parameters (the mean random effect variance, see \emph{Johnson
-et al. 2014} for details) and hence can be considered as \emph{prediction intervals}.
-For models with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are back-transformed
-to the response scale).
+This only applies to mixed models, and \code{type = "random"} does not
+condition on the zero-inflation component of the model. If \emph{no} random
+effects term (i.e. no grouping variable on the higher level) is specified
+in the \code{terms} argument, \code{type = "random"} still returns population-level
+predictions, however, conditioned on random effects. Technically,
+\code{re.form = NULL} when calling \code{predict()}. This may affect the returned
+predicted values, depending on whether \code{REML = TRUE} or \code{REML = FALSE}
+was used for model fitting. For models with zero-inflation component,
+this type calls \code{predict(..., type = "link")} (however, predicted values
+are back-transformed to the response scale).
 
-To get predicted values for each level of the random effects groups, add the
-name of the related random effect term to the \code{terms}-argument
-(for more details, see
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
+To get predicted values for each level of the random effects groups
+(unit-level predictions), add the name of the related random effect term
+to the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"zero_inflated"} (or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the zero-inflation
