@@ -209,8 +209,6 @@ predict_response(m, "spp", type = "zero_inflated", margin = "empirical")
 
 For non-Gaussian models, predicted values are back-transformed to the response scale. However, back-transforming the population-level predictions (in _mixed_ models, when `type = "fixed"`) ignores the effect of the variation around the population mean, hence, the result on the original data scale is biased due to _Jensen's inequality_. In this case, it can be appropriate to apply a bias-correction. This is done by setting `bias_correction = TRUE`. By default, [`insight::get_variance_residual()`](https://easystats.github.io/insight/reference/get_variance_residual.html) is used to extract the residual variance, which is used to calculate the amount of correction. Optionally, you can provide your own estimates of uncertainty, e.g. based on [`insight::get_variance_random()`](https://easystats.github.io/insight/reference/get_variance_random.html), using the `sigma` argument.
 
-Bias-correction comes closer to the expected values of the response, averaged across all random effects groups and all non-focal terms. The following example shows the bias-corrected predicted values of `spp`, which are closer to the simulated values than the non-bias-corrected ones.
-
 ```{r, eval=TRUE, echo=FALSE}
 options(ggeffects_warning_bias_correction = TRUE)
 ```
@@ -221,9 +219,6 @@ predict_response(m, "spp")
 
 # bias-correction
 predict_response(m, "spp", bias_correction = TRUE)
-
-# closer to "simulate" for some of the predicted values
-predict_response(m, "spp", type = "simulate")
 
 # bias-correction, using user-defined sigma-value
 predict_response(m, "spp", bias_correction = TRUE, sigma = insight::get_sigma(m))
