@@ -64,10 +64,11 @@
 #' [this vignette](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
 #' for more details.
 #' @param type Character, indicating whether predictions should be conditioned
-#' on specific model components or not. Consequently, most options only apply
-#' for survival models, mixed effects models and/or models with zero-inflation
-#' (and their Bayesian counter-parts); only exception is `type = "simulate"`,
-#' which is available for some other model classes as well (which respond to
+#' on specific model components or not, or whether population or unit-level
+#' predictions are desired. Consequently, most options only apply for survival
+#' models, mixed effects models and/or models with zero-inflation (and their
+#' Bayesian counter-parts); only exception is `type = "simulate"`, which is
+#' available for some other model classes as well (which respond to
 #' `simulate()`).
 #'
 #' **Note 1:** For `brmsfit`-models with zero-inflation component, there is no
@@ -89,70 +90,68 @@
 #'   - `"fixed"` (or `"count"`)
 #'
 #'     Predicted values are conditioned on the fixed effects or conditional
-#'     model only (for mixed models: predicted values are on the population-level
-#'     and *confidence intervals* are returned, i.e. `re.form = NA` when calling
-#'     `predict()`). For instance, for models fitted with `zeroinfl` from **pscl**,
-#'     this would return the predicted mean from the count component (without
-#'     zero-inflation). For models with zero-inflation component, this type calls
-#'     `predict(..., type = "link")` (however, predicted values are
-#'     back-transformed to the response scale, i.e. the conditional mean of the
-#'     response).
+#'     model only (for mixed models: predicted values are on the
+#'     population-level, i.e. `re.form = NA` when calling `predict()`). For
+#'     models with zero-inflation component, this type calls `predict(..., type
+#'     = "link")` (however, predicted values are back-transformed to the
+#'     response scale, i.e. the conditional mean of the response). For instance,
+#'     for models fitted with `zeroinfl` from **pscl**, this would return the
+#'     predicted mean from the count component (without conditioning on the
+#'     zero-inflation part).
 #'
 #'   - `"random"`
 #'
-#'     This only applies to mixed models, and `type = "random"` does not condition
-#'     on the zero-inflation component of the model. `type = "random"` still
-#'     returns population-level predictions, however, conditioned on random effects
-#'     and considering individual level predictions, i.e. `re.form = NULL` when
-#'     calling `predict()`. This may affect the returned predicted values, depending
-#'     on whether `REML = TRUE` or `REML = FALSE` was used for model fitting.
-#'     Furthermore, unlike `type = "fixed"`, intervals also consider the uncertainty
-#'     in the variance parameters (the mean random effect variance, see *Johnson
-#'     et al. 2014* for details) and hence can be considered as *prediction intervals*.
-#'     For models with zero-inflation component, this type calls
-#'     `predict(..., type = "link")` (however, predicted values are back-transformed
-#'     to the response scale).
+#'     This only applies to mixed models, and `type = "random"` does not
+#'     condition on the zero-inflation component of the model. If *no* random
+#'     effects term (i.e. no grouping variable on the higher level) is specified
+#'     in the `terms` argument, `type = "random"` still returns population-level
+#'     predictions, however, conditioned on random effects. Technically,
+#'     `re.form = NULL` when calling `predict()`. This may affect the returned
+#'     predicted values, depending on whether `REML = TRUE` or `REML = FALSE`
+#'     was used for model fitting. For models with zero-inflation component,
+#'     this type calls `predict(..., type = "link")` (however, predicted values
+#'     are back-transformed to the response scale).
 #'
-#'     To get predicted values for each level of the random effects groups, add the
-#'     name of the related random effect term to the `terms`-argument
-#'     (for more details, see
-#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
+#'     To get predicted values for each level of the random effects groups
+#'     (unit-level predictions), add the name of the related random effect term
+#'     to the `terms`-argument (for more details, see [this
+#'     vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
 #'
 #'   - `"zero_inflated"` (or `"zi"`)
 #'
-#'     Predicted values are conditioned on the fixed effects and the zero-inflation
-#'     component. For instance, for models fitted with `zeroinfl` from **pscl**,
-#'     this would return the predicted (or expected) response (`mu*(1-p)`),
-#'     and for **glmmTMB**, this would return the expected response `mu*(1-p)`
-#'     *without* conditioning on random effects (i.e. random effect variances
-#'     are not taken into account for the confidence intervals). For models with
-#'     zero-inflation component, this type calls `predict(..., type = "response")`.
-#'     See 'Details'.
+#'     Predicted values are conditioned on the fixed effects and the
+#'     zero-inflation component, returning the expected value of the response
+#'     (`mu*(1-p)`). For models from package **glmmTMB**, this would return the
+#'     expected response `mu*(1-p)` *without* conditioning on random effects
+#'     (population-level predictions). For models with zero-inflation component,
+#'     this type calls `predict(..., type = "response")`. See 'Details'.
 #'
 #'   - `"zi_random"` (or `"zero_inflated_random"`)
 #'
-#'     Predicted values are conditioned on the zero-inflation component and
-#'     take the random effects uncertainty into account. For models fitted with
-#'     `glmmTMB()`, `hurdle()` or `zeroinfl()`, this would return the
-#'     expected value `mu*(1-p)`. For **glmmTMB**, prediction intervals
-#'     also consider the uncertainty in the random effects variances. This
-#'     type calls `predict(..., type = "response")`. See 'Details'.
+#'     Predicted values are conditioned on the zero-inflation component and on
+#'     the random effects. This type call `predict(..., type = "response")`,
+#'     with `re.form = NULL` for models from package **glmmTMB**. If *no* random
+#'     effects term (i.e. no grouping variable on the higher level) is specified
+#'     in the `terms` argument, `type = "zi_random"` still returns
+#'     population-level predictions, however, conditioned on random effects. To
+#'     get predicted values for each level of the random effects groups
+#'     (unit-level predictions), add the name of the related random effect term
+#'     to the `terms`-argument.
 #'
 #'   - `"zi_prob"`
 #'
 #'     Predicted zero-inflation probability. For **glmmTMB** models with
-#'     zero-inflation component, this type calls `predict(..., type = "zlink")`;
+#'     zero-inflation component, this type calls `predict(..., type = "zlink")`,
 #'     models from **pscl** call `predict(..., type = "zero")` and for
 #'     **GLMMadaptive**, `predict(..., type = "zero_part")` is called.
 #'
 #'   - `"simulate"`
 #'
-#'     Predicted values and confidence resp. prediction intervals are
-#'     based on simulations, i.e. calls to `simulate()`. This type
-#'     of prediction takes all model uncertainty into account, including
-#'     random effects variances. Currently supported models are objects of
-#'     class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`. Use `nsim`
-#'     to set the number of simulated draws (see `...` for details).
+#'     Predicted values and confidence resp. prediction intervals are based on
+#'     simulations, i.e. calls to `simulate()`. This type of prediction takes
+#'     all model uncertainty into account. Currently supported models are
+#'     objects of class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`.
+#'     Use `nsim` to set the number of simulated draws (see `...` for details).
 #'
 #'   - `"survival"` and `"cumulative_hazard"`
 #'
@@ -195,15 +194,14 @@
 #' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' See 'Examples'.
 #' @param interval Type of interval calculation, can either be `"confidence"`
-#' (default) or `"prediction"`. May be abbreviated. Unlike *confidence intervals*,
-#' *prediction intervals* include the residual variance (sigma^2) to account for
-#' the uncertainty of predicted values. For mixed models, `interval = "prediction"`
-#' is the default for `type = "random"`. When `type = "fixed"`, the default is
-#' `interval = "confidence"`. Note that prediction intervals are not available
-#' for all models, but only for models that work with [`insight::get_sigma()`].
-#' For Bayesian models, when `interval = "confidence"`, predictions are based on
-#' posterior draws of the linear predictor [`rstantools::posterior_epred()`].
-#' If `interval = "prediction"`, [`rstantools::posterior_predict()`] is called.
+#' (default) or `"prediction"`. May be abbreviated. Unlike *confidence
+#' intervals*, *prediction intervals* include the residual variance (sigma^2) to
+#' account for the uncertainty of predicted values. Note that prediction
+#' intervals are not available for all models, but only for models that work
+#' with [`insight::get_sigma()`]. For Bayesian models, when `interval =
+#' "confidence"`, predictions are based on posterior draws of the linear
+#' predictor [`rstantools::posterior_epred()`]. If `interval = "prediction"`,
+#' [`rstantools::posterior_predict()`] is called.
 #' @param vcov Variance-covariance matrix used to compute uncertainty estimates
 #' (e.g., for confidence intervals based on robust standard errors). This
 #' argument accepts a covariance matrix, a function which returns a covariance
@@ -616,20 +614,20 @@ predict_response <- function(model,
                              ci_level = 0.95,
                              type = "fixed",
                              condition = NULL,
+                             interval = "confidence",
                              back_transform = TRUE,
                              vcov = NULL,
                              vcov_args = NULL,
                              weights = NULL,
-                             interval,
                              bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
   # validate "margin" argument
-  margin <- match.arg(
-    margin,
-    c(
+  margin <- .check_arg(
+    argument = margin,
+    options = c(
       "mean_reference", "mean_mode", "marginalmeans", "empirical",
       "counterfactual", "full_data", "ame", "marginaleffects"
     )
@@ -649,18 +647,8 @@ predict_response <- function(model,
     marginaleffects = margin %in% c("empirical", "counterfactual", "ame", "marginaleffects")
   )
 
-  if (missing(interval)) {
-    if (type %in% c("random", "zero_inflated_random")) {
-      interval <- "prediction"
-    } else {
-      interval <- "confidence"
-    }
-  } else if (is.null(interval)) {
-    interval <- "confidence"
-  }
-
   # make sure we have valid values
-  interval <- match.arg(interval, c("confidence", "prediction"))
+  interval <- .check_arg(interval, c("confidence", "prediction"))
 
   out <- switch(margin,
     mean_reference = ggpredict(

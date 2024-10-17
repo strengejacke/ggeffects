@@ -1,6 +1,7 @@
 skip_on_cran()
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("datawizard")
+skip_if_not_installed("sjlabelled")
 
 test_that("ggpredict, format", {
   data(efc, package = "ggeffects")

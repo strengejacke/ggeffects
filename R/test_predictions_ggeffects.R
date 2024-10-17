@@ -9,8 +9,6 @@
                                         collapse_levels = FALSE,
                                         verbose = TRUE,
                                         ...) {
-  insight::check_if_installed("datawizard")
-
   # sanity check for certain arguments that are not (yet) supported
   if (!is.null(equivalence)) {
     insight::format_error("Equivalence testing is currently not supported for `engine = \"ggeffects\"`.")
@@ -23,7 +21,7 @@
   if (is.null(test) || test %in% c("trend", "slope")) {
     test <- "contrast"
   }
-  test <- match.arg(test, c("contrast", "pairwise", "interaction"))
+  test <- .check_arg(test, c("contrast", "pairwise", "interaction"))
 
   # we convert the ggeffects object to a data frame, using the original
   # names of the focal terms as column names

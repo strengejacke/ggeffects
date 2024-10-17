@@ -61,10 +61,10 @@ ggpredict <- function(model,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
+                      interval = "confidence",
                       back_transform = TRUE,
                       vcov = NULL,
                       vcov_args = NULL,
-                      interval,
                       bias_correction = FALSE,
                       verbose = TRUE,
                       ...) {
@@ -85,7 +85,7 @@ ggpredict <- function(model,
   }
 
   # make sure we have valid values
-  interval <- match.arg(interval, c("confidence", "prediction"))
+  interval <- .check_arg(interval, c("confidence", "prediction"))
 
   model.name <- deparse(substitute(model))
 

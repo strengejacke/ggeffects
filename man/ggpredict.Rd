@@ -49,10 +49,10 @@ ggemmeans(
   type = "fixed",
   typical = "mean",
   condition = NULL,
+  interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
   vcov_args = NULL,
-  interval = "confidence",
   bias_correction = FALSE,
   verbose = TRUE,
   ...
@@ -65,10 +65,10 @@ ggpredict(
   type = "fixed",
   typical = "mean",
   condition = NULL,
+  interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
   vcov_args = NULL,
-  interval,
   bias_correction = FALSE,
   verbose = TRUE,
   ...
@@ -139,10 +139,11 @@ i.e. roughly \verb{+/- 1.96 * SE}). See introduction of
 for more details.}
 
 \item{type}{Character, indicating whether predictions should be conditioned
-on specific model components or not. Consequently, most options only apply
-for survival models, mixed effects models and/or models with zero-inflation
-(and their Bayesian counter-parts); only exception is \code{type = "simulate"},
-which is available for some other model classes as well (which respond to
+on specific model components or not, or whether population or unit-level
+predictions are desired. Consequently, most options only apply for survival
+models, mixed effects models and/or models with zero-inflation (and their
+Bayesian counter-parts); only exception is \code{type = "simulate"}, which is
+available for some other model classes as well (which respond to
 \code{simulate()}).
 
 \strong{Note 1:} For \code{brmsfit}-models with zero-inflation component, there is no
@@ -164,65 +165,61 @@ be "translated" into the corresponding \code{type} option of the model's respect
 \item \code{"fixed"} (or \code{"count"})
 
 Predicted values are conditioned on the fixed effects or conditional
-model only (for mixed models: predicted values are on the population-level
-and \emph{confidence intervals} are returned, i.e. \code{re.form = NA} when calling
-\code{predict()}). For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
-this would return the predicted mean from the count component (without
-zero-inflation). For models with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are
-back-transformed to the response scale, i.e. the conditional mean of the
-response).
+model only (for mixed models: predicted values are on the
+population-level, i.e. \code{re.form = NA} when calling \code{predict()}). For
+models with zero-inflation component, this type calls \code{predict(..., type = "link")} (however, predicted values are back-transformed to the
+response scale, i.e. the conditional mean of the response). For instance,
+for models fitted with \code{zeroinfl} from \strong{pscl}, this would return the
+predicted mean from the count component (without conditioning on the
+zero-inflation part).
 \item \code{"random"}
 
-This only applies to mixed models, and \code{type = "random"} does not condition
-on the zero-inflation component of the model. \code{type = "random"} still
-returns population-level predictions, however, conditioned on random effects
-and considering individual level predictions, i.e. \code{re.form = NULL} when
-calling \code{predict()}. This may affect the returned predicted values, depending
-on whether \code{REML = TRUE} or \code{REML = FALSE} was used for model fitting.
-Furthermore, unlike \code{type = "fixed"}, intervals also consider the uncertainty
-in the variance parameters (the mean random effect variance, see \emph{Johnson
-et al. 2014} for details) and hence can be considered as \emph{prediction intervals}.
-For models with zero-inflation component, this type calls
-\code{predict(..., type = "link")} (however, predicted values are back-transformed
-to the response scale).
+This only applies to mixed models, and \code{type = "random"} does not
+condition on the zero-inflation component of the model. If \emph{no} random
+effects term (i.e. no grouping variable on the higher level) is specified
+in the \code{terms} argument, \code{type = "random"} still returns population-level
+predictions, however, conditioned on random effects. Technically,
+\code{re.form = NULL} when calling \code{predict()}. This may affect the returned
+predicted values, depending on whether \code{REML = TRUE} or \code{REML = FALSE}
+was used for model fitting. For models with zero-inflation component,
+this type calls \code{predict(..., type = "link")} (however, predicted values
+are back-transformed to the response scale).
 
-To get predicted values for each level of the random effects groups, add the
-name of the related random effect term to the \code{terms}-argument
-(for more details, see
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
+To get predicted values for each level of the random effects groups
+(unit-level predictions), add the name of the related random effect term
+to the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"zero_inflated"} (or \code{"zi"})
 
-Predicted values are conditioned on the fixed effects and the zero-inflation
-component. For instance, for models fitted with \code{zeroinfl} from \strong{pscl},
-this would return the predicted (or expected) response (\code{mu*(1-p)}),
-and for \strong{glmmTMB}, this would return the expected response \code{mu*(1-p)}
-\emph{without} conditioning on random effects (i.e. random effect variances
-are not taken into account for the confidence intervals). For models with
-zero-inflation component, this type calls \code{predict(..., type = "response")}.
-See 'Details'.
+Predicted values are conditioned on the fixed effects and the
+zero-inflation component, returning the expected value of the response
+(\code{mu*(1-p)}). For models from package \strong{glmmTMB}, this would return the
+expected response \code{mu*(1-p)} \emph{without} conditioning on random effects
+(population-level predictions). For models with zero-inflation component,
+this type calls \code{predict(..., type = "response")}. See 'Details'.
 \item \code{"zi_random"} (or \code{"zero_inflated_random"})
 
-Predicted values are conditioned on the zero-inflation component and
-take the random effects uncertainty into account. For models fitted with
-\code{glmmTMB()}, \code{hurdle()} or \code{zeroinfl()}, this would return the
-expected value \code{mu*(1-p)}. For \strong{glmmTMB}, prediction intervals
-also consider the uncertainty in the random effects variances. This
-type calls \code{predict(..., type = "response")}. See 'Details'.
+Predicted values are conditioned on the zero-inflation component and on
+the random effects. This type call \code{predict(..., type = "response")},
+with \code{re.form = NULL} for models from package \strong{glmmTMB}. If \emph{no} random
+effects term (i.e. no grouping variable on the higher level) is specified
+in the \code{terms} argument, \code{type = "zi_random"} still returns
+population-level predictions, however, conditioned on random effects. To
+get predicted values for each level of the random effects groups
+(unit-level predictions), add the name of the related random effect term
+to the \code{terms}-argument.
 \item \code{"zi_prob"}
 
 Predicted zero-inflation probability. For \strong{glmmTMB} models with
-zero-inflation component, this type calls \code{predict(..., type = "zlink")};
+zero-inflation component, this type calls \code{predict(..., type = "zlink")},
 models from \strong{pscl} call \code{predict(..., type = "zero")} and for
 \strong{GLMMadaptive}, \code{predict(..., type = "zero_part")} is called.
 \item \code{"simulate"}
 
-Predicted values and confidence resp. prediction intervals are
-based on simulations, i.e. calls to \code{simulate()}. This type
-of prediction takes all model uncertainty into account, including
-random effects variances. Currently supported models are objects of
-class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}. Use \code{nsim}
-to set the number of simulated draws (see \code{...} for details).
+Predicted values and confidence resp. prediction intervals are based on
+simulations, i.e. calls to \code{simulate()}. This type of prediction takes
+all model uncertainty into account. Currently supported models are
+objects of class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}.
+Use \code{nsim} to set the number of simulated draws (see \code{...} for details).
 \item \code{"survival"} and \code{"cumulative_hazard"}
 
 Applies only to \code{coxph}-objects from the \strong{survial}-package and
@@ -328,15 +325,13 @@ appropriate. If \code{ggemmeans()} is called, bias-correction can also be applie
 to GEE-models.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
-(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence intervals},
-\emph{prediction intervals} include the residual variance (sigma^2) to account for
-the uncertainty of predicted values. For mixed models, \code{interval = "prediction"}
-is the default for \code{type = "random"}. When \code{type = "fixed"}, the default is
-\code{interval = "confidence"}. Note that prediction intervals are not available
-for all models, but only for models that work with \code{\link[insight:get_sigma]{insight::get_sigma()}}.
-For Bayesian models, when \code{interval = "confidence"}, predictions are based on
-posterior draws of the linear predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}.
-If \code{interval = "prediction"}, \code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
+(default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence
+intervals}, \emph{prediction intervals} include the residual variance (sigma^2) to
+account for the uncertainty of predicted values. Note that prediction
+intervals are not available for all models, but only for models that work
+with \code{\link[insight:get_sigma]{insight::get_sigma()}}. For Bayesian models, when \code{interval = "confidence"}, predictions are based on posterior draws of the linear
+predictor \code{\link[rstantools:posterior_epred]{rstantools::posterior_epred()}}. If \code{interval = "prediction"},
+\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}} is called.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

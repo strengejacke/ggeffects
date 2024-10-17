@@ -119,7 +119,7 @@ test_that("ggpredict, johnson_neyman, p-adjustment", {
       "P-values were adjusted using the Benjamini & Hochberg (1995) method."
     )
   )
-  expect_error(johnson_neyman(pr, p_adjust = "bonferroni"), regex = "be one of")
+  expect_error(johnson_neyman(pr, p_adjust = "bonferroni"), regex = "Invalid option for argument")
 })
 
 test_that("ggpredict, johnson_neyman, p-adjustment, glm", {

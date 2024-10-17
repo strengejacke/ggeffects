@@ -53,7 +53,7 @@
       "simulate_random", "debug"
     )
   }
-  type <- match.arg(type, choices = type_choices)
+  type <- .check_arg(type, type_choices)
 
   switch(type,
     fe = ,
@@ -323,12 +323,19 @@
     info <- info[[1]]
   }
   # for GLMMs, when re.form is set to NA and bias_correction = FALSE, warn user
-  if (isFALSE(bias_correction) && insight::is_mixed_model(model) && !info$is_linear && !info$is_tweedie && verbose && type %in% c("fixed", "zero_inflated")) { # nolint
+  if (isFALSE(bias_correction) &&
+        verbose &&
+        isTRUE(getOption("ggeffects_warning_bias_correction", TRUE)) &&
+        insight::is_mixed_model(model) &&
+        !info$is_linear &&
+        !info$is_tweedie &&
+        type %in% c("fixed", "zero_inflated")) {
     insight::format_alert(
       "You are calculating adjusted predictions on the population-level (i.e. `type = \"fixed\"`) for a *generalized* linear mixed model.",
       "This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.",
       "See also the documentation of the `bias_correction` argument."
     )
+    options(ggeffects_warning_bias_correction = FALSE)
   }
   bias_correction
 }

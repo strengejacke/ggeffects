@@ -2,6 +2,15 @@
 
 ## Breaking changes
 
+* The way how `type = "random"` works has been revised. `type = "random"` no
+  longer returns predictions intervals. Instead, use `interval = "prediction"`.
+  `type = "random"` is now mainly responsible for *unit-level* predictions in
+  mixed models, as opposed to `type = "fixed"`, which should be used for
+  *population-level* predictions. The separation from `type = "random"` and
+  the `interval` argument makes the handling for mixed models easier, more
+  intuitive and consistent. Accordingly, the vignette regarding the introduction
+  into mixed models with *ggeffects*  has been largely revised.
+
 * The `vcov_fun` and `vcov_type` argument were removed and are now replaced
   by the single `vcov` argument, to be in line with the handling of
   heteroscedasticity-consistent standard errors in other packages (mainly:
@@ -14,11 +23,11 @@
 
 ## Changes
 
-* The `interval` argument can now also be used for simulating predictions
+* The `interval` argument can now also be used when simulating predictions
   (i.e. when `type = "simulate"`).
 
 * `test_predictions` gains a `test_args` argument, to optionally pass further
-  options to `test` for *emmeans* options.
+  options to `test` for *emmeans* engine/options.
 
 # ggeffects 1.7.2
 

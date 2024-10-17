@@ -36,7 +36,7 @@
     custom_contrasts <- test
     test <- "custom"
   }
-  test <- match.arg(
+  test <- .check_arg(
     test,
     c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive", "polynomial")
   )
