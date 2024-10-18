@@ -158,6 +158,7 @@ test_that("test_predictions, engine ggeffects, by-arg and printing levels with d
   expect_snapshot(print(out1))
 
   # type = "simulate" works with test-predictions
+  m <- lm(outcome ~ x1 * x2, data = dat)
   set.seed(123)
   pr <- ggpredict(m, c("x1", "x2"), type = "simulate")
   out <- test_predictions(pr, by = "x1")
