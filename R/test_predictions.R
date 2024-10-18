@@ -1174,6 +1174,11 @@ test_predictions.ggeffects <- function(object,
     engine <- "ggeffects"
   }
 
+  # if type = "simulate", we have to use the ggeffects-engine
+  if (identical(type, "simulate")) {
+    engine <- "ggeffects"
+  }
+
   # experimental! ------------------------------------------------------------
   # Not officially documented. This is currently work in progress and not
   # yet fully supported. The "ggeffects" engine is not yet fully implemented.
