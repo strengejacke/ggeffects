@@ -85,7 +85,7 @@ For three grouping variable (i.e. if `terms` is of length four), one plot per `p
 ```{r fig.height = 6}
 # for four variables, automatic facetting and integrated panel
 dat <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
-# use 'one.plot = FALSE' for returning multiple single plots
+# use 'one_plot = FALSE' for returning multiple single plots
 plot(dat, one_plot = TRUE)
 ```
 
@@ -143,7 +143,7 @@ plot(dat)
 ```
 
 Here you can use `log_y` to log-transform the y-axis. The `plot()`-method will automatically choose axis breaks and limits that fit well to the value range and log-scale.
- 
+
 ```{r}
 # plot with log-transformed y-axis
 plot(dat, log_y = TRUE)

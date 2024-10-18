@@ -115,7 +115,7 @@ efc <- efc |>
   data_modify(age = factor(age, labels = c("-40", "41-64", "65+")))
 ```
 
-To include the intersectional strata variables `gender`, `employed` and `age` in our mixed model, we will define them as interacting random effects (excluding main effects of interactions): `(1 | gender:employed:age)` (see also below). The idea is to have truly unique combinations in our model, similar as if we would create a factor variable with all combinations manually: 
+To include the intersectional strata variables `gender`, `employed` and `age` in our mixed model, we will define them as interacting random effects (excluding main effects of interactions): `(1 | gender:employed:age)` (see also below). The idea is to have truly unique combinations in our model, similar as if we would create a factor variable with all combinations manually:
 
 ```{r}
 efc$strata <- ifelse(
@@ -213,7 +213,7 @@ Again, we see that the PCV is in line with the models' ICC's and regression coef
 
 ## 4. Predict between-stratum variance and test for significant differences
 
-Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate predictions of the random effects by either setting `margin = "empirical"`, or setting `type = "random"` and `interval = "confidence"` (`margin = "empirical"` always returns confidence intervals, and we don't want prediction intervals for pairwise comparisons here).
+Finally, we may want to have a clearer picture of how the different strata vary, which combination of characteristics defines the highest or maybe lowest risk group. To do so, we calculate predictions of the random effects (*unit-level* predictions) by either setting `margin = "empirical"` or setting `type = "random"` (for more defaults how *ggeffects* handles mixed models, see [this vignette](introduction_randomeffects.html).).
 
 The following code shows the predicted average quality of life scores for the different groups.
 
@@ -221,8 +221,7 @@ The following code shows the predicted average quality of life scores for the di
 predictions <- predict_response(
   m_null,
   c("gender", "employed", "age"),
-  type = "random",
-  interval = "confidence"
+  type = "random"
 )
 plot(predictions)
 ```

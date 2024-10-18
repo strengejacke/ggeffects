@@ -138,7 +138,7 @@ predict_response(mpg_model, "hp [50:60 by=.5]")
 
 Especially in situations where we have two continuous variables in interaction terms, or where the "grouping" variable is continuous, it is helpful to select representative values of the grouping variable - else, predictions would be made for too many groups, which is no longer helpful when interpreting adjusted predictions.
 
-You can use 
+You can use
 
 * `"minmax"`: minimum and maximum values (lower and upper bounds) of the variable are used.
 * `"meansd"`: uses the mean value as well as one standard deviation below and above mean value.
@@ -199,7 +199,7 @@ efc$c12hour <- standardize(efc$c12hour)
 efc$e15relat <- to_factor(efc$e15relat)
 
 m <- lmer(
-  barthtot ~ c12hour + I(c12hour^2) + neg_c_7 + c160age + c172code + (1 | e15relat), 
+  barthtot ~ c12hour + I(c12hour^2) + neg_c_7 + c160age + c172code + (1 | e15relat),
   data = efc
 )
 
@@ -209,7 +209,7 @@ plot(me)
 
 ### Turn off "prettifying"
 
-As said above, `predict_response()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models. 
+As said above, `predict_response()` "prettifies" the vector, resulting in a smaller set of unique values. This is less memory consuming and may be needed especially for more complex models.
 
 You can turn off automatic "prettifying" by adding the `"all"`-shortcut to the `terms`-argument.
 
@@ -236,7 +236,7 @@ plot(me)
 
 ## Adjusted predictions conditioned on specific values of the covariates
 
-By default, the `typical`-argument determines the function that will be applied to the covariates to hold these terms at constant values. By default, this is the mean-value, but other options (like median or mode) are possible as well. 
+By default, the `typical`-argument determines the function that will be applied to the covariates to hold these terms at constant values. By default, this is the mean-value, but other options (like median or mode) are possible as well.
 
 Use the `condition`-argument to define other values at which covariates should be held constant. `condition` requires a named vector, with the name indicating the covariate.
 
@@ -251,11 +251,11 @@ predict_response(mpg_model, "hp")
 predict_response(mpg_model, "hp", condition = c(disp = 200))
 ```
 
-## Adjusted predictions for each level of random effects
+## Adjusted predictions for each level of random effects (unit-level predictions)
 
 Adjusted predictions can also be calculated for each group level in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`.
 
-In the following example, we fit a linear mixed model and first simply plot the marginal effetcs, _not_ conditioned on random effects. Please see also the [dedicated vignette for mixed models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for further details and examples.
+In the following example, we fit a linear mixed model and first plot the *population-level* predictions. Please see also the [dedicated vignette for mixed models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html) for further details and examples.
 
 ```{r}
 library(lme4)
@@ -266,21 +266,14 @@ me <- predict_response(m, terms = "c12hour")
 plot(me)
 ```
 
-Changing the type to `type = "random"` still returns population-level predictions by default. The major difference between `type = "fixed"` and `type = "random"` is the uncertainty in the variance parameters. This leads to larger confidence intervals for adjusted predictions with `type = "random"`.
-
-```{r}
-me <- predict_response(m, terms = "c12hour", type = "random")
-plot(me)
-```
-
-To compute adjusted predictions for each grouping level, add the related random term to the `terms`-argument. In this case, confidence intervals are not calculated, but adjusted predictions are conditioned on each group level (unit-level) of the random effects.
+To compute adjusted predictions for each grouping level (*unit-level* predictions), add the related random term to the `terms`-argument.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
 plot(me)
 ```
 
-Adjusted predictions, conditioned on random effects, can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
+Unit-level predictions can also be calculated for specific levels only. Add the related values into brackets after the variable name in the `terms`-argument.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
