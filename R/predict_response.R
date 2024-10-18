@@ -113,8 +113,9 @@
 #'
 #'     Predicted values are conditioned on the fixed effects and the
 #'     zero-inflation component, returning the expected value of the response
-#'     (`mu*(1-p)`). For models from package **glmmTMB**, this would return the
-#'     expected response `mu*(1-p)` on the *population-level*. See 'Details'.
+#'     (`mu*(1-p)`). For For mixed models with zero-inflation component (e.g.
+#'     from package **glmmTMB**), this would return the expected response
+#'     `mu*(1-p)` on the *population-level*. See 'Details'.
 #'
 #'   - `"zi_random"` (or `"zero_inflated_random"`)
 #'
@@ -127,7 +128,10 @@
 #'
 #'   - `"zi_prob"`
 #'
-#'     Predicted zero-inflation probability.
+#'     Returns the predicted zero-inflation probability, i.e. probability of a
+#'     structural or "true" zero (see
+#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
+#'     for a short introduction into zero-inflation models).
 #'
 #'   - `"simulate"`
 #'
