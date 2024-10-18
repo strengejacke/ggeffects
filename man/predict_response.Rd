@@ -115,8 +115,9 @@ to the \code{terms}-argument (for more details, see \href{https://strengejacke.g
 
 Predicted values are conditioned on the fixed effects and the
 zero-inflation component, returning the expected value of the response
-(\code{mu*(1-p)}). For models from package \strong{glmmTMB}, this would return the
-expected response \code{mu*(1-p)} on the \emph{population-level}. See 'Details'.
+(\code{mu*(1-p)}). For For mixed models with zero-inflation component (e.g.
+from package \strong{glmmTMB}), this would return the expected response
+\code{mu*(1-p)} on the \emph{population-level}. See 'Details'.
 \item \code{"zi_random"} (or \code{"zero_inflated_random"})
 
 This only applies to mixed models. Predicted values are conditioned on
@@ -126,7 +127,10 @@ random effects groups. Add the name of the related random effect term to
 the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"zi_prob"}
 
-Predicted zero-inflation probability.
+Returns the predicted zero-inflation probability, i.e. probability of a
+structural or "true" zero (see
+\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html}{this vignette}
+for a short introduction into zero-inflation models).
 \item \code{"simulate"}
 
 Predicted values and confidence resp. prediction intervals are based on
