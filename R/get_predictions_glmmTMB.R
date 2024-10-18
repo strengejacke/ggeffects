@@ -64,7 +64,6 @@ get_predictions_glmmTMB <- function(model,
   # predictions conditioned on zero-inflation component
 
   if (type %in% c("zero_inflated", "zero_inflated_random")) {
-
     # prepare argument list
     pr_args <- list(
       model,
@@ -93,7 +92,6 @@ get_predictions_glmmTMB <- function(model,
     }
 
     if (se) {
-
       model_frame <- insight::get_data(model, source = "frame", verbose = FALSE)
 
       # we need a data grid with combination from *all* levels for
@@ -126,7 +124,6 @@ get_predictions_glmmTMB <- function(model,
       }
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
-
         if (verbose) {
           insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
           if (inherits(prdat.sim, c("error", "simpleError"))) {
@@ -138,9 +135,7 @@ get_predictions_glmmTMB <- function(model,
         predicted_data$predicted <- prdat
         predicted_data$conf.low <- NA
         predicted_data$conf.high <- NA
-
       } else {
-
         # we need two data grids here: one for all combination of levels from the
         # model predictors ("newdata"), and one with the current combinations only
         # for the terms in question ("data_grid"). "sims" has always the same
@@ -154,7 +149,7 @@ get_predictions_glmmTMB <- function(model,
 
         # if we want to condition on random effects, we need to add residual
         # variance to the confidence intervals
-        if (type == "zero_inflated_random") {
+        if (identical(interval, "prediction")) {
           revar <- .get_residual_variance(model)
           # get link-function and back-transform fitted values
           # to original scale, so we compute proper CI
@@ -166,21 +161,15 @@ get_predictions_glmmTMB <- function(model,
         }
       }
     } else {
-
       predicted_data$predicted <- prdat
       predicted_data$conf.low <- NA
       predicted_data$conf.high <- NA
-
     }
-
   } else if (type == "simulate") {
-
     # predictions conditioned on zero-inflation component and random
     # effects, based on simulations
     predicted_data <- simulate_predictions(model, nsim, clean_terms, ci, type, interval)
-
   } else {
-
     # check if model is fit with REML=TRUE. If so, results only match when
     # `type = "random"` and `interval = "confidence"`.
     if (isTRUE(model$modelInfo$REML) && !type %in% c("random", "zero_inflated_random") && !identical(interval, "confidence") && verbose) {
@@ -220,7 +209,7 @@ get_predictions_glmmTMB <- function(model,
       predicted_data$predicted <- linv(prdat$fit)
 
       # add random effect uncertainty to s.e.
-      if (type %in% c("random", "zero_inflated_random") && (is.null(interval) || identical(interval, "prediction"))) {
+      if (identical(interval, "prediction")) {
         pvar <- prdat$se.fit^2
         prdat$se.fit <- sqrt(pvar + .get_residual_variance(model))
         pred.interval <- TRUE

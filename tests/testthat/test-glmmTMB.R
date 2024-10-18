@@ -135,8 +135,8 @@ m5 <- glmmTMB::glmmTMB(
 test_that("ggpredict, glmmTMB", {
   p1 <- ggpredict(m3, "mined", type = "fixed", verbose = FALSE)
   p2 <- ggpredict(m3, "mined", type = "zero_inflated", verbose = FALSE)
-  p3 <- ggpredict(m3, "mined", type = "random", verbose = FALSE)
-  p4 <- ggpredict(m3, "mined", type = "zero_inflated_random", verbose = FALSE)
+  p3 <- ggpredict(m3, "mined", interval = "prediction", verbose = FALSE)
+  p4 <- ggpredict(m3, "mined", type = "zero_inflated", interval = "prediction", verbose = FALSE)
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
   expect_s3_class(ggpredict(m3, "mined", type = "zero_inflated", verbose = FALSE), "data.frame")
