@@ -34,7 +34,7 @@ test_that("ggpredict, lmer prediction intervals random effects", {
     expect_null(out1$conf.low)
   }
 
-  out1 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random")
+  out1 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random", interval = "prediction")
   out2 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random", interval = "confidence")
   expect_equal(
     out1$conf.low,
