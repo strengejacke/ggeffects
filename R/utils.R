@@ -41,24 +41,26 @@
 
 
 .offset_term <- function(model, condition = NULL, verbose = TRUE) {
-  tryCatch({
-    off <- insight::safe_deparse(model$call$offset)
-    if (identical(off, "NULL")) {
-      return(NULL)
+  tryCatch(
+    {
+      off <- insight::safe_deparse(model$call$offset)
+      if (identical(off, "NULL")) {
+        return(NULL)
+      }
+      cleaned_off <- insight::clean_names(off)
+      if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB") && !cleaned_off %in% names(condition)) { # nolint
+        insight::format_alert(
+          "Model uses a transformed offset term. Predictions may not be correct.",
+          sprintf("It is recommended to fix the offset term using the `condition` argument, e.g. `condition = c(%s = 1)`.", cleaned_off), # nolint
+          sprintf("You could also transform the offset variable before fitting the model and use `offset(%s)` in the model formula.", cleaned_off) # nolint
+        )
+      }
+      cleaned_off
+    },
+    error = function(e) {
+      NULL
     }
-    cleaned_off <- insight::clean_names(off)
-    if (!identical(off, cleaned_off) && isTRUE(verbose) && !inherits(model, "glmmTMB") && !cleaned_off %in% names(condition)) { # nolint
-      insight::format_alert(
-        "Model uses a transformed offset term. Predictions may not be correct.",
-        sprintf("It is recommended to fix the offset term using the `condition` argument, e.g. `condition = c(%s = 1)`.", cleaned_off), # nolint
-        sprintf("You could also transform the offset variable before fitting the model and use `offset(%s)` in the model formula.", cleaned_off) # nolint
-      )
-    }
-    cleaned_off
-  },
-  error = function(e) {
-    NULL
-  })
+  )
 }
 
 
@@ -219,13 +221,14 @@ is_brms_trial <- function(model) {
   is.trial <- FALSE
 
   if (inherits(model, "brmsfit") && is.null(stats::formula(model)$responses)) {
-    is.trial <- tryCatch({
-      rv <- insight::safe_deparse(stats::formula(model)$formula[[2L]])
-      trimws(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
-    },
-    error = function(x) {
-      FALSE
-    }
+    is.trial <- tryCatch(
+      {
+        rv <- insight::safe_deparse(stats::formula(model)$formula[[2L]])
+        trimws(sub("(.*)\\|(.*)\\(([^,)]*).*", "\\2", rv)) %in% c("trials", "resp_trials")
+      },
+      error = function(x) {
+        FALSE
+      }
     )
   }
 
@@ -289,7 +292,9 @@ is.gamm4 <- function(x) {
 # remove column
 .remove_column <- function(data, variables) {
   a <- attributes(data)
-  if (!length(variables) || is.null(variables)) return(data)
+  if (!length(variables) || is.null(variables)) {
+    return(data)
+  }
   if (is.numeric(variables)) variables <- colnames(data)[variables]
   data <- data[, -which(colnames(data) %in% variables), drop = FALSE]
   remaining <- setdiff(names(a), names(attributes(data)))
@@ -421,7 +426,7 @@ is.gamm4 <- function(x) {
         )
         possible_strings <- possible_strings[1:5]
       }
-      msg <- paste0(msg, "one of ", toString(paste0("\"", possible_strings, "\"")))
+      msg <- paste0(msg, "one of ", datawizard::text_concatenate(possible_strings, last = " or ", enclose = "\""))
     } else {
       msg <- paste0(msg, "\"", possible_strings, "\"")
     }
@@ -470,11 +475,15 @@ is.gamm4 <- function(x) {
   argument_name <- deparse(substitute(argument))
   argument <- .safe(match.arg(argument, options))
   if (is.null(argument)) {
-    insight::format_error(sprintf(
-      "Invalid option for argument `%s`. Please use one of the following options: %s",
-      argument_name,
-      toString(paste0("\"", options, "\""))
-    ))
+    suggestion <- .misspelled_string(options, argument_name)
+    msg <- sprintf("Invalid option for argument `%s`.", argument_name)
+    if (is.null(suggestion)) {
+      msg <- paste(msg, "Please use one of the following options:")
+    } else {
+      msg <- paste(msg, suggestion, "Else, use one of the following options:")
+    }
+    msg <- paste(msg, datawizard::text_concatenate(options, last = " or ", enclose = "\""))
+    insight::format_error(msg)
   }
   argument
 }

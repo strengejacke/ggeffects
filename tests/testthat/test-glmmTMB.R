@@ -146,7 +146,7 @@ test_that("ggpredict, glmmTMB", {
 test_that("ggpredict and ggaverage, glmmTMB", {
   mx <- glmmTMB::glmmTMB(
     count ~ mined + (1 | site),
-    ziformula = ~ mined,
+    ziformula = ~mined,
     family = poisson(),
     data = Salamanders
   )
@@ -332,6 +332,36 @@ test_that("ggpredict, glmmTMB", {
   expect_s3_class(ggpredict(m8, c("neg_c_7 [all]", "c172code")), "data.frame")
   expect_s3_class(ggpredict(m8, c("neg_c_7", "c172code"), type = "zero_inflated"), "data.frame")
   expect_s3_class(ggpredict(m8, c("neg_c_7 [all]", "c172code"), type = "zero_inflated"), "data.frame")
+
+  # test predictoin intervals
+  m9 <- glmmTMB::glmmTMB(
+    tot_sc_e ~ neg_c_7 + c172code + (1 | grp),
+    data = efc_test, ziformula = ~c172code,
+    family = glmmTMB::nbinom1()
+  )
+  d <- data_grid(m9, "c172code")
+  # count model, confidence intervals
+  out <- predict_response(m9, "c172code", verbose = FALSE)
+  expect_equal(out$predicted, c(0.7024, 0.98046, 1.30764), tolerance = 1e-4)
+  expect_equal(out$conf.high, c(0.92549, 1.21318, 1.8271), tolerance = 1e-4)
+  expect_equal(out$predicted, predict(m9, newdata = d, re.form = NA, type = "conditional"), tolerance = 1e-4)
+  # count model, prediction intervals
+  out <- predict_response(m9, "c172code", interval = "prediction", verbose = FALSE)
+  expect_equal(out$predicted, c(0.7024, 0.98046, 1.30764), tolerance = 1e-4)
+  expect_equal(out$conf.high, c(1.66211, 2.27867, 3.15855), tolerance = 1e-4)
+  expect_equal(out$predicted, predict(m9, newdata = d, re.form = NA, type = "conditional"), tolerance = 1e-4)
+  # zero-inflated model, CI
+  set.seed(123)
+  out <- predict_response(m9, "c172code", type = "zero_inflated", verbose = FALSE)
+  expect_equal(out$predicted, c(0.7024, 0.98046, 1.17279), tolerance = 1e-4)
+  expect_equal(out$conf.high, c(1.15547, 1.55398, 1.67553), tolerance = 1e-4)
+  expect_equal(out$predicted, predict(m9, newdata = d, re.form = NA, type = "response"), tolerance = 1e-4)
+  # zero-inflated model, PI
+  set.seed(123)
+  out <- predict_response(m9, "c172code", type = "zero_inflated", interval = "prediction")
+  expect_equal(out$predicted, c(0.7024, 0.98046, 1.17279), tolerance = 1e-4)
+  expect_equal(out$conf.high, c(2.61299, 3.51419, 3.78907), tolerance = 1e-4)
+  expect_equal(out$predicted, predict(m9, newdata = d, re.form = NA, type = "response"), tolerance = 1e-4)
 })
 
 

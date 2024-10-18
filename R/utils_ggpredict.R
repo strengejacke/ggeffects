@@ -44,33 +44,19 @@
 
   # if we call "predict()" or "emmeans()", we have these different options
   if (emmeans_call) {
-    type_choices <- c(
-      "fe", "fixed", "count", "fe.zi",
-      "zero_inflated", "zi.prob", "zi_prob"
-    )
+    type_choices <- c("fixed", "count", "zero_inflated", "zi_prob")
   } else {
     type_choices <- c(
-      "fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated", "re.zi",
-      "zi_random", "zero_inflated_random", "zi.prob", "zi_prob", "sim",
-      "simulate", "surv", "survival", "cumhaz", "cumulative_hazard", "sim_re",
-      "simulate_random", "debug"
+      "fixed", "count", "random", "zero_inflated", "zi_random",
+      "zero_inflated_random", "zi_prob", "simulate", "survival",
+      "cumulative_hazard", "simulate_random", "debug"
     )
   }
   type <- .check_arg(type, type_choices)
 
   switch(type,
-    fe = ,
     count = "fixed",
-    re = "random",
-    zi = ,
-    fe.zi = "zero_inflated",
-    re.zi = ,
     zi_random = "zero_inflated_random",
-    zi.prob = "zi_prob",
-    surv = "survival",
-    cumhaz = "cumulative_hazard",
-    sim = "simulate",
-    sim_re = "simulate_random",
     type
   )
 }
@@ -327,12 +313,12 @@
   }
   # for GLMMs, when re.form is set to NA and bias_correction = FALSE, warn user
   if (isFALSE(bias_correction) &&
-        verbose &&
-        isTRUE(getOption("ggeffects_warning_bias_correction", TRUE)) &&
-        insight::is_mixed_model(model) &&
-        !info$is_linear &&
-        !info$is_tweedie &&
-        type %in% c("fixed", "zero_inflated")) {
+    verbose &&
+    isTRUE(getOption("ggeffects_warning_bias_correction", TRUE)) &&
+    insight::is_mixed_model(model) &&
+    !info$is_linear &&
+    !info$is_tweedie &&
+    type %in% c("fixed", "zero_inflated")) {
     insight::format_alert(
       "You are calculating adjusted predictions on the population-level (i.e. `type = \"fixed\"`) for a *generalized* linear mixed model.",
       "This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.",
