@@ -308,7 +308,7 @@ be "translated" into the corresponding <code>type</code> option of the model's r
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p><ul><li><p><code>"fixed"</code> (or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
 model only (for mixed models: predicted values are on the
-population-level, i.e. <code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>). For
+<em>population-level</em>, i.e. <code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>). For
 models with zero-inflation component, this type calls <code>predict(..., type = "link")</code> (however, predicted values are back-transformed to the
 response scale, i.e. the conditional mean of the response). For instance,
 for models fitted with <code>zeroinfl</code> from <strong>pscl</strong>, this would return the
@@ -316,35 +316,29 @@ predicted mean from the count component (without conditioning on the
 zero-inflation part).</p></li>
 <li><p><code>"random"</code></p>
 <p>This only applies to mixed models, and <code>type = "random"</code> does not
-condition on the zero-inflation component of the model. If <em>no</em> random
-effects term (i.e. no grouping variable on the higher level) is specified
-in the <code>terms</code> argument, <code>type = "random"</code> still returns population-level
-predictions, however, conditioned on random effects. Technically,
-<code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. This may affect the returned
+condition on the zero-inflation component of the model. Use this for
+<em>unit-level</em> predictions, i.e. predicted values for each level of the
+random effects groups. Add the name of the related random effect term
+to the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p>
+<p>If <em>no</em> random effects term (i.e. no grouping variable on the higher
+level) is specified in the <code>terms</code> argument, <code>type = "random"</code> still
+returns population-level predictions, however, conditioned on random
+effects. Technically, <code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> (and
+random effects terms get the value <code>NA</code>). This may affect the returned
 predicted values, depending on whether <code>REML = TRUE</code> or <code>REML = FALSE</code>
-was used for model fitting. For models with zero-inflation component,
-this type calls <code>predict(..., type = "link")</code> (however, predicted values
-are back-transformed to the response scale).</p>
-<p>To get predicted values for each level of the random effects groups
-(unit-level predictions), add the name of the related random effect term
-to the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
+was used for model fitting.</p></li>
 <li><p><code>"zero_inflated"</code> (or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the
 zero-inflation component, returning the expected value of the response
 (<code>mu*(1-p)</code>). For models from package <strong>glmmTMB</strong>, this would return the
-expected response <code>mu*(1-p)</code> <em>without</em> conditioning on random effects
-(population-level predictions). For models with zero-inflation component,
-this type calls <code>predict(..., type = "response")</code>. See 'Details'.</p></li>
+expected response <code>mu*(1-p)</code> on the <em>population-level</em>. See 'Details'.</p></li>
 <li><p><code>"zi_random"</code> (or <code>"zero_inflated_random"</code>)</p>
 <p>Predicted values are conditioned on the zero-inflation component and on
 the random effects. This type call <code>predict(..., type = "response")</code>,
-with <code>re.form = NULL</code> for models from package <strong>glmmTMB</strong>. If <em>no</em> random
-effects term (i.e. no grouping variable on the higher level) is specified
-in the <code>terms</code> argument, <code>type = "zi_random"</code> still returns
-population-level predictions, however, conditioned on random effects. To
-get predicted values for each level of the random effects groups
-(unit-level predictions), add the name of the related random effect term
-to the <code>terms</code>-argument.</p></li>
+with <code>re.form = NULL</code> for models from package <strong>glmmTMB</strong>. Use this for
+<em>unit-level</em> predictions, i.e. predicted values for each level of the
+random effects groups. Add the name of the related random effect term
+to the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
 <li><p><code>"zi_prob"</code></p>
 <p>Predicted zero-inflation probability. For <strong>glmmTMB</strong> models with
 zero-inflation component, this type calls <code>predict(..., type = "zlink")</code>,
