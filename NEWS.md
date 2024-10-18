@@ -21,6 +21,10 @@
 
 * The deprecated arguments for the `plot()` method have been removed.
 
+* Options `type = "random"` and `type = "zi_random"` are not longer available
+  for `ggemmeans()`. These were only responsible to set _prediction_ intervals,
+  which can be done with `interval = "prediction"` now.
+
 ## Changes
 
 * The `interval` argument can now also be used when simulating predictions
