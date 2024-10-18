@@ -477,7 +477,7 @@ is.gamm4 <- function(x) {
   if (is.null(argument)) {
     suggestion <- .misspelled_string(options, argument_name)
     msg <- sprintf("Invalid option for argument `%s`.", argument_name)
-    if (is.null(suggestion)) {
+    if (is.null(suggestion) || !length(suggestion) || !nzchar(suggestion)) {
       msg <- paste(msg, "Please use one of the following options:")
     } else {
       msg <- paste(msg, suggestion, "Else, use one of the following options:")
