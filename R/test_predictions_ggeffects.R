@@ -74,7 +74,7 @@
   # need to check whether scale is always correct
 
   # for non-Gaussian models, we need to adjust the standard errors
-  if (!minfo$is_linear && !minfo$is_bayesian && !is_latent) {
+  if (!minfo$is_linear && !minfo$is_bayesian && !is_latent && type != "simulate") {
     # zero-inflated models? If so, we need to find the correct prediction type
     # since we allow predictions / comparisons for the different model parts
     if (minfo$is_zero_inflated) {
