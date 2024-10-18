@@ -10,6 +10,6 @@ test_that("check vars", {
   m_check <- lm(Sepal.Width ~ Sepal.Length + Species, data = iris)
   expect_error(
     ggpredict(m_check, terms = c("Sepal.Lenght", "Specis")),
-    regex = "\"Sepal.Length\", \"Species\""
+    regex = "\"Sepal.Length\" or \"Species\""
   )
 })
