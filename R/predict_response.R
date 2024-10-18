@@ -91,7 +91,7 @@
 #'
 #'     Predicted values are conditioned on the fixed effects or conditional
 #'     model only (for mixed models: predicted values are on the
-#'     population-level, i.e. `re.form = NA` when calling `predict()`). For
+#'     *population-level*, i.e. `re.form = NA` when calling `predict()`). For
 #'     models with zero-inflation component, this type calls `predict(..., type
 #'     = "link")` (however, predicted values are back-transformed to the
 #'     response scale, i.e. the conditional mean of the response). For instance,
@@ -102,41 +102,36 @@
 #'   - `"random"`
 #'
 #'     This only applies to mixed models, and `type = "random"` does not
-#'     condition on the zero-inflation component of the model. If *no* random
-#'     effects term (i.e. no grouping variable on the higher level) is specified
-#'     in the `terms` argument, `type = "random"` still returns population-level
-#'     predictions, however, conditioned on random effects. Technically,
-#'     `re.form = NULL` when calling `predict()`. This may affect the returned
-#'     predicted values, depending on whether `REML = TRUE` or `REML = FALSE`
-#'     was used for model fitting. For models with zero-inflation component,
-#'     this type calls `predict(..., type = "link")` (however, predicted values
-#'     are back-transformed to the response scale).
-#'
-#'     To get predicted values for each level of the random effects groups
-#'     (unit-level predictions), add the name of the related random effect term
+#'     condition on the zero-inflation component of the model. Use this for
+#'     *unit-level* predictions, i.e. predicted values for each level of the
+#'     random effects groups. Add the name of the related random effect term
 #'     to the `terms`-argument (for more details, see [this
 #'     vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
+#'
+#'     If *no* random effects term (i.e. no grouping variable on the higher
+#'     level) is specified in the `terms` argument, `type = "random"` still
+#'     returns population-level predictions, however, conditioned on random
+#'     effects. Technically, `re.form = NULL` when calling `predict()` (and
+#'     random effects terms get the value `NA`). This may affect the returned
+#'     predicted values, depending on whether `REML = TRUE` or `REML = FALSE`
+#'     was used for model fitting.
 #'
 #'   - `"zero_inflated"` (or `"zi"`)
 #'
 #'     Predicted values are conditioned on the fixed effects and the
 #'     zero-inflation component, returning the expected value of the response
 #'     (`mu*(1-p)`). For models from package **glmmTMB**, this would return the
-#'     expected response `mu*(1-p)` *without* conditioning on random effects
-#'     (population-level predictions). For models with zero-inflation component,
-#'     this type calls `predict(..., type = "response")`. See 'Details'.
+#'     expected response `mu*(1-p)` on the *population-level*. See 'Details'.
 #'
 #'   - `"zi_random"` (or `"zero_inflated_random"`)
 #'
 #'     Predicted values are conditioned on the zero-inflation component and on
 #'     the random effects. This type call `predict(..., type = "response")`,
-#'     with `re.form = NULL` for models from package **glmmTMB**. If *no* random
-#'     effects term (i.e. no grouping variable on the higher level) is specified
-#'     in the `terms` argument, `type = "zi_random"` still returns
-#'     population-level predictions, however, conditioned on random effects. To
-#'     get predicted values for each level of the random effects groups
-#'     (unit-level predictions), add the name of the related random effect term
-#'     to the `terms`-argument.
+#'     with `re.form = NULL` for models from package **glmmTMB**. Use this for
+#'     *unit-level* predictions, i.e. predicted values for each level of the
+#'     random effects groups. Add the name of the related random effect term
+#'     to the `terms`-argument (for more details, see [this
+#'     vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
 #'
 #'   - `"zi_prob"`
 #'
