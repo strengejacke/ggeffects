@@ -39,7 +39,7 @@ get_predictions_gam <- function(model, data_grid, ci_level, linv, type, ...) {
     if ("nsim" %in% names(add.args)) {
       nsim <- eval(add.args[["nsim"]])
     } else {
-      nsim <- 500
+      nsim <- 1000
     }
 
 

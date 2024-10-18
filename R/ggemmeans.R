@@ -107,7 +107,7 @@ ggemmeans <- function(model,
     if ("nsim" %in% names(additional_dot_args)) {
       nsim <- eval(additional_dot_args[["nsim"]])
     } else {
-      nsim <- 500
+      nsim <- 1000
     }
 
     prediction_data <- .ggemmeans_zi_predictions(

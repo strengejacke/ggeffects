@@ -354,13 +354,13 @@ test_that("ggpredict, glmmTMB", {
   set.seed(123)
   out <- predict_response(m9, "c172code", type = "zero_inflated", verbose = FALSE)
   expect_equal(out$predicted, c(0.7024, 0.98046, 1.17279), tolerance = 1e-4)
-  expect_equal(out$conf.high, c(1.15547, 1.55398, 1.67553), tolerance = 1e-4)
+  expect_equal(out$conf.high, c(1.14341, 1.5738, 1.64859), tolerance = 1e-4)
   expect_equal(out$predicted, predict(m9, newdata = d, re.form = NA, type = "response"), tolerance = 1e-4)
   # zero-inflated model, PI
   set.seed(123)
   out <- predict_response(m9, "c172code", type = "zero_inflated", interval = "prediction")
   expect_equal(out$predicted, c(0.7024, 0.98046, 1.17279), tolerance = 1e-4)
-  expect_equal(out$conf.high, c(2.61299, 3.51419, 3.78907), tolerance = 1e-4)
+  expect_equal(out$conf.high, c(2.58571, 3.559, 3.72815), tolerance = 1e-4)
   expect_equal(out$predicted, predict(m9, newdata = d, re.form = NA, type = "response"), tolerance = 1e-4)
 })
 

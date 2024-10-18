@@ -27,9 +27,6 @@
 
 ## Changes
 
-* The `interval` argument can now also be used when simulating predictions
-  (i.e. when `type = "simulate"`).
-
 * `test_predictions` gains a `test_args` argument, to optionally pass further
   options to `test` for *emmeans* engine/options.
 
