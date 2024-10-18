@@ -324,8 +324,9 @@ to the <code>terms</code>-argument (for more details, see <a href="https://stren
 <li><p><code>"zero_inflated"</code> (or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the
 zero-inflation component, returning the expected value of the response
-(<code>mu*(1-p)</code>). For models from package <strong>glmmTMB</strong>, this would return the
-expected response <code>mu*(1-p)</code> on the <em>population-level</em>. See 'Details'.</p></li>
+(<code>mu*(1-p)</code>). For For mixed models with zero-inflation component (e.g.
+from package <strong>glmmTMB</strong>), this would return the expected response
+<code>mu*(1-p)</code> on the <em>population-level</em>. See 'Details'.</p></li>
 <li><p><code>"zi_random"</code> (or <code>"zero_inflated_random"</code>)</p>
 <p>This only applies to mixed models. Predicted values are conditioned on
 the fixed effects and the zero-inflation component. Use this for
@@ -333,7 +334,10 @@ the fixed effects and the zero-inflation component. Use this for
 random effects groups. Add the name of the related random effect term to
 the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
 <li><p><code>"zi_prob"</code></p>
-<p>Predicted zero-inflation probability.</p></li>
+<p>Returns the predicted zero-inflation probability, i.e. probability of a
+structural or "true" zero (see
+<a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html">this vignette</a>
+for a short introduction into zero-inflation models).</p></li>
 <li><p><code>"simulate"</code></p>
 <p>Predicted values and confidence resp. prediction intervals are based on
 simulations, i.e. calls to <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. This type of prediction takes
