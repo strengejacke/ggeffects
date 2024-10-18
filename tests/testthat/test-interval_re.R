@@ -8,7 +8,7 @@ skip_if_not_installed("marginaleffects")
 test_that("ggpredict, glmmTMB prediction intervals random effects", {
   data(iris)
   m <- glmmTMB::glmmTMB(Sepal.Length ~ Sepal.Width + (1 | Species), data = iris)
-  out1 <- ggpredict(m, "Species", type = "random")
+  out1 <- ggpredict(m, "Species", type = "random", interval = "prediction")
   out2 <- ggpredict(m, "Species", type = "random", interval = "confidence")
   out3 <- ggpredict(m, "Species", type = "random", verbose = FALSE)
   out4 <- ggpredict(m, c("Sepal.Width", "Species"), type = "random")
@@ -17,12 +17,8 @@ test_that("ggpredict, glmmTMB prediction intervals random effects", {
   expect_message(print(out1), regex = "prediction")
   expect_no_message(print(out3))
   expect_no_message(print(hypothesis_test(out1)))
-  expect_message(
-    print(hypothesis_test(out4)),
-    regex = "Intervals"
-  )
   expect_no_message(
-    print(print(hypothesis_test(out1, verbose = FALSE)))
+    print(hypothesis_test(out1, verbose = FALSE))
   )
 })
 

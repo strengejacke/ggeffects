@@ -202,7 +202,6 @@
   attr(out, "link_function") <- insight::link_function(object)
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- "Contrast"
-  attr(out, "msg_intervals") <- FALSE
 
   # remove unused variables
   out$std.error <- NULL
