@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -434,12 +434,12 @@ al. 2017, pp.391-392</em> for details).</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      0.20 | 0.03, 0.37</span></span>
+<span><span class="co">#&gt; GP    |      0.20 | 0.02, 0.38</span></span>
 <span><span class="co">#&gt; PR    |      0.03 | 0.00, 0.06</span></span>
-<span><span class="co">#&gt; DM    |      0.32 | 0.10, 0.54</span></span>
+<span><span class="co">#&gt; DM    |      0.32 | 0.08, 0.56</span></span>
 <span><span class="co">#&gt; EC-A  |      0.07 | 0.00, 0.13</span></span>
-<span><span class="co">#&gt; EC-L  |      0.42 | 0.14, 0.70</span></span>
-<span><span class="co">#&gt; DES-L |      0.49 | 0.19, 0.80</span></span>
+<span><span class="co">#&gt; EC-L  |      0.42 | 0.12, 0.73</span></span>
+<span><span class="co">#&gt; DES-L |      0.49 | 0.13, 0.85</span></span>
 <span><span class="co">#&gt; DF    |      0.30 | 0.09, 0.51</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
@@ -458,22 +458,22 @@ are based on <code><a href="https://rdrr.io/r/stats/simulate.html" class="extern
 pp.392-393</em> for details). This will return expected values of the
 response (<em>marginal</em> predictions), averaged across all random
 effects groups and non-focal terms. To achieve this, use
-<code>type = "simulate"</code>. It is even possible to return prediction
-intervals using <code>interval = "prediction"</code> with
-<code>type = "simulate"</code>.</p>
+<code>type = "simulate"</code>. Note that this prediction-type usually
+returns larger intervals, because it accounts for <em>all</em> model
+uncertainties.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Expected counts of count</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; spp   | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
-<span><span class="co">#&gt; GP    |      1.09 | 0.15, 2.02</span></span>
-<span><span class="co">#&gt; PR    |      0.30 | 0.02, 0.63</span></span>
-<span><span class="co">#&gt; DM    |      1.55 | 0.28, 2.84</span></span>
-<span><span class="co">#&gt; EC-A  |      0.55 | 0.04, 1.10</span></span>
-<span><span class="co">#&gt; EC-L  |      2.23 | 0.38, 4.11</span></span>
-<span><span class="co">#&gt; DES-L |      2.26 | 0.46, 4.07</span></span>
-<span><span class="co">#&gt; DF    |      1.35 | 0.25, 2.42</span></span></code></pre></div>
+<span><span class="co">#&gt; GP    |      1.10 | 0.00, 4.31</span></span>
+<span><span class="co">#&gt; PR    |      0.30 | 0.00, 2.23</span></span>
+<span><span class="co">#&gt; DM    |      1.54 | 0.00, 5.49</span></span>
+<span><span class="co">#&gt; EC-A  |      0.55 | 0.00, 3.11</span></span>
+<span><span class="co">#&gt; EC-L  |      2.20 | 0.00, 7.35</span></span>
+<span><span class="co">#&gt; DES-L |      2.26 | 0.00, 7.14</span></span>
+<span><span class="co">#&gt; DF    |      1.35 | 0.00, 4.72</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="marginal-predictions-for-the-full-model-average-predictions">Marginal predictions for the full model (average predictions)<a class="anchor" aria-label="anchor" href="#marginal-predictions-for-the-full-model-average-predictions"></a>
