@@ -5,90 +5,110 @@ skip_if_not_installed("glmmTMB")
 skip_if_not_installed("marginaleffects")
 skip_if_not_installed("lme4")
 skip_if_not_installed("emmeans")
+skip_if_not_installed("withr")
+
+withr::with_options(
+  list(ggeffects_warning_bias_correction = FALSE),
+  {
+    test_that("validate ggpredict against predict, nbinom", {
+      data(Owls, package = "glmmTMB")
+      data(Salamanders, package = "glmmTMB")
+      m1 <- suppressWarnings(glmmTMB::glmmTMB(
+        SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+        data = Owls,
+        family = glmmTMB::nbinom1()
+      ))
+      m2 <- glmmTMB::glmmTMB(
+        SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+        data = Owls,
+        family = glmmTMB::nbinom2()
+      )
+      m4 <- glmmTMB::glmmTMB(
+        SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
+        data = Owls,
+        ziformula = ~1,
+        family = glmmTMB::truncated_poisson(link = "log")
+      )
+      nd <- data_grid(m1, "SexParent")
+      pr <- predict(m1, newdata = nd, type = "link", se.fit = TRUE)
+      linv <- insight::link_inverse(m1)
+      dof <- insight::get_df(m1, type = "wald", verbose = FALSE)
+      tcrit <- stats::qt(0.975, df = dof)
+
+      out1 <- data.frame(
+        predicted = linv(pr$fit),
+        conf.low = linv(pr$fit - tcrit * pr$se.fit),
+        conf.high = linv(pr$fit + tcrit * pr$se.fit)
+      )
+      out2 <- ggpredict(m1, "SexParent")
+
+      expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+      expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+      expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+
+      expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
+      expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
+      expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
+      expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
+      expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
+      expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random"), "data.frame")
+
+      expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "zero_inflated"))
+
+      p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
+      p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
+      p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
+      p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
+      expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
+      expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
+
+      # test messages for unit- and population level predictions
+      expect_message(
+        predict_response(m1, "Nest"),
+        regex = "All focal terms are included"
+      )
+      expect_message(
+        predict_response(m1, "SexParent", type = "random"),
+        regex = "It seems that unit-level predictions"
+      )
+    })
+  }
+)
 
 
-test_that("validate ggpredict against predict, nbinom", {
-  data(Owls, package = "glmmTMB")
-  data(Salamanders, package = "glmmTMB")
-  m1 <- suppressWarnings(glmmTMB::glmmTMB(
-    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-    data = Owls,
-    family = glmmTMB::nbinom1()
-  ))
-  m2 <- glmmTMB::glmmTMB(
-    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-    data = Owls,
-    family = glmmTMB::nbinom2()
-  )
-  m4 <- glmmTMB::glmmTMB(
-    SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
-    data = Owls,
-    ziformula = ~1,
-    family = glmmTMB::truncated_poisson(link = "log")
-  )
-  nd <- data_grid(m1, "SexParent")
-  pr <- predict(m1, newdata = nd, type = "link", se.fit = TRUE)
-  linv <- insight::link_inverse(m1)
-  dof <- insight::get_df(m1, type = "wald", verbose = FALSE)
-  tcrit <- stats::qt(0.975, df = dof)
-
-  out1 <- data.frame(
-    predicted = linv(pr$fit),
-    conf.low = linv(pr$fit - tcrit * pr$se.fit),
-    conf.high = linv(pr$fit + tcrit * pr$se.fit)
-  )
-  out2 <- ggpredict(m1, "SexParent")
-
-  expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
-  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
-  expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
-
-  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
-  expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
-  expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
-  expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random"), "data.frame")
-
-  expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "zero_inflated"))
-
-  p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
-  p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
-  p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
-  p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
-  expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
-  expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
-})
-
-
-test_that("validate ggpredict lmer against marginaleffects", {
-  data(Owls, package = "glmmTMB")
-  m1 <- suppressWarnings(glmmTMB::glmmTMB(
-    SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-    data = Owls,
-    family = glmmTMB::nbinom1()
-  ))
-  out1 <- suppressWarnings(marginaleffects::predictions(
-    m1,
-    variables = "SexParent",
-    newdata = marginaleffects::datagrid(m1),
-    vcov = FALSE,
-    re.form = NULL
-  ))
-  out1 <- out1[order(out1$SexParent), ]
-  out2 <- ggpredict(
-    m1,
-    "SexParent",
-    condition = c(Nest = "Oleyes"),
-    type = "random"
-  )
-  expect_equal(
-    out1$estimate,
-    out2$predicted,
-    tolerance = 1e-4,
-    ignore_attr = TRUE
-  )
-})
+withr::with_options(
+  list(ggeffects_warning_bias_correction = FALSE),
+  {
+    test_that("validate ggpredict lmer against marginaleffects", {
+      data(Owls, package = "glmmTMB")
+      m1 <- suppressWarnings(glmmTMB::glmmTMB(
+        SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+        data = Owls,
+        family = glmmTMB::nbinom1()
+      ))
+      out1 <- suppressWarnings(marginaleffects::predictions(
+        m1,
+        variables = "SexParent",
+        newdata = marginaleffects::datagrid(m1),
+        vcov = FALSE,
+        re.form = NULL
+      ))
+      out1 <- out1[order(out1$SexParent), ]
+      out2 <- ggpredict(
+        m1,
+        "SexParent",
+        condition = c(Nest = "Oleyes"),
+        type = "random"
+      )
+      expect_equal(
+        out1$estimate,
+        out2$predicted,
+        tolerance = 1e-4,
+        ignore_attr = TRUE
+      )
+    })
+  }
+)
 
 
 data(Salamanders, package = "glmmTMB")
@@ -113,13 +133,13 @@ m5 <- glmmTMB::glmmTMB(
 )
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m3, "mined", type = "fixed")
-  p2 <- ggpredict(m3, "mined", type = "zero_inflated")
-  p3 <- ggpredict(m3, "mined", type = "random")
-  p4 <- ggpredict(m3, "mined", type = "zero_inflated_random")
+  p1 <- ggpredict(m3, "mined", type = "fixed", verbose = FALSE)
+  p2 <- ggpredict(m3, "mined", type = "zero_inflated", verbose = FALSE)
+  p3 <- ggpredict(m3, "mined", type = "random", verbose = FALSE)
+  p4 <- ggpredict(m3, "mined", type = "zero_inflated_random", verbose = FALSE)
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
-  expect_s3_class(ggpredict(m3, "mined", type = "zero_inflated"), "data.frame")
+  expect_s3_class(ggpredict(m3, "mined", type = "zero_inflated", verbose = FALSE), "data.frame")
 })
 
 
@@ -131,38 +151,38 @@ test_that("ggpredict and ggaverage, glmmTMB", {
     data = Salamanders
   )
   # make sure that "type" arguments return the same results
-  p1 <- ggpredict(mx, "mined")
-  p2 <- ggaverage(mx, "mined")
+  p1 <- ggpredict(mx, "mined", verbose = FALSE)
+  p2 <- ggaverage(mx, "mined", verbose = FALSE)
   expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
 
-  p1 <- ggpredict(mx, "mined", type = "fixed")
-  p2 <- ggaverage(mx, "mined", type = "fixed")
+  p1 <- ggpredict(mx, "mined", type = "fixed", verbose = FALSE)
+  p2 <- ggaverage(mx, "mined", type = "fixed", verbose = FALSE)
   expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
 
-  p1 <- ggpredict(mx, "mined", type = "zero_inflated")
-  p2 <- ggaverage(mx, "mined", type = "zero_inflated")
+  p1 <- ggpredict(mx, "mined", type = "zero_inflated", verbose = FALSE)
+  p2 <- ggaverage(mx, "mined", type = "zero_inflated", verbose = FALSE)
   expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
 
-  p1 <- ggpredict(mx, "mined", type = "zi_prob")
-  p2 <- ggaverage(mx, "mined", type = "zi_prob")
+  p1 <- ggpredict(mx, "mined", type = "zi_prob", verbose = FALSE)
+  p2 <- ggaverage(mx, "mined", type = "zi_prob", verbose = FALSE)
   expect_equal(p1$predicted, p2$predicted, tolerance = 0.1)
 })
 
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fixed")
-  p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fixed")
+  p1 <- ggpredict(m5, c("mined", "spp", "cover"), type = "fixed", verbose = FALSE)
+  p3 <- ggemmeans(m5, c("mined", "spp", "cover"), type = "fixed", verbose = FALSE)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
 })
 
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m3, "mined", type = "fixed")
-  p2 <- ggpredict(m3, c("mined", "spp"), type = "zero_inflated")
-  p3 <- ggemmeans(m3, "mined", type = "fixed", condition = c(spp = "GP"))
-  p4 <- ggemmeans(m3, c("mined", "spp"), type = "zero_inflated")
-  p5 <- ggpredict(m3, c("mined", "spp"), type = "fixed")
-  p6 <- ggemmeans(m3, c("mined", "spp"), type = "fixed")
+  p1 <- ggpredict(m3, "mined", type = "fixed", verbose = FALSE)
+  p2 <- ggpredict(m3, c("mined", "spp"), type = "zero_inflated", verbose = FALSE)
+  p3 <- ggemmeans(m3, "mined", type = "fixed", condition = c(spp = "GP"), verbose = FALSE)
+  p4 <- ggemmeans(m3, c("mined", "spp"), type = "zero_inflated", verbose = FALSE)
+  p5 <- ggpredict(m3, c("mined", "spp"), type = "fixed", verbose = FALSE)
+  p6 <- ggemmeans(m3, c("mined", "spp"), type = "fixed", verbose = FALSE)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
   # expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
   expect_equal(p5$predicted[1], p6$predicted[1], tolerance = 1e-3)
@@ -171,36 +191,36 @@ test_that("ggpredict, glmmTMB", {
 test_that("ggpredict, glmmTMB", {
   skip_on_os("linux")
   set.seed(123)
-  out <- ggemmeans(m3, "mined", type = "zero_inflated")
+  out <- ggemmeans(m3, "mined", type = "zero_inflated", verbose = FALSE)
   expect_equal(out$conf.low, c(0.04904, 1.31134), tolerance = 1e-1)
   set.seed(123)
-  out1 <- ggpredict(m3, "mined", type = "simulate")
-  out2 <- ggaverage(m3, "mined", type = "response")
+  out1 <- ggpredict(m3, "mined", type = "simulate", verbose = FALSE)
+  out2 <- ggaverage(m3, "mined", type = "response", verbose = FALSE)
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-2)
 })
 
 test_that("ggpredict, glmmTMB", {
-  p1 <- ggpredict(m4, "mined", type = "fixed")
-  p2 <- ggpredict(m4, "mined", type = "zero_inflated")
-  p3 <- ggpredict(m4, "mined", type = "random")
-  p4 <- ggpredict(m4, "mined", type = "zero_inflated_random")
+  p1 <- ggpredict(m4, "mined", type = "fixed", verbose = FALSE)
+  p2 <- ggpredict(m4, "mined", type = "zero_inflated", verbose = FALSE)
+  p3 <- ggpredict(m4, "mined", type = "random", verbose = FALSE)
+  p4 <- ggpredict(m4, "mined", type = "zero_inflated_random", verbose = FALSE)
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 
-  p1 <- ggpredict(m4, c("spp", "mined"), type = "fixed")
-  p2 <- ggpredict(m4, c("spp", "mined"), type = "zero_inflated")
-  p3 <- ggpredict(m4, c("spp", "mined"), type = "random")
-  p4 <- ggpredict(m4, c("spp", "mined"), type = "zero_inflated_random")
+  p1 <- ggpredict(m4, c("spp", "mined"), type = "fixed", verbose = FALSE)
+  p2 <- ggpredict(m4, c("spp", "mined"), type = "zero_inflated", verbose = FALSE)
+  p3 <- ggpredict(m4, c("spp", "mined"), type = "random", verbose = FALSE)
+  p4 <- ggpredict(m4, c("spp", "mined"), type = "zero_inflated_random", verbose = FALSE)
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
 
 
 test_that("ggpredict, glmmTMB", {
-  p <- ggpredict(m3, "spp", type = "zero_inflated")
+  p <- ggpredict(m3, "spp", type = "zero_inflated", verbose = FALSE)
   expect_true(all(p$conf.low > 0))
   set.seed(100)
-  p <- ggpredict(m3, "spp", type = "zero_inflated")
+  p <- ggpredict(m3, "spp", type = "zero_inflated", verbose = FALSE)
   expect_true(all(p$conf.low > 0))
 })
 
@@ -222,10 +242,10 @@ test_that("ggpredict, glmmTMB", {
     family = glmmTMB::truncated_poisson(),
     data = Salamanders
   )
-  p1 <- ggpredict(md, c("spp", "mined"), type = "fixed")
-  p2 <- ggpredict(md, c("spp", "mined"), type = "zero_inflated")
-  p3 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "random"))
-  p4 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "zero_inflated_random"))
+  p1 <- ggpredict(md, c("spp", "mined"), type = "fixed", verbose = FALSE)
+  p2 <- ggpredict(md, c("spp", "mined"), type = "zero_inflated", verbose = FALSE)
+  p3 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "random"), verbose = FALSE)
+  p4 <- suppressWarnings(ggpredict(md, c("spp", "mined"), type = "zero_inflated_random"), verbose = FALSE)
   expect_gt(p3$conf.high[1], p1$conf.high[1])
   expect_gt(p4$conf.high[1], p2$conf.high[1])
 })
@@ -238,10 +258,10 @@ test_that("ggpredict, glmmTMB", {
     data = efc_test, ziformula = ~c172code,
     family = binomial(link = "logit")
   )
-  expect_s3_class(ggpredict(m5, "c161sex", type = "fixed"), "data.frame")
-  expect_s3_class(ggpredict(m5, "c161sex", type = "zero_inflated"), "data.frame")
-  expect_s3_class(ggpredict(m5, "c161sex", type = "random"), "data.frame")
-  expect_s3_class(ggpredict(m5, "c161sex", type = "zero_inflated_random"), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "fixed", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "zero_inflated", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "random", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m5, "c161sex", type = "zero_inflated_random", verbose = FALSE), "data.frame")
 })
 
 
@@ -252,8 +272,8 @@ test_that("validate ggpredict against predict, binomial", {
     data = efc_test,
     family = binomial(link = "logit")
   )
-  expect_s3_class(ggpredict(m6, "c161sex", type = "fixed"), "data.frame")
-  expect_s3_class(ggpredict(m6, "c161sex", type = "random"), "data.frame")
+  expect_s3_class(ggpredict(m6, "c161sex", type = "fixed", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m6, "c161sex", type = "random", verbose = FALSE), "data.frame")
 
   nd <- data_grid(m6, "e42dep")
   pr <- predict(m6, newdata = nd, type = "link", se.fit = TRUE)

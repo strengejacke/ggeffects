@@ -1,4 +1,7 @@
-.validate_type_argument <- function(model, type, marginaleffects = FALSE, emmeans_call = FALSE) {
+.validate_type_argument <- function(model,
+                                    type,
+                                    marginaleffects = FALSE,
+                                    emmeans_call = FALSE) {
   # marginaleffects supports the predict-method types
   # we need a different approach to validation here
   if (marginaleffects) {
@@ -42,8 +45,8 @@
   # if we call "predict()" or "emmeans()", we have these different options
   if (emmeans_call) {
     type_choices <- c(
-      "fe", "fixed", "count", "re", "random", "fe.zi", "zero_inflated",
-      "re.zi", "zi_random", "zero_inflated_random", "zi.prob", "zi_prob"
+      "fe", "fixed", "count", "fe.zi",
+      "zero_inflated", "zi.prob", "zi_prob"
     )
   } else {
     type_choices <- c(

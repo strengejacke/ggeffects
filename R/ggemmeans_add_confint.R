@@ -1,4 +1,4 @@
-.ggemmeans_add_confint <- function(model, tmp, ci_level, type = "fixed", pmode = NULL, interval = NULL) {
+.ggemmeans_add_confint <- function(model, tmp, ci_level, pmode = NULL, interval = NULL) {
   # compute ci, two-ways
   if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
@@ -10,7 +10,7 @@
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  if (type %in% c("random", "zero_inflated_random") || identical(interval, "prediction")) {
+  if (identical(interval, "prediction")) {
 
     fitfram <- suppressWarnings(
       .var_rename(

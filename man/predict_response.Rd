@@ -91,15 +91,17 @@ passing a \code{glm} object would allow the options \code{"response"}, \code{"li
 options \code{"fixed"}, \code{"zero_inflated"} and \code{"zi_prob"} can also be used and will
 be "translated" into the corresponding \code{type} option of the model's respective
 \code{predict()}-method.
+
+\strong{Note 3:} If \code{margin = "marginalmeans"}, or when calling \code{ggemmeans()}
+respectively, \code{type = "random"} and \code{type = "zi_random"} are not available,
+i.e. no unit-level predictions are possible.
 \itemize{
 \item \code{"fixed"} (or \code{"count"})
 
 Predicted values are conditioned on the fixed effects or conditional
-model only (for mixed models: predicted values are on the
-\emph{population-level}, i.e. \code{re.form = NA} when calling \code{predict()}). For
-models with zero-inflation component, this type calls \code{predict(..., type = "link")} (however, predicted values are back-transformed to the
-response scale, i.e. the conditional mean of the response). For instance,
-for models fitted with \code{zeroinfl} from \strong{pscl}, this would return the
+model only. For mixed models, predicted values are on the
+\emph{population-level}, i.e. \code{re.form = NA} when calling \code{predict()}. For
+models with zero-inflation component, this type would return the
 predicted mean from the count component (without conditioning on the
 zero-inflation part).
 \item \code{"random"}
@@ -109,14 +111,6 @@ condition on the zero-inflation component of the model. Use this for
 \emph{unit-level} predictions, i.e. predicted values for each level of the
 random effects groups. Add the name of the related random effect term
 to the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
-
-If \emph{no} random effects term (i.e. no grouping variable on the higher
-level) is specified in the \code{terms} argument, \code{type = "random"} still
-returns population-level predictions, however, conditioned on random
-effects. Technically, \code{re.form = NULL} when calling \code{predict()} (and
-random effects terms get the value \code{NA}). This may affect the returned
-predicted values, depending on whether \code{REML = TRUE} or \code{REML = FALSE}
-was used for model fitting.
 \item \code{"zero_inflated"} (or \code{"zi"})
 
 Predicted values are conditioned on the fixed effects and the
@@ -125,18 +119,14 @@ zero-inflation component, returning the expected value of the response
 expected response \code{mu*(1-p)} on the \emph{population-level}. See 'Details'.
 \item \code{"zi_random"} (or \code{"zero_inflated_random"})
 
-Predicted values are conditioned on the zero-inflation component and on
-the random effects. This type call \code{predict(..., type = "response")},
-with \code{re.form = NULL} for models from package \strong{glmmTMB}. Use this for
+This only applies to mixed models. Predicted values are conditioned on
+the fixed effects and the zero-inflation component. Use this for
 \emph{unit-level} predictions, i.e. predicted values for each level of the
-random effects groups. Add the name of the related random effect term
-to the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
+random effects groups. Add the name of the related random effect term to
+the \code{terms}-argument (for more details, see \href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}).
 \item \code{"zi_prob"}
 
-Predicted zero-inflation probability. For \strong{glmmTMB} models with
-zero-inflation component, this type calls \code{predict(..., type = "zlink")},
-models from \strong{pscl} call \code{predict(..., type = "zero")} and for
-\strong{GLMMadaptive}, \code{predict(..., type = "zero_part")} is called.
+Predicted zero-inflation probability.
 \item \code{"simulate"}
 
 Predicted values and confidence resp. prediction intervals are based on
@@ -471,6 +461,25 @@ predictive intervals. By default, the predictions are based on
 uncertainty of the error term (residual variance) is not taken into account.
 The recommendation is to use the posterior predictive distribution
 (\code{\link[rstantools:posterior_predict]{rstantools::posterior_predict()}}), i.e. setting \code{interval = "prediction"}.
+}
+
+\section{Mixed (multilevel) Models}{
+
+For mixed models, following options are possible:
+\itemize{
+\item Predictions can be made on the population-level (\code{type = "fixed"}, the
+default) or for each level of the grouping variable (unit-level). If
+unit-level predictions are requested, you need to set \verb{type = "random"`` and specify the grouping variable(s) in the }terms` argument.
+\item Population-level predictions can be either \emph{conditional} (predictions
+for a "typical" group) or \emph{marginal} (average predictions across all
+groups). The default in \code{predict_response()} calculated \emph{conditional}
+predictions. Set \code{margin = "empirical"} for marginal predictions.
+\item Prediction intervals, i.e. when \code{interval = "predictions"} also account
+for the uncertainty in the random effects.
+}
+
+See more details in
+\href{https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html}{this vignette}.
 }
 
 \section{Zero-Inflated and Zero-Inflated Mixed Models with brms}{

@@ -34,7 +34,6 @@
                                      cleaned_terms,
                                      ci_level,
                                      pmode,
-                                     type,
                                      model_info,
                                      interval = NULL,
                                      model_data = NULL,
@@ -45,24 +44,24 @@
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
     .ggemmeans_predict_MCMCglmm(
-      model, data_grid, cleaned_terms, ci_level, pmode, type,
+      model, data_grid, cleaned_terms, ci_level, pmode,
       interval = interval, model_data = model_data, ...
     )
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
     .ggemmeans_predict_ordinal(
-      model, data_grid, cleaned_terms, ci_level, type,
+      model, data_grid, cleaned_terms, ci_level,
       interval = interval, model_data = model_data, ...
     )
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
-      model, data_grid, cleaned_terms, ci_level, type,
+      model, data_grid, cleaned_terms, ci_level,
       interval = interval, model_data = model_data,
       bias_correction = bias_correction,
       residual_variance = residual_variance, ...
     )
   } else {
     .ggemmeans_predict_generic(
-      model, data_grid, cleaned_terms, ci_level, pmode, type,
+      model, data_grid, cleaned_terms, ci_level, pmode,
       interval = interval, model_data = model_data, vcov_info = vcov_info,
       verbose = verbose, bias_correction = bias_correction,
       residual_variance = residual_variance, ...
@@ -164,7 +163,6 @@
                                        data_grid,
                                        cleaned_terms,
                                        ci_level,
-                                       type,
                                        interval = NULL,
                                        model_data = NULL,
                                        ...) {
@@ -176,7 +174,7 @@
     ...
   ))
 
-  .ggemmeans_add_confint(model, tmp, ci_level, type, pmode = "prob", interval)
+  .ggemmeans_add_confint(model, tmp, ci_level, pmode = "prob", interval)
 }
 
 
@@ -185,7 +183,6 @@
                                         cleaned_terms,
                                         ci_level,
                                         pmode,
-                                        type,
                                         interval = NULL,
                                         model_data = NULL,
                                         ...) {
@@ -198,7 +195,7 @@
     ...
   )
 
-  .ggemmeans_add_confint(model, tmp, ci_level, type, pmode, interval)
+  .ggemmeans_add_confint(model, tmp, ci_level, pmode, interval)
 }
 
 
@@ -207,7 +204,6 @@
                                        cleaned_terms,
                                        ci_level,
                                        pmode,
-                                       type,
                                        interval = NULL,
                                        model_data = NULL,
                                        vcov_info = NULL,
@@ -260,7 +256,7 @@
 
   # if we succeded, add confidence intervals
   if (!is.null(tmp)) {
-    .ggemmeans_add_confint(model, tmp, ci_level, type, pmode, interval)
+    .ggemmeans_add_confint(model, tmp, ci_level, pmode, interval)
   } else {
     NULL
   }
@@ -271,7 +267,6 @@
                                     data_grid,
                                     cleaned_terms,
                                     ci_level,
-                                    type,
                                     interval = NULL,
                                     model_data = NULL,
                                     bias_correction = FALSE,
@@ -303,7 +298,7 @@
   )
 
   if (!is.null(tmp)) {
-    .ggemmeans_add_confint(model, tmp, ci_level, type)
+    .ggemmeans_add_confint(model, tmp, ci_level)
   } else {
     NULL
   }
