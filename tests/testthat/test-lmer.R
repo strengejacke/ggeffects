@@ -62,7 +62,7 @@ test_that("ggpredict, lmer", {
 test_that("ggpredict, lmer", {
   pr <- ggpredict(fit, "c12hour")
   expect_equal(pr$std.error[1:5], c(0.2911, 0.2852, 0.2799, 0.2752, 0.2713), tolerance = 1e-3)
-  pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random")
+  pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), interval = "prediction")
   expect_equal(pr$std.error[1:5], c(3.5882, 3.58185, 3.58652, 3.58162, 3.57608), tolerance = 1e-3)
   # validate against predict
   pr <- ggpredict(fit, "c12hour")
@@ -81,7 +81,7 @@ test_that("ggpredict, lmer", {
     tolerance = 1e-3,
     ignore_attr = TRUE
   )
-  pr <- ggpredict(fit, "c12hour", type = "random")
+  pr <- ggpredict(fit, "c12hour", interval = "prediction")
   expect_equal(pr$conf.low[1:5], c(4.26939, 4.3036, 4.3377, 4.37168, 4.40554), tolerance = 1e-3)
 })
 
