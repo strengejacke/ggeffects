@@ -8,7 +8,7 @@ skip_if_not_installed("marginaleffects")
 test_that("ggpredict, glmmTMB prediction intervals random effects", {
   data(iris)
   m <- glmmTMB::glmmTMB(Sepal.Length ~ Sepal.Width + (1 | Species), data = iris)
-  out1 <- ggpredict(m, "Species", type = "random")
+  out1 <- ggpredict(m, "Species", type = "random", interval = "prediction")
   out2 <- ggpredict(m, "Species", type = "random", interval = "confidence")
   out3 <- ggpredict(m, "Species", type = "random", verbose = FALSE)
   out4 <- ggpredict(m, c("Sepal.Width", "Species"), type = "random")
@@ -17,12 +17,8 @@ test_that("ggpredict, glmmTMB prediction intervals random effects", {
   expect_message(print(out1), regex = "prediction")
   expect_no_message(print(out3))
   expect_no_message(print(hypothesis_test(out1)))
-  expect_message(
-    print(hypothesis_test(out4)),
-    regex = "Intervals"
-  )
   expect_no_message(
-    print(print(hypothesis_test(out1, verbose = FALSE)))
+    print(hypothesis_test(out1, verbose = FALSE))
   )
 })
 
@@ -30,7 +26,7 @@ test_that("ggpredict, glmmTMB prediction intervals random effects", {
 test_that("ggpredict, lmer prediction intervals random effects", {
   data(iris)
   m <- lme4::lmer(Sepal.Length ~ Sepal.Width + (1 | Species), data = iris)
-  out1 <- ggpredict(m, "Species", type = "random")
+  out1 <- ggpredict(m, "Species", type = "random", interval = "prediction")
   # not sure why this works on devel again - maybe fix in Matrix?
   if (getRversion() > "4.4.1") {
     expect_equal(out1$conf.low, c(3.27188912101159, 4.72096548348341, 5.20851196398241), tolerance = 1e-4)
@@ -38,7 +34,7 @@ test_that("ggpredict, lmer prediction intervals random effects", {
     expect_null(out1$conf.low)
   }
 
-  out1 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random")
+  out1 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random", interval = "prediction")
   out2 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random", interval = "confidence")
   expect_equal(
     out1$conf.low,

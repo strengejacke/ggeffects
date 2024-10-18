@@ -2,6 +2,7 @@
                                       model_frame,
                                       preds,
                                       ci_level,
+                                      interval,
                                       terms,
                                       cleaned_terms,
                                       value_adjustment,
@@ -69,7 +70,7 @@
   sims <- exp(prdat.sim$cond) * (1 - stats::plogis(prdat.sim$zi))
   prediction_data <- .join_simulations(data_grid, newdata, prdat, sims, ci, cleaned_terms)
 
-  if (type == "zero_inflated_random") {
+  if (identical(interval, "prediction")) {
     revar <- .get_residual_variance(model)
     # get link-function and back-transform fitted values
     # to original scale, so we compute proper CI

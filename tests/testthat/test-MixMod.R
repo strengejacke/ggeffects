@@ -50,8 +50,8 @@ test_that("ggpredict", {
   expect_equal(p$predicted[1], 1.816723, tolerance = 1e-2)
 
   set.seed(123)
-  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated_random", verbose = FALSE)
-  expect_equal(p$predicted[1], 3.457011, tolerance = 1e-2)
+  p <- ggemmeans(m1, c("child", "camper"), type = "zero_inflated", interval = "prediction", verbose = FALSE)
+  expect_equal(p$predicted[1], 1.816723, tolerance = 1e-2)
 
   withr::with_options(
     list(ggeffects_warning_bias_correction = TRUE),

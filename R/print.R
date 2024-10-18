@@ -378,7 +378,6 @@ print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
   estimate_name <- attributes(x)$estimate_name
   by_factor <- attributes(x)$by_factor
   rope_range <- attributes(x)$rope_range
-  msg_intervals <- isTRUE(attributes(x)$msg_intervals)
   verbose <- isTRUE(attributes(x)$verbose)
   scale_outcome <- attributes(x)$scale
   scale_label <- attributes(x)$scale_label
@@ -491,15 +490,6 @@ print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
     }
     insight::format_alert(msg)
   }
-
-  # tell user about possible discrepancies between prediction intervals of
-  # predictions and confidence intervals of contrasts/comparisons
-  if (msg_intervals && verbose) {
-    insight::format_alert(paste(
-      "\nIntervals used for contrasts and comparisons are regular confidence intervals, not prediction intervals.",
-      "To obtain the same type of intervals for your predictions, use `predict_response(..., interval = \"confidence\")`." # nolint
-    ))
-  }
 }
 
 
@@ -552,7 +542,6 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, t
   test_custom <- identical(attributes(x)$test, "custom")
   estimate_name <- attributes(x)$estimate_name
   rope_range <- attributes(x)$rope_range
-  msg_intervals <- isTRUE(attributes(x)$msg_intervals)
   verbose <- isTRUE(attributes(x)$verbose)
   by_factor <- attributes(x)$by_factor
   scale_outcome <- attributes(x)$scale

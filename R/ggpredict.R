@@ -74,16 +74,6 @@ ggpredict <- function(model,
   ## TODO: remove deprecated later
   vcov <- .prepare_vcov_args(vcov, ...)
 
-  if (missing(interval)) {
-    if (type %in% c("random", "zero_inflated_random")) {
-      interval <- "prediction"
-    } else {
-      interval <- "confidence"
-    }
-  } else if (is.null(interval)) {
-    interval <- "confidence"
-  }
-
   # make sure we have valid values
   interval <- .check_arg(interval, c("confidence", "prediction"))
 
@@ -205,9 +195,7 @@ ggpredict_helper <- function(model,
   # done for random effects only (i.e. all focal terms are specified as random
   # effects in the model). If so, we need to tell the user that they should
   # better to `margin = "empirical"`
-  if (!type %in% c("random", "zero_inflated_random")) {
-    .check_focal_for_random(model, terms, verbose)
-  }
+  .check_focal_for_random(model, terms, type, verbose)
 
   # get model frame
   model_frame <- .get_model_data(model)
@@ -321,9 +309,16 @@ ggpredict_helper <- function(model,
 }
 
 
-.check_focal_for_random <- function(model, terms, verbose) {
+.check_focal_for_random <- function(model, terms, type, verbose) {
   random_pars <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-  if (!is.null(random_pars) && all(.clean_terms(terms) %in% random_pars) && verbose) {
-    insight::format_alert("All focal terms are included as random effects in the model. To calculate predictions for random effects, either use `margin = \"empirical\"` or set `type = \"random\"` (possibly together with `interval = \"confidence\"`) to get meaningful results.") # nolint
+  # check if focal terms are *only* random effects, but `type` is not `"random"`.
+  # in this case, population level predictions is probably not what user wants
+  if (verbose && !type %in% c("random", "zero_inflated_random") && !is.null(random_pars) && all(.clean_terms(terms) %in% random_pars)) {
+    insight::format_alert("All focal terms are included as random effects in the model. To calculate predictions for random effects, either use `margin = \"empirical\"` or set `type = \"random\"` to get meaningful results.") # nolint
+  }
+  # check if *no* focal term is a random effect, but `type` *is* `"random"`.
+  # in this case, user probably wants unit-level predictions
+  if (verbose && type %in% c("random", "zero_inflated_random") && !is.null(random_pars) && !any(.clean_terms(terms) %in% random_pars)) {
+    insight::format_alert("It seems that unit-level predictions are requested (`type = \"random\"`), but no random effects terms (grouping variables) are defined in the `terms` argument. Either add a random effects term to the `terms` argument, or set `type = \"fixed\"` to get meaningful results (in this case, population-level predictions).") # nolint
   }
 }

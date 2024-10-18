@@ -557,7 +557,6 @@ test_predictions.default <- function(object,
 
   # for mixed models, we need different handling later...
   need_average_predictions <- include_random <- insight::is_mixed_model(object)
-  msg_intervals <- FALSE
   # for "marginalmeans", don't condition on random effects
   if (margin == "marginalmeans" && include_random) {
     include_random <- FALSE
@@ -585,10 +584,6 @@ test_predictions.default <- function(object,
     random_group <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
     if (!all(random_group %in% terms)) {
       terms <- unique(c(terms, random_group))
-    }
-    # tell user that intervals for comparisons are confidence, not prediction intervals
-    if (verbose && any(random_group %in% focal)) {
-      msg_intervals <- TRUE
     }
   }
 
@@ -1107,7 +1102,6 @@ test_predictions.default <- function(object,
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "hypothesis_label") <- hypothesis_label
   attr(out, "estimate_name") <- estimate_name
-  attr(out, "msg_intervals") <- msg_intervals
   attr(out, "verbose") <- verbose
   attr(out, "engine") <- "marginaleffects"
   attr(out, "datagrid") <- datagrid
@@ -1171,6 +1165,11 @@ test_predictions.ggeffects <- function(object,
   # because we cannot calculate them with marginaleffects or emmeans
   is_zero_inflated <- .safe(insight::model_info(model)$is_zero_inflated, FALSE)
   if (is_zero_inflated && inherits(model, "glmmTMB") && !is.null(type) && type %in% c("zi_prob", "zero", "zprob")) {
+    engine <- "ggeffects"
+  }
+
+  # if type = "simulate", we have to use the ggeffects-engine
+  if (identical(type, "simulate")) {
     engine <- "ggeffects"
   }
 

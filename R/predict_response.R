@@ -87,15 +87,16 @@
 #' be "translated" into the corresponding `type` option of the model's respective
 #' `predict()`-method.
 #'
+#' **Note 3:** If `margin = "marginalmeans"`, or when calling `ggemmeans()`
+#' respectively, `type = "random"` and `type = "zi_random"` are not available,
+#' i.e. no unit-level predictions are possible.
+#'
 #'   - `"fixed"` (or `"count"`)
 #'
 #'     Predicted values are conditioned on the fixed effects or conditional
-#'     model only (for mixed models: predicted values are on the
-#'     *population-level*, i.e. `re.form = NA` when calling `predict()`). For
-#'     models with zero-inflation component, this type calls `predict(..., type
-#'     = "link")` (however, predicted values are back-transformed to the
-#'     response scale, i.e. the conditional mean of the response). For instance,
-#'     for models fitted with `zeroinfl` from **pscl**, this would return the
+#'     model only. For mixed models, predicted values are on the
+#'     *population-level*, i.e. `re.form = NA` when calling `predict()`. For
+#'     models with zero-inflation component, this type would return the
 #'     predicted mean from the count component (without conditioning on the
 #'     zero-inflation part).
 #'
@@ -108,14 +109,6 @@
 #'     to the `terms`-argument (for more details, see [this
 #'     vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
 #'
-#'     If *no* random effects term (i.e. no grouping variable on the higher
-#'     level) is specified in the `terms` argument, `type = "random"` still
-#'     returns population-level predictions, however, conditioned on random
-#'     effects. Technically, `re.form = NULL` when calling `predict()` (and
-#'     random effects terms get the value `NA`). This may affect the returned
-#'     predicted values, depending on whether `REML = TRUE` or `REML = FALSE`
-#'     was used for model fitting.
-#'
 #'   - `"zero_inflated"` (or `"zi"`)
 #'
 #'     Predicted values are conditioned on the fixed effects and the
@@ -125,20 +118,16 @@
 #'
 #'   - `"zi_random"` (or `"zero_inflated_random"`)
 #'
-#'     Predicted values are conditioned on the zero-inflation component and on
-#'     the random effects. This type call `predict(..., type = "response")`,
-#'     with `re.form = NULL` for models from package **glmmTMB**. Use this for
+#'     This only applies to mixed models. Predicted values are conditioned on
+#'     the fixed effects and the zero-inflation component. Use this for
 #'     *unit-level* predictions, i.e. predicted values for each level of the
-#'     random effects groups. Add the name of the related random effect term
-#'     to the `terms`-argument (for more details, see [this
+#'     random effects groups. Add the name of the related random effect term to
+#'     the `terms`-argument (for more details, see [this
 #'     vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)).
 #'
 #'   - `"zi_prob"`
 #'
-#'     Predicted zero-inflation probability. For **glmmTMB** models with
-#'     zero-inflation component, this type calls `predict(..., type = "zlink")`,
-#'     models from **pscl** call `predict(..., type = "zero")` and for
-#'     **GLMMadaptive**, `predict(..., type = "zero_part")` is called.
+#'     Predicted zero-inflation probability.
 #'
 #'   - `"simulate"`
 #'
@@ -384,6 +373,25 @@
 #' uncertainty of the error term (residual variance) is not taken into account.
 #' The recommendation is to use the posterior predictive distribution
 #' ([`rstantools::posterior_predict()`]), i.e. setting `interval = "prediction"`.
+#'
+#' @section Mixed (multilevel) Models:
+#' For mixed models, following options are possible:
+#'
+#' - Predictions can be made on the population-level (`type = "fixed"`, the
+#'   default) or for each level of the grouping variable (unit-level). If
+#'   unit-level predictions are requested, you need to set `type = "random"``
+#'   and specify the grouping variable(s) in the `terms` argument.
+#'
+#' - Population-level predictions can be either *conditional* (predictions
+#'   for a "typical" group) or *marginal* (average predictions across all
+#'   groups). The default in `predict_response()` calculated *conditional*
+#'   predictions. Set `margin = "empirical"` for marginal predictions.
+#'
+#' - Prediction intervals, i.e. when `interval = "predictions"` also account
+#'   for the uncertainty in the random effects.
+#'
+#' See more details in
+#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html).
 #'
 #' @section Zero-Inflated and Zero-Inflated Mixed Models with brms:
 #'
@@ -639,7 +647,8 @@ predict_response <- function(model,
     model,
     type,
     # check for aliases for "empirical" margin
-    marginaleffects = margin %in% c("empirical", "counterfactual", "ame", "marginaleffects")
+    marginaleffects = margin %in% c("empirical", "counterfactual", "ame", "marginaleffects"),
+    emmeans_call = margin == "marginalmeans"
   )
 
   # make sure we have valid values
