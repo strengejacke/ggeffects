@@ -73,7 +73,7 @@ Adjusted predictions can now be calculated for specified values or levels of the
 
 To get population-level predictions, we set `type = "fixed"` or `type = "zero_inflation"` (for models with zero-inflation component).
 
-### Conditional and marginal effects and predictions
+### Conditional and marginal effects/predictions
 
 We start with the population-level predictions. Here you can either calculate the _conditional_ or the _marginal_ effect (see in detail also _Heiss 2022_). The conditional effect is the effect of a predictor in an average or typical group, while the marginal effect is the average effect of a predictor across all groups. E.g. let's say we have `countries` as grouping variable and `gdp` (gross domestic product per capita) as predictor, then the conditional and marginal effect would be:
 
@@ -136,25 +136,20 @@ predict_response(m2, "Days [1:3]")
 
 ## Population-level predictions for zero-inflated mixed models
 
-For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` can return predicted values of the response, conditioned on following prediction-types:
+For zero-inflated mixed effects models, typically fitted with the **glmmTMB** or **GLMMadaptive** packages, `predict_response()` can return predicted values of the response, for the different model components:
 
-  - Conditional effects / predictions:
-
-    * population-level predictions, conditioned on the fixed effects of the conditional (or "count") model only (`type = "fixed"`)
-
+  - Conditional predictions:
+    * population-level predictions, conditioned on the fixed effects (conditional or "count" model) only (`type = "fixed"`)
     * population-level predictions, conditioned on the fixed effects *and* zero-inflation component (`type = "zero_inflated"`), returning the expected (predicted) values of the response
-
     * the zero-inflation probabilities (`type = "zi_prob"`)
 
-  - Marginal effects / predictions:
-
+  - Marginal predictions:
     * `type = "simulate"` can be used to obtain marginal predictions, averaged across all random effects groups and non-focal terms
-
     * marginal predictions using `margin = "empirical"` are also averaged across all random effects groups and non-focal terms. The major difference to `type = "simulate"` is that `margin = "empirical"` also returns _counterfactual_ predictions.
 
  For `predict_response(margin = "empirical")`, valid values for `type` are usually those based on the model's `predict()` method. For models of class `glmmTMB`, these are `"response"`, `"link"`, `"conditional"`, `"zprob"`, `"zlink"`, or `"disp"`. However, for zero-inflated models, `type = "fixed"` and `type = "zero_inflated"` can be used as aliases (instead of `"conditional"` or `"response"`).
 
-### Conditional predictions: Adjusted predictions for the count model
+### Conditional predictions for the count model
 
 First, we show examples for conditional predictions, which is the default marginalization method in `predict_response()`.
 
@@ -175,7 +170,7 @@ Similar to mixed models without zero-inflation component, `type = "fixed"` retur
 predict_response(m, "spp")
 ```
 
-### Conditional predictions: Adjusted predictions for the full model
+### Conditional predictions for the full model
 
 For `type = "zero_inflated"`, results the expected values of the response, `mu*(1-p)`. Since the zero inflation and the conditional model are working in "opposite directions", a higher expected value for the zero inflation means a lower response, but a higher value for the conditional ("count") model means a higher response. While it is possible to calculate predicted values with `predict(..., type = "response")`, standard errors and confidence intervals can not be derived directly from the `predict()`-function. Thus, confidence intervals for `type = "zero_inflated"` are based on quantiles of simulated draws from a multivariate normal distribution (see also _Brooks et al. 2017, pp.391-392_ for details).
 
@@ -183,7 +178,7 @@ For `type = "zero_inflated"`, results the expected values of the response, `mu*(
 predict_response(m, "spp", type = "zero_inflated")
 ```
 
-### Marginal predictions: Simulated outcome (full model)
+### Marginal predictions for the full model (simulated draws)
 
 In the above examples, we get the conditional, not the marginal predictions. E.g., predictions are conditioned on `mined` when it is set to `"yes"`, and predictions refer to a _typical_ (random effects) group. However, it is possible to obtain predicted values by simulating from the model, where predictions are based on `simulate()` (see _Brooks et al. 2017, pp.392-393_ for details). This will return expected values of the response (*marginal* predictions), averaged across all random effects groups and non-focal terms. To achieve this, use `type = "simulate"`. It is even possible to return prediction intervals using `interval = "prediction"` with `type = "simulate"`.
 
@@ -191,7 +186,7 @@ In the above examples, we get the conditional, not the marginal predictions. E.g
 predict_response(m, "spp", type = "simulate")
 ```
 
-### Marginal predictions: Average predictions for the full model
+### Marginal predictions for the full model (average predictions)
 
 In a similar fashion, you can obtain average marginal predictions for zero-inflated mixed models with `margin = "empirical"`. The returned values are most comparable to `predict_response(type = "simulate")`, because `margin = "empirical"` also returns expected values of the response, averaged across all random effects groups and all non-focal terms. The next example shows the average marginal predicted values of `spp` on the response across all `site`s, taking the zero-inflation component into account (i.e. `type = "zero_inflated"`).
 
@@ -222,7 +217,7 @@ predict_response(m, "spp", bias_correction = TRUE, sigma = insight::get_sigma(m)
 
 Adjusted predictions can also be calculated for each group level (unit-level) in mixed models. Simply add the name of the related random effects term to the `terms`-argument, and set `type = "random"`. For `predict_response(margin = "empirical")`, you don't need to set `type = "random"`.
 
-In the following example, we fit a linear mixed model and first simply plot the adjusted predictions on population-level.
+In the following example, we fit a linear mixed model and first simply plot the adjusted predictions at the population-level.
 
 ```{r}
 library(sjlabelled)
@@ -233,7 +228,7 @@ me <- predict_response(m, terms = "c12hour")
 plot(me)
 ```
 
-To compute adjusted predictions for each grouping level (unit-level), add the related random effects term to the `terms`-argument. In this case, predictions are calculated for each level of the random effects.
+To compute adjusted predictions for each grouping level (unit-level), add the related random effects term to the `terms`-argument. In this case, predictions are calculated for each level of the specified random effects term.
 
 ```{r}
 me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
