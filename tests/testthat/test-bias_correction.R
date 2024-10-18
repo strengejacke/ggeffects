@@ -61,7 +61,7 @@ test_that("ggpredict, bias_correction, mixed", {
     list(ggeffects_warning_bias_correction = TRUE),
     {
       # no message when type = "random"
-      expect_silent(predict_response(m1, "var_binom", type = "random"))
+      expect_silent(predict_response(m1, c("var_binom", "group"), type = "random"))
     }
   )
 })
