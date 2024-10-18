@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -196,7 +196,7 @@ predictor between different groups.</p>
 <code>type = "fixed"</code> or <code>type = "zero_inflation"</code> (for
 models with zero-inflation component).</p>
 <div class="section level4">
-<h4 id="conditional-and-marginal-effects-and-predictions">Conditional and marginal effects and predictions<a class="anchor" aria-label="anchor" href="#conditional-and-marginal-effects-and-predictions"></a>
+<h4 id="conditional-and-marginal-effectspredictions">Conditional and marginal effects/predictions<a class="anchor" aria-label="anchor" href="#conditional-and-marginal-effectspredictions"></a>
 </h4>
 <p>We start with the population-level predictions. Here you can either
 calculate the <em>conditional</em> or the <em>marginal</em> effect (see
@@ -341,33 +341,31 @@ not.</li>
 <p>For zero-inflated mixed effects models, typically fitted with the
 <strong>glmmTMB</strong> or <strong>GLMMadaptive</strong> packages,
 <code><a href="../reference/predict_response.html">predict_response()</a></code> can return predicted values of the
-response, conditioned on following prediction-types:</p>
+response, for the different model components:</p>
 <ul>
-<li>
-<p>Conditional effects / predictions:</p>
+<li>Conditional predictions:
 <ul>
-<li><p>population-level predictions, conditioned on the fixed effects of
-the conditional (or “count”) model only
-(<code>type = "fixed"</code>)</p></li>
-<li><p>population-level predictions, conditioned on the fixed effects
+<li>population-level predictions, conditioned on the fixed effects
+(conditional or “count” model) only (<code>type = "fixed"</code>)</li>
+<li>population-level predictions, conditioned on the fixed effects
 <em>and</em> zero-inflation component
 (<code>type = "zero_inflated"</code>), returning the expected
-(predicted) values of the response</p></li>
-<li><p>the zero-inflation probabilities
-(<code>type = "zi_prob"</code>)</p></li>
+(predicted) values of the response</li>
+<li>the zero-inflation probabilities
+(<code>type = "zi_prob"</code>)</li>
 </ul>
 </li>
-<li>
-<p>Marginal effects / predictions:</p>
+<li>Marginal predictions:
 <ul>
-<li><p><code>type = "simulate"</code> can be used to obtain marginal
+<li>
+<code>type = "simulate"</code> can be used to obtain marginal
 predictions, averaged across all random effects groups and non-focal
-terms</p></li>
-<li><p>marginal predictions using <code>margin = "empirical"</code> are
+terms</li>
+<li>marginal predictions using <code>margin = "empirical"</code> are
 also averaged across all random effects groups and non-focal terms. The
 major difference to <code>type = "simulate"</code> is that
 <code>margin = "empirical"</code> also returns <em>counterfactual</em>
-predictions.</p></li>
+predictions.</li>
 </ul>
 </li>
 </ul>
@@ -381,8 +379,7 @@ or <code>"disp"</code>. However, for zero-inflated models,
 be used as aliases (instead of <code>"conditional"</code> or
 <code>"response"</code>).</p>
 <div class="section level4">
-<h4 id="conditional-predictions-adjusted-predictions-for-the-count-model">Conditional predictions: Adjusted predictions for the count
-model<a class="anchor" aria-label="anchor" href="#conditional-predictions-adjusted-predictions-for-the-count-model"></a>
+<h4 id="conditional-predictions-for-the-count-model">Conditional predictions for the count model<a class="anchor" aria-label="anchor" href="#conditional-predictions-for-the-count-model"></a>
 </h4>
 <p>First, we show examples for conditional predictions, which is the
 default marginalization method in <code><a href="../reference/predict_response.html">predict_response()</a></code>.</p>
@@ -417,8 +414,7 @@ but for the conditional (“count”) model only.</p>
 <span><span class="co">#&gt; *  site = NA (population-level)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="conditional-predictions-adjusted-predictions-for-the-full-model">Conditional predictions: Adjusted predictions for the full
-model<a class="anchor" aria-label="anchor" href="#conditional-predictions-adjusted-predictions-for-the-full-model"></a>
+<h4 id="conditional-predictions-for-the-full-model">Conditional predictions for the full model<a class="anchor" aria-label="anchor" href="#conditional-predictions-for-the-full-model"></a>
 </h4>
 <p>For <code>type = "zero_inflated"</code>, results the expected values
 of the response, <code>mu*(1-p)</code>. Since the zero inflation and the
@@ -451,7 +447,7 @@ al. 2017, pp.391-392</em> for details).</p>
 <span><span class="co">#&gt; *  site = NA (population-level)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="marginal-predictions-simulated-outcome-full-model">Marginal predictions: Simulated outcome (full model)<a class="anchor" aria-label="anchor" href="#marginal-predictions-simulated-outcome-full-model"></a>
+<h4 id="marginal-predictions-for-the-full-model-simulated-draws">Marginal predictions for the full model (simulated draws)<a class="anchor" aria-label="anchor" href="#marginal-predictions-for-the-full-model-simulated-draws"></a>
 </h4>
 <p>In the above examples, we get the conditional, not the marginal
 predictions. E.g., predictions are conditioned on <code>mined</code>
@@ -480,7 +476,7 @@ intervals using <code>interval = "prediction"</code> with
 <span><span class="co">#&gt; DF    |      1.35 | 0.25, 2.42</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="marginal-predictions-average-predictions-for-the-full-model">Marginal predictions: Average predictions for the full model<a class="anchor" aria-label="anchor" href="#marginal-predictions-average-predictions-for-the-full-model"></a>
+<h4 id="marginal-predictions-for-the-full-model-average-predictions">Marginal predictions for the full model (average predictions)<a class="anchor" aria-label="anchor" href="#marginal-predictions-for-the-full-model-average-predictions"></a>
 </h4>
 <p>In a similar fashion, you can obtain average marginal predictions for
 zero-inflated mixed models with <code>margin = "empirical"</code>. The
@@ -592,7 +588,7 @@ effects term to the <code>terms</code>-argument, and set
 <code>predict_response(margin = "empirical")</code>, you don’t need to
 set <code>type = "random"</code>.</p>
 <p>In the following example, we fit a linear mixed model and first
-simply plot the adjusted predictions on population-level.</p>
+simply plot the adjusted predictions at the population-level.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
@@ -603,8 +599,8 @@ simply plot the adjusted predictions on population-level.</p>
 <p><img src="introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>To compute adjusted predictions for each grouping level (unit-level),
 add the related random effects term to the <code>terms</code>-argument.
-In this case, predictions are calculated for each level of the random
-effects.</p>
+In this case, predictions are calculated for each level of the specified
+random effects term.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>

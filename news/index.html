@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,6 +74,7 @@
 <li><p>The <code>vcov_fun</code> and <code>vcov_type</code> argument were removed and are now replaced by the single <code>vcov</code> argument, to be in line with the handling of heteroscedasticity-consistent standard errors in other packages (mainly: <em>easystats</em> eco-system).</p></li>
 <li><p>The deprecated arguments for <code><a href="../reference/ggpredict.html">ggpredict()</a></code>, <code><a href="../reference/vcov.html">vcov()</a></code>, <code><a href="../reference/ggpredict.html">ggeffect()</a></code> and <code><a href="../reference/ggpredict.html">ggemmeans()</a></code> have been removed.</p></li>
 <li><p>The deprecated arguments for the <code><a href="../reference/plot.html">plot()</a></code> method have been removed.</p></li>
+<li><p>Options <code>type = "random"</code> and <code>type = "zi_random"</code> are not longer available for <code><a href="../reference/ggpredict.html">ggemmeans()</a></code>. These were only responsible to set <em>prediction</em> intervals, which can be done with <code>interval = "prediction"</code> now.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-2-0-0">Changes<a class="anchor" aria-label="anchor" href="#changes-2-0-0"></a></h3>

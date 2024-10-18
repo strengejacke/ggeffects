@@ -53,7 +53,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -235,13 +235,14 @@ passing a <code>glm</code> object would allow the options <code>"response"</code
 <code>"terms"</code>. For models with zero-inflation component, the below mentioned
 options <code>"fixed"</code>, <code>"zero_inflated"</code> and <code>"zi_prob"</code> can also be used and will
 be "translated" into the corresponding <code>type</code> option of the model's respective
-<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p><ul><li><p><code>"fixed"</code> (or <code>"count"</code>)</p>
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>-method.</p>
+<p><strong>Note 3:</strong> If <code>margin = "marginalmeans"</code>, or when calling <code><a href="ggpredict.html">ggemmeans()</a></code>
+respectively, <code>type = "random"</code> and <code>type = "zi_random"</code> are not available,
+i.e. no unit-level predictions are possible.</p><ul><li><p><code>"fixed"</code> (or <code>"count"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects or conditional
-model only (for mixed models: predicted values are on the
-<em>population-level</em>, i.e. <code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>). For
-models with zero-inflation component, this type calls <code>predict(..., type = "link")</code> (however, predicted values are back-transformed to the
-response scale, i.e. the conditional mean of the response). For instance,
-for models fitted with <code>zeroinfl</code> from <strong>pscl</strong>, this would return the
+model only. For mixed models, predicted values are on the
+<em>population-level</em>, i.e. <code>re.form = NA</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>. For
+models with zero-inflation component, this type would return the
 predicted mean from the count component (without conditioning on the
 zero-inflation part).</p></li>
 <li><p><code>"random"</code></p>
@@ -249,31 +250,20 @@ zero-inflation part).</p></li>
 condition on the zero-inflation component of the model. Use this for
 <em>unit-level</em> predictions, i.e. predicted values for each level of the
 random effects groups. Add the name of the related random effect term
-to the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p>
-<p>If <em>no</em> random effects term (i.e. no grouping variable on the higher
-level) is specified in the <code>terms</code> argument, <code>type = "random"</code> still
-returns population-level predictions, however, conditioned on random
-effects. Technically, <code>re.form = NULL</code> when calling <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> (and
-random effects terms get the value <code>NA</code>). This may affect the returned
-predicted values, depending on whether <code>REML = TRUE</code> or <code>REML = FALSE</code>
-was used for model fitting.</p></li>
+to the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
 <li><p><code>"zero_inflated"</code> (or <code>"zi"</code>)</p>
 <p>Predicted values are conditioned on the fixed effects and the
 zero-inflation component, returning the expected value of the response
 (<code>mu*(1-p)</code>). For models from package <strong>glmmTMB</strong>, this would return the
 expected response <code>mu*(1-p)</code> on the <em>population-level</em>. See 'Details'.</p></li>
 <li><p><code>"zi_random"</code> (or <code>"zero_inflated_random"</code>)</p>
-<p>Predicted values are conditioned on the zero-inflation component and on
-the random effects. This type call <code>predict(..., type = "response")</code>,
-with <code>re.form = NULL</code> for models from package <strong>glmmTMB</strong>. Use this for
+<p>This only applies to mixed models. Predicted values are conditioned on
+the fixed effects and the zero-inflation component. Use this for
 <em>unit-level</em> predictions, i.e. predicted values for each level of the
-random effects groups. Add the name of the related random effect term
-to the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
+random effects groups. Add the name of the related random effect term to
+the <code>terms</code>-argument (for more details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>).</p></li>
 <li><p><code>"zi_prob"</code></p>
-<p>Predicted zero-inflation probability. For <strong>glmmTMB</strong> models with
-zero-inflation component, this type calls <code>predict(..., type = "zlink")</code>,
-models from <strong>pscl</strong> call <code>predict(..., type = "zero")</code> and for
-<strong>GLMMadaptive</strong>, <code>predict(..., type = "zero_part")</code> is called.</p></li>
+<p>Predicted zero-inflation probability.</p></li>
 <li><p><code>"simulate"</code></p>
 <p>Predicted values and confidence resp. prediction intervals are based on
 simulations, i.e. calls to <code><a href="https://rdrr.io/r/stats/simulate.html" class="external-link">simulate()</a></code>. This type of prediction takes
@@ -566,6 +556,22 @@ predictive intervals. By default, the predictions are based on
 uncertainty of the error term (residual variance) is not taken into account.
 The recommendation is to use the posterior predictive distribution
 (<code><a href="https://mc-stan.org/rstantools/reference/posterior_predict.html" class="external-link">rstantools::posterior_predict()</a></code>), i.e. setting <code>interval = "prediction"</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="mixed-multilevel-models">Mixed (multilevel) Models<a class="anchor" aria-label="anchor" href="#mixed-multilevel-models"></a></h2>
+
+
+<p>For mixed models, following options are possible:</p><ul><li><p>Predictions can be made on the population-level (<code>type = "fixed"</code>, the
+default) or for each level of the grouping variable (unit-level). If
+unit-level predictions are requested, you need to set <code>type = "random"`` and specify the grouping variable(s) in the </code>terms` argument.</p></li>
+<li><p>Population-level predictions can be either <em>conditional</em> (predictions
+for a "typical" group) or <em>marginal</em> (average predictions across all
+groups). The default in <code>predict_response()</code> calculated <em>conditional</em>
+predictions. Set <code>margin = "empirical"</code> for marginal predictions.</p></li>
+<li><p>Prediction intervals, i.e. when <code>interval = "predictions"</code> also account
+for the uncertainty in the random effects.</p></li>
+</ul><p>See more details in
+<a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this vignette</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="zero-inflated-and-zero-inflated-mixed-models-with-brms">Zero-Inflated and Zero-Inflated Mixed Models with brms<a class="anchor" aria-label="anchor" href="#zero-inflated-and-zero-inflated-mixed-models-with-brms"></a></h2>

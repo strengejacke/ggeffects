@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -487,7 +487,7 @@ term on a standardized variable.</p>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://easystats.github.io/datawizard/reference/to_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span></span>
-<span>  <span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">c12hour</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">e15relat</span><span class="op">)</span>, </span>
+<span>  <span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">c12hour</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">e15relat</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">efc</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -576,15 +576,15 @@ requires a named vector, with the name indicating the covariate.</p>
 <span><span class="co">#&gt; 335 |     15.25 | 11.03, 19.47</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="adjusted-predictions-for-each-level-of-random-effects">Adjusted predictions for each level of random effects<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-each-level-of-random-effects"></a>
+<h3 id="adjusted-predictions-for-each-level-of-random-effects-unit-level-predictions">Adjusted predictions for each level of random effects (unit-level
+predictions)<a class="anchor" aria-label="anchor" href="#adjusted-predictions-for-each-level-of-random-effects-unit-level-predictions"></a>
 </h3>
 <p>Adjusted predictions can also be calculated for each group level in
 mixed models. Simply add the name of the related random effects term to
 the <code>terms</code>-argument, and set
 <code>type = "random"</code>.</p>
-<p>In the following example, we fit a linear mixed model and first
-simply plot the marginal effetcs, <em>not</em> conditioned on random
-effects. Please see also the <a href="https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html">dedicated
+<p>In the following example, we fit a linear mixed model and first plot
+the <em>population-level</em> predictions. Please see also the <a href="https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html">dedicated
 vignette for mixed models</a> for further details and examples.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span>
@@ -594,41 +594,30 @@ vignette for mixed models</a> for further details and examples.</p>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
-<p>Changing the type to <code>type = "random"</code> still returns
-population-level predictions by default. The major difference between
-<code>type = "fixed"</code> and <code>type = "random"</code> is the
-uncertainty in the variance parameters. This leads to larger confidence
-intervals for adjusted predictions with
-<code>type = "random"</code>.</p>
+<p>To compute adjusted predictions for each grouping level
+(<em>unit-level</em> predictions), add the related random term to the
+<code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="st">"c12hour"</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
-<p>To compute adjusted predictions for each grouping level, add the
-related random term to the <code>terms</code>-argument. In this case,
-confidence intervals are not calculated, but adjusted predictions are
-conditioned on each group level (unit-level) of the random effects.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
-<p>Adjusted predictions, conditioned on random effects, can also be
-calculated for specific levels only. Add the related values into
-brackets after the variable name in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p>Unit-level predictions can also be calculated for specific levels
+only. Add the related values into brackets after the variable name in
+the <code>terms</code>-argument.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"e15relat [child,sibling]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>If the group factor has too many levels, you can also take a random
 sample of all possible levels and plot the adjusted predictions for this
 subsample of group levels. To do this, use
 <code>term = "&lt;groupfactor&gt; [sample=n]"</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Days"</span>, <span class="st">"Subject [sample=8]"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
+<p><img src="introduction_effectsatvalues_files/figure-html/unnamed-chunk-18-1.png" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

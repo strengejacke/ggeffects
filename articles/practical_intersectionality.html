@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -366,10 +366,10 @@ the between-stratum variance.</p>
 <span><span class="co">#&gt; Parameter       |             m_gender |         m_employment |                m_age</span></span>
 <span><span class="co">#&gt; ------------------------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; (Intercept)     | 15.55 (14.51, 16.60) | 14.23 (13.35, 15.12) | 16.25 (15.33, 17.17)</span></span>
-<span><span class="co">#&gt; gender (Female) | -1.18 (-2.54,  0.17) |                      |                     </span></span>
-<span><span class="co">#&gt; employed (yes)  |                      |  1.38 ( 0.07,  2.68) |                     </span></span>
-<span><span class="co">#&gt; age (41-64)     |                      |                      | -1.99 (-3.14, -0.84)</span></span>
-<span><span class="co">#&gt; age (65+)       |                      |                      | -2.55 (-3.88, -1.23)</span></span>
+<span><span class="co">#&gt; gender [Female] | -1.18 (-2.54,  0.17) |                      |                     </span></span>
+<span><span class="co">#&gt; employed [yes]  |                      |  1.38 ( 0.07,  2.68) |                     </span></span>
+<span><span class="co">#&gt; age [41-64]     |                      |                      | -1.99 (-3.14, -0.84)</span></span>
+<span><span class="co">#&gt; age [65+]       |                      |                      | -2.55 (-3.88, -1.23)</span></span>
 <span><span class="co">#&gt; ------------------------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; Observations    |                  895 |                  895 |                  895</span></span></code></pre></div>
 <p>Looking at the summary tables above, it seems like
@@ -430,19 +430,18 @@ differences<a class="anchor" aria-label="anchor" href="#predict-between-stratum-
 <p>Finally, we may want to have a clearer picture of how the different
 strata vary, which combination of characteristics defines the highest or
 maybe lowest risk group. To do so, we calculate predictions of the
-random effects by either setting <code>margin = "empirical"</code>, or
-setting <code>type = "random"</code> and
-<code>interval = "confidence"</code> (<code>margin = "empirical"</code>
-always returns confidence intervals, and we don’t want prediction
-intervals for pairwise comparisons here).</p>
+random effects (<em>unit-level</em> predictions) by either setting
+<code>margin = "empirical"</code> or setting
+<code>type = "random"</code> (for more defaults how <em>ggeffects</em>
+handles mixed models, see <a href="introduction_randomeffects.html">this
+vignette</a>.).</p>
 <p>The following code shows the predicted average quality of life scores
 for the different groups.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
 <span>  <span class="va">m_null</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"employed"</span>, <span class="st">"age"</span><span class="op">)</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"random"</span>,</span>
-<span>  interval <span class="op">=</span> <span class="st">"confidence"</span></span>
+<span>  type <span class="op">=</span> <span class="st">"random"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_intersectionality_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
