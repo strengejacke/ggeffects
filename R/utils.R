@@ -24,7 +24,7 @@
       if (!all(clean.terms %in% pv)) {
         out_msg <- c(
           "Some of the specified `terms` were not found in the model.",
-          .misspelled_string(pv, clean.terms, "Maybe misspelled?")
+          .misspelled_string(pv, clean.terms, "Maybe misspelled?")$msg
         )
       }
       out_msg
@@ -435,7 +435,7 @@ is.gamm4 <- function(x) {
     msg <- default_message
   }
   # no double white space
-  insight::trim_ws(msg)
+  list(msg = insight::trim_ws(msg), possible_strings = possible_strings)
 }
 
 
@@ -472,17 +472,33 @@ is.gamm4 <- function(x) {
 
 # this is a wrapper around `match.arg()`, but provided clearer information on fail
 .check_arg <- function(argument, options) {
+  # save this information for printin
   argument_name <- deparse(substitute(argument))
+  original_argument <- argument
+  # catch error, we want our own message
   argument <- .safe(match.arg(argument, options))
+  # proceed here if argument option was invalid
   if (is.null(argument)) {
-    suggestion <- .misspelled_string(options, argument_name)
+    # check whether we find a typo
+    suggestion <- .misspelled_string(options, original_argument)
     msg <- sprintf("Invalid option for argument `%s`.", argument_name)
-    if (is.null(suggestion) || !length(suggestion) || !nzchar(suggestion)) {
-      msg <- paste(msg, "Please use one of the following options:")
+    if (is.null(suggestion$msg) || !length(suggestion$msg) || !nzchar(suggestion$msg)) {
+      msg <- paste(
+        msg,
+        "Please use one of the following options:",
+        datawizard::text_concatenate(options, last = " or ", enclose = "\"")
+      )
     } else {
-      msg <- paste(msg, suggestion, "Else, use one of the following options:")
+      options <- setdiff(options, suggestion$possible_strings)
+      msg <- paste(msg, suggestion$msg)
+      if (length(options)) {
+        msg <- paste(
+          msg,
+          "Otherwise, use one of the following options:",
+          datawizard::text_concatenate(options, last = " or ", enclose = "\"")
+        )
+      }
     }
-    msg <- paste(msg, datawizard::text_concatenate(options, last = " or ", enclose = "\""))
     insight::format_error(msg)
   }
   argument
