@@ -657,7 +657,8 @@ test_predictions.default <- function(object,
           df = df,
           ci_level = ci_level,
           dot_args = dot_args,
-          include_random = include_random
+          include_random = include_random,
+          test = test
         )
         # update objects
         hypothesis_label <- result$hypothesis_label

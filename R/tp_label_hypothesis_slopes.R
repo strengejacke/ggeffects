@@ -4,7 +4,8 @@
                                         df,
                                         ci_level,
                                         dot_args,
-                                        include_random) {
+                                        include_random,
+                                        test) {
   # if we have specific comparisons of estimates, like "b1 = b2", we
   # want to replace these shortcuts with the full related predictor names
   # and levels
