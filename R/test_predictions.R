@@ -733,7 +733,8 @@ test_predictions.default <- function(object,
         focal = focal,
         need_average_predictions = need_average_predictions,
         margin = margin,
-        by_variables = by_variables
+        by_variables = by_variables,
+        minfo = minfo
       )
     } else if (is.null(test)) {
       ## contrasts of group levels -----

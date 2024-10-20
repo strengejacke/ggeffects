@@ -3,7 +3,8 @@
                                            focal,
                                            need_average_predictions,
                                            margin,
-                                           by_variables) {
+                                           by_variables,
+                                           minfo) {
   # for "predictions()", term name is "Row 1 - Row 2" etc. For
   # "avg_predictions()", we have "level_a1, level_b1 - level_a2, level_b1"
   # etc. we first want to have a data frame, where each column is one
