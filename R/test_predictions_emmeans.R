@@ -3,7 +3,6 @@
                                       by = NULL,
                                       test = "pairwise",
                                       test_args = NULL,
-                                      equivalence = NULL,
                                       scale = "response",
                                       p_adjust = NULL,
                                       df = NULL,

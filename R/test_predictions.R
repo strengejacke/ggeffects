@@ -369,90 +369,22 @@ test_predictions.default <- function(object,
   # margin-argument -----------------------------------------------------------
   # harmonize the "margin" argument
   # ---------------------------------------------------------------------------
-
-  # default for "margin" argument?
-  margin <- getOption("ggeffects_margin", margin)
-  # validate "margin" argument
-  margin <- .check_arg(
-    margin,
-    c(
-      "mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data", "ame", "marginaleffects"
-    )
-  )
-  # harmonize argument
-  margin <- switch(margin,
-    mean_reference = ,
-    mean_mode = "mean_reference",
-    marginalmeans = "marginalmeans",
-    "empirical"
-  )
+  margin <- .tp_validate_margin(margin)
 
   # handle alias - "slope" or "trend" are aliases for simply setting it to NULL
   if (!is.null(test) && !is.data.frame(test) && test %in% c("trend", "slope")) {
     test <- NULL
   }
 
-  # check for installed packages ----------------------------------------------
+  # check engine and check for installed packages -----------------------------
   # check if we have the appropriate package version installed
   # ---------------------------------------------------------------------------
+  engine <- .tp_validate_engine(engine, test)
 
-  # default for "engine" argument?
-  engine <- getOption("ggeffects_test_engine", engine)
-  # validate "engine" argument
-  engine <- .safe(match.arg(engine, c("marginaleffects", "emmeans")))
-
-  # throw error if invalid engine
-  if (is.null(engine)) {
-    insight::format_error(
-      "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` object directly, e.g.:", # nolint
-      paste0("\n  ", insight::color_text("pr <- predict_response(model, ...)", "cyan")),
-      insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "cyan")
-    )
-  }
-
-  # for test = "interaction" or "consecutive", we need to call emmeans!
-  if (.is_emmeans_contrast(test)) {
-    engine <- "emmeans"
-  }
-  if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
-    engine <- "emmeans"
-  }
-  # if we don't have the package installed, we switch to emmeans
-  if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
-    # if we even don't have emmeans, we throw an error
-    insight::format_error(
-      "The `marginaleffects` and `emmeans` packages are required for this function. Please install them from CRAN by running `install.packages(c(\"emmeans\", \"marginaleffects\"))`." # nolint
-    )
-  }
-
-  # when model is a "ggeffects" object, due to environment issues, "model"
-  # can be NULL (in particular in tests), thus check for NULL
-  if (is.null(object)) {
-    insight::format_error(
-      "No model object found. Try to directly pass the model object to `test_predictions()`, e.g.:",
-      paste0("\n  ", insight::color_text("model <- lm(mpg ~ gear, data = mtcars)", "cyan")),
-      insight::color_text("test_predictions(model, \"gear\")", "cyan")
-    )
-  }
-
-  # for gamm/gamm4 objects, we have a list with two items, mer and gam
-  # extract just the gam-part then
-  if (is.gamm(object) || is.gamm4(object)) {
-    object <- object$gam
-  }
-
-  # only model objects are supported...
-  if (!insight::is_model_supported(object)) {
-    insight::format_error(
-      paste0("Objects of class `", class(object)[1], "` are not yet supported.")
-    )
-  }
-
-  # for parsnip-models, use $fit element
-  if (inherits(object, "model_fit")) {
-    object <- object$fit
-  }
+  # object-argument -----------------------------------------------------------
+  # validate the "object" argument
+  # ---------------------------------------------------------------------------
+  object <- .tp_validate_object(object)
 
   # ci-level cannot be NA, set to default value then
   if (is.na(ci_level)) {
@@ -466,7 +398,6 @@ test_predictions.default <- function(object,
   # as random effects in the model). If so, we need to tell the user that they
   # have to use `engine = "ggeffects"`
   # ---------------------------------------------------------------------------
-
   random_pars <- insight::find_random(object, split_nested = TRUE, flatten = TRUE)
   if (verbose && !is.null(random_pars) && all(.clean_terms(terms) %in% random_pars)) {
     insight::format_alert(
@@ -474,60 +405,33 @@ test_predictions.default <- function(object,
     )
   }
 
-
   # dot-arguments -------------------------------------------------------------
   # evaluate dots - remove conflicting additional arguments. We have our own
   # "scale" argument that modulates the "type" and "transform" arguments
   # in "marginaleffects"
   # ---------------------------------------------------------------------------
-
-  dot_args <- list(...)
-  # default scale is response scale without any transformation
-  dot_args$transform <- NULL
-  dot_args$type <- "response"
-  if (scale == "link") {
-    dot_args$type <- "link"
-  } else if (scale %in% c("probability", "probs")) {
-    dot_args$type <- "probs"
-  } else if (scale == "exp") {
-    dot_args$transform <- "exp"
-  } else if (scale == "log") {
-    dot_args$transform <- "ln"
-  } else if (scale %in% c("irr", "oddsratios")) {
-    dot_args$type <- "link"
-    dot_args$transform <- "exp"
-  } else {
-    # unknown type - might be supported by marginal effects
-    dot_args$type <- scale
-  }
-
-  # make sure we have a valid type-argument...
-  dot_args$type <- .sanitize_type_argument(object, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
-
-  # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
-  # from ggpredict, like "vcov" etc. - then remove vcov-arguments
-  if (!is.null(dot_args$vcov)) {
-    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov, dot_args$vcov_args)
-    # remove non supported args
-    dot_args$vcov_args <- NULL
-  }
-
-  # new policy for glmmTMB models
-  if (inherits(object, "glmmTMB") && is.null(dot_args$vcov)) {
-    dot_args$vcov <- TRUE
-  }
+  dot_args <- .tp_validate_dot_args(
+    dot_args = list(...),
+    scale = scale,
+    object = object,
+    miss_scale = miss_scale,
+    verbose = verbose
+  )
 
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
   # ---------------------------------------------------------------------------
   if (engine == "emmeans") {
+    # warn about non-supported arguments
+    if (!is.null(equivalence) && verbose) {
+      insight::format_alert("Argument `equivalence` is not supported when `engine = \"emmeans\"`.")
+    }
     return(.test_predictions_emmeans(
       object,
       terms = terms,
       by = by,
       test = test,
       test_args = test_args,
-      equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,
       df = df,
@@ -563,7 +467,7 @@ test_predictions.default <- function(object,
     dot_args$re.form <- NA
   }
 
-  # for zero-inflation probabiliries, we need to set "need_average_predictions"
+  # for zero-inflation probabilities, we need to set "need_average_predictions"
   # to FALSE, else no confidence intervals will be returned.
   if (scale %in% c("zi_prob", "zero", "zprob")) {
     need_average_predictions <- FALSE
@@ -722,43 +626,11 @@ test_predictions.default <- function(object,
         # here comes the code to extract labels for pairwise comparison of slopes
         # ---------------------------------------------------------------------
 
-        # before we extract labels, we need to check whether any factor level
-        # contains a "," - in this case, strplit() will not work properly
-        .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
-
-        # if we find a comma in the terms column, we have two categorical predictors
-        if (any(grepl(",", .comparisons$term, fixed = TRUE))) {
-          contrast_terms <- data.frame(
-            do.call(rbind, strsplit(.comparisons$term, " - ", fixed = TRUE)),
-            stringsAsFactors = FALSE
-          )
-
-          # split and recombine term names
-          pairs1 <- unlist(strsplit(contrast_terms[[1]], ",", fixed = TRUE))
-          pairs2 <- unlist(strsplit(contrast_terms[[2]], ",", fixed = TRUE))
-          contrast_pairs <- paste0(
-            insight::trim_ws(pairs1),
-            "-",
-            insight::trim_ws(pairs2)
-          )
-
-          # create data frame - since we have two categorical predictors at
-          # this point (and one numerical), we create a data frame with three
-          # columns (one per focal term).
-          out <- data.frame(
-            x_ = "slope",
-            x__ = contrast_pairs[c(TRUE, FALSE)],
-            x___ = contrast_pairs[c(FALSE, TRUE)],
-            stringsAsFactors = FALSE
-          )
-        } else {
-          out <- data.frame(
-            x_ = "slope",
-            x__ = gsub(" ", "", .comparisons$term, fixed = TRUE),
-            stringsAsFactors = FALSE
-          )
-        }
-        colnames(out) <- focal
+        # extract labels
+        result <- .tp_label_pairwise_slopes(.comparisons, datagrid, focal)
+        # update objects
+        .comparisons <- result$.comparison
+        out <- result$out
       } else if (is.null(test)) {
         # contrasts of slopes -------------------------------------------------
         # here comes the code to extract labels for trends of slopes
@@ -777,33 +649,19 @@ test_predictions.default <- function(object,
         # here comes the code to extract labels for special hypothesis tests
         # ---------------------------------------------------------------------
 
-        # if we have specific comparisons of estimates, like "b1 = b2", we
-        # want to replace these shortcuts with the full related predictor names
-        # and levels
-        if (any(grepl("b[0-9]+", .comparisons$term))) {
-          # prepare argument list for "marginaleffects::slopes"
-          # we add dot-args later, that modulate the scale of the contrasts
-          fun_args <- list(
-            model = object,
-            variables = focal[1],
-            by = focal[2:length(focal)],
-            hypothesis = NULL,
-            df = df,
-            conf_level = ci_level
-          )
-          # re-compute comoparisons for all combinations, so we know which
-          # estimate refers to which combination of predictor levels
-          .full_comparisons <- .call_me("slopes", fun_args, dot_args, include_random)
-          # replace "hypothesis" labels with names/levels of focal predictors
-          hypothesis_label <- .extract_labels(
-            full_comparisons = .full_comparisons,
-            focal = focal[2:length(focal)],
-            test = test,
-            old_labels = .comparisons$term
-          )
-        }
-        # we have a specific hypothesis, like "b3 = b4". We just copy that information
-        out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
+        # extract labels
+        result <- .tp_label_hypothesis_slopes(
+          .comparisons,
+          object = object,
+          focal = focal,
+          df = df,
+          ci_level = ci_level,
+          dot_args = dot_args,
+          include_random = include_random
+        )
+        # update objects
+        hypothesis_label <- result$hypothesis_label
+        out <- result$out
       }
     }
     estimate_name <- ifelse(is.null(test), "Slope", "Contrast")
@@ -869,103 +727,14 @@ test_predictions.default <- function(object,
     # column and create separate columns for contrats of focal predictors
     if (!is.null(test) && all(test == "pairwise")) {
       ## pairwise comparisons of group levels -----
-
-      # for "predictions()", term name is "Row 1 - Row 2" etc. For
-      # "avg_predictions()", we have "level_a1, level_b1 - level_a2, level_b1"
-      # etc. we first want to have a data frame, where each column is one
-      # combination of levels, so we split at "," and/or "-".
-
-      # before we extract labels, we need to check whether any factor level
-      # contains a "," - in this case, strplit() will not work properly
-      .comparisons$term <- .fix_comma_levels(.comparisons$term, datagrid, focal)
-
-      # split and recombine levels of focal terms. We now have a data frame
-      # where each column represents one factor level of one focal predictor
-      contrast_terms <- data.frame(
-        do.call(rbind, strsplit(.comparisons$term, "(,| - )")),
-        stringsAsFactors = FALSE
+      out <- .tp_label_pairwise_categorical(
+        .comparisons,
+        datagrid = datagrid,
+        focal = focal,
+        need_average_predictions = need_average_predictions,
+        margin = margin,
+        by_variables = by_variables
       )
-      contrast_terms[] <- lapply(contrast_terms, function(i) {
-        # remove certain chars
-        for (j in c("(", ")", "Row")) {
-          i <- gsub(j, "", i, fixed = TRUE)
-        }
-        insight::trim_ws(i)
-      })
-
-      if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
-        # in .comparisons$term, for mixed models and when "margin" is either
-        # "marginalmeans" or "empirical", we have the factor levels as values,
-        # where factor levels from different variables are comma-separated. There
-        # are edge cases where we have more than one focal term, but for one of
-        # those only one value is requested, e.g.: `terms = c("sex", "education [high]")`
-        # in this case, .comparisons$term only contains levels of the first focal
-        # term, and no comma (no levels of second focal term are comma separated).
-        # in such cases, we simply remove those focal terms, which levels are not
-        # appearing in .comparisons$term
-
-        # we first need to get the relevant values / factor levels we want to
-        # check for. These can be different from the data grid, when representative
-        # values are specified in brackets via the "terms" argument.
-        if (is.list(by_variables)) {
-          values_to_check <- by_variables
-        } else {
-          values_to_check <- lapply(datagrid[focal], unique)
-        }
-
-        # we then check whether representative values of focal terms actually
-        # appear in our pairwise comparisons data frame.
-        focal_found <- vapply(values_to_check, function(i) {
-          any(vapply(as.character(i), function(j) {
-            any(grepl(j, unique(as.character(.comparisons$term)), fixed = TRUE))
-          }, TRUE))
-        }, TRUE)
-
-        # we temporarily update our focal terms, for extracting labels.
-        if (all(focal_found)) {
-          updated_focal <- focal
-        } else {
-          updated_focal <- focal[focal_found]
-        }
-
-        # for "avg_predictions()", we already have the correct labels of factor
-        # levels, we just need to re-arrange, so that each column represents a
-        # pairwise combination of factor levels for each factor
-        out <- as.data.frame(lapply(seq_along(updated_focal), function(i) {
-          tmp <- contrast_terms[seq(i, ncol(contrast_terms), by = length(updated_focal))]
-          unlist(lapply(seq_len(nrow(tmp)), function(j) {
-            .contrasts <- as.character(unlist(tmp[j, ]))
-            paste(.contrasts, collapse = "-")
-          }))
-        }), stringsAsFactors = FALSE)
-      } else {
-        # only for temporary use, for colnames, see below
-        updated_focal <- focal
-        # check whether we have row numbers, or (e.g., for polr or ordinal models)
-        # factor levels. When we have row numbers, we coerce them to numeric and
-        # extract related factor levels. Else, in case of ordinal outcomes, we
-        # should already have factor levels...
-        if (all(vapply(contrast_terms, function(i) anyNA(suppressWarnings(as.numeric(i))), TRUE)) || minfo$is_ordinal || minfo$is_multinomial) { # nolint
-          out <- as.data.frame(lapply(updated_focal, function(i) {
-            unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              paste(unlist(contrast_terms[j, ]), collapse = "-")
-            }))
-          }), stringsAsFactors = FALSE)
-        } else {
-          # for "predictions()", we now have the row numbers. We can than extract
-          # the factor levels from the data of the data grid, as row numbers in
-          # "contrast_terms" correspond to rows in "grid".
-          out <- as.data.frame(lapply(updated_focal, function(i) {
-            unlist(lapply(seq_len(nrow(contrast_terms)), function(j) {
-              .contrasts <- datagrid[[i]][as.numeric(unlist(contrast_terms[j, ]))]
-              paste(.contrasts, collapse = "-")
-            }))
-          }), stringsAsFactors = FALSE)
-        }
-      }
-      # the final result is a data frame with one column per focal predictor,
-      # and the pairwise combinations of factor levels are the values
-      colnames(out) <- updated_focal
     } else if (is.null(test)) {
       ## contrasts of group levels -----
 
@@ -974,42 +743,23 @@ test_predictions.default <- function(object,
       out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
     } else {
       ## hypothesis testing of group levels -----
-
-      # if we have specific comparisons of estimates, like "b1 = b2", we
-      # want to replace these shortcuts with the full related predictor names
-      # and levels
-      if (any(grepl("b[0-9]+", .comparisons$term))) {
-        # re-compute comoparisons for all combinations, so we know which
-        # estimate refers to which combination of predictor levels
-        if (need_average_predictions || margin %in% c("marginalmeans", "empirical")) {
-          fun <- "avg_predictions"
-        } else {
-          fun <- "predictions"
-        }
-        fun_args <- list(
-          model = object,
-          variables = by_variables,
-          newdata = datagrid,
-          hypothesis = NULL,
-          df = df,
-          conf_level = ci_level
-        )
-        # for counterfactual predictions, we need no data grid
-        if (margin == "empirical") {
-          fun_args$newdata <- NULL
-        }
-        .full_comparisons <- .call_me(fun, fun_args, dot_args, include_random)
-
-        # replace "hypothesis" labels with names/levels of focal predictors
-        hypothesis_label <- .extract_labels(
-          full_comparisons = .full_comparisons,
-          focal = focal,
-          test = test,
-          old_labels = .comparisons$term
-        )
-      }
-      # we have a specific hypothesis, like "b3 = b4". We just copy that information
-      out <- data.frame(Hypothesis = .comparisons$term, stringsAsFactors = FALSE)
+      result <- .tp_label_hypothesis_categorical(
+        .comparisons,
+        need_average_predictions = need_average_predictions,
+        margin = margin,
+        object = object,
+        by_variables = by_variables,
+        datagrid = datagrid,
+        df = df,
+        ci_level = ci_level,
+        dot_args = dot_args,
+        include_random = include_random,
+        focal = focal,
+        test = test
+      )
+      # update objects
+      hypothesis_label <- result$hypothesis_label
+      out <- result$out
     }
     estimate_name <- ifelse(is.null(test), "Predicted", "Contrast")
   }
@@ -1230,241 +980,129 @@ test_predictions.ggeffects <- function(object,
 }
 
 
-# helper ------------------------
+# helper ------------------------------
 
-
-.call_me <- function(fun, fun_args, dot_args, include_random) {
-  # concatenate all arguments
-  all_args <- .compact_list(c(fun_args, dot_args))
-  # since ".compact_list" removes NULL objects, we add it back for mixed models
-  if (include_random) {
-    all_args$re.form <- NULL
-    # avoid message
-    suppressMessages(suppressWarnings(do.call(get(fun, asNamespace("marginaleffects")), all_args)))
-  } else {
-    do.call(get(fun, asNamespace("marginaleffects")), all_args)
-  }
-}
-
-
-.validate_by_argument <- function(by, datagrid) {
-  # check for valid by-variable
-  if (!is.null(by)) {
-    # all by-terms need to be in data grid
-    if (!all(by %in% colnames(datagrid))) {
-      insight::format_error(
-        paste0("Variable(s) `", toString(by[!by %in% colnames(datagrid)]), "` not found in data grid.")
-      )
-    }
-    # by-terms must be categorical
-    by_factors <- vapply(datagrid[by], is.factor, TRUE)
-    if (!all(by_factors)) {
-      insight::format_error(
-        "All variables in `by` must be categorical.",
-        paste0(
-          "The following variables in `by` are not categorical: ",
-          toString(paste0("`", by[!by_factors], "`"))
-        )
-      )
-    }
-  }
-  by
-}
-
-
-.collapse_levels <- function(out, datagrid, focal, by) {
-  # remove by-terms from focal terms
-  if (!is.null(by)) {
-    focal <- focal[!focal %in% by]
-  }
-  # iterate all focal terms, these are the column names in "out"
-  for (i in focal) {
-    flag_dash <- FALSE
-    # for factors, we need to check whether factor levels contain "-"
-    # if so, we need to replace it, else "strplit()" won't work"
-    if (is.factor(datagrid[[i]])) {
-      l <- levels(datagrid[[i]])
-      dash_levels <- grepl("-", l, fixed = TRUE)
-      if (any(dash_levels)) {
-        for (j in l[dash_levels]) {
-          # replace by a - hopefully - unique character, later revert
-          out[[i]] <- gsub(j, gsub("-", "#~#", j, fixed = TRUE), out[[i]], fixed = TRUE)
-          flag_dash <- TRUE
-        }
-      }
-    }
-    level_pairs <- strsplit(out[[i]], "-", fixed = TRUE)
-    all_same <- vapply(level_pairs, function(j) {
-      all(j == j[1])
-    }, TRUE)
-    if (any(all_same)) {
-      out[[i]][all_same] <- vapply(level_pairs[all_same], unique, character(1))
-    }
-    # revert replacement
-    if (flag_dash) {
-      out[[i]] <- gsub("#~#", "-", out[[i]], fixed = TRUE)
-      flag_dash <- FALSE
-    }
-  }
-  out
-}
-
-
-.fix_comma_levels <- function(terms, datagrid, focal) {
-  for (i in focal) {
-    if (is.factor(datagrid[[i]])) {
-      l <- levels(datagrid[[i]])
-      comma_levels <- grepl(",", l, fixed = TRUE)
-      if (any(comma_levels)) {
-        for (j in l[comma_levels]) {
-          # replace by a - hopefully - unique character, later revert
-          terms <- gsub(j, gsub(",", "#*#", j, fixed = TRUE), terms, fixed = TRUE)
-        }
-      }
-    }
-  }
-  terms
-}
-
-
-.extract_labels <- function(full_comparisons, focal, test, old_labels) {
-  # now we have both names of predictors and their levels
-  beta_rows <- full_comparisons[focal]
-  beta_rows[] <- lapply(beta_rows, as.character)
-  # extract coefficient numbers from "test" string, which are
-  # equivalent to row numbers
-  pos <- gregexpr("(b[0-9]+)", test)[[1]]
-  len <- attributes(pos)$match.length
-  row_number <- unlist(lapply(seq_along(pos), function(i) {
-    substring(test, pos[i] + 1, pos[i] + len[i] - 1)
-  }))
-  # sort rownumbers, largest first. Else, we may have "b1" and "b13", and
-  # if we replace "b1" by a label "foo", "b13" is also replaced and becomes
-  # "foo3" (see #312)
-  row_number <- row_number[order(as.numeric(row_number), decreasing = TRUE)]
-  # loop through rows, and replace "b<d>" with related string
-  for (i in row_number) {
-    label <- paste0(
-      colnames(beta_rows),
-      paste0("[", as.vector(unlist(beta_rows[i, ], use.names = FALSE)), "]"),
-      collapse = ","
+.tp_validate_margin <- function(margin) {
+  # default for "margin" argument?
+  margin <- getOption("ggeffects_margin", margin)
+  # validate "margin" argument
+  margin <- .check_arg(
+    margin,
+    c(
+      "mean_reference", "mean_mode", "marginalmeans", "empirical",
+      "counterfactual", "full_data", "ame", "marginaleffects"
     )
-    old_labels <- gsub(paste0("b", i), label, old_labels, fixed = TRUE)
-  }
-  # remove whitespace around operators, but not inside brackets
-  tokens <- c("=", "-", "\\+", "/", "\\*")
-  replacements <- c("=", "-", "+", "/", "*")
-  for (i in seq_along(tokens)) {
-    pattern <- paste0(tokens[i], "(?![^\\[]*\\])")
-    old_labels <- gsub(pattern, paste0(" ", replacements[i], " "), old_labels, perl = TRUE)
-  }
-
-  old_labels
-}
-
-
-.get_zi_prediction_type <- function(model, type) {
-  # sanity check - for pooled predictions, we cannot retrieve the model
-  if (!insight::is_model(model)) {
-    return("response")
-  }
-  if (inherits(model, "glmmTMB")) {
-    types <- c("conditional", "zprob")
-  } else {
-    types <- c("count", "zero")
-  }
-  switch(type,
-    conditional = ,
-    count = ,
-    fixed = types[1],
-    zi_prob = ,
-    zero = ,
-    zprob = types[2],
-    "response"
+  )
+  # harmonize argument
+  switch(margin,
+    mean_reference = ,
+    mean_mode = "mean_reference",
+    marginalmeans = "marginalmeans",
+    "empirical"
   )
 }
 
 
-.scale_label <- function(minfo, scale) {
-  scale_label <- NULL
-  if (minfo$is_binomial || minfo$is_ordinal || minfo$is_multinomial) {
-    scale_label <- switch(scale,
-      response = "probabilities",
-      link = "log-odds",
-      oddsratios = "odds ratios",
-      probs = ,
-      probability = "probabilities",
-      NULL
-    )
-  } else if (minfo$is_count) {
-    scale_label <- switch(scale,
-      response = "counts",
-      link = "log-mean",
-      irr = "incident rate ratios",
-      count = ,
-      conditional = "conditional means",
-      zero = ,
-      zprob = ,
-      zi_prob = ,
-      probs = ,
-      probability = "probabilities",
-      NULL
-    )
-  } else if (minfo$is_orderedbeta) {
-    scale_label <- switch(scale,
-      response = "proportions",
-      link = "log-proportions",
-      probs = ,
-      probability = "probabilities",
-      NULL
+.tp_validate_engine <- function(engine, test) {
+  # default for "engine" argument?
+  engine <- getOption("ggeffects_test_engine", engine)
+  # validate "engine" argument
+  engine <- .safe(match.arg(engine, c("marginaleffects", "emmeans")))
+
+  # throw error if invalid engine
+  if (is.null(engine)) {
+    insight::format_error(
+      "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` object directly, e.g.:", # nolint
+      paste0("\n  ", insight::color_text("pr <- predict_response(model, ...)", "cyan")),
+      insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "cyan")
     )
   }
-  scale_label
+
+  # for test = "interaction" or "consecutive", we need to call emmeans!
+  if (.is_emmeans_contrast(test)) {
+    engine <- "emmeans"
+  }
+  if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
+    engine <- "emmeans"
+  }
+  # if we don't have the package installed, we switch to emmeans
+  if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
+    # if we even don't have emmeans, we throw an error
+    insight::format_error(
+      "The `marginaleffects` and `emmeans` packages are required for this function. Please install them from CRAN by running `install.packages(c(\"emmeans\", \"marginaleffects\"))`." # nolint
+    )
+  }
 }
 
 
-# p-value adjustment -------------------
-
-.p_adjust <- function(params, p_adjust, datagrid, focal, statistic = NULL, df = Inf, verbose = TRUE) {
-  # exit on NULL, or if no p-adjustment requested
-  if (is.null(p_adjust) || identical(p_adjust, "none")) {
-    return(params)
+.tp_validate_object <- function(object) {
+  # when model is a "ggeffects" object, due to environment issues, "model"
+  # can be NULL (in particular in tests), thus check for NULL
+  if (is.null(object)) {
+    insight::format_error(
+      "No model object found. Try to directly pass the model object to `test_predictions()`, e.g.:",
+      paste0("\n  ", insight::color_text("model <- lm(mpg ~ gear, data = mtcars)", "cyan")),
+      insight::color_text("test_predictions(model, \"gear\")", "cyan")
+    )
   }
 
-  all_methods <- c(tolower(stats::p.adjust.methods), "tukey", "sidak")
-
-  # needed for rank adjustment
-  focal_terms <- datagrid[focal]
-  rank_adjust <- prod(vapply(focal_terms, insight::n_unique, numeric(1)))
-
-  # only proceed if valid argument-value
-  if (tolower(p_adjust) %in% all_methods) {
-    if (tolower(p_adjust) %in% tolower(stats::p.adjust.methods)) {
-      # base R adjustments
-      params$p.value <- stats::p.adjust(params$p.value, method = p_adjust)
-    } else if (tolower(p_adjust) == "tukey") {
-      if (!is.null(statistic)) {
-        # tukey adjustment
-        params$p.value <- suppressWarnings(stats::ptukey(
-          sqrt(2) * abs(statistic),
-          rank_adjust,
-          df,
-          lower.tail = FALSE
-        ))
-        # for specific contrasts, ptukey might fail, and the tukey-adjustement
-        # could just be simple p-value calculation
-        if (all(is.na(params$p.value))) {
-          params$p.value <- 2 * stats::pt(abs(statistic), df = df, lower.tail = FALSE)
-        }
-      } else if (verbose) {
-        insight::format_alert("No test-statistic found. P-values were not adjusted.")
-      }
-    } else if (tolower(p_adjust) == "sidak") {
-      # sidak adjustment
-      params$p.value <- 1 - (1 - params$p.value)^rank_adjust
-    }
-  } else if (verbose) {
-    insight::format_alert(paste0("`p_adjust` must be one of ", toString(all_methods)))
+  # for gamm/gamm4 objects, we have a list with two items, mer and gam
+  # extract just the gam-part then
+  if (is.gamm(object) || is.gamm4(object)) {
+    object <- object$gam
   }
-  params
+
+  # only model objects are supported...
+  if (!insight::is_model_supported(object)) {
+    insight::format_error(
+      paste0("Objects of class `", class(object)[1], "` are not yet supported.")
+    )
+  }
+
+  # for parsnip-models, use $fit element
+  if (inherits(object, "model_fit")) {
+    object <- object$fit
+  }
+
+  object
+}
+
+
+.tp_validate_dot_args <- function(dot_args, scale, object, miss_scale, verbose) {
+  # default scale is response scale without any transformation
+  dot_args$transform <- NULL
+  dot_args$type <- "response"
+  if (scale == "link") {
+    dot_args$type <- "link"
+  } else if (scale %in% c("probability", "probs")) {
+    dot_args$type <- "probs"
+  } else if (scale == "exp") {
+    dot_args$transform <- "exp"
+  } else if (scale == "log") {
+    dot_args$transform <- "ln"
+  } else if (scale %in% c("irr", "oddsratios")) {
+    dot_args$type <- "link"
+    dot_args$transform <- "exp"
+  } else {
+    # unknown type - might be supported by marginal effects
+    dot_args$type <- scale
+  }
+
+  # make sure we have a valid type-argument...
+  dot_args$type <- .sanitize_type_argument(object, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
+
+  # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
+  # from ggpredict, like "vcov" etc. - then remove vcov-arguments
+  if (!is.null(dot_args$vcov)) {
+    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov, dot_args$vcov_args)
+    # remove non supported args
+    dot_args$vcov_args <- NULL
+  }
+
+  # new policy for glmmTMB models
+  if (inherits(object, "glmmTMB") && is.null(dot_args$vcov)) {
+    dot_args$vcov <- TRUE
+  }
+
+  dot_args
 }
