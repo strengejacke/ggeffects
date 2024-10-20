@@ -1032,6 +1032,8 @@ test_predictions.ggeffects <- function(object,
       "The `marginaleffects` and `emmeans` packages are required for this function. Please install them from CRAN by running `install.packages(c(\"emmeans\", \"marginaleffects\"))`." # nolint
     )
   }
+
+  engine
 }
 
 
