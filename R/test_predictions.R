@@ -140,6 +140,8 @@
 #' the `vcov` argument in **marginaleffects**. Or you directly use the `vcov`
 #' argument. See `?marginaleffects::slopes` for further details.
 #'
+#' @inheritParams predict_response
+#'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #' package ([`parameters::equivalence_test.lm()`]), which can be used to
 #' test contrasts or comparisons for practical equivalence. This method also
@@ -363,6 +365,7 @@ test_predictions.default <- function(object,
                                      ci_level = 0.95,
                                      collapse_levels = FALSE,
                                      margin = "mean_reference",
+                                     condition = NULL,
                                      engine = "marginaleffects",
                                      verbose = TRUE,
                                      ...) {
@@ -501,7 +504,13 @@ test_predictions.default <- function(object,
   if (margin == "marginalmeans") {
     datagrid <- marginaleffects::datagrid(model = object, grid_type = "balanced")
   } else {
-    datagrid <- data_grid(object, terms, group_factor = random_group, ...)
+    datagrid <- data_grid(
+      object,
+      terms,
+      condition = condition,
+      group_factor = random_group,
+      ...
+    )
     # make sure characters are preserved
     for (i in colnames(datagrid)) {
       if (i %in% colnames(model_data) && is.character(model_data[[i]])) {
@@ -699,6 +708,7 @@ test_predictions.default <- function(object,
         model_frame = model_data,
         terms = terms,
         value_adjustment = "mean",
+        condition = condition,
         emmeans_only = TRUE,
         verbose = FALSE
       )
@@ -899,6 +909,8 @@ test_predictions.ggeffects <- function(object,
   focal <- attributes(object)$original.terms
   # retrieve ci level predictors
   ci_level <- attributes(object)$ci_level
+  # retrieve condition argument
+  condition <- attributes(object)$condition
   # check prediction type - we set the default scale here. This is only
   # required for models with zero-inflation component (see later)
   type <- attributes(object)$type
@@ -974,6 +986,7 @@ test_predictions.ggeffects <- function(object,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
     margin = margin,
+    condition = condition,
     engine = engine,
     verbose = verbose
   )
