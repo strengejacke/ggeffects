@@ -276,7 +276,7 @@ vcov.ggeffects <- function(object,
   # (while "inherits()" may return multiple attributes)
   model_class <- get_predict_function(model)
 
-  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest", "multinom_weightit")) {
+  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest", "multinom_weightit")) { # nolint
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep, drop = FALSE]
     mm <- mm[, keep]
@@ -371,10 +371,8 @@ vcov.ggeffects <- function(object,
   if (!is.null(dots$vcov_type)) {
     return(dots$vcov_type)
   }
-  if (!is.null(dots$vcov_fun)) {
-    if (is.matrix(dots$vcov_fun) || is.function(dots$vcov_fun)) {
-      return(dots$vcov_fun)
-    }
+  if (!is.null(dots$vcov_fun) && (is.matrix(dots$vcov_fun) || is.function(dots$vcov_fun))) {
+    return(dots$vcov_fun)
   }
   vcov_fun <- dots$vcov_fun
   if (!is.null(vcov_fun) && startsWith(vcov_fun, "vcov")) {
