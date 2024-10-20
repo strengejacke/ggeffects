@@ -176,11 +176,8 @@ object of class \code{ggeffects}, the same \code{margin} argument is used as for
 predictions, i.e. \code{margin} can be ignored.}
 
 \item{condition}{Named character vector, which indicates covariates that
-should be held constant at specific values. Unlike \code{typical}, which
-applies a function to the covariates to determine the value that is used
-to hold these covariates constant, \code{condition} can be used to define
-exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
-See 'Examples'.}
+should be held constant at specific values, for instance
+\code{condition = c(covariate1 = 20, covariate2 = 5)}.}
 
 \item{engine}{Character string, indicates the package to use for computing
 contrasts and comparisons. Usually, this argument can be ignored, unless you

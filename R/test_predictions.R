@@ -124,6 +124,9 @@
 #' of the zero-inflation component. If the **marginaleffects** package is not
 #' installed, the **emmeans** package is used automatically. If this package is
 #' not installed as well, `engine = "ggeffects"` is used.
+#' @param condition Named character vector, which indicates covariates that
+#' should be held constant at specific values, for instance
+#' `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #' grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
@@ -139,8 +142,6 @@
 #' and `vcov_args`. These are then transformed into a matrix and passed down to
 #' the `vcov` argument in **marginaleffects**. Or you directly use the `vcov`
 #' argument. See `?marginaleffects::slopes` for further details.
-#'
-#' @inheritParams predict_response
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #' package ([`parameters::equivalence_test.lm()`]), which can be used to
