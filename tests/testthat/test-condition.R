@@ -12,6 +12,16 @@ test_that("ggpredict, condition", {
   expect_s3_class(ggpredict(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent")), "data.frame")
   expect_s3_class(ggpredict(fit, "c172code", condition = c(e42dep = "severely dependent")), "data.frame")
 
+  dg <- data_grid(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent"))
+  out1 <- ggpredict(fit, "c172code", condition = c(c12hour = 40, e42dep = "severely dependent"))
+  out2 <- predict(fit, newdata = dg)
+  expect_equal(out1$predicted, out2, tolerance = 1e-4, ignore_attr = TRUE)
+
+  dg <- data_grid(fit, "c172code")
+  out1 <- ggpredict(fit, "c172code")
+  out2 <- predict(fit, newdata = dg)
+  expect_equal(out1$predicted, out2, tolerance = 1e-4, ignore_attr = TRUE)
+
   skip_if_not_installed("emmeans")
   expect_s3_class(ggemmeans(fit, "c172code"), "data.frame")
   expect_s3_class(ggemmeans(fit, "c172code", condition = c(c12hour = 40)), "data.frame")
@@ -57,6 +67,11 @@ withr::with_environment(
       ggemmeans(m1, c("c12hour", "c161sex", "c172code"), condition = c(e42dep = "severely dependent"), verbose = FALSE),
       "data.frame"
     )
+
+    out <- ggpredict(m1, "c172code", condition = c(e42dep = "severely dependent"), verbose = FALSE)
+    expect_equal(out$predicted, c(0.62196, 0.63319, 0.69121), tolerance = 1e-3)
+    out <- ggpredict(m1, "c172code", condition = c(e42dep = "independent"), verbose = FALSE)
+    expect_equal(out$predicted, c(0.11526, 0.12025, 0.15056), tolerance = 1e-3)
 
     m2 <- glm(
       neg_c_7d ~ c12hour + e42dep + c161sex + c172code,
