@@ -97,6 +97,7 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  margin <span class="op">=</span> <span class="st">"mean_reference"</span>,</span>
+<span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  engine <span class="op">=</span> <span class="st">"marginaleffects"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -267,6 +268,12 @@ term label (e.g., <code>"level a-level a"</code> becomes <code>"level a"</code>)
 non-focal terms. See <code><a href="predict_response.html">predict_response()</a></code> for details. If <code>object</code> is an
 object of class <code>ggeffects</code>, the same <code>margin</code> argument is used as for the
 predictions, i.e. <code>margin</code> can be ignored.</p></dd>
+
+
+<dt id="arg-condition">condition<a class="anchor" aria-label="anchor" href="#arg-condition"></a></dt>
+<dd><p>Named character vector, which indicates covariates that
+should be held constant at specific values, for instance
+<code>condition = c(covariate1 = 20, covariate2 = 5)</code>.</p></dd>
 
 
 <dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
