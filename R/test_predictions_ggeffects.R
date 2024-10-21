@@ -35,6 +35,7 @@
   margin <- attributes(object)$margin
   std_erros <- attributes(object)$standard_error
   dof <- attributes(object)$df
+  condition <- attributes(object)$condition
   is_latent <- !is.null(attributes(object)$latent_thresholds)
 
   # warn for very long at-list
@@ -87,12 +88,12 @@
     }
     se_from_predictions <- tryCatch(
       {
-        data_grid <- data_grid(object, original_terms)
+        .datagrid <- data_grid(object, terms = original_terms, condition = condition)
         # arguments for predict(), to get SE on response scale
         # for non-Gaussian models
         my_args <- list(
           object,
-          newdata = data_grid,
+          newdata = .datagrid,
           type = pred_type,
           se.fit = TRUE
         )
@@ -123,7 +124,7 @@
     }
     preds_with_se <- merge(
       predictions,
-      cbind(data_grid, se_prob = se_from_predictions$se.fit),
+      cbind(.datagrid, se_prob = se_from_predictions$se.fit),
       sort = FALSE,
       all = TRUE
     )

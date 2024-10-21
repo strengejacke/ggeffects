@@ -24,6 +24,7 @@ hypothesis_test(object, ...)
   ci_level = 0.95,
   collapse_levels = FALSE,
   margin = "mean_reference",
+  condition = NULL,
   engine = "marginaleffects",
   verbose = TRUE,
   ...
@@ -173,6 +174,10 @@ term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examp
 non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{object} is an
 object of class \code{ggeffects}, the same \code{margin} argument is used as for the
 predictions, i.e. \code{margin} can be ignored.}
+
+\item{condition}{Named character vector, which indicates covariates that
+should be held constant at specific values, for instance
+\code{condition = c(covariate1 = 20, covariate2 = 5)}.}
 
 \item{engine}{Character string, indicates the package to use for computing
 contrasts and comparisons. Usually, this argument can be ignored, unless you

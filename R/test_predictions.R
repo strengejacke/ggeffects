@@ -124,6 +124,9 @@
 #' of the zero-inflation component. If the **marginaleffects** package is not
 #' installed, the **emmeans** package is used automatically. If this package is
 #' not installed as well, `engine = "ggeffects"` is used.
+#' @param condition Named character vector, which indicates covariates that
+#' should be held constant at specific values, for instance
+#' `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
 #' grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
@@ -363,6 +366,7 @@ test_predictions.default <- function(object,
                                      ci_level = 0.95,
                                      collapse_levels = FALSE,
                                      margin = "mean_reference",
+                                     condition = NULL,
                                      engine = "marginaleffects",
                                      verbose = TRUE,
                                      ...) {
@@ -501,7 +505,13 @@ test_predictions.default <- function(object,
   if (margin == "marginalmeans") {
     datagrid <- marginaleffects::datagrid(model = object, grid_type = "balanced")
   } else {
-    datagrid <- data_grid(object, terms, group_factor = random_group, ...)
+    datagrid <- data_grid(
+      object,
+      terms,
+      condition = condition,
+      group_factor = random_group,
+      ...
+    )
     # make sure characters are preserved
     for (i in colnames(datagrid)) {
       if (i %in% colnames(model_data) && is.character(model_data[[i]])) {
@@ -699,6 +709,7 @@ test_predictions.default <- function(object,
         model_frame = model_data,
         terms = terms,
         value_adjustment = "mean",
+        condition = condition,
         emmeans_only = TRUE,
         verbose = FALSE
       )
@@ -899,6 +910,8 @@ test_predictions.ggeffects <- function(object,
   focal <- attributes(object)$original.terms
   # retrieve ci level predictors
   ci_level <- attributes(object)$ci_level
+  # retrieve condition argument
+  condition <- attributes(object)$condition
   # check prediction type - we set the default scale here. This is only
   # required for models with zero-inflation component (see later)
   type <- attributes(object)$type
@@ -974,6 +987,7 @@ test_predictions.ggeffects <- function(object,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
     margin = margin,
+    condition = condition,
     engine = engine,
     verbose = verbose
   )
