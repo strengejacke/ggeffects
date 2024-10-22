@@ -94,7 +94,7 @@ In the following example, we use the `Salamanders` dataset from the `glmmTMB` pa
 
 Adjusted predictions using `predict_response()` can be made for the different model components:
 
-- The **conditional, or count component**, which predicts the average count of salamanders. This is the default and uses `type = "fixed"`. This would return the predicted mean from the count component only, which is the conditional mean (average counts) of the reponse only for "counting zeros". It does not take into account the probability of "true zeros".
+- The **conditional, or count component**, which predicts the average count of salamanders. This is the default and uses `type = "fixed"`. This would return the predicted mean from the count component only, which is the conditional mean (average counts) of the response only for "counting zeros". It does not take into account the probability of "true zeros".
 
 - The **full model**, which predicts the average count of the response, including the zero-inflation component. This would return the expected value of the response for an average observation, which *can* be a "true zero" or a "count zero". Use `type = "zero_inflation"` to calculate adjusted predictions that also take the zero-inflation component into account. For the above example, use this option if you want to predict the average number of customers per week, including days the store is closed.
 

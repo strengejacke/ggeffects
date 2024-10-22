@@ -53,8 +53,8 @@
     prediction_data <- prediction_data[order(prediction_data[[1]], prediction_data[[2]], prediction_data[[3]], prediction_data[[4]]), , drop = FALSE] # nolint
   }
 
-  # we use the predicted values from "predict(type = "reponse")", but the
-  # bootstrapped CI - so we need to fix a bit here. "predict(type = "reponse")"
+  # we use the predicted values from "predict(type = "response")", but the
+  # bootstrapped CI - so we need to fix a bit here. "predict(type = "response")"
   # works as intended, but the related standard errors are not reliable (due
   # to the combination of the conditional and zero-inflated model), so we need
   # the simulated standard errors and CI's - but can use the "correct" predictions.
