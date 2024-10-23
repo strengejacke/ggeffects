@@ -44,7 +44,7 @@ withr::with_environment(
   new.env(),
   test_that("ggpredict, gamlss, scale-non-focal", {
     set.seed(123)
-    dat <- data.frame(
+    dat <<- data.frame(
       Y = sample(20:50, 100, replace = TRUE),
       date = sample(seq(as.Date('1999/01/01'), as.Date('2000/01/01'), by = "day"), 10),
       cont1 = rchisq(100, df = 2),
