@@ -8,6 +8,7 @@ get_predictions_coxph <- function(model,
                                   vcov_args,
                                   condition,
                                   interval,
+                                  verbose = TRUE,
                                   ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
@@ -45,7 +46,8 @@ get_predictions_coxph <- function(model,
       vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
-      interval = interval
+      interval = interval,
+      verbose = verbose
     )
 
     if (.check_returned_se(se.pred)) {

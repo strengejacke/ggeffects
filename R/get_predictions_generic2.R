@@ -10,6 +10,7 @@ get_predictions_generic2 <- function(model,
                                      vcov_args,
                                      condition,
                                      interval,
+                                     verbose = TRUE,
                                      ...) {
   # get prediction type.
   prediction_type <- switch(model_class,
@@ -56,7 +57,8 @@ get_predictions_generic2 <- function(model,
     vcov = vcov,
     vcov_args = vcov_args,
     condition = condition,
-    interval = interval
+    interval = interval,
+    verbose = verbose
   )
 
 

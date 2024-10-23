@@ -10,7 +10,8 @@
   vcov = NULL,
   vcov_args = NULL,
   condition = NULL,
-  interval = NULL) {
+  interval = NULL,
+  verbose = TRUE) {
 
   se <- tryCatch(
     .safe_se_from_vcov(
@@ -23,14 +24,15 @@
       vcov,
       vcov_args,
       condition,
-      interval
+      interval,
+      verbose = verbose
     ),
     error = function(x) x,
     warning = function(x) NULL,
     finally = function(x) NULL
   )
 
-  if (is.null(se) || inherits(se, c("error", "simpleError"))) {
+  if (verbose && (is.null(se) || inherits(se, c("error", "simpleError")))) {
     insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
     if (inherits(se, c("error", "simpleError"))) {
       cat(sprintf("* Reason: %s\n", insight::safe_deparse(se[[1]])))
@@ -55,7 +57,8 @@
                                vcov,
                                vcov_args,
                                condition,
-                               interval) {
+                               interval,
+                               verbose = TRUE) {
 
   model_frame <- .get_model_data(model)
 
@@ -130,13 +133,21 @@
   rownames(newdata) <- NULL
   rownames(prediction_data) <- NULL
 
-  vmatrix <- .safe(
-    .vcov_helper(model, model_frame, model_class, newdata, vcov, vcov_args, terms, full.vcov = FALSE)
-  )
+  vmatrix <- .safe(.vcov_helper(
+    model,
+    model_frame,
+    model_class,
+    newdata,
+    vcov,
+    vcov_args,
+    terms,
+    full.vcov = FALSE,
+    verbose = verbose
+  ))
 
   pr_int <- FALSE
 
-  if (is.null(vmatrix)) {
+  if (is.null(vmatrix) && verbose) {
     insight::format_alert("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.") # nolint
     se.fit <- NULL
   } else {

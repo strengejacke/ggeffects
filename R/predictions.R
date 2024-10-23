@@ -25,7 +25,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class %in% c("stanreg", "brmsfit")) {
     prediction_data <- get_predictions_stan(model, data_grid, ci_level, type, model_info, interval, terms, verbose = verbose, ...) # nolint
   } else if (model_class == "coxph" && type != "survival" && type != "cumulative_hazard") {
-    prediction_data <- get_predictions_coxph(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_coxph(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, verbose = verbose, ...) # nolint
   } else if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
     prediction_data <- get_predictions_survival(model, data_grid, ci_level, type, terms, ...)
   } else if (model_class == "ols") {
@@ -51,7 +51,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "geeglm") {
     prediction_data <- get_predictions_geeglm(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
-    prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, ...) # nolint
+    prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
   } else if (model_class == "bamlss") {
     prediction_data <- get_predictions_bamlss(model, data_grid, linv, ...)
   } else if (model_class == "bayesx") {
@@ -85,9 +85,9 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "polr") {
     prediction_data <- get_predictions_polr(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, vcov, vcov_args, condition, interval, ...) # nolint
   } else if (model_class %in% c("averaging", "betareg", "truncreg", "ivreg", "vgam", "fixest", "feglm", "glmx")) {
-    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, verbose = verbose, ...) # nolint
   } else if (model_class %in% c("zeroinfl", "hurdle", "zerotrunc")) {
-    prediction_data <- get_predictions_zeroinfl(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_zeroinfl(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, verbose = verbose, ...) # nolint
   } else if (model_class %in% c("glm", "glm.nb")) {
     prediction_data <- get_predictions_glm(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov, vcov_args, condition, interval, type, ...) # nolint
   } else if (model_class == "rq") {
@@ -105,7 +105,7 @@ select_prediction_method <- function(model_class,
   } else if (model_class == "mblogit") {
     prediction_data <- get_predictions_mblogit(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "phylolm") {
-    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
+    prediction_data <- get_predictions_generic2(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, verbose = verbose, ...) # nolint
   } else if (model_class == "mclogit") {
     prediction_data <- get_predictions_mclogit(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov, vcov_args, condition, ...) # nolint
   } else if (model_class == "mlogit") {
