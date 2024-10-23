@@ -111,5 +111,5 @@ ggeffects_colors <- list(
 }
 
 .is_rgb_palette <- function(p) {
-  p %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")
+  p %in% c("breakfast club", "flat", "metro", "quadro", "set1", "simply", "social")
 }
