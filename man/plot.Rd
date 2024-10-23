@@ -168,7 +168,8 @@ control the appearance of the y-axis.}
 \item{base_family}{Base font family.}
 
 \item{palette}{Name of a pre-defined color-palette as string. See
-\code{\link[=show_palettes]{show_palettes()}} to show all available palettes.}
+\code{\link[=show_palettes]{show_palettes()}} to show all available palettes. Use \code{NULL} to return
+a list with names and color-codes of all avaibale palettes.}
 
 \item{n}{Number of color-codes from the palette that should be returned.}
 }
@@ -176,7 +177,8 @@ control the appearance of the y-axis.}
 A ggplot2-object.
 }
 \description{
-A generic plot-method for \code{ggeffects}-objects.
+\code{plot} is a generic plot-method for \code{ggeffects}-objects.
+\code{ggeffects_palette()} returns \code{show_palettes()}
 }
 \details{
 For proportional odds logistic regression (see \code{?MASS::polr})
