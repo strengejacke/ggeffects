@@ -35,6 +35,8 @@ withr::with_environment(
   test_that("ggpredict, condition, glm", {
     skip_if_not_installed("emmeans")
 
+    data(efc, package = "ggeffects")
+    efc$e42dep <- datawizard::to_factor(efc$e42dep)
     efc$neg_c_7d <- as.numeric(efc$neg_c_7 > median(efc$neg_c_7, na.rm = TRUE))
     d <- efc
     m1 <- glm(
@@ -69,9 +71,9 @@ withr::with_environment(
     )
 
     out <- ggpredict(m1, "c172code", condition = c(e42dep = "severely dependent"), verbose = FALSE)
-    expect_equal(out$predicted, c(0.62196, 0.63319, 0.69121), tolerance = 1e-3)
+    expect_equal(out$predicted, c(0.60806, 0.64322, 0.67691), tolerance = 1e-3)
     out <- ggpredict(m1, "c172code", condition = c(e42dep = "independent"), verbose = FALSE)
-    expect_equal(out$predicted, c(0.11526, 0.12025, 0.15056), tolerance = 1e-3)
+    expect_equal(out$predicted, c(0.10815, 0.12351, 0.14071), tolerance = 1e-3)
 
     m2 <- glm(
       neg_c_7d ~ c12hour + e42dep + c161sex + c172code,
