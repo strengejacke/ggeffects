@@ -237,7 +237,7 @@ vcov.ggeffects <- function(object,
             datawizard::text_concatenate(names(scale_terms)[problematic], enclose = "\""),
             ifelse(sum(problematic) > 1, ", which are ", ", which is "),
             "used as non-focal term and hold constant at a specific value.",
-            " Confidence intervals cannot be calculated in such situations.",
+            " Confidence intervals are eventually not calculated.",
             " To solve this issue, standardize your variable before fitting",
             " the model and don't use `scale()` in the model-formula."
           ))

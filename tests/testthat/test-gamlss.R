@@ -38,3 +38,19 @@ test_that("ggpredict", {
     tolerance = 1e-2
   )
 })
+
+test_that("ggpredict, gamlss, scale-non-focal", {
+  set.seed(123)
+  dat <- data.frame(
+    Y = sample(20:50, 100, replace = TRUE),
+    date = sample(seq(as.Date('1999/01/01'), as.Date('2000/01/01'), by = "day"), 10),
+    cont1 = rchisq(100, df = 2),
+    cont2 = runif(100),
+    cat1 = sample(LETTERS[1:3], 100, replace = TRUE)
+  )
+  m <- gamlss::gamlss(Y ~ date + scale(cont1) + scale(cont2) + I(scale(cont2)^2) * cat1,  data = dat)
+  expect_warning(expect_message(
+    predict_response(m, "cont2"),
+    regex = "is used on"
+  ))
+})
