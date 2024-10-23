@@ -4,7 +4,8 @@
 \alias{plot}
 \alias{plot.ggeffects}
 \alias{theme_ggeffects}
-\alias{show_pals}
+\alias{ggeffects_palette}
+\alias{show_palettes}
 \title{Plot ggeffects-objects}
 \usage{
 \method{plot}{ggeffects}(
@@ -42,7 +43,9 @@
 
 theme_ggeffects(base_size = 11, base_family = "")
 
-show_pals()
+ggeffects_palette(palette = "metro", n = NULL)
+
+show_palettes()
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -97,7 +100,7 @@ on this argument.}
 
 \item{colors}{Character vector with color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
-ggeffects-color-palette.
+ggeffects-color-palette (see \code{ggeffects_palette()}).
 
 Following options are valid for \code{colors}:
 \itemize{
@@ -106,7 +109,7 @@ Following options are valid for \code{colors}:
 \item If \code{"bw"}, the plot is black/white and uses different line types to
 distinguish groups.
 \item There are some pre-defined color-palettes in this package that can be used,
-e.g. \code{colors = "metro"}. See \code{\link[=show_pals]{show_pals()}} to show all available palettes.
+e.g. \code{colors = "metro"}. See \code{\link[=show_palettes]{show_palettes()}} to show all available palettes.
 \item Else specify own color values or names as vector (e.g.
 \code{colors = c("#f00000", "#00ff00")}).
 }}
@@ -163,6 +166,11 @@ control the appearance of the y-axis.}
 \item{base_size}{Base font size.}
 
 \item{base_family}{Base font family.}
+
+\item{palette}{Name of a pre-defined color-palette as string. See
+\code{\link[=show_palettes]{show_palettes()}} to show all available palettes.}
+
+\item{n}{Number of color-codes from the palette that should be returned.}
 }
 \value{
 A ggplot2-object.
@@ -182,8 +190,9 @@ the \strong{ggeffects}-theme as default plotting theme. You can then use further
 plot-modifiers, e.g. from \strong{sjPlot}, like \code{legend_style()} or \code{font_size()}
 without losing the theme-modifications.
 
-There are pre-defined colour palettes in this package. Use \code{\link[=show_pals]{show_pals()}}
-to show all available colour palettes.
+There are pre-defined colour palettes in this package. Use \code{show_palettes()}
+to show all available colour palettes as plot, or
+\code{ggeffects_palette(palette = NULL)} to show the color codes.
 }
 \section{Partial Residuals}{
 
@@ -223,7 +232,10 @@ dat <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
 plot(dat)
 }
 
+# show color codes of specific palette
+ggeffects_palette("okabe-ito")
+
 # show all color palettes
-show_pals()
+show_palettes()
 \dontshow{\}) # examplesIf}
 }
