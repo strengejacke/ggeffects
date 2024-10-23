@@ -1,7 +1,8 @@
 #' @title Plot ggeffects-objects
 #' @name plot
 #'
-#' @description A generic plot-method for `ggeffects`-objects.
+#' @description `plot` is a generic plot-method for `ggeffects`-objects.
+#' `ggeffects_palette()` returns `show_palettes()`
 #'
 #' @param x An object of class `ggeffects`, as returned by the functions
 #'   from this package.
@@ -41,7 +42,7 @@
 #'   details.
 #' @param colors Character vector with color values in hex-format, valid
 #'   color value names (see `demo("colors")`) or a name of a
-#'   ggeffects-color-palette.
+#'   ggeffects-color-palette (see `ggeffects_palette()`).
 #'
 #'   Following options are valid for `colors`:
 #'
@@ -50,7 +51,7 @@
 #'   - If `"bw"`, the plot is black/white and uses different line types to
 #'     distinguish groups.
 #'   - There are some pre-defined color-palettes in this package that can be used,
-#'     e.g. `colors = "metro"`. See [`show_pals()`] to show all available palettes.
+#'     e.g. `colors = "metro"`. See [`show_palettes()`] to show all available palettes.
 #'   - Else specify own color values or names as vector (e.g.
 #'     `colors = c("#f00000", "#00ff00")`).
 #' @param alpha Alpha value for the confidence bands.
@@ -85,6 +86,10 @@
 #' @param base_size Base font size.
 #' @param base_family Base font family.
 #' @param verbose Logical, toggle warnings and messages.
+#' @param palette Name of a pre-defined color-palette as string. See
+#'   [`show_palettes()`] to show all available palettes. Use `NULL` to return
+#'   a list with names and color-codes of all avaibale palettes.
+#' @param n Number of color-codes from the palette that should be returned.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
 #'
@@ -99,8 +104,9 @@
 #' plot-modifiers, e.g. from **sjPlot**, like `legend_style()` or `font_size()`
 #' without losing the theme-modifications.
 #'
-#' There are pre-defined colour palettes in this package. Use [`show_pals()`]
-#' to show all available colour palettes.
+#' There are pre-defined colour palettes in this package. Use `show_palettes()`
+#' to show all available colour palettes as plot, or
+#' `ggeffects_palette(palette = NULL)` to show the color codes.
 #'
 #' @details For proportional odds logistic regression (see `?MASS::polr`)
 #' or cumulative link models in general, plots are automatically facetted
@@ -134,8 +140,11 @@
 #' plot(dat)
 #' }
 #'
+#' # show color codes of specific palette
+#' ggeffects_palette("okabe-ito")
+#'
 #' # show all color palettes
-#' show_pals()
+#' show_palettes()
 #' @export
 plot.ggeffects <- function(x,
                            # uncertainty
