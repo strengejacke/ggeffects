@@ -85,6 +85,10 @@
 #' @param base_size Base font size.
 #' @param base_family Base font family.
 #' @param verbose Logical, toggle warnings and messages.
+#' @param palette Name of a pre-defined color-palette as string. See
+#'   `show_palettes()` to show all available palettes. Use `NULL` to return
+#'   a list with names and color-codes of all avaibale palettes.
+#' @param n Number of color-codes from the palette that should be returned.
 #' @param ... Further arguments passed down to `ggplot::scale_y*()`, to
 #'    control the appearance of the y-axis.
 #'

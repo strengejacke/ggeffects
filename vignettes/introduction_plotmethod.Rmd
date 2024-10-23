@@ -194,8 +194,8 @@ plot(pr)
 
 The **ggeffects**-package has a few pre-defined color-palettes that can be used with the `colors`-argument. Use `show_pals()` to see all available palettes.
 
-```{r}
-show_pals()
+```{r fig.height=5.5}
+show_palettes()
 ```
 
 Here are two examples showing how to use pre-defined colors:
