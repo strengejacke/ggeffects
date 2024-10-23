@@ -10,6 +10,7 @@ get_predictions_zeroinfl <- function(model,
                                      vcov_args,
                                      condition,
                                      interval = NULL,
+                                     verbose = TRUE,
                                      ...) {
   # get prediction type.
   if (type == "fixed") {
@@ -119,7 +120,8 @@ get_predictions_zeroinfl <- function(model,
       vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
-      interval = interval
+      interval = interval,
+      verbose = verbose
     )
 
     if (.check_returned_se(se.pred)) {

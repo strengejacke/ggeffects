@@ -32,7 +32,7 @@
     finally = function(x) NULL
   )
 
-  if (is.null(se) || inherits(se, c("error", "simpleError"))) {
+  if (verbose && (is.null(se) || inherits(se, c("error", "simpleError")))) {
     insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
     if (inherits(se, c("error", "simpleError"))) {
       cat(sprintf("* Reason: %s\n", insight::safe_deparse(se[[1]])))
@@ -147,7 +147,7 @@
 
   pr_int <- FALSE
 
-  if (is.null(vmatrix)) {
+  if (is.null(vmatrix) && verbose) {
     insight::format_alert("Could not compute variance-covariance matrix of predictions. No confidence intervals are returned.") # nolint
     se.fit <- NULL
   } else {

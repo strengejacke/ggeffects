@@ -1,4 +1,12 @@
-get_predictions_gamlss <- function(model, fitfram, ci_level, terms, model_class, value_adjustment, condition, ...) {
+get_predictions_gamlss <- function(model,
+                                   fitfram,
+                                   ci_level,
+                                   terms,
+                                   model_class,
+                                   value_adjustment,
+                                   condition,
+                                   verbose = TRUE,
+                                   ...) {
   se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
@@ -42,7 +50,8 @@ get_predictions_gamlss <- function(model, fitfram, ci_level, terms, model_class,
     value_adjustment = value_adjustment,
     terms = terms,
     model_class = model_class,
-    condition = condition
+    condition = condition,
+    verbose = verbose
   )
 
   if (se && .check_returned_se(se.pred)) {
