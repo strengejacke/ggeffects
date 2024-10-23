@@ -17,6 +17,70 @@ theme_ggeffects <- function(base_size = 11, base_family = "") {
 }
 
 
+#' @rdname plot
+#' @export
+ggeffects_palette <- function(palette = "metro", n = NULL) {
+  if (is.null(palette)) {
+    return(ggeffects_colors)
+  }
+
+  pl <- ggeffects_colors[[palette]]
+
+  if (!is.null(n) && n <= length(pl)) {
+    if (.is_continuous_palette(palette)) {
+      pl <- pl[stats::quantile(seq_along(pl), probs = seq(0, 1, length.out = n))]
+    } else {
+      pl <- pl[1:n]
+    }
+  }
+
+  pl
+}
+
+
+#' @rdname plot
+#' @export
+show_palettes <- function() {
+  insight::check_if_installed("ggplot2")
+  .data <- NULL
+
+  longest.pal <- max(lengths(ggeffects_colors))
+
+  color_pal <- lapply(ggeffects_colors, function(.x) {
+    if (length(.x) == longest.pal) {
+      .x
+    } else {
+      c(.x, rep("#ffffff", times = longest.pal - length(.x)))
+    }
+  })
+
+  x <- as.data.frame(color_pal, check.names = FALSE)
+  x <- .gather(x[rev(seq_len(nrow(x))), , drop = FALSE])
+  x <- x[order(x$key), , drop = FALSE]
+
+  x$y <- rep_len(1:longest.pal, nrow(x))
+  x$cols <- as.factor(seq_len(nrow(x)))
+
+  x$key <- factor(x$key, levels = rev(unique(x$key)))
+
+  x$group <- "Other Palettes"
+  x$group[.is_continuous_palette(x$key)] <- "Continuous Palettes"
+  x$group[.is_rgb_palette(x$key)] <- "Red-Blue-Green Palettes"
+
+  ggplot2::ggplot(x, ggplot2::aes(x = .data[["key"]], fill = .data[["cols"]])) +
+    ggplot2::geom_bar(width = 0.7) +
+    ggplot2::scale_fill_manual(values = x$value) +
+    ggplot2::scale_y_continuous(breaks = NULL, labels = NULL) +
+    ggplot2::guides(fill = "none") +
+    ggplot2::coord_flip() +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = NULL, y = NULL) +
+    ggplot2::facet_wrap(~group, ncol = 1, scales = "free")
+}
+
+
+# color palettes ------------------------
+
 ggeffects_colors <- list(
   aqua = c("#BAF5F3", "#46A9BE", "#8B7B88", "#BD7688", "#F2C29E"),
   warm = c("#072835", "#664458", "#C45B46", "#F1B749", "#F8EB85"),
@@ -41,22 +105,6 @@ ggeffects_colors <- list(
   `okabe-ito` = c("#E69F00", "#56B4E9", "#009E73", "#CC79A7", "#F0E442", "#999999", "#000000", "#0072B2", "#D55E00") # nolint
 )
 
-
-ggeffects_pal <- function(palette = "metro", n = NULL) {
-  pl <- ggeffects_colors[[palette]]
-
-  if (!is.null(n) && n <= length(pl)) {
-    if (.is_continuous_palette(palette)) {
-      pl <- pl[stats::quantile(seq_along(pl), probs = seq(0, 1, length.out = n))]
-    } else {
-      pl <- pl[1:n]
-    }
-  }
-
-  pl
-}
-
-
 # palettes with a continuous color scale
 .is_continuous_palette <- function(p) {
   p %in% c("aqua", "dust", "eight", "greyscale", "us", "viridis", "warm")
@@ -64,45 +112,4 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 
 .is_rgb_palette <- function(p) {
   p %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")
-}
-
-
-#' @rdname plot
-#' @export
-show_pals <- function() {
-  insight::check_if_installed("ggplot2")
-  .data <- NULL
-
-  longest.pal <- max(lengths(ggeffects_colors))
-
-  color_pal <- lapply(ggeffects_colors, function(.x) {
-    if (length(.x) == longest.pal) {
-      .x
-    } else {
-      c(.x, rep("#ffffff", times = longest.pal - length(.x)))
-    }
-  })
-
-  x <- as.data.frame(color_pal)
-  x <- .gather(x[rev(seq_len(nrow(x))), , drop = FALSE])
-  x <- x[order(x$key), , drop = FALSE]
-
-  x$y <- rep_len(1:longest.pal, nrow(x))
-  x$cols <- as.factor(seq_len(nrow(x)))
-
-  x$key <- factor(x$key, levels = rev(unique(x$key)))
-
-  x$group <- "Other Palettes"
-  x$group[.is_continuous_palette(x$key)] <- "Continuous Palettes"
-  x$group[.is_rgb_palette(x$key)] <- "Red-Blue-Green Palettes"
-
-  ggplot2::ggplot(x, ggplot2::aes(x = .data[["key"]], fill = .data[["cols"]])) +
-    ggplot2::geom_bar(width = 0.7) +
-    ggplot2::scale_fill_manual(values = x$value) +
-    ggplot2::scale_y_continuous(breaks = NULL, labels = NULL) +
-    ggplot2::guides(fill = "none") +
-    ggplot2::coord_flip() +
-    ggplot2::theme_minimal() +
-    ggplot2::labs(x = NULL, y = NULL) +
-    ggplot2::facet_wrap(~group, ncol = 1, scales = "free")
 }

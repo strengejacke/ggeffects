@@ -192,7 +192,7 @@ plot(pr)
 
 # Custom color palettes
 
-The **ggeffects**-package has a few pre-defined color-palettes that can be used with the `colors`-argument. Use `show_pals()` to see all available palettes.
+The **ggeffects**-package has a few pre-defined color-palettes that can be used with the `colors`-argument. Use `show_palettes()` to see all available palettes.
 
 ```{r fig.height=5.5}
 show_palettes()
