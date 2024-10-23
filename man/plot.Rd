@@ -168,7 +168,7 @@ control the appearance of the y-axis.}
 \item{base_family}{Base font family.}
 
 \item{palette}{Name of a pre-defined color-palette as string. See
-\code{\link[=show_palettes]{show_palettes()}} to show all available palettes. Use \code{NULL} to return
+\code{show_palettes()} to show all available palettes. Use \code{NULL} to return
 a list with names and color-codes of all avaibale palettes.}
 
 \item{n}{Number of color-codes from the palette that should be returned.}
