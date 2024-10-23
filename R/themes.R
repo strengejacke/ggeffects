@@ -25,19 +25,20 @@ ggeffects_colors <- list(
   simply = c("#CD423F", "#0171D3", "#018F77", "#FCDA3B", "#F5C6AC"),
   us = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0"),
   reefs = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784"),
-  `breakfast club` = c("#b6411a", "#4182dd", "#2d6328", "#eec3d8", "#ecf0c8"),
-  metro = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc"),
-  viridis = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725"),
-  ipsum = c("#3f2d54", "#75b8d1", "#2d543d", "#d18975", "#8fd175", "#d175b8", "#758bd1", "#d1ab75", "#c9d175"),
+  `breakfast club` = c("#b6411a", "#4182dd", "#2d6328", "#eec3d8", "#ecf0c8"), # nolint
+  metro = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc"), # nolint
+  viridis = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725"), # nolint
+  ipsum = c("#3f2d54", "#75b8d1", "#2d543d", "#d18975", "#8fd175", "#d175b8", "#758bd1", "#d1ab75", "#c9d175"), # nolint
   quadro = c("#ff0000", "#1f3c88", "#23a393", "#f79f24", "#625757"),
-  eight = c("#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"),
+  eight = c("#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"), # nolint
   circus = c("#C1241E", "#0664C9", "#EBD90A", "#6F130D", "#111A79"),
   system = c("#0F2838", "#F96207", "#0DB0F3", "#04EC04", "#FCC44C"),
-  hero = c("#D2292B", "#165E88", "#E0BD1C", "#D57028", "#A5CB39", "#8D8F70"),
-  flat = c("#c0392b", "#2980b9", "#16a085", "#f39c12", "#8e44ad", "#7f8c8d", "#d35400"),
-  social = c("#b92b27", "#0077B5", "#00b489", "#f57d00", "#410093", "#21759b", "#ff3300"),
-  set1 = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"),
-  greyscale = c("#333333", "#5A5A5A", "#737373", "#878787", "#989898", "#A7A7A7", "#B4B4B4", "#C1C1C1", "#CCCCCC")
+  hero = c("#D2292B", "#165E88", "#E0BD1C", "#D57028", "#A5CB39", "#8D8F70"), # nolint
+  flat = c("#c0392b", "#2980b9", "#16a085", "#f39c12", "#8e44ad", "#7f8c8d", "#d35400"), # nolint
+  social = c("#b92b27", "#0077B5", "#00b489", "#f57d00", "#410093", "#21759b", "#ff3300"), # nolint
+  set1 = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"), # nolint
+  greyscale = c("#333333", "#5A5A5A", "#737373", "#878787", "#989898", "#A7A7A7", "#B4B4B4", "#C1C1C1", "#CCCCCC"), # nolint
+  `okabe-ito` = c("#E69F00", "#56B4E9", "#009E73", "#CC79A7", "#F0E442", "#999999", "#000000", "#0072B2", "#D55E00") # nolint
 )
 
 
@@ -45,7 +46,7 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
   pl <- ggeffects_colors[[palette]]
 
   if (!is.null(n) && n <= length(pl)) {
-    if (.is_cont_scale(palette)) {
+    if (.is_continuous_palette(palette)) {
       pl <- pl[stats::quantile(seq_along(pl), probs = seq(0, 1, length.out = n))]
     } else {
       pl <- pl[1:n]
@@ -57,8 +58,12 @@ ggeffects_pal <- function(palette = "metro", n = NULL) {
 
 
 # palettes with a continuous color scale
-.is_cont_scale <- function(p) {
+.is_continuous_palette <- function(p) {
   p %in% c("aqua", "dust", "eight", "greyscale", "us", "viridis", "warm")
+}
+
+.is_rgb_palette <- function(p) {
+  p %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")
 }
 
 
@@ -71,10 +76,11 @@ show_pals <- function() {
   longest.pal <- max(lengths(ggeffects_colors))
 
   color_pal <- lapply(ggeffects_colors, function(.x) {
-    if (length(.x) == longest.pal)
+    if (length(.x) == longest.pal) {
       .x
-    else
+    } else {
       c(.x, rep("#ffffff", times = longest.pal - length(.x)))
+    }
   })
 
   x <- as.data.frame(color_pal)
@@ -87,9 +93,8 @@ show_pals <- function() {
   x$key <- factor(x$key, levels = rev(unique(x$key)))
 
   x$group <- "Other Palettes"
-  x$group[.is_cont_scale(x$key)] <- "Continuous Palettes"
-  x$group[x$key %in% c("breakfast.club", "flat", "metro", "quadro", "set1",
-                       "simply", "social")] <- "Red-Blue-Green Palettes"
+  x$group[.is_continuous_palette(x$key)] <- "Continuous Palettes"
+  x$group[.is_rgb_palette(x$key)] <- "Red-Blue-Green Palettes"
 
   ggplot2::ggplot(x, ggplot2::aes(x = .data[["key"]], fill = .data[["cols"]])) +
     ggplot2::geom_bar(width = 0.7) +

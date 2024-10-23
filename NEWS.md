@@ -34,6 +34,8 @@
   matrix could not be extracted due to problems in creating the model matrix
   (which prevents confidence intervals from being calculated).
 
+* Added Okabe-Ito color scale to the available color ggeffects-palettes.
+
 # ggeffects 1.7.2
 
 ## Breaking changes
