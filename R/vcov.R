@@ -133,7 +133,8 @@ vcov.ggeffects <- function(object,
     .vcov_helper(
       model, model_frame, get_predict_function(model), newdata,
       vcov = vcov, vcov_args = vcov_args,
-      original_terms = original_terms, full.vcov = TRUE
+      original_terms = original_terms, full.vcov = TRUE,
+      verbose = verbose
     ),
     error = function(e) {
       if (verbose) {
@@ -155,7 +156,8 @@ vcov.ggeffects <- function(object,
                          vcov,
                          vcov_args,
                          original_terms,
-                         full.vcov = FALSE) {
+                         full.vcov = FALSE,
+                         verbose = TRUE) {
   # get variance-covariance matrix
   vcm <- .get_variance_covariance_matrix(model, vcov, vcov_args)
 
@@ -170,7 +172,7 @@ vcov.ggeffects <- function(object,
     model_terms <- insight::find_formula(model)$conditional
   }
 
-  # drop offset from model_terms+
+  # drop offset from model_terms
   if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
     all_terms <- insight::find_terms(model)$conditional
     off_terms <- grepl("^offset\\((.*)\\)", all_terms)
@@ -206,6 +208,42 @@ vcov.ggeffects <- function(object,
     )
     model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
     vcm <- vcm[!nlevels_terms, !nlevels_terms, drop = FALSE]
+  }
+
+  # sanity check - if "scale()" was used in formula, and that variable is
+  # held constant, then scale() will return NA and no SEs are returned.
+  # To check this, we extract all terms, and also save the cleaned terms as names
+  # (so we can find the variables in the "newdata") - but only run this check if
+  # the user wants to hear it
+  if (verbose) {
+    scale_terms <- insight::find_terms(model)$conditional
+    scale_terms <- stats::setNames(scale_terms, insight::clean_names(scale_terms))
+    # check if any term containts "scale()"
+    scale_transform <- grepl("scale(", scale_terms, fixed = TRUE)
+    if (any(scale_transform)) {
+      # if so, kepp only terms with scale
+      scale_terms <- scale_terms[scale_transform]
+      # now get the data for those terms and see if any term has only 1 unique value,
+      # which indicated, it is hold constant
+      scale_terms <- scale_terms[names(scale_terms) %in% colnames(newdata)]
+      tmp <- .safe(newdata[names(scale_terms)])
+      if (!is.null(tmp)) {
+        n_unique <- vapply(tmp, insight::n_unique, numeric(1))
+        problematic <- n_unique == 1
+        if (any(problematic)) {
+          insight::format_alert(paste0(
+            "`scale()` is used on the model term",
+            ifelse(sum(problematic) > 1, "s ", " "),
+            datawizard::text_concatenate(names(scale_terms)[problematic], enclose = "\""),
+            ifelse(sum(problematic) > 1, ", which are ", ", which is "),
+            "used as non-focal term and hold constant at a specific value.",
+            " Confidence intervals cannot be calculated in such situations.",
+            " To solve this issue, standardize your variable before fitting",
+            " the model and don't use `scale()` in the model-formula."
+          ))
+        }
+      }
+    }
   }
 
   # code to compute se of prediction taken from

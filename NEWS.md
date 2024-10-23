@@ -30,6 +30,10 @@
 * `test_predictions` gains a `test_args` argument, to optionally pass further
   options to `test` for *emmeans* engine/options.
 
+* `vcov()` returns a more informative warning, when the variance-covariance
+  matrix could not be extracted due to problems in creating the model matrix
+  (which prevents confidence intervals from being calculated).
+
 # ggeffects 1.7.2
 
 ## Breaking changes

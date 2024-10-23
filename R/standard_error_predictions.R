@@ -10,7 +10,8 @@
   vcov = NULL,
   vcov_args = NULL,
   condition = NULL,
-  interval = NULL) {
+  interval = NULL,
+  verbose = TRUE) {
 
   se <- tryCatch(
     .safe_se_from_vcov(
@@ -23,7 +24,8 @@
       vcov,
       vcov_args,
       condition,
-      interval
+      interval,
+      verbose = verbose
     ),
     error = function(x) x,
     warning = function(x) NULL,
@@ -55,7 +57,8 @@
                                vcov,
                                vcov_args,
                                condition,
-                               interval) {
+                               interval,
+                               verbose = TRUE) {
 
   model_frame <- .get_model_data(model)
 
@@ -130,9 +133,17 @@
   rownames(newdata) <- NULL
   rownames(prediction_data) <- NULL
 
-  vmatrix <- .safe(
-    .vcov_helper(model, model_frame, model_class, newdata, vcov, vcov_args, terms, full.vcov = FALSE)
-  )
+  vmatrix <- .safe(.vcov_helper(
+    model,
+    model_frame,
+    model_class,
+    newdata,
+    vcov,
+    vcov_args,
+    terms,
+    full.vcov = FALSE,
+    verbose = verbose
+  ))
 
   pr_int <- FALSE
 
