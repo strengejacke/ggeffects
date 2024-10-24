@@ -94,21 +94,8 @@ ggpredict <- function(model,
     terms <- .reconstruct_focal_terms(terms, model = NULL)
   }
 
-  # tidymodels?
-  if (inherits(model, "model_fit")) {
-    model <- model$fit
-  }
-
-  # for gamm/gamm4 objects, we have a list with two items, mer and gam
-  # extract just the gam-part then
-  if (is.gamm(model) || is.gamm4(model)) {
-    model <- model$gam
-  }
-
-  # for sdmTMB objects, delta/hurdle models have family lists
-  if (.is_delta_sdmTMB(model)) {
-    insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
-  }
+  # check model object, e.g. for gam's or class model_fit
+  model <- .check_model_object(model)
 
   # prepare common arguments, for do.cal()
   fun_args <- list(
