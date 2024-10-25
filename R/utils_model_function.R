@@ -75,14 +75,8 @@ get_predict_function <- function(model) {
     "Gam"
   } else if (inherits(model, "MCMCglmm")) {
     "MCMCglmm"
-  } else if (inherits(model, "glmerMod")) {
-    "glmer"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
-  } else if (inherits(model, "nlmerMod")) {
-    "nlmer"
-  } else if (inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod"))) {
-    "lmer"
   } else if (inherits(model, "lme")) {
     "lme"
   } else if (inherits(model, c("logistf", "flic", "flac"))) {
@@ -109,12 +103,6 @@ get_predict_function <- function(model) {
     "vglm"
   } else if (inherits(model, "coxph")) {
     "coxph"
-  } else if (inherits(model, "brmultinom")) {
-    "brmultinom"
-  } else if (inherits(model, c("multinom", "multinom_weightit", "ordinal_weightit"))) {
-    "multinom"
-  } else if (inherits(model, "bracl")) {
-    "bracl"
   } else if (inherits(model, "Zelig-relogit")) {
     "Zelig-relogit"
   } else if (inherits(model, "zerotrunc")) {

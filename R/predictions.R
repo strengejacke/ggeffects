@@ -42,14 +42,10 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_glmgee(model, data_grid, ci_level, linv, vcov = vcov, ...)
   } else if (model_class == "wbm") {
     prediction_data <- get_predictions_wbm(model, data_grid, ci_level, linv, type, terms, condition, ...)
-  } else if (model_class %in% c("lmer", "nlmer", "glmer")) {
-    prediction_data <- get_predictions_merMod(model, data_grid, ci_level, linv, type, terms, value_adjustment, condition, interval, bias_correction = bias_correction, ...) # nolint
   } else if (model_class == "geeglm") {
     prediction_data <- get_predictions_geeglm(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
-  } else if (model_class == "bamlss") {
-    prediction_data <- get_predictions_bamlss(model, data_grid, linv, ...)
   } else if (model_class == "cgam") {
     prediction_data <- get_predictions_cgam(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, condition, ...) # nolint
   } else if (model_class == "gam") {
@@ -64,8 +60,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_lme(model, data_grid, ci_level, linv, type, terms, value_adjustment, model_class, vcov, vcov_args, condition, interval, ...) # nolint
   } else if (model_class == "gee") {
     prediction_data <- get_predictions_gee(model, terms, ...)
-  } else if (model_class %in% c("multinom", "bracl", "brmultinom", "multinom_weightit", "ordinal_weightit")) {
-    prediction_data <- get_predictions_multinom(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, ...) # nolint
   } else if (model_class == "clmm") {
     prediction_data <- get_predictions_clmm(model, terms, value_adjustment, condition, ci_level, linv, ...)
   } else if (model_class == "clm") {
