@@ -223,14 +223,15 @@
 #'   documentation in the **sandwich** or **clubSandwich** package.
 #' @param weights This argument is used in two different ways, depending on the
 #' `margin` argument.
-#' - When `margin = "empirical"`, `weights` can either be a character vector,
-#'   naming the weigthing variable in the data, or a vector of weights (of same
-#'   length as the number of observations in the data). This variable will be
-#'   used to weight adjusted predictions.
-#' - When `margin = "marginalmeans"`, `weights` must be a character vector and
-#'   is passed to [`emmeans::emmeans()`], specifying weights to use in averaging
-#'   non-focal categorical predictors. See https://rvlenth.github.io/emmeans/reference/emmeans.html
-#'   for details.
+#' - When `margin = "empirical"` (or when calling `ggaverag()`), `weights` can
+#'   either be a character vector, naming the weigthing variable in the data, or
+#'   a vector of weights (of same length as the number of observations in the
+#'   data). This variable will be used to weight adjusted predictions.
+#' - When `margin = "marginalmeans"` (or when calling `ggemmeans()`), `weights`
+#'   must be a character vector and is passed to [`emmeans::emmeans()`],
+#'   specifying weights to use in averaging non-focal categorical predictors.
+#'   Options are `"equal"`, `"proportional"`, `"outer"`, `"cells"`, `"flat"`,
+#'   and `"show.levels"`. See `?emmeans::emmeans` for details.
 #' @param verbose Toggle messages or warnings.
 #' @param ... If `margin` is set to `"mean_reference"` or `"mean_mode"`, arguments
 #' are passed down to `ggpredict()` (further down to `predict()`); for
@@ -701,6 +702,7 @@ predict_response <- function(model,
       vcov_args = vcov_args,
       interval = interval,
       bias_correction = bias_correction,
+      weights = weights,
       verbose = verbose,
       ...
     ),
