@@ -19,6 +19,7 @@ get_predictions(model, ...)
   condition = NULL,
   interval = "confidence",
   bias_correction = FALSE,
+  link_inverse = insight::link_inverse(model),
   model_info = NULL,
   verbose = TRUE,
   ...
@@ -36,6 +37,9 @@ with all relevant values of predictors for which the adjusted predictions
 should be made. Typically the data frame that is passed to the \code{newdata}
 argument in \code{predict()}. A data grid can be created with functions like
 \code{\link[=data_grid]{data_grid()}} or \code{\link[insight:get_datagrid]{insight::get_datagrid()}}.}
+
+\item{link_inverse}{The model's family link-inverse function. Can be retrieved
+using \code{insight::link_inverse()}.}
 
 \item{model_info}{An object returned by \code{\link[insight:model_info]{insight::model_info()}}.}
 }

@@ -29,8 +29,6 @@
 get_predict_function <- function(model) {
   if (inherits(model, c("wblm", "wbm"))) {
     "wbm"
-  } else if (inherits(model, c("phylolm", "phyloglm"))) {
-    "phylolm"
   } else if (inherits(model, "nestedLogit")) {
     "nestedLogit"
   } else if (inherits(model, "mblogit")) {
@@ -41,8 +39,6 @@ get_predict_function <- function(model) {
     "mclogit"
   } else if (inherits(model, "logitr")) {
     "logitr"
-  } else if (inherits(model, "averaging")) {
-    "averaging"
   } else if (inherits(model, "orm")) {
     "orm"
   } else if (inherits(model, "mlogit")) {
@@ -55,14 +51,10 @@ get_predict_function <- function(model) {
     "ols"
   } else if (inherits(model, "mixor")) {
     "mixor"
-  } else if (inherits(model, "glmx")) {
-    "glmx"
   } else if (inherits(model, "lrm")) {
     "lrm"
   } else if (inherits(model, "lmrob")) {
     "lmrob"
-  } else if (inherits(model, "feglm")) {
-    "feglm"
   } else if (inherits(model, "glmrob")) {
     "glmrob"
   } else if (inherits(model, "glmRob")) {
@@ -71,26 +63,16 @@ get_predict_function <- function(model) {
     "glm"
   } else if (inherits(model, "bigglm")) {
     "glm"
-  } else if (inherits(model, "biglm")) {
-    "lm"
   } else if (inherits(model, "speedglm")) {
     "glm"
-  } else if (inherits(model, "speedlm")) {
-    "lm"
   } else if (inherits(model, "svyglm.nb")) {
     "svyglm.nb"
-  } else if (inherits(model, "svyglm")) {
-    "svyglm"
   } else if (inherits(model, "stanreg")) {
     "stanreg"
   } else if (inherits(model, "brmsfit")) {
     "brmsfit"
-  } else if (inherits(model, "bayesx")) {
-    "bayesx"
   } else if (inherits(model, "gamlss")) {
     "gamlss"
-  } else if (inherits(model, "bamlss")) {
-    "bamlss"
   } else if (inherits(model, "gam")) {
     "gam"
   } else if (inherits(model, c("tobit", "survreg"))) {
@@ -103,8 +85,6 @@ get_predict_function <- function(model) {
     "glmer"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
-  } else if (inherits(model, "glmmTMB")) {
-    "glmmTMB"
   } else if (inherits(model, "nlmerMod")) {
     "nlmer"
   } else if (inherits(model, c("lmerMod", "merModLmerTest", "rlmerMod"))) {
@@ -113,10 +93,6 @@ get_predict_function <- function(model) {
     "lme"
   } else if (inherits(model, c("logistf", "flic", "flac"))) {
     "logistf"
-  } else if (inherits(model, "ivreg")) {
-    "ivreg"
-  } else if (inherits(model, "fixest")) {
-    "fixest"
   } else if (inherits(model, "gls")) {
     "gls"
   } else if (inherits(model, "geeglm")) {
@@ -139,20 +115,8 @@ get_predict_function <- function(model) {
     "plm"
   } else if (inherits(model, "negbin")) {
     "glm.nb"
-  } else if (inherits(model, "vgam")) {
-    "vgam"
   } else if (inherits(model, "vglm")) {
     "vglm"
-  } else if (inherits(model, "lm_robust")) {
-    "lm"
-  } else if (inherits(model, "lmrob")) {
-    "lm"
-  } else if (inherits(model, "lmRob")) {
-    "lm"
-  } else if (inherits(model, "betareg")) {
-    "betareg"
-  } else if (inherits(model, "truncreg")) {
-    "truncreg"
   } else if (inherits(model, "coxph")) {
     "coxph"
   } else if (inherits(model, "brmultinom")) {
@@ -173,8 +137,6 @@ get_predict_function <- function(model) {
     "MixMod"
   } else if (inherits(model, "glm")) {
     "glm"
-  } else if (inherits(model, "lm")) {
-    "lm"
   } else {
     "generic"
   }

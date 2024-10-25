@@ -200,21 +200,24 @@ ggpredict_helper <- function(model,
   # clear argument from brackets
   terms <- cleaned_terms
 
+  linv <- .link_inverse(model, bias_correction = bias_correction, ...)
+  if (is.null(linv)) linv <- function(x) x
+
   # compute predictions here -----
-  prediction_data <- select_prediction_method(
-    model_class = model_class,
-    model = model,
+  prediction_data <- get_predictions(
+    model,
     data_grid = data_grid,
+    terms = original_terms,
     ci_level = ci_level,
     type = type,
-    model_info = model_info,
-    terms = original_terms,
-    value_adjustment = typical,
+    typical = typical,
     vcov = vcov,
     vcov_args = vcov_args,
     condition = condition,
     interval = interval,
     bias_correction = bias_correction,
+    link_inverse = linv,
+    model_info = model_info,
     verbose = verbose,
     ...
   )

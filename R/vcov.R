@@ -151,7 +151,6 @@ vcov.ggeffects <- function(object,
 
 .vcov_helper <- function(model,
                          model_frame,
-                         model_class,
                          newdata,
                          vcov,
                          vcov_args,
@@ -310,11 +309,7 @@ vcov.ggeffects <- function(object,
 
   mm <- mm[rows_to_keep, , drop = FALSE]
 
-  # check class of fitted model, to make sure we have just one class-attribute
-  # (while "inherits()" may return multiple attributes)
-  model_class <- get_predict_function(model)
-
-  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest", "multinom_weightit")) { # nolint
+  if (inherits(model, c("polr", "mixor", "multinom", "ordinal_weightit", "brmultinom", "bracl", "fixest", "multinom_weightit"))) { # nolint
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep, drop = FALSE]
     mm <- mm[, keep]

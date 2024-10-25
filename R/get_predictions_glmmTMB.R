@@ -1,13 +1,17 @@
-get_predictions_glmmTMB <- function(model,
-                                    data_grid,
-                                    ci_level,
-                                    linv,
-                                    type,
-                                    terms,
-                                    value_adjustment,
-                                    condition,
-                                    interval = NULL,
+#' @export
+get_predictions.glmmTMB <- function(model,
+                                    data_grid = NULL,
+                                    terms = NULL,
+                                    ci_level = 0.95,
+                                    type = NULL,
+                                    typical = NULL,
+                                    vcov = NULL,
+                                    vcov_args = NULL,
+                                    condition = NULL,
+                                    interval = "confidence",
                                     bias_correction = FALSE,
+                                    link_inverse = insight::link_inverse(model),
+                                    model_info = NULL,
                                     verbose = TRUE,
                                     ...) {
   # does user want standard errors?
@@ -88,7 +92,7 @@ get_predictions_glmmTMB <- function(model,
     # this has not been done before, since we return predictions on
     # the response scale directly, without any adjustment
     if (isTRUE(bias_correction)) {
-      prdat <- linv(lf(prdat))
+      prdat <- link_inverse(lf(prdat))
     }
 
     if (se) {
@@ -102,7 +106,7 @@ get_predictions_glmmTMB <- function(model,
         model = model,
         model_frame = model_frame,
         terms = terms,
-        value_adjustment = value_adjustment,
+        value_adjustment = typical,
         factor_adjustment = FALSE,
         show_pretty_message = FALSE,
         condition = condition,
@@ -115,7 +119,14 @@ get_predictions_glmmTMB <- function(model,
       # based on quantiles of simulated draws from a multivariate normal distribution
       # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
-      prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+      prdat.sim <- .simulate_zi_predictions(
+        model,
+        newdata,
+        nsim,
+        terms,
+        value_adjustment = typical,
+        condition
+      )
 
       if (any(vapply(prdat.sim, nrow, numeric(1)) == 0)) {
         insight::format_error(
@@ -182,7 +193,7 @@ get_predictions_glmmTMB <- function(model,
     # predictions conditioned on count or zi-component only
     if (type == "zi_prob") {
       ptype <- "zlink"
-      linv <- stats::plogis
+      link_inverse <- stats::plogis
     } else {
       ptype <- "link"
     }
@@ -206,7 +217,7 @@ get_predictions_glmmTMB <- function(model,
 
     # did user request standard errors? if yes, compute CI
     if (se) {
-      predicted_data$predicted <- linv(prdat$fit)
+      predicted_data$predicted <- link_inverse(prdat$fit)
 
       # add random effect uncertainty to s.e.
       if (identical(interval, "prediction")) {
@@ -216,12 +227,12 @@ get_predictions_glmmTMB <- function(model,
       }
 
       # calculate CI
-      predicted_data$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
-      predicted_data$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)
+      predicted_data$conf.low <- link_inverse(prdat$fit - tcrit * prdat$se.fit)
+      predicted_data$conf.high <- link_inverse(prdat$fit + tcrit * prdat$se.fit)
       predicted_data$std.error <- prdat$se.fit
     } else {
       # copy predictions
-      predicted_data$predicted <- linv(as.vector(prdat))
+      predicted_data$predicted <- link_inverse(as.vector(prdat))
 
       # no CI
       predicted_data$conf.low <- NA
