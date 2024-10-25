@@ -34,6 +34,9 @@
 #' to the _response_ scale (e.g., by using `insight::link_inverse()`). The
 #' *standard errors* are always on the link scale (not transformed).
 #'
+#' If values are not available (for example, confidence intervals), set their
+#' value to `NA`.
+#'
 #' @export
 get_predictions <- function(model, ...) {
   UseMethod("get_predictions")

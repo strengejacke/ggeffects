@@ -47,6 +47,9 @@ A data frame that contains
 Note that predictions and confidence intervals should already be transformed
 to the \emph{response} scale (e.g., by using \code{insight::link_inverse()}). The
 \emph{standard errors} are always on the link scale (not transformed).
+
+If values are not available (for example, confidence intervals), set their
+value to \code{NA}.
 }
 \description{
 \code{get_predictions()} is the core function to return adjusted
