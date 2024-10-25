@@ -27,6 +27,9 @@
 
 ## Changes
 
+* Added a `get_preditions()` method, which can be used to implement own S3-classes
+  to add support for new models to **ggeffects**.
+
 * `test_predictions` gains a `test_args` argument, to optionally pass further
   options to `test` for *emmeans* engine/options.
 
