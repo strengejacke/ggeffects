@@ -54,6 +54,7 @@ ggemmeans(
   vcov = NULL,
   vcov_args = NULL,
   bias_correction = FALSE,
+  weights = NULL,
   verbose = TRUE,
   ...
 )

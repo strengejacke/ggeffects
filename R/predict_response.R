@@ -701,6 +701,7 @@ predict_response <- function(model,
       vcov_args = vcov_args,
       interval = interval,
       bias_correction = bias_correction,
+      weights = weights,
       verbose = verbose,
       ...
     ),
