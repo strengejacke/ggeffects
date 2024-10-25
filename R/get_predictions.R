@@ -2,11 +2,17 @@
 #' @name get_predictions
 #'
 #' @description `get_predictions()` is the core function to return adjusted
-#' predictions for a model. Basically, the input contains the model object and a
-#' data grid that is typically used for the `newdata` argument of the
-#' `predict()` method. `get_predictions()` can be used as S3-method for own
-#' classes, to add support for new models in **ggeffects** and is only relevant
-#' for package developers.
+#' predictions for a model, when calling `ggpredict()` or `predict_response()`
+#' with `margin = "mean_reference"` (the default option for `margin`).
+#' Basically, the input contains the model object and a data grid that is
+#' typically used for the `newdata` argument of the `predict()` method.
+#' `get_predictions()` can be used as S3-method for own classes, to add support
+#' for new models in **ggeffects** and is only relevant for package developers.
+#'
+#' There are no S3-class definitions for `ggemmeans()` or `ggaverage()`, because
+#' these functions simply call methods from the **emmeans** or **marginaleffects**
+#' packages. Hence, methods should be written for those packages, too, if a
+#' model-object should work with `ggemmeans()` or `ggaverage()`.
 #'
 #' @param model,terms,ci_level,type,typical,vcov,vcov_args,condition,interval,bias_correction,verbose Arguments
 #' from the call to `predict_response()` that are passed down to `get_predictions()`.

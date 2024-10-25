@@ -53,11 +53,17 @@ value to \code{NA}.
 }
 \description{
 \code{get_predictions()} is the core function to return adjusted
-predictions for a model. Basically, the input contains the model object and a
-data grid that is typically used for the \code{newdata} argument of the
-\code{predict()} method. \code{get_predictions()} can be used as S3-method for own
-classes, to add support for new models in \strong{ggeffects} and is only relevant
-for package developers.
+predictions for a model, when calling \code{ggpredict()} or \code{predict_response()}
+with \code{margin = "mean_reference"} (the default option for \code{margin}).
+Basically, the input contains the model object and a data grid that is
+typically used for the \code{newdata} argument of the \code{predict()} method.
+\code{get_predictions()} can be used as S3-method for own classes, to add support
+for new models in \strong{ggeffects} and is only relevant for package developers.
+
+There are no S3-class definitions for \code{ggemmeans()} or \code{ggaverage()}, because
+these functions simply call methods from the \strong{emmeans} or \strong{marginaleffects}
+packages. Hence, methods should be written for those packages, too, if a
+model-object should work with \code{ggemmeans()} or \code{ggaverage()}.
 }
 \details{
 The above mentioned arguments are all passed from \code{predict_response()} to
