@@ -22,6 +22,8 @@
 #' argument in `predict()`. A data grid can be created with functions like
 #' [`data_grid()`] or [`insight::get_datagrid()`].
 #' @param model_info An object returned by [`insight::model_info()`].
+#' @param ... Further arguments, passed to `predict()` or other methods used
+#' in `get_predictions()`.
 #'
 #' @details
 #' The above mentioned arguments are all passed from `predict_response()` to

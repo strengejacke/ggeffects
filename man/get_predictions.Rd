@@ -28,6 +28,9 @@ get_predictions(model, ...)
 \item{model, terms, ci_level, type, typical, vcov, vcov_args, condition, interval, bias_correction, verbose}{Arguments
 from the call to \code{predict_response()} that are passed down to \code{get_predictions()}.}
 
+\item{...}{Further arguments, passed to \code{predict()} or other methods used
+in \code{get_predictions()}.}
+
 \item{data_grid}{A data frame containing the data grid (or reference grid)
 with all relevant values of predictors for which the adjusted predictions
 should be made. Typically the data frame that is passed to the \code{newdata}
