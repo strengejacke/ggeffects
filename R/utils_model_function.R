@@ -103,8 +103,6 @@ get_predict_function <- function(model) {
     "clm"
   } else if (inherits(model, "clm2")) {
     "clm2"
-  } else if (inherits(model, "polr")) {
-    "polr"
   } else if (inherits(model, "rqs")) {
     "rqs"
   } else if (inherits(model, c("rq", "rqss"))) {

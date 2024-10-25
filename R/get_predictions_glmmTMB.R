@@ -106,7 +106,7 @@ get_predictions.glmmTMB <- function(model,
         model = model,
         model_frame = model_frame,
         terms = terms,
-        value_adjustment = typical,
+        typical = typical,
         factor_adjustment = FALSE,
         show_pretty_message = FALSE,
         condition = condition,
@@ -124,7 +124,7 @@ get_predictions.glmmTMB <- function(model,
         newdata,
         nsim,
         terms,
-        value_adjustment = typical,
+        typical = typical,
         condition
       )
 

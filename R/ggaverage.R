@@ -46,7 +46,7 @@ ggaverage <- function(model,
 
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(
-    model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
+    model = model, model_frame = model_frame, terms = terms, typical = typical,
     condition = condition, show_pretty_message = verbose, verbose = verbose
   )
 

@@ -64,7 +64,7 @@
     object,
     model_frame = model_data,
     terms = terms,
-    value_adjustment = "mean",
+    typical = "mean",
     emmeans_only = TRUE,
     verbose = FALSE
   )

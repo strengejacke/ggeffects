@@ -52,7 +52,7 @@ get_predictions.lm <- function(model,
     se.pred <- .standard_error_predictions(
       model = model,
       prediction_data = data_grid,
-      value_adjustment = typical,
+      typical = typical,
       terms = terms,
       vcov = vcov,
       vcov_args = vcov_args,

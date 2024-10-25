@@ -52,7 +52,7 @@ new_data <- function(model, terms, typical = "mean", condition = NULL, ...) {
     model = model,
     model_frame = mf,
     terms = terms,
-    value_adjustment = typical,
+    typical = typical,
     factor_adjustment = TRUE,
     show_pretty_message = TRUE,
     condition = condition,

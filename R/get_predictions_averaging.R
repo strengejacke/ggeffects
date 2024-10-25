@@ -52,7 +52,7 @@ get_predictions.averaging <- function(model,
   se.pred <- .standard_error_predictions(
     model = model,
     prediction_data = data_grid,
-    value_adjustment = typical,
+    typical = typical,
     type = type,
     terms = terms,
     vcov = vcov,

@@ -3,7 +3,7 @@
 .standard_error_predictions <- function(
   model,
   prediction_data,
-  value_adjustment,
+  typical,
   terms,
   type = "fixed",
   vcov = NULL,
@@ -16,7 +16,7 @@
     .safe_se_from_vcov(
       model,
       prediction_data,
-      value_adjustment,
+      typical,
       terms,
       type,
       vcov,
@@ -48,7 +48,7 @@
 
 .safe_se_from_vcov <- function(model,
                                prediction_data,
-                               value_adjustment,
+                               typical,
                                terms,
                                type,
                                vcov,
@@ -83,7 +83,7 @@
     model,
     model_frame,
     terms,
-    value_adjustment = value_adjustment,
+    typical = typical,
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
     condition = condition,

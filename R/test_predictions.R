@@ -708,7 +708,7 @@ test_predictions.default <- function(object,
         object,
         model_frame = model_data,
         terms = terms,
-        value_adjustment = "mean",
+        typical = "mean",
         condition = condition,
         emmeans_only = TRUE,
         verbose = FALSE
