@@ -78,8 +78,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_mixor(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, condition, interval, ...) # nolint
   } else if (model_class %in% c("zeroinfl", "hurdle", "zerotrunc")) {
     prediction_data <- get_predictions_zeroinfl(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, verbose = verbose, ...) # nolint
-  } else if (model_class %in% c("glm", "glm.nb")) {
-    prediction_data <- get_predictions_glm(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov, vcov_args, condition, interval, type, ...) # nolint
   } else if (model_class == "rq") {
     prediction_data <- get_predictions_rq(model, data_grid, ci_level, ...)
   } else if (model_class == "rqs") {

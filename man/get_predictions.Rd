@@ -115,15 +115,14 @@ could look like this:
 }\if{html}{\out{</div>}}
 
 A simple example for an own class-implementation for non-Gaussian-alike models
-could look like this (note the use of the link-inverse function \code{linv()}):
+could look like this (note the use of the link-inverse function \code{link_inverse()},
+which is passed to the \code{link_inverse} argument):
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{get_predictions.own_class <- function(model, data_grid, ci_level = 0.95, ...) \{
-  # get link-inverse-function
-  linv <- insight::link_inverse(model)
-  if (is.null(linv)) \{
-    linv <- function(x) x
-  \}
-
+\if{html}{\out{<div class="sourceCode">}}\preformatted{get_predictions.own_class <- function(model,
+                                      data_grid,
+                                      ci_level = 0.95,
+                                      link_inverse = insight::link_inverse(model),
+                                      ...) \{
   predictions <- predict(
     model,
     newdata = data_grid,
@@ -135,14 +134,18 @@ could look like this (note the use of the link-inverse function \code{linv()}):
   # do we have standard errors?
   if (is.na(ci_level)) \{
     # copy predictions
-    data_grid$predicted <- linv(as.vector(predictions))
+    data_grid$predicted <- link_inverse(as.vector(predictions))
   \} else \{
-    # copy predictions
-    data_grid$predicted <- linv(predictions$fit) # use link-inverse to back-transform
+    # copy predictions, use link-inverse to back-transform
+    data_grid$predicted <- link_inverse(predictions$fit)
 
     # calculate CI
-    data_grid$conf.low <- linv(predictions$fit - qnorm(0.975) * predictions$se.fit)
-    data_grid$conf.high <- linv(predictions$fit + qnorm(0.975) * predictions$se.fit)
+    data_grid$conf.low <- link_inverse(
+      predictions$fit - qnorm(0.975) * predictions$se.fit
+    )
+    data_grid$conf.high <- link_inverse(
+      predictions$fit + qnorm(0.975) * predictions$se.fit
+    )
 
     # optional: copy standard errors
     attr(data_grid, "std.error") <- predictions$se.fit

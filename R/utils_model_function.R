@@ -59,12 +59,6 @@ get_predict_function <- function(model) {
     "glmrob"
   } else if (inherits(model, "glmRob")) {
     "glmRob"
-  } else if (inherits(model, "brglm")) {
-    "glm"
-  } else if (inherits(model, "bigglm")) {
-    "glm"
-  } else if (inherits(model, "speedglm")) {
-    "glm"
   } else if (inherits(model, "svyglm.nb")) {
     "svyglm.nb"
   } else if (inherits(model, "stanreg")) {
@@ -111,8 +105,6 @@ get_predict_function <- function(model) {
     "gee"
   } else if (inherits(model, "plm")) {
     "plm"
-  } else if (inherits(model, "negbin")) {
-    "glm.nb"
   } else if (inherits(model, "vglm")) {
     "vglm"
   } else if (inherits(model, "coxph")) {
@@ -133,8 +125,6 @@ get_predict_function <- function(model) {
     "hurdle"
   } else if (inherits(model, "MixMod")) {
     "MixMod"
-  } else if (inherits(model, "glm")) {
-    "glm"
   } else {
     "generic"
   }

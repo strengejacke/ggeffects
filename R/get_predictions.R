@@ -71,16 +71,15 @@
 #' ```
 #'
 #' A simple example for an own class-implementation for non-Gaussian-alike models
-#' could look like this (note the use of the link-inverse function `linv()`):
+#' could look like this (note the use of the link-inverse function `link_inverse()`,
+#' which is passed to the `link_inverse` argument):
 #'
 #' ```
-#' get_predictions.own_class <- function(model, data_grid, ci_level = 0.95, ...) {
-#'   # get link-inverse-function
-#'   linv <- insight::link_inverse(model)
-#'   if (is.null(linv)) {
-#'     linv <- function(x) x
-#'   }
-#'
+#' get_predictions.own_class <- function(model,
+#'                                       data_grid,
+#'                                       ci_level = 0.95,
+#'                                       link_inverse = insight::link_inverse(model),
+#'                                       ...) {
 #'   predictions <- predict(
 #'     model,
 #'     newdata = data_grid,
@@ -92,14 +91,18 @@
 #'   # do we have standard errors?
 #'   if (is.na(ci_level)) {
 #'     # copy predictions
-#'     data_grid$predicted <- linv(as.vector(predictions))
+#'     data_grid$predicted <- link_inverse(as.vector(predictions))
 #'   } else {
-#'     # copy predictions
-#'     data_grid$predicted <- linv(predictions$fit) # use link-inverse to back-transform
+#'     # copy predictions, use link-inverse to back-transform
+#'     data_grid$predicted <- link_inverse(predictions$fit)
 #'
 #'     # calculate CI
-#'     data_grid$conf.low <- linv(predictions$fit - qnorm(0.975) * predictions$se.fit)
-#'     data_grid$conf.high <- linv(predictions$fit + qnorm(0.975) * predictions$se.fit)
+#'     data_grid$conf.low <- link_inverse(
+#'       predictions$fit - qnorm(0.975) * predictions$se.fit
+#'     )
+#'     data_grid$conf.high <- link_inverse(
+#'       predictions$fit + qnorm(0.975) * predictions$se.fit
+#'     )
 #'
 #'     # optional: copy standard errors
 #'     attr(data_grid, "std.error") <- predictions$se.fit
@@ -183,11 +186,10 @@ get_predictions.default <- function(model,
 
 .generic_prediction_data <- function(model,
                                      data_grid,
-                                     linv,
+                                     link_inverse,
                                      prdat,
                                      se,
                                      ci_level,
-                                     model_class,
                                      typical,
                                      terms,
                                      vcov,
@@ -232,7 +234,7 @@ get_predictions.default <- function(model,
       predictions = .predicted,
       info = info,
       ci = ci_level,
-      linkinv = linv
+      linkinv = link_inverse
     )
     data_grid$conf.low <- pred_int$CI_low
     data_grid$conf.high <- pred_int$CI_high
@@ -263,8 +265,8 @@ get_predictions.default <- function(model,
 
     # did user request standard errors? if yes, compute CI
     if (se && !is.null(se.fit)) {
-      data_grid$conf.low <- linv(data_grid$predicted - tcrit * se.fit)
-      data_grid$conf.high <- linv(data_grid$predicted + tcrit * se.fit)
+      data_grid$conf.low <- link_inverse(data_grid$predicted - tcrit * se.fit)
+      data_grid$conf.high <- link_inverse(data_grid$predicted + tcrit * se.fit)
       # copy standard errors
       attr(data_grid, "std.error") <- se.fit
       if (!is.null(se.pred) && length(se.pred) > 0) {
@@ -278,7 +280,7 @@ get_predictions.default <- function(model,
   }
 
   # transform predicted values
-  data_grid$predicted <- linv(data_grid$predicted)
+  data_grid$predicted <- link_inverse(data_grid$predicted)
 
   data_grid
 }
