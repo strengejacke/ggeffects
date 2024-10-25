@@ -53,11 +53,11 @@ value to \code{NA}.
 }
 \description{
 \code{get_predictions()} is the core function to return adjusted
-predictions for a model. Basically, the input contains the model object and
-a data grid that is typically used for the \code{newdata} argument of the
-\code{predict()} method. This can be used as S3-method for own classes, to add
-support for new models in \strong{ggeffects} and is only relevant for package
-developers.
+predictions for a model. Basically, the input contains the model object and a
+data grid that is typically used for the \code{newdata} argument of the
+\code{predict()} method. \code{get_predictions()} can be used as S3-method for own
+classes, to add support for new models in \strong{ggeffects} and is only relevant
+for package developers.
 }
 \details{
 The above mentioned arguments are all passed from \code{predict_response()} to
@@ -65,5 +65,7 @@ The above mentioned arguments are all passed from \code{predict_response()} to
 or not. Thus, it is not necessary to accept or process all of those
 arguments, but they can be used to modulate certain settings when calculating
 predictions. It is important that the function returns a data frame with a
-specific structure:
+specific structure, namely the data grid and the columns \code{predicted},
+\code{conf.low}, and \code{conf.high}. Predictions and intervals should be on the
+response scale.
 }

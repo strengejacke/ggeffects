@@ -2,11 +2,11 @@
 #' @name get_predictions
 #'
 #' @description `get_predictions()` is the core function to return adjusted
-#' predictions for a model. Basically, the input contains the model object and
-#' a data grid that is typically used for the `newdata` argument of the
-#' `predict()` method. This can be used as S3-method for own classes, to add
-#' support for new models in **ggeffects** and is only relevant for package
-#' developers.
+#' predictions for a model. Basically, the input contains the model object and a
+#' data grid that is typically used for the `newdata` argument of the
+#' `predict()` method. `get_predictions()` can be used as S3-method for own
+#' classes, to add support for new models in **ggeffects** and is only relevant
+#' for package developers.
 #'
 #' @param model,terms,ci_level,type,typical,vcov,vcov_args,condition,interval,bias_correction,verbose Arguments
 #' from the call to `predict_response()` that are passed down to `get_predictions()`.
@@ -23,7 +23,9 @@
 #' or not. Thus, it is not necessary to accept or process all of those
 #' arguments, but they can be used to modulate certain settings when calculating
 #' predictions. It is important that the function returns a data frame with a
-#' specific structure:
+#' specific structure, namely the data grid and the columns `predicted`,
+#' `conf.low`, and `conf.high`. Predictions and intervals should be on the
+#' response scale.
 #'
 #' @return
 #' A data frame that contains
