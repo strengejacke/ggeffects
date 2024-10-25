@@ -1,31 +1,3 @@
-.get_model_function <- function(model) {
-  # check class of fitted model
-
-  lm_models <- c(
-    "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
-    "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod", "glmgee",
-    "lmerMod", "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
-  )
-
-  info <- insight::model_info(model, verbose = FALSE)
-  if (insight::is_multivariate(model) && !inherits(model, c("vglm", "vgam"))) {
-    info <- info[[1]]
-  }
-
-  if (inherits(model, lm_models) && !inherits(model, "glm")) {
-    "lm"
-  } else if (inherits(model, "coxph")) {
-    "coxph"
-  } else if (inherits(model, "betareg")) {
-    "betareg"
-  } else if (isTRUE(info$is_linear)) {
-    "lm"
-  } else {
-    "glm"
-  }
-}
-
-
 get_predict_function <- function(model) {
   if (inherits(model, c("wblm", "wbm"))) {
     "wbm"
