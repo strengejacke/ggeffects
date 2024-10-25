@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -168,36 +168,28 @@ technical explanation of the differences between the methods.</p>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># we add margin = "mean_reference" to show that it is the default</span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour [0,50,100,150]"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
 <span><span class="co">#&gt;       0 |     75.07 | 72.96, 77.19</span></span>
-<span><span class="co">#&gt;      20 |     70.15 | 68.40, 71.91</span></span>
-<span><span class="co">#&gt;      45 |     64.01 | 62.40, 65.61</span></span>
-<span><span class="co">#&gt;      65 |     59.09 | 57.32, 60.86</span></span>
-<span><span class="co">#&gt;      85 |     54.17 | 52.04, 56.31</span></span>
-<span><span class="co">#&gt;     105 |     49.25 | 46.64, 51.87</span></span>
-<span><span class="co">#&gt;     125 |     44.34 | 41.18, 47.49</span></span>
-<span><span class="co">#&gt;     170 |     33.27 | 28.78, 37.76</span></span>
+<span><span class="co">#&gt;      50 |     62.78 | 61.16, 64.40</span></span>
+<span><span class="co">#&gt;     100 |     50.48 | 48.00, 52.97</span></span>
+<span><span class="co">#&gt;     150 |     38.19 | 34.30, 42.08</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour [0,50,100,150]"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
 <span><span class="co">#&gt;       0 |     75.07 | 72.96, 77.19</span></span>
-<span><span class="co">#&gt;      20 |     70.15 | 68.40, 71.91</span></span>
-<span><span class="co">#&gt;      45 |     64.01 | 62.40, 65.61</span></span>
-<span><span class="co">#&gt;      65 |     59.09 | 57.32, 60.86</span></span>
-<span><span class="co">#&gt;      85 |     54.17 | 52.04, 56.31</span></span>
-<span><span class="co">#&gt;     105 |     49.25 | 46.64, 51.87</span></span>
-<span><span class="co">#&gt;     125 |     44.34 | 41.18, 47.49</span></span>
-<span><span class="co">#&gt;     170 |     33.27 | 28.78, 37.76</span></span>
+<span><span class="co">#&gt;      50 |     62.78 | 61.16, 64.40</span></span>
+<span><span class="co">#&gt;     100 |     50.48 | 48.00, 52.97</span></span>
+<span><span class="co">#&gt;     150 |     38.19 | 34.30, 42.08</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
@@ -216,37 +208,29 @@ averages over the proportions of the categories of factors.</p>
 <span><span class="co"># we add categorical predictors to our model</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour [0,50,100,150]"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
 <span><span class="co">#&gt;       0 |     92.74 | 88.48, 97.01</span></span>
-<span><span class="co">#&gt;      20 |     91.32 | 87.06, 95.57</span></span>
-<span><span class="co">#&gt;      45 |     89.53 | 85.20, 93.87</span></span>
-<span><span class="co">#&gt;      65 |     88.10 | 83.64, 92.57</span></span>
-<span><span class="co">#&gt;      85 |     86.68 | 82.03, 91.32</span></span>
-<span><span class="co">#&gt;     105 |     85.25 | 80.37, 90.13</span></span>
-<span><span class="co">#&gt;     125 |     83.82 | 78.67, 88.98</span></span>
-<span><span class="co">#&gt;     170 |     80.61 | 74.71, 86.51</span></span>
+<span><span class="co">#&gt;      50 |     89.18 | 84.82, 93.54</span></span>
+<span><span class="co">#&gt;     100 |     85.61 | 80.79, 90.42</span></span>
+<span><span class="co">#&gt;     150 |     82.04 | 76.49, 87.59</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
 <span><span class="co">#&gt; *  e42dep = independent</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour [0,50,100,150]"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
 <span><span class="co">#&gt;       0 |     73.51 | 71.85, 75.18</span></span>
-<span><span class="co">#&gt;      20 |     72.09 | 70.65, 73.53</span></span>
-<span><span class="co">#&gt;      45 |     70.30 | 68.89, 71.71</span></span>
-<span><span class="co">#&gt;      65 |     68.87 | 67.29, 70.46</span></span>
-<span><span class="co">#&gt;      85 |     67.45 | 65.55, 69.34</span></span>
-<span><span class="co">#&gt;     105 |     66.02 | 63.74, 68.30</span></span>
-<span><span class="co">#&gt;     125 |     64.59 | 61.88, 67.31</span></span>
-<span><span class="co">#&gt;     170 |     61.38 | 57.61, 65.15</span></span>
+<span><span class="co">#&gt;      50 |     69.95 | 68.51, 71.38</span></span>
+<span><span class="co">#&gt;     100 |     66.38 | 64.19, 68.56</span></span>
+<span><span class="co">#&gt;     150 |     62.81 | 59.51, 66.10</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
@@ -256,19 +240,15 @@ averages over the proportions of the categories of factors.</p>
 variables, in our case the factor <code>e42dep</code>, should be held
 constant.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"c12hour [0,50,100,150]"</span>, margin <span class="op">=</span> <span class="st">"mean_reference"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Total score BARTHEL INDEX</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
 <span><span class="co">#&gt;       0 |     92.74 | 88.48, 97.01</span></span>
-<span><span class="co">#&gt;      20 |     91.32 | 87.06, 95.57</span></span>
-<span><span class="co">#&gt;      45 |     89.53 | 85.20, 93.87</span></span>
-<span><span class="co">#&gt;      65 |     88.10 | 83.64, 92.57</span></span>
-<span><span class="co">#&gt;      85 |     86.68 | 82.03, 91.32</span></span>
-<span><span class="co">#&gt;     105 |     85.25 | 80.37, 90.13</span></span>
-<span><span class="co">#&gt;     125 |     83.82 | 78.67, 88.98</span></span>
-<span><span class="co">#&gt;     170 |     80.61 | 74.71, 86.51</span></span>
+<span><span class="co">#&gt;      50 |     89.18 | 84.82, 93.54</span></span>
+<span><span class="co">#&gt;     100 |     85.61 | 80.79, 90.42</span></span>
+<span><span class="co">#&gt;     150 |     82.04 | 76.49, 87.59</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 =       11.83</span></span>
@@ -276,7 +256,7 @@ constant.</p>
 <span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span></span>
 <span>  <span class="va">fit</span>,</span>
-<span>  <span class="st">"c12hour"</span>,</span>
+<span>  <span class="st">"c12hour [0,50,100,150]"</span>,</span>
 <span>  margin <span class="op">=</span> <span class="st">"marginalmeans"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>e42dep <span class="op">=</span> <span class="st">"independent"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -285,13 +265,9 @@ constant.</p>
 <span><span class="co">#&gt; c12hour | Predicted |       95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
 <span><span class="co">#&gt;       0 |     92.74 | 88.48, 97.01</span></span>
-<span><span class="co">#&gt;      20 |     91.32 | 87.06, 95.57</span></span>
-<span><span class="co">#&gt;      45 |     89.53 | 85.20, 93.87</span></span>
-<span><span class="co">#&gt;      65 |     88.10 | 83.64, 92.57</span></span>
-<span><span class="co">#&gt;      85 |     86.68 | 82.03, 91.32</span></span>
-<span><span class="co">#&gt;     105 |     85.25 | 80.37, 90.13</span></span>
-<span><span class="co">#&gt;     125 |     83.82 | 78.67, 88.98</span></span>
-<span><span class="co">#&gt;     170 |     80.61 | 74.71, 86.51</span></span>
+<span><span class="co">#&gt;      50 |     89.18 | 84.82, 93.54</span></span>
+<span><span class="co">#&gt;     100 |     85.61 | 80.79, 90.42</span></span>
+<span><span class="co">#&gt;     150 |     82.04 | 76.49, 87.59</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * neg_c_7 = 11.83</span></span></code></pre></div>
@@ -357,7 +333,8 @@ calculated mean values are identical.</p>
 <span><span class="co"># we calculate predicted values for each "dataset", i.e. we predict our outcome</span></span>
 <span><span class="co"># for observations, for all levels of "Species"</span></span>
 <span><span class="va">d</span><span class="op">$</span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">m</span>, newdata <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
-<span><span class="co"># now we compute the average predicted values by levels of "Species"</span></span>
+<span><span class="co"># now we compute the average predicted values by levels of "Species", where</span></span>
+<span><span class="co"># non-focal terms are weighted proportional to their occurence in the data</span></span>
 <span><span class="fu">datawizard</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/datawizard/reference/means_by_group.html" class="external-link">means_by_group</a></span><span class="op">(</span><span class="va">d</span>, <span class="st">"predicted"</span>, <span class="st">"Species"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Mean of predicted by Species</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -372,7 +349,7 @@ calculated mean values are identical.</p>
 <span></span>
 <span><span class="co"># estimated marginal means, in turn, differ from the above, because they are</span></span>
 <span><span class="co"># averaged across balanced reference grids for all focal terms, thereby non-focal</span></span>
-<span><span class="co"># are hold constant at a "weighted average".</span></span>
+<span><span class="co"># are hold constant at an (equally) "weighted average".</span></span>
 <span></span>
 <span><span class="co"># estimated marginal means, from `ggemmeans()`</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span>
@@ -422,7 +399,7 @@ focal term, <code>c12hour</code>, is the same for all four plots:</p>
 <span></span>
 <span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<p>However, the predicted outcome varies. The <a href="ggeffects.html">general introduction</a>discusses the
+<p>However, the predicted outcome varies. The <a href="ggeffects.html">general introduction</a> discusses the
 <code>margin</code> argument more in detail, but a few hints on when to
 use which method are following:</p>
 <ul>
@@ -490,6 +467,21 @@ will average over the observations in your sample.</p>
 <span><span class="co"># average predicted values, averaged over the sample and aggregated by "Species"</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Average predicted values of Sepal.Width</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
+<span><span class="co">#&gt; -----------------------------------</span></span>
+<span><span class="co">#&gt; setosa     |      3.43 | 3.34, 3.52</span></span>
+<span><span class="co">#&gt; versicolor |      2.77 | 2.67, 2.86</span></span>
+<span><span class="co">#&gt; virginica  |      2.97 | 2.88, 3.07</span></span></code></pre></div>
+<p>Finally, the weighting for <code>margin = "marginalmeans"</code> can
+be changed using the <code>weights</code> argument (for details, see
+<code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">?emmeans::emmeans</a></code>), which returns results that are more
+similar to <code>margin = "empirical"</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the default is an equally weighted average; "proportional" weights in</span></span>
+<span><span class="co"># proportion to the  frequencies of factor combinations</span></span>
+<span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Species"</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span>, weights <span class="op">=</span> <span class="st">"proportional"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Species    | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; -----------------------------------</span></span>

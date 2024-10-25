@@ -53,7 +53,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.6</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -345,14 +345,15 @@ documentation in the <strong>sandwich</strong> or <strong>clubSandwich</strong> 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
 <dd><p>This argument is used in two different ways, depending on the
-<code>margin</code> argument.</p><ul><li><p>When <code>margin = "empirical"</code>, <code>weights</code> can either be a character vector,
-naming the weigthing variable in the data, or a vector of weights (of same
-length as the number of observations in the data). This variable will be
-used to weight adjusted predictions.</p></li>
-<li><p>When <code>margin = "marginalmeans"</code>, <code>weights</code> must be a character vector and
-is passed to <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>, specifying weights to use in averaging
-non-focal categorical predictors. See https://rvlenth.github.io/emmeans/reference/emmeans.html
-for details.</p></li>
+<code>margin</code> argument.</p><ul><li><p>When <code>margin = "empirical"</code> (or when calling <code>ggaverag()</code>), <code>weights</code> can
+either be a character vector, naming the weigthing variable in the data, or
+a vector of weights (of same length as the number of observations in the
+data). This variable will be used to weight adjusted predictions.</p></li>
+<li><p>When <code>margin = "marginalmeans"</code> (or when calling <code><a href="ggpredict.html">ggemmeans()</a></code>), <code>weights</code>
+must be a character vector and is passed to <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>,
+specifying weights to use in averaging non-focal categorical predictors.
+Options are <code>"equal"</code>, <code>"proportional"</code>, <code>"outer"</code>, <code>"cells"</code>, <code>"flat"</code>,
+and <code>"show.levels"</code>. See <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">?emmeans::emmeans</a></code> for details.</p></li>
 </ul></dd>
 
 
