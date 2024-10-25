@@ -100,12 +100,13 @@ d$Species <- as.factor(rep(levels(iris$Species), each = 150))
 # we calculate predicted values for each "dataset", i.e. we predict our outcome
 # for observations, for all levels of "Species"
 d$predicted <- predict(m, newdata = d)
-# now we compute the average predicted values by levels of "Species"
+# now we compute the average predicted values by levels of "Species", where
+# non-focal terms are weighted proportional to their occurence in the data
 datawizard::means_by_group(d, "predicted", "Species")
 
 # estimated marginal means, in turn, differ from the above, because they are
 # averaged across balanced reference grids for all focal terms, thereby non-focal
-# are hold constant at a "weighted average".
+# are hold constant at an (equally) "weighted average".
 
 # estimated marginal means, from `ggemmeans()`
 predict_response(m, "Species", margin = "marginalmeans")
