@@ -11,6 +11,7 @@ ggemmeans <- function(model,
                       vcov = NULL,
                       vcov_args = NULL,
                       bias_correction = FALSE,
+                      weights = NULL,
                       verbose = TRUE,
                       ...) {
   insight::check_if_installed("emmeans")
@@ -101,6 +102,7 @@ ggemmeans <- function(model,
       cleaned_terms,
       bias_correction = bias_correction,
       residual_variance = residual_variance,
+      weights = weights,
       ...
     )
 
@@ -139,6 +141,7 @@ ggemmeans <- function(model,
       ci_level,
       bias_correction = bias_correction,
       residual_variance = residual_variance,
+      weights = weights,
       ...
     )
 
@@ -174,6 +177,7 @@ ggemmeans <- function(model,
       vcov_info = list(vcov = vcov, vcov_args = vcov_args),
       bias_correction = bias_correction,
       residual_variance = residual_variance,
+      weights = weights,
       verbose = verbose,
       ...
     )

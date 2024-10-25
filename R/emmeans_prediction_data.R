@@ -4,6 +4,7 @@
                               ci_level = NULL,
                               bias_correction = FALSE,
                               residual_variance = NULL,
+                              weights = NULL,
                               ...) {
   if (inherits(model, "glmmTMB")) {
     .ggemmeans_glmmTMB(
@@ -13,6 +14,7 @@
       ci_level,
       bias_correction,
       residual_variance,
+      weights = weights,
       ...
     )
   } else {
@@ -23,6 +25,7 @@
       ci_level,
       bias_correction,
       residual_variance,
+      weights = weights,
       ...
     )
   }
@@ -40,31 +43,32 @@
                                      vcov_info = NULL,
                                      bias_correction = FALSE,
                                      residual_variance = NULL,
+                                     weights = NULL,
                                      verbose = TRUE,
                                      ...) {
   if (inherits(model, "MCMCglmm")) {
     .ggemmeans_predict_MCMCglmm(
       model, data_grid, cleaned_terms, ci_level, pmode,
-      interval = interval, model_data = model_data, ...
+      interval = interval, model_data = model_data, weights = weights, ...
     )
   } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_multinomial || model_info$is_categorical)) { # nolint
     .ggemmeans_predict_ordinal(
       model, data_grid, cleaned_terms, ci_level,
-      interval = interval, model_data = model_data, ...
+      interval = interval, model_data = model_data, weights = weights, ...
     )
   } else if (inherits(model, c("gls", "lme"))) {
     .ggemmeans_predict_nlme(
       model, data_grid, cleaned_terms, ci_level,
       interval = interval, model_data = model_data,
       bias_correction = bias_correction,
-      residual_variance = residual_variance, ...
+      residual_variance = residual_variance, weights = weights, ...
     )
   } else {
     .ggemmeans_predict_generic(
       model, data_grid, cleaned_terms, ci_level, pmode,
       interval = interval, model_data = model_data, vcov_info = vcov_info,
       verbose = verbose, bias_correction = bias_correction,
-      residual_variance = residual_variance, ...
+      residual_variance = residual_variance, weights = weights, ...
     )
   }
 }
@@ -76,6 +80,7 @@
                               ci_level = NULL,
                               bias_correction = FALSE,
                               residual_variance = NULL,
+                              weights = NULL,
                               ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for MixMod-models")
 
@@ -91,7 +96,8 @@
     specs = cleaned_terms,
     at = data_grid,
     level = ci_level,
-    bias.adjust = bias_correction
+    bias.adjust = bias_correction,
+    weights = weights
   )
 
   x1 <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
@@ -117,6 +123,7 @@
                                ci_level = NULL,
                                bias_correction = FALSE,
                                residual_variance = NULL,
+                               weights = NULL,
                                ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for glmmTMB-models")
   # all model variables
@@ -139,7 +146,8 @@
     at = data_grid[cleaned_terms_cond],
     component = "cond",
     level = ci_level,
-    bias.adjust = bias_correction
+    bias.adjust = bias_correction,
+    weights = weights
   )
 
   x1 <- as.data.frame(suppressWarnings(do.call(emmeans::emmeans, c(arg_list, dot_args))))
@@ -165,12 +173,14 @@
                                        ci_level,
                                        interval = NULL,
                                        model_data = NULL,
+                                       weights = NULL,
                                        ...) {
   tmp <- suppressMessages(emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
     mode = "prob",
+    weights = weights,
     ...
   ))
 
@@ -185,12 +195,14 @@
                                         pmode,
                                         interval = NULL,
                                         model_data = NULL,
+                                        weights = NULL,
                                         ...) {
   tmp <- emmeans::emmeans(
     model,
     specs = cleaned_terms,
     at = data_grid,
     pmode = pmode,
+    weights = weights,
     data = insight::get_data(model, source = "frame", verbose = FALSE),
     ...
   )
@@ -209,6 +221,7 @@
                                        vcov_info = NULL,
                                        bias_correction = FALSE,
                                        residual_variance = NULL,
+                                       weights = NULL,
                                        verbose = TRUE,
                                        ...) {
   # get additional arguments
@@ -224,7 +237,8 @@
     specs = cleaned_terms,
     at = data_grid,
     mode = pmode,
-    bias.adjust = bias_correction
+    bias.adjust = bias_correction,
+    weights = weights
   )
   # add vcov-information if available
   if (!is.null(vcov_info)) {
@@ -271,6 +285,7 @@
                                     model_data = NULL,
                                     bias_correction = FALSE,
                                     residual_variance = NULL,
+                                    weights = NULL,
                                     ...) {
   # get additional arguments
   dot_args <- list(...)
@@ -284,7 +299,8 @@
     model,
     specs = cleaned_terms,
     at = data_grid,
-    bias.adjust = bias_correction
+    bias.adjust = bias_correction,
+    weights = weights
   )
 
   tmp <- tryCatch(
