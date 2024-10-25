@@ -61,8 +61,9 @@ developers.
 }
 \details{
 The above mentioned arguments are all passed from \code{predict_response()} to
-\code{get_predictions()}, no matter if they are required to calculate predictions or
-not. Thus, it is not necessary to accept all of those arguments, but they can
-be used to modulate certain settings when calculating predictions. It is
-important that the function returns a data frame with a specific structure:
+\code{get_predictions()}, no matter if they are required to calculate predictions
+or not. Thus, it is not necessary to accept or process all of those
+arguments, but they can be used to modulate certain settings when calculating
+predictions. It is important that the function returns a data frame with a
+specific structure:
 }
