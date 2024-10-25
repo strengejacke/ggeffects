@@ -177,5 +177,5 @@ Finally, the weighting for `margin = "marginalmeans"` can be changed using the `
 ```{r}
 # the default is an equally weighted average; "proportional" weights in
 # proportion to the  frequencies of factor combinations
-predict_response(m, "Species", margin = "marginalmeans", weights = "poportional")
+predict_response(m, "Species", margin = "marginalmeans", weights = "proportional")
 ```
