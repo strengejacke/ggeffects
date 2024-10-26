@@ -17,8 +17,6 @@ get_predict_function <- function(model) {
     "mlogit"
   } else if (inherits(model, "glimML")) {
     "glimML"
-  } else if (inherits(model, "cgam")) {
-    "cgam"
   } else if (inherits(model, "ols")) {
     "ols"
   } else if (inherits(model, "mixor")) {

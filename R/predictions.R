@@ -46,8 +46,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_geeglm(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
-  } else if (model_class == "cgam") {
-    prediction_data <- get_predictions_cgam(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, condition, ...) # nolint
   } else if (model_class == "gam") {
     prediction_data <- get_predictions_gam(model, data_grid, ci_level, linv, type, ...)
   } else if (model_class == "Gam") {
