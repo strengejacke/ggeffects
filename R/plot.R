@@ -656,32 +656,28 @@ plot_panel <- function(x,
 
   # for x as factor
   if (x_is_factor) {
-    # when user provides a single color, we do not use the color-aes.
-    # Thus, we need to specify the color directly as argument
     plot_geom <- list(
       geom = "point",
       position = ggplot2::position_dodge(width = dodge),
       size = dot_size
     )
+    # when user provides a single color, we do not use the color-aes.
+    # Thus, we need to specify the color directly as argument
     if (single_color) {
       plot_geom$colour <- colors
     }
     # classical line
-  } else if (single_color) {
-    # when user provides a single color, we do not use the color-aes.
-    # Thus, we need to specify the color directly as argument
-    plot_geom <- list(
-      geom = "line",
-      mapping = ggplot2::aes(group = str2lang("group")),
-      linewidth = line_size,
-      colour = colors
-    )
   } else {
     plot_geom <- list(
       geom = "line",
       mapping = ggplot2::aes(group = str2lang("group")),
       linewidth = line_size
     )
+    # when user provides a single color, we do not use the color-aes.
+    # Thus, we need to specify the color directly as argument
+    if (single_color) {
+      plot_geom$colour <- colors
+    }
   }
 
   # add layer
