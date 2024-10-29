@@ -658,30 +658,34 @@ plot_panel <- function(x,
   if (x_is_factor) {
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
-    point_geom <- list(
-      geom = str2lang("point"),
+    plot_geom <- list(
+      geom = "point",
       position = ggplot2::position_dodge(width = dodge),
       size = dot_size
     )
     if (single_color) {
-      point_geom$colour <- colors
+      plot_geom$colour <- colors
     }
-    p <- p + ggplot2::layer(point_geom)
     # classical line
   } else if (single_color) {
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
-    p <- p + ggplot2::geom_line(
+    plot_geom <- list(
+      geom = "line",
+      mapping = ggplot2::aes(group = str2lang("group")),
       linewidth = line_size,
-      ggplot2::aes(group = .data[["group"]]),
       colour = colors
     )
   } else {
-    p <- p + ggplot2::geom_line(
-      linewidth = line_size,
-      ggplot2::aes(group = .data[["group"]])
+    plot_geom <- list(
+      geom = "line",
+      mapping = ggplot2::aes(group = str2lang("group")),
+      linewidth = line_size
     )
   }
+
+  # add layer
+  p <- p + ggplot2::layer(plot_geom)
 
   # connect dots with lines...
   if (x_is_factor && connect_lines) {
