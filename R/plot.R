@@ -597,7 +597,7 @@ plot_panel <- function(x,
     single_color <- TRUE
   }
 
-  ggplot_aes <- ggplot2::aes(aes_args)
+  ggplot_aes <- do.call(ggplot2::aes, args = lapply(aes_args, as.symbol))
   p <- ggplot2::ggplot(plot_data, mapping = ggplot_aes)
 
 
