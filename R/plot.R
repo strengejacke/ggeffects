@@ -560,71 +560,45 @@ plot_panel <- function(x,
   plot_data <- x[!is.na(x$x), ]
   single_color <- FALSE
 
+  aes_args <- list(
+    x = .data[["x"]],
+    y = .data[["predicted"]],
+    colour = .data[["group_col"]],
+    fill = .data[["group_col"]]
+  )
+
   if (has_groups && !facets_grp && is_black_white && x_is_factor) {
     # - we have more than one level/category for the x-axis
     # - x-axis has a categorical predictor
     # - black/white plot is requested, so we use different point shapes
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]],
-        shape = .data[["group"]]
-      )
-    )
+    aes_args$shape <- .data[["group"]]
   } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
     # - we have more than one level/category (legend)
     # - x-axis is a numeric / continuous predictor
     # - black/white plot is requested, so we use different line types
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]],
-        linetype = .data[["group"]]
-      )
-    )
+    aes_args$linetype <- .data[["group"]]
   } else if (has_groups && !facets_grp && !is.null(colors) && colors[1] == "gs" && x_is_factor) {
     # - we have more than one level/category (legend)
     # - x-axis is a numeric / continuous predictor
     # - grey scale plot is requested, so we use different shapes
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]],
-        shape = .data[["group"]]
-      )
-    )
+    aes_args$shape <- .data[["group"]]
   } else if (has_groups && (is.null(colors) || colors[1] != "bw")) {
     # - we have more than one level/category (legend)
     # - x-axis is either numeric or factor
     # - default color palette is used, so we don't need to map line types or shapes
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]]
-      )
-    )
   } else {
     # - no groups, so we have a single color plot w/o legend
     # - colors are hardcoded inside geom
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(x = .data[["x"]], y = .data[["predicted"]])
+    aes_args <- list(
+      x = .data[["x"]],
+      y = .data[["predicted"]]
     )
     # we just have one color, so we set different colors inside geom, not as aes
     single_color <- TRUE
   }
+
+  ggplot_aes <- do.call(ggplot2::aes, aes_args)
+  p <- ggplot2::ggplot(plot_data, mapping = ggplot_aes)
 
 
   # get color values -----
