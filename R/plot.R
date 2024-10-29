@@ -561,27 +561,27 @@ plot_panel <- function(x,
   single_color <- FALSE
 
   aes_args <- list(
-    x = .data[["x"]],
-    y = .data[["predicted"]],
-    colour = .data[["group_col"]],
-    fill = .data[["group_col"]]
+    x = str2lang("x"),
+    y = str2lang("predicted"),
+    colour = str2lang("group_col"),
+    fill = str2lang("group_col")
   )
 
   if (has_groups && !facets_grp && is_black_white && x_is_factor) {
     # - we have more than one level/category for the x-axis
     # - x-axis has a categorical predictor
     # - black/white plot is requested, so we use different point shapes
-    aes_args$shape <- .data[["group"]]
+    aes_args$shape <- str2lang("group")
   } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
     # - we have more than one level/category (legend)
     # - x-axis is a numeric / continuous predictor
     # - black/white plot is requested, so we use different line types
-    aes_args$linetype <- .data[["group"]]
+    aes_args$linetype <- str2lang("group")
   } else if (has_groups && !facets_grp && !is.null(colors) && colors[1] == "gs" && x_is_factor) {
     # - we have more than one level/category (legend)
     # - x-axis is a numeric / continuous predictor
     # - grey scale plot is requested, so we use different shapes
-    aes_args$shape <- .data[["group"]]
+    aes_args$shape <- str2lang("group")
   } else if (has_groups && (is.null(colors) || colors[1] != "bw")) {
     # - we have more than one level/category (legend)
     # - x-axis is either numeric or factor
@@ -590,14 +590,14 @@ plot_panel <- function(x,
     # - no groups, so we have a single color plot w/o legend
     # - colors are hardcoded inside geom
     aes_args <- list(
-      x = .data[["x"]],
-      y = .data[["predicted"]]
+      x = str2lang("x"),
+      y = str2lang("predicted")
     )
     # we just have one color, so we set different colors inside geom, not as aes
     single_color <- TRUE
   }
 
-  ggplot_aes <- do.call(ggplot2::aes, args = lapply(aes_args, as.symbol))
+  ggplot_aes <- do.call(ggplot2::aes, args = aes_args)
   p <- ggplot2::ggplot(plot_data, mapping = ggplot_aes)
 
 
@@ -658,18 +658,15 @@ plot_panel <- function(x,
   if (x_is_factor) {
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
+    point_geom <- list(
+      geom = str2lang("point"),
+      position = ggplot2::position_dodge(width = dodge),
+      size = dot_size
+    )
     if (single_color) {
-      p <- p + ggplot2::geom_point(
-        position = ggplot2::position_dodge(width = dodge),
-        size = dot_size,
-        colour = colors
-      )
-    } else {
-      p <- p + ggplot2::geom_point(
-        position = ggplot2::position_dodge(width = dodge),
-        size = dot_size
-      )
+      point_geom$colour <- colors
     }
+    p <- p + ggplot2::layer(point_geom)
     # classical line
   } else if (single_color) {
     # when user provides a single color, we do not use the color-aes.
