@@ -670,152 +670,117 @@ plot_panel <- function(x,
   # CI ----
 
   if (show_ci) {
+    # we need to layers here
+    plot_geom2 <- NULL
 
-    # for a factor on x-axis, use error bars
-
+    # for a factor on x-axis, always use error bars
     if (x_is_factor) {
-
-      if (ci_style == "errorbar") {
-        # when user provides a single color, we do not use the color-aes.
-        # Thus, we need to specify the color directly as argument
-        if (single_color) {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linewidth = line_size,
-            colour = colors
-          )
-        } else {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linewidth = line_size
-          )
-        }
-      } else {
-        lt <- switch(
-          ci_style,
+      plot_geom <- list(
+        geom = "errorbar",
+        stat = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(ymin = str2lang("conf.low"), ymax = str2lang("conf.high"))
+        ),
+        params = list(width = 0, linewidth = line_size),
+        position = ggplot2::position_dodge(width = dodge)
+      )
+      # when user provides a single color, we do not use the color-aes.
+      # Thus, we need to specify the color directly as argument
+      if (single_color) {
+        plot_geom$params$colour <- colors
+      }
+      if (ci_style != "errorbar") {
+        lt <- switch(ci_style,
           dash = 2,
           dot = 3,
           2
         )
-
-        # when user provides a single color, we do not use the color-aes.
-        # Thus, we need to specify the color directly as argument
-        if (single_color) {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], linetype = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linetype = lt,
-            linewidth = line_size,
-            colour = colors
-          )
-        } else {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], linetype = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linetype = lt,
-            linewidth = line_size
-          )
-        }
+        plot_geom$params$linetype <- lt
       }
 
       # for continuous x, use ribbons by default
     } else if (ci_style == "ribbon") {
+      plot_geom <- list(
+        geom = "ribbon",
+        stat = "identity",
+        position = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(
+            ymin = str2lang("conf.low"), ymax = str2lang("conf.high"),
+            colour = NULL, linetype = NULL, shape = NULL, group = str2lang("group")
+          )
+        ),
+        params = list(alpha = alpha)
+      )
       # when user provides a single color, we do not use the color-aes.
       # Thus, we need to specify the color directly as argument
       if (single_color) {
-        p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes(
-            ymin = .data[["conf.low"]],
-            ymax = .data[["conf.high"]],
-            colour = NULL,
-            linetype = NULL,
-            shape = NULL,
-            group = .data[["group"]]
-          ),
-          alpha = alpha,
-          fill = colors
-        )
-      } else {
-        p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes(
-            ymin = .data[["conf.low"]],
-            ymax = .data[["conf.high"]],
-            colour = NULL,
-            linetype = NULL,
-            shape = NULL,
-            group = .data[["group"]]
-          ),
-          alpha = alpha
-        )
+        plot_geom$params$fill <- colors
       }
-    } else if (ci_style == "errorbar") {
-      # when user provides a single color, we do not use the color-aes.
-      # Thus, we need to specify the color directly as argument
-      if (single_color) {
-        p <- p + ggplot2::geom_point(
-          position = ggplot2::position_dodge(width = dodge),
-          size = dot_size,
-          colour = colors
-        ) +
-          ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            linewidth = line_size,
-            width = 0,
-            colour = colors
-          )
-      } else {
-        p <- p + ggplot2::geom_point(
-          position = ggplot2::position_dodge(width = dodge),
-          size = dot_size
-        ) +
-          ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            linewidth = line_size,
-            width = 0
-          )
-      }
-    } else {
 
-      lt <- switch(
-        ci_style,
+    } else if (ci_style == "errorbar") {
+      plot_geom <- list(
+        geom = "point",
+        stat = "identity",
+        params = list(size = dot_size),
+        position = ggplot2::position_dodge(width = dodge)
+      )
+      plot_geom2 <- list(
+        geom = "errorbar",
+        stat = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(ymin = str2lang("conf.low"), ymax = str2lang("conf.high"), shape = NULL)
+        ),
+        params = list(linewidth = line_size, width = 0),
+        position = ggplot2::position_dodge(width = dodge)
+      )
+      # when user provides a single color, we do not use the color-aes.
+      # Thus, we need to specify the color directly as argument
+      if (single_color) {
+        plot_geom$params$colour <- colors
+        plot_geom2$params$colour <- colors
+      }
+
+    } else {
+      lt <- switch(ci_style,
         dash = 2,
         dot = 3,
         2
       )
-
+      plot_geom <- list(
+        geom = "line",
+        stat = "identity",
+        position = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(y = str2lang("conf.low"), linetype = NULL)
+        ),
+        params = list(linetype = lt)
+      )
+      plot_geom2 <- list(
+        geom = "line",
+        stat = "identity",
+        position = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(y = str2lang("conf.high"), linetype = NULL)
+        ),
+        params = list(linetype = lt)
+      )
       # when user provides a single color, we do not use the color-aes.
       # Thus, we need to specify the color directly as argument
       if (single_color) {
-        p <- p +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.low"]], linetype = NULL),
-            linetype = lt,
-            colour = colors
-          ) +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.high"]], linetype = NULL),
-            linetype = lt,
-            colour = colors
-          )
-      } else {
-        p <- p +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.low"]], linetype = NULL),
-            linetype = lt
-          ) +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.high"]], linetype = NULL),
-            linetype = lt
-          )
+        plot_geom$params$colour <- colors
+        plot_geom2$params$colour <- colors
       }
+    }
+    # add layer(s)
+    p <- p + do.call(ggplot2::layer, plot_geom)
+    if (!is.null(plot_geom2)) {
+      p <- p + do.call(ggplot2::layer, plot_geom2)
     }
   }
 

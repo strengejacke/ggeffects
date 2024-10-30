@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' data-engine-version='2.0' width='720.00pt' height='576.00pt' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='720.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+</g>
+<defs>
+  <clipPath id='cpMzIuNzl8NTUwLjQ3fDIyLjc4fDU0NS4xMQ=='>
+    <rect x='32.79' y='22.78' width='517.68' height='522.33' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMzIuNzl8NTUwLjQ3fDIyLjc4fDU0NS4xMQ==)'>
+<polyline points='32.79,474.13 550.47,474.13 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,370.75 550.47,370.75 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,267.38 550.47,267.38 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,164.00 550.47,164.00 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,60.62 550.47,60.62 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='125.53,545.11 125.53,22.78 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='263.95,545.11 263.95,22.78 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='402.37,545.11 402.37,22.78 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='540.78,545.11 540.78,22.78 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,525.82 550.47,525.82 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,422.44 550.47,422.44 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,319.06 550.47,319.06 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,215.69 550.47,215.69 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='32.79,112.31 550.47,112.31 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='56.32,545.11 56.32,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='194.74,545.11 194.74,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='333.16,545.11 333.16,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='471.58,545.11 471.58,22.78 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='56.32,76.35 70.17,89.44 84.01,102.52 97.85,115.61 111.69,128.70 125.53,141.79 139.37,154.88 153.22,167.97 167.06,181.06 180.90,194.15 194.74,207.24 208.58,220.33 222.42,233.41 236.27,246.50 250.11,259.59 263.95,272.68 277.79,285.77 291.63,298.86 305.48,311.95 319.32,325.04 333.16,338.13 347.00,351.21 360.84,364.30 374.68,377.39 388.53,390.48 402.37,403.57 416.21,416.66 430.05,429.75 443.89,442.84 457.73,455.93 471.58,469.01 485.42,482.10 499.26,495.19 513.10,508.28 526.94,521.37 ' style='stroke-width: 1.49; stroke-linecap: butt;' />
+<polyline points='56.32,46.53 70.17,59.61 84.01,72.70 97.85,85.79 111.69,98.88 125.53,111.97 139.37,125.06 153.22,138.15 167.06,151.24 180.90,164.33 194.74,177.41 208.58,190.50 222.42,203.59 236.27,216.68 250.11,229.77 263.95,242.86 277.79,255.95 291.63,269.04 305.48,282.13 319.32,295.22 333.16,308.30 347.00,321.39 360.84,334.48 374.68,347.57 388.53,360.66 402.37,373.75 416.21,386.84 430.05,399.93 443.89,413.02 457.73,426.10 471.58,439.19 485.42,452.28 499.26,465.37 513.10,478.46 526.94,491.55 ' style='stroke-width: 1.49; stroke-dasharray: 3.98,3.98; stroke-linecap: butt;' />
+<polyline points='56.32,63.77 70.17,76.86 84.01,89.95 97.85,103.04 111.69,116.13 125.53,129.21 139.37,142.30 153.22,155.39 167.06,168.48 180.90,181.57 194.74,194.66 208.58,207.75 222.42,220.84 236.27,233.93 250.11,247.01 263.95,260.10 277.79,273.19 291.63,286.28 305.48,299.37 319.32,312.46 333.16,325.55 347.00,338.64 360.84,351.73 374.68,364.81 388.53,377.90 402.37,390.99 416.21,404.08 430.05,417.17 443.89,430.26 457.73,443.35 471.58,456.44 485.42,469.53 499.26,482.61 513.10,495.70 526.94,508.79 ' style='stroke-width: 1.49; stroke-dasharray: 7.97,3.98; stroke-linecap: butt;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<polyline points='32.79,545.11 32.79,22.78 ' style='stroke-width: 1.07; stroke: #CCCCCC; stroke-linecap: butt;' />
+<text x='27.86' y='528.85' text-anchor='end' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>30</text>
+<text x='27.86' y='425.47' text-anchor='end' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='27.86' y='322.09' text-anchor='end' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>50</text>
+<text x='27.86' y='218.71' text-anchor='end' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>60</text>
+<text x='27.86' y='115.34' text-anchor='end' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>70</text>
+<polyline points='32.79,545.11 550.47,545.11 ' style='stroke-width: 1.07; stroke: #CCCCCC; stroke-linecap: butt;' />
+<text x='56.32' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='194.74' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>50</text>
+<text x='333.16' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>100</text>
+<text x='471.58' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #7F7F7F; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>150</text>
+<text x='291.63' y='568.24' text-anchor='middle' style='font-size: 11.00px; fill: #4D4D4D; font-family: sans;' textLength='207.31px' lengthAdjust='spacingAndGlyphs'>average number of hours of care per week</text>
+<text transform='translate(13.05,283.95) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; fill: #4D4D4D; font-family: sans;' textLength='144.90px' lengthAdjust='spacingAndGlyphs'>Total score BARTHEL INDEX</text>
+<text x='566.91' y='259.07' style='font-size: 11.00px; fill: #4D4D4D; font-family: sans;' textLength='121.35px' lengthAdjust='spacingAndGlyphs'>carer's level of education</text>
+<line x1='568.64' y1='274.33' x2='582.46' y2='274.33' style='stroke-width: 1.49; stroke-linecap: butt;' />
+<line x1='568.64' y1='291.61' x2='582.46' y2='291.61' style='stroke-width: 1.49; stroke-dasharray: 3.98,3.98; stroke-linecap: butt;' />
+<line x1='568.64' y1='308.89' x2='582.46' y2='308.89' style='stroke-width: 1.49; stroke-dasharray: 7.97,3.98; stroke-linecap: butt;' />
+<text x='589.67' y='277.36' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='84.15px' lengthAdjust='spacingAndGlyphs'>low level of education</text>
+<text x='589.67' y='294.64' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='119.37px' lengthAdjust='spacingAndGlyphs'>intermediate level of education</text>
+<text x='589.67' y='311.92' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='87.58px' lengthAdjust='spacingAndGlyphs'>high level of education</text>
+<text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='289.83px' lengthAdjust='spacingAndGlyphs'>Predicted values of Total score BARTHEL INDEX</text>
+</g>
+</svg>
