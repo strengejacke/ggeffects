@@ -244,44 +244,8 @@ plot.ggeffects <- function(x,
 
   # if we add data points, limit to range
   if (isTRUE(limit_range)) {
-    raw_data <- attr(x, "rawdata", exact = TRUE)
-    if (!is.null(raw_data)) {
-      if (has_groups && has_facets) {
-        ranges <- lapply(
-          split(raw_data, list(raw_data$group, raw_data$facet)),
-          function(i) range(i$x, na.rm = TRUE)
-        )
-        for (i in unique(raw_data$group)) {
-          for (j in unique(raw_data$facet)) {
-            if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
-              remove_indices <- x$group == i & x$facet == j
-              x$x[remove_indices] <- NA
-            } else {
-              remove_indices <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
-              x$x[remove_indices] <- NA
-              remove_indices <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
-              x$x[remove_indices] <- NA
-            }
-          }
-        }
-      } else if (has_groups) {
-        ranges <- lapply(
-          split(raw_data, raw_data$group),
-          function(i) range(i$x, na.rm = TRUE)
-        )
-        for (i in names(ranges)) {
-          remove_indices <- x$group == i & x$x < ranges[[i]][1]
-          x$x[remove_indices] <- NA
-          remove_indices <- x$group == i & x$x > ranges[[i]][2]
-          x$x[remove_indices] <- NA
-        }
-      } else {
-        remove_indices <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
-        x$x[remove_indices] <- NA
-      }
-    }
+    x <- .limit_x_range(x, has_groups, has_facets)
   }
-
 
   # partial residuals?
   if (show_residuals) {
@@ -680,27 +644,26 @@ plot_panel <- function(x,
       plot_geom$params$colour <- colors
     }
   }
-
   # add layer
   plot_geom$stat <- "identity"
   p <- p + do.call(ggplot2::layer, plot_geom)
 
+
   # connect dots with lines...
   if (x_is_factor && connect_lines) {
+    plot_geom <- list(
+      geom = "line",
+      stat = "identity",
+      params = list(linewidth = line_size),
+      position = ggplot2::position_dodge(width = dodge)
+    )
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
     if (single_color) {
-      p <- p + ggplot2::geom_line(
-        linewidth = line_size,
-        position = ggplot2::position_dodge(width = dodge),
-        colour = colors
-      )
-    } else {
-      p <- p + ggplot2::geom_line(
-        linewidth = line_size,
-        position = ggplot2::position_dodge(width = dodge)
-      )
+      plot_geom$params$colour <- colors
     }
+    # add layer
+    p <- p + do.call(ggplot2::layer, plot_geom)
   }
 
 
@@ -1188,6 +1151,47 @@ plot.see_equivalence_test_ggeffects <- function(x,
 #' @keywords internal
 .percents <- function(x) {
   insight::format_value(x = x, as_percent = TRUE, digits = 0)
+}
+
+
+.limit_x_range <- function(x, has_groups, has_facets) {
+  raw_data <- attr(x, "rawdata", exact = TRUE)
+  if (!is.null(raw_data)) {
+    if (has_groups && has_facets) {
+      ranges <- lapply(
+        split(raw_data, list(raw_data$group, raw_data$facet)),
+        function(i) range(i$x, na.rm = TRUE)
+      )
+      for (i in unique(raw_data$group)) {
+        for (j in unique(raw_data$facet)) {
+          if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
+            remove_indices <- x$group == i & x$facet == j
+            x$x[remove_indices] <- NA
+          } else {
+            remove_indices <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
+            x$x[remove_indices] <- NA
+            remove_indices <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
+            x$x[remove_indices] <- NA
+          }
+        }
+      }
+    } else if (has_groups) {
+      ranges <- lapply(
+        split(raw_data, raw_data$group),
+        function(i) range(i$x, na.rm = TRUE)
+      )
+      for (i in names(ranges)) {
+        remove_indices <- x$group == i & x$x < ranges[[i]][1]
+        x$x[remove_indices] <- NA
+        remove_indices <- x$group == i & x$x > ranges[[i]][2]
+        x$x[remove_indices] <- NA
+      }
+    } else {
+      remove_indices <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
+      x$x[remove_indices] <- NA
+    }
+  }
+  x
 }
 
 
