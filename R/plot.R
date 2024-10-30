@@ -346,6 +346,40 @@ plot.ggeffects <- function(x,
     one_plot <- FALSE
   }
 
+  # prepare arguments for single and multiple plot
+  plot_args <- list(
+    colors = colors,
+    has_groups = has_groups,
+    facets_grp = facets_grp,
+    facets = facets,
+    facet_polr = facet_polr,
+    is_black_white = is_black_white,
+    x_is_factor = x_is_factor,
+    alpha = alpha,
+    dot_alpha = dot_alpha,
+    dodge = dodge,
+    show_ci = show_ci,
+    ci_style = ci_style,
+    dot_size = dot_size,
+    line_size = line_size,
+    connect_lines = connect_lines,
+    case = case,
+    jitter = jitter,
+    jitter.miss = jitter.miss,
+    show_data = show_data,
+    label.data = data_labels,
+    residuals = show_residuals,
+    residuals.line = show_residuals_line,
+    show_title = show_title,
+    show_x_title = show_x_title,
+    show_y_title = show_y_title,
+    log_y = log_y,
+    y.breaks = y.breaks,
+    y.limits = y.limits,
+    use_theme = use_theme,
+    latent_thresholds = latent_thresholds,
+    verbose = verbose
+  )
 
   if (has_panel) {
     panels <- unique(x$panel)
@@ -364,43 +398,11 @@ plot.ggeffects <- function(x,
         show_temp_legend <- show_legend
       }
 
-      pl <- plot_panel(
-        x = x[x$panel == .p, , drop = FALSE],
-        colors = colors,
-        has_groups = has_groups,
-        facets_grp = facets_grp,
-        facets = facets,
-        facet_polr = facet_polr,
-        is_black_white = is_black_white,
-        x_is_factor = x_is_factor,
-        alpha = alpha,
-        dot_alpha = dot_alpha,
-        dodge = dodge,
-        show_ci = show_ci,
-        ci_style = ci_style,
-        dot_size = dot_size,
-        line_size = line_size,
-        connect_lines = connect_lines,
-        case = case,
-        jitter = jitter,
-        jitter.miss = jitter.miss,
-        show_data = show_data,
-        label.data = data_labels,
-        residuals = show_residuals,
-        residuals.line = show_residuals_line,
-        show_title = show_title,
-        show_x_title = show_x_title,
-        show_y_title = show_y_title,
-        show_legend = show_temp_legend,
-        log_y = log_y,
-        y.breaks = y.breaks,
-        y.limits = y.limits,
-        use_theme = use_theme,
-        n_rows = NULL,
-        latent_thresholds = latent_thresholds,
-        verbose = verbose,
-        ...
-      )
+      plot_args$x <- x[x$panel == .p, , drop = FALSE]
+      plot_args$show_legend <- show_temp_legend
+      plot_args$n_rows <- NULL
+
+      pl <- do.call(plot_panel, c(plot_args, list(...)))
 
       if (one_plot) {
         if (.i < length(panels)) {
@@ -414,43 +416,11 @@ plot.ggeffects <- function(x,
       pl
     })
   } else {
-    p <- plot_panel(
-      x = x,
-      colors = colors,
-      has_groups = has_groups,
-      facets_grp = facets_grp,
-      facets = facets,
-      facet_polr = facet_polr,
-      is_black_white = is_black_white,
-      x_is_factor = x_is_factor,
-      alpha = alpha,
-      dot_alpha = dot_alpha,
-      dodge = dodge,
-      show_ci = show_ci,
-      ci_style = ci_style,
-      dot_size = dot_size,
-      line_size = line_size,
-      connect_lines = connect_lines,
-      case = case,
-      jitter = jitter,
-      jitter.miss = jitter.miss,
-      show_data = show_data,
-      label.data = data_labels,
-      residuals = show_residuals,
-      residuals.line = show_residuals_line,
-      show_title = show_title,
-      show_x_title = show_x_title,
-      show_y_title = show_y_title,
-      show_legend = show_legend,
-      log_y = log_y,
-      y.breaks = y.breaks,
-      y.limits = y.limits,
-      use_theme = use_theme,
-      n_rows = n_rows,
-      latent_thresholds = latent_thresholds,
-      verbose = verbose,
-      ...
-    )
+    plot_args$x <- x
+    plot_args$show_legend <- show_legend
+    plot_args$n_rows <- n_rows
+
+    p <- do.call(plot_panel, c(plot_args, list(...)))
   }
 
 
@@ -462,41 +432,13 @@ plot.ggeffects <- function(x,
 }
 
 
-plot_panel <- function(x,
-                       colors,
-                       has_groups,
-                       facets_grp,
-                       facets,
-                       facet_polr,
-                       is_black_white,
-                       x_is_factor,
-                       alpha,
-                       dot_alpha,
-                       dodge,
-                       show_ci,
-                       ci_style,
-                       dot_size,
-                       line_size,
-                       connect_lines,
-                       case,
-                       jitter,
-                       jitter.miss,
-                       show_data,
-                       label.data,
-                       residuals,
-                       residuals.line,
-                       show_title,
-                       show_x_title,
-                       show_y_title,
-                       show_legend,
-                       log_y,
-                       y.breaks,
-                       y.limits,
-                       use_theme,
-                       n_rows,
-                       latent_thresholds,
-                       verbose = TRUE,
-                       ...) {
+plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
+                       is_black_white, x_is_factor, alpha, dot_alpha, dodge,
+                       show_ci, ci_style, dot_size, line_size, connect_lines,
+                       case, jitter, jitter.miss, show_data, label.data,
+                       residuals, residuals.line, show_title, show_x_title,
+                       show_y_title, show_legend, log_y, y.breaks, y.limits,
+                       use_theme, n_rows = NULL, latent_thresholds, verbose = TRUE, ...) {
   # fake init
   .data <- NULL
 
