@@ -670,8 +670,9 @@ plot_panel <- function(x,
   } else {
     plot_geom <- list(
       geom = "line",
-      mapping = ggplot2::aes(group = str2lang("group")),
-      params = list(linewidth = line_size)
+      mapping = do.call(ggplot2::aes, list(group = str2lang("group"))),
+      params = list(linewidth = line_size),
+      position = "identity"
     )
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
