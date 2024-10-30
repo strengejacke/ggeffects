@@ -438,7 +438,7 @@ plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
                        case, jitter, jitter.miss, show_data, label.data,
                        residuals, residuals.line, show_title, show_x_title,
                        show_y_title, show_legend, log_y, y.breaks, y.limits,
-                       use_theme, n_rows, latent_thresholds, verbose = TRUE, ...) {
+                       use_theme, n_rows = NULL, latent_thresholds, verbose = TRUE, ...) {
   # fake init
   .data <- NULL
 
