@@ -420,7 +420,7 @@ plot.ggeffects <- function(x,
     plot_args$show_legend <- show_legend
     plot_args$n_rows <- n_rows
 
-    pl <- do.call(plot_panel, c(plot_args, list(...)))
+    p <- do.call(plot_panel, c(plot_args, list(...)))
   }
 
 
