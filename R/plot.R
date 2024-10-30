@@ -681,8 +681,8 @@ plot_panel <- function(x,
   }
 
   # add layer
-  plot_geom$stat = "identity"
-  p <- p + ggplot2::layer(plot_geom)
+  plot_geom$stat <- "identity"
+  p <- p + do.call(ggplot2::layer, plot_geom)
 
   # connect dots with lines...
   if (x_is_factor && connect_lines) {
