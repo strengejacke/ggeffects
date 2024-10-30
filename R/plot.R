@@ -244,44 +244,8 @@ plot.ggeffects <- function(x,
 
   # if we add data points, limit to range
   if (isTRUE(limit_range)) {
-    raw_data <- attr(x, "rawdata", exact = TRUE)
-    if (!is.null(raw_data)) {
-      if (has_groups && has_facets) {
-        ranges <- lapply(
-          split(raw_data, list(raw_data$group, raw_data$facet)),
-          function(i) range(i$x, na.rm = TRUE)
-        )
-        for (i in unique(raw_data$group)) {
-          for (j in unique(raw_data$facet)) {
-            if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
-              remove_indices <- x$group == i & x$facet == j
-              x$x[remove_indices] <- NA
-            } else {
-              remove_indices <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
-              x$x[remove_indices] <- NA
-              remove_indices <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
-              x$x[remove_indices] <- NA
-            }
-          }
-        }
-      } else if (has_groups) {
-        ranges <- lapply(
-          split(raw_data, raw_data$group),
-          function(i) range(i$x, na.rm = TRUE)
-        )
-        for (i in names(ranges)) {
-          remove_indices <- x$group == i & x$x < ranges[[i]][1]
-          x$x[remove_indices] <- NA
-          remove_indices <- x$group == i & x$x > ranges[[i]][2]
-          x$x[remove_indices] <- NA
-        }
-      } else {
-        remove_indices <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
-        x$x[remove_indices] <- NA
-      }
-    }
+    x <- .limit_x_range(x, has_groups, has_facets)
   }
-
 
   # partial residuals?
   if (show_residuals) {
@@ -560,71 +524,45 @@ plot_panel <- function(x,
   plot_data <- x[!is.na(x$x), ]
   single_color <- FALSE
 
+  aes_args <- list(
+    x = str2lang("x"),
+    y = str2lang("predicted"),
+    colour = str2lang("group_col"),
+    fill = str2lang("group_col")
+  )
+
   if (has_groups && !facets_grp && is_black_white && x_is_factor) {
     # - we have more than one level/category for the x-axis
     # - x-axis has a categorical predictor
     # - black/white plot is requested, so we use different point shapes
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]],
-        shape = .data[["group"]]
-      )
-    )
+    aes_args$shape <- str2lang("group")
   } else if (has_groups && !facets_grp && is_black_white && !x_is_factor) {
     # - we have more than one level/category (legend)
     # - x-axis is a numeric / continuous predictor
     # - black/white plot is requested, so we use different line types
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]],
-        linetype = .data[["group"]]
-      )
-    )
+    aes_args$linetype <- str2lang("group")
   } else if (has_groups && !facets_grp && !is.null(colors) && colors[1] == "gs" && x_is_factor) {
     # - we have more than one level/category (legend)
     # - x-axis is a numeric / continuous predictor
     # - grey scale plot is requested, so we use different shapes
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]],
-        shape = .data[["group"]]
-      )
-    )
+    aes_args$shape <- str2lang("group")
   } else if (has_groups && (is.null(colors) || colors[1] != "bw")) {
     # - we have more than one level/category (legend)
     # - x-axis is either numeric or factor
     # - default color palette is used, so we don't need to map line types or shapes
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["predicted"]],
-        colour = .data[["group_col"]],
-        fill = .data[["group_col"]]
-      )
-    )
   } else {
     # - no groups, so we have a single color plot w/o legend
     # - colors are hardcoded inside geom
-    p <- ggplot2::ggplot(
-      plot_data,
-      ggplot2::aes(x = .data[["x"]], y = .data[["predicted"]])
+    aes_args <- list(
+      x = str2lang("x"),
+      y = str2lang("predicted")
     )
     # we just have one color, so we set different colors inside geom, not as aes
     single_color <- TRUE
   }
+
+  ggplot_aes <- do.call(ggplot2::aes, args = aes_args)
+  p <- ggplot2::ggplot(plot_data, mapping = ggplot_aes)
 
 
   # get color values -----
@@ -682,204 +620,167 @@ plot_panel <- function(x,
 
   # for x as factor
   if (x_is_factor) {
+    plot_geom <- list(
+      geom = "point",
+      position = ggplot2::position_dodge(width = dodge),
+      params = list(size = dot_size)
+    )
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
     if (single_color) {
-      p <- p + ggplot2::geom_point(
-        position = ggplot2::position_dodge(width = dodge),
-        size = dot_size,
-        colour = colors
-      )
-    } else {
-      p <- p + ggplot2::geom_point(
-        position = ggplot2::position_dodge(width = dodge),
-        size = dot_size
-      )
+      plot_geom$params$colour <- colors
     }
     # classical line
-  } else if (single_color) {
+  } else {
+    plot_geom <- list(
+      geom = "line",
+      mapping = do.call(ggplot2::aes, list(group = str2lang("group"))),
+      params = list(linewidth = line_size),
+      position = "identity"
+    )
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
-    p <- p + ggplot2::geom_line(
-      linewidth = line_size,
-      ggplot2::aes(group = .data[["group"]]),
-      colour = colors
-    )
-  } else {
-    p <- p + ggplot2::geom_line(
-      linewidth = line_size,
-      ggplot2::aes(group = .data[["group"]])
-    )
+    if (single_color) {
+      plot_geom$params$colour <- colors
+    }
   }
+  # add layer
+  plot_geom$stat <- "identity"
+  p <- p + do.call(ggplot2::layer, plot_geom)
+
 
   # connect dots with lines...
   if (x_is_factor && connect_lines) {
+    plot_geom <- list(
+      geom = "line",
+      stat = "identity",
+      params = list(linewidth = line_size),
+      position = ggplot2::position_dodge(width = dodge)
+    )
     # when user provides a single color, we do not use the color-aes.
     # Thus, we need to specify the color directly as argument
     if (single_color) {
-      p <- p + ggplot2::geom_line(
-        linewidth = line_size,
-        position = ggplot2::position_dodge(width = dodge),
-        colour = colors
-      )
-    } else {
-      p <- p + ggplot2::geom_line(
-        linewidth = line_size,
-        position = ggplot2::position_dodge(width = dodge)
-      )
+      plot_geom$params$colour <- colors
     }
+    # add layer
+    p <- p + do.call(ggplot2::layer, plot_geom)
   }
 
 
   # CI ----
 
   if (show_ci) {
+    # we need to layers here
+    plot_geom2 <- NULL
 
-    # for a factor on x-axis, use error bars
-
+    # for a factor on x-axis, always use error bars
     if (x_is_factor) {
-
-      if (ci_style == "errorbar") {
-        # when user provides a single color, we do not use the color-aes.
-        # Thus, we need to specify the color directly as argument
-        if (single_color) {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linewidth = line_size,
-            colour = colors
-          )
-        } else {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]]),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linewidth = line_size
-          )
-        }
-      } else {
-        lt <- switch(
-          ci_style,
+      plot_geom <- list(
+        geom = "errorbar",
+        stat = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(ymin = str2lang("conf.low"), ymax = str2lang("conf.high"))
+        ),
+        params = list(width = 0, linewidth = line_size),
+        position = ggplot2::position_dodge(width = dodge)
+      )
+      # when user provides a single color, we do not use the color-aes.
+      # Thus, we need to specify the color directly as argument
+      if (single_color) {
+        plot_geom$params$colour <- colors
+      }
+      if (ci_style != "errorbar") {
+        lt <- switch(ci_style,
           dash = 2,
           dot = 3,
           2
         )
-
-        # when user provides a single color, we do not use the color-aes.
-        # Thus, we need to specify the color directly as argument
-        if (single_color) {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], linetype = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linetype = lt,
-            linewidth = line_size,
-            colour = colors
-          )
-        } else {
-          p <- p + ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], linetype = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            width = 0,
-            linetype = lt,
-            linewidth = line_size
-          )
-        }
+        plot_geom$params$linetype <- lt
       }
 
       # for continuous x, use ribbons by default
     } else if (ci_style == "ribbon") {
+      plot_geom <- list(
+        geom = "ribbon",
+        stat = "identity",
+        position = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(
+            ymin = str2lang("conf.low"), ymax = str2lang("conf.high"),
+            colour = NULL, linetype = NULL, shape = NULL, group = str2lang("group")
+          )
+        ),
+        params = list(alpha = alpha)
+      )
       # when user provides a single color, we do not use the color-aes.
       # Thus, we need to specify the color directly as argument
       if (single_color) {
-        p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes(
-            ymin = .data[["conf.low"]],
-            ymax = .data[["conf.high"]],
-            colour = NULL,
-            linetype = NULL,
-            shape = NULL,
-            group = .data[["group"]]
-          ),
-          alpha = alpha,
-          fill = colors
-        )
-      } else {
-        p <- p + ggplot2::geom_ribbon(
-          ggplot2::aes(
-            ymin = .data[["conf.low"]],
-            ymax = .data[["conf.high"]],
-            colour = NULL,
-            linetype = NULL,
-            shape = NULL,
-            group = .data[["group"]]
-          ),
-          alpha = alpha
-        )
+        plot_geom$params$fill <- colors
       }
-    } else if (ci_style == "errorbar") {
-      # when user provides a single color, we do not use the color-aes.
-      # Thus, we need to specify the color directly as argument
-      if (single_color) {
-        p <- p + ggplot2::geom_point(
-          position = ggplot2::position_dodge(width = dodge),
-          size = dot_size,
-          colour = colors
-        ) +
-          ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            linewidth = line_size,
-            width = 0,
-            colour = colors
-          )
-      } else {
-        p <- p + ggplot2::geom_point(
-          position = ggplot2::position_dodge(width = dodge),
-          size = dot_size
-        ) +
-          ggplot2::geom_errorbar(
-            ggplot2::aes(ymin = .data[["conf.low"]], ymax = .data[["conf.high"]], shape = NULL),
-            position = ggplot2::position_dodge(width = dodge),
-            linewidth = line_size,
-            width = 0
-          )
-      }
-    } else {
 
-      lt <- switch(
-        ci_style,
+    } else if (ci_style == "errorbar") {
+      plot_geom <- list(
+        geom = "point",
+        stat = "identity",
+        params = list(size = dot_size),
+        position = ggplot2::position_dodge(width = dodge)
+      )
+      plot_geom2 <- list(
+        geom = "errorbar",
+        stat = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(ymin = str2lang("conf.low"), ymax = str2lang("conf.high"), shape = NULL)
+        ),
+        params = list(linewidth = line_size, width = 0),
+        position = ggplot2::position_dodge(width = dodge)
+      )
+      # when user provides a single color, we do not use the color-aes.
+      # Thus, we need to specify the color directly as argument
+      if (single_color) {
+        plot_geom$params$colour <- colors
+        plot_geom2$params$colour <- colors
+      }
+
+    } else {
+      lt <- switch(ci_style,
         dash = 2,
         dot = 3,
         2
       )
-
+      plot_geom <- list(
+        geom = "line",
+        stat = "identity",
+        position = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(y = str2lang("conf.low"), linetype = NULL)
+        ),
+        params = list(linetype = lt)
+      )
+      plot_geom2 <- list(
+        geom = "line",
+        stat = "identity",
+        position = "identity",
+        mapping = do.call(
+          ggplot2::aes,
+          list(y = str2lang("conf.high"), linetype = NULL)
+        ),
+        params = list(linetype = lt)
+      )
       # when user provides a single color, we do not use the color-aes.
       # Thus, we need to specify the color directly as argument
       if (single_color) {
-        p <- p +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.low"]], linetype = NULL),
-            linetype = lt,
-            colour = colors
-          ) +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.high"]], linetype = NULL),
-            linetype = lt,
-            colour = colors
-          )
-      } else {
-        p <- p +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.low"]], linetype = NULL),
-            linetype = lt
-          ) +
-          ggplot2::geom_line(
-            ggplot2::aes(y = .data[["conf.high"]], linetype = NULL),
-            linetype = lt
-          )
+        plot_geom$params$colour <- colors
+        plot_geom2$params$colour <- colors
       }
+    }
+    # add layer(s)
+    p <- p + do.call(ggplot2::layer, plot_geom)
+    if (!is.null(plot_geom2)) {
+      p <- p + do.call(ggplot2::layer, plot_geom2)
     }
   }
 
@@ -1215,6 +1116,47 @@ plot.see_equivalence_test_ggeffects <- function(x,
 #' @keywords internal
 .percents <- function(x) {
   insight::format_value(x = x, as_percent = TRUE, digits = 0)
+}
+
+
+.limit_x_range <- function(x, has_groups, has_facets) {
+  raw_data <- attr(x, "rawdata", exact = TRUE)
+  if (!is.null(raw_data)) {
+    if (has_groups && has_facets) {
+      ranges <- lapply(
+        split(raw_data, list(raw_data$group, raw_data$facet)),
+        function(i) range(i$x, na.rm = TRUE)
+      )
+      for (i in unique(raw_data$group)) {
+        for (j in unique(raw_data$facet)) {
+          if (any(is.infinite(ranges[[paste0(i, ".", j)]]))) {
+            remove_indices <- x$group == i & x$facet == j
+            x$x[remove_indices] <- NA
+          } else {
+            remove_indices <- x$group == i & x$facet == j & x$x < ranges[[paste0(i, ".", j)]][1]
+            x$x[remove_indices] <- NA
+            remove_indices <- x$group == i & x$facet == j & x$x > ranges[[paste0(i, ".", j)]][2]
+            x$x[remove_indices] <- NA
+          }
+        }
+      }
+    } else if (has_groups) {
+      ranges <- lapply(
+        split(raw_data, raw_data$group),
+        function(i) range(i$x, na.rm = TRUE)
+      )
+      for (i in names(ranges)) {
+        remove_indices <- x$group == i & x$x < ranges[[i]][1]
+        x$x[remove_indices] <- NA
+        remove_indices <- x$group == i & x$x > ranges[[i]][2]
+        x$x[remove_indices] <- NA
+      }
+    } else {
+      remove_indices <- x$x < min(raw_data$x, na.rm = TRUE) | x$x > max(raw_data$x, na.rm = TRUE)
+      x$x[remove_indices] <- NA
+    }
+  }
+  x
 }
 
 
