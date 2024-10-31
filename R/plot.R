@@ -1165,92 +1165,68 @@ plot.see_equivalence_test_ggeffects <- function(x,
       rawdat <- rawdat[which(rawdat$group %in% x$group), , drop = FALSE]
     }
 
+    aes_args <- list(
+      x = str2lang("x"),
+      y = str2lang("response")
+    )
     # if we have groups, add colour aes, to map raw data to grouping variable
     if (grps) {
-      mp <- ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["response"]],
-        colour = .data[["group_col"]]
-      )
-    } else {
-      mp <- ggplot2::aes(
-        x = .data[["x"]],
-        y = .data[["response"]]
-      )
+      aes_args$colour <- str2lang("group_col")
+    } else if (ci_style == "errorbar") {
+      aes_args$fill <- str2lang("group_col")
     }
+    mp <- do.call(ggplot2::aes, aes_args)
 
     # no jitter? Tell user about overlap
     if ((is.null(jitter) || isTRUE(all(jitter == 0))) && verbose) {
       insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.") # nolint
     }
 
-    # for binary response, no jittering by default
-    if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
-      p <- p + ggplot2::geom_point(
-        data = rawdat,
-        mapping = mp,
+    # base geom
+    plot_geom <- list(
+      geom = "point",
+      stat = "identity",
+      position = "identity",
+      data = rawdat,
+      mapping = mp,
+      params = list(
         alpha = dot_alpha,
         size = dot_size,
         show.legend = FALSE,
         inherit.aes = FALSE,
         shape = 16
       )
-    } else {
+    )
 
+    # for binary response, no jittering by default
+    if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
+      # do nothing
+    } else {
       # no jitter
       if (is.null(jitter) || isTRUE(all(jitter == 0))) {
         jitter <- c(0, 0)
       }
-
       # if we have error bars, these are dodged, so we need to dodge the
       # data points as well
       if (ci_style == "errorbar") {
-        if (grps) {
-          p <- p + ggplot2::geom_point(
-            data = rawdat,
-            mapping = ggplot2::aes(x = .data[["x"]], y = .data[["response"]], colour = .data[["group_col"]]),
-            alpha = dot_alpha,
-            size = dot_size,
-            position = ggplot2::position_jitterdodge(
-              jitter.width = jitter[1],
-              jitter.height = jitter[2],
-              dodge.width = dodge
-            ),
-            show.legend = FALSE,
-            inherit.aes = FALSE,
-            shape = 16
-          )
-        } else {
-          p <- p + ggplot2::geom_point(
-            data = rawdat,
-            mapping = ggplot2::aes(x = .data[["x"]], y = .data[["response"]], fill = .data[["group_col"]]),
-            alpha = dot_alpha,
-            size = dot_size,
-            position = ggplot2::position_jitterdodge(
-              jitter.width = jitter[1],
-              jitter.height = jitter[2],
-              dodge.width = dodge
-            ),
-            show.legend = FALSE,
-            inherit.aes = FALSE,
-            shape = 16,
-            color = colors[1]
-          )
+        plot_geom$position <- ggplot2::position_jitterdodge(
+          jitter.width = jitter[1],
+          jitter.height = jitter[2],
+          dodge.width = dodge
+        )
+        if (!grps) {
+          plot_geom$params$colour <- colors[1]
         }
       } else {
-        p <- p + ggplot2::geom_jitter(
-          data = rawdat,
-          mapping = mp,
-          alpha = dot_alpha,
-          size = dot_size,
+        plot_geom$position <- ggplot2::position_jitter(
           width = jitter[1],
-          height = jitter[2],
-          show.legend = FALSE,
-          inherit.aes = FALSE,
-          shape = 16
+          height = jitter[2]
         )
       }
     }
+    # add layer(s)
+    p <- p + do.call(ggplot2::layer, plot_geom)
+
     if (label.data) {
       if (grps) {
         mp2 <- ggplot2::aes(
