@@ -439,9 +439,6 @@ plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
                        residuals, residuals.line, show_title, show_x_title,
                        show_y_title, show_legend, log_y, y.breaks, y.limits,
                        use_theme, n_rows = NULL, latent_thresholds, verbose = TRUE, ...) {
-  # fake init
-  .data <- NULL
-
   # for plotting, we need to convert groups/facets into factors
   if (.obj_has_name(x, "group") && is.character(x$group)) {
     x$group <- factor(x$group, levels = unique(x$group))
@@ -633,11 +630,7 @@ plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
         plot_geom$params$colour <- colors
       }
       if (ci_style != "errorbar") {
-        lt <- switch(ci_style,
-          dash = 2,
-          dot = 3,
-          2
-        )
+        lt <- switch(ci_style, dash = 2, dot = 3, 2)
         plot_geom$params$linetype <- lt
       }
 
@@ -687,11 +680,7 @@ plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
       }
 
     } else {
-      lt <- switch(ci_style,
-        dash = 2,
-        dot = 3,
-        2
-      )
+      lt <- switch(ci_style, dash = 2, dot = 3, 2)
       plot_geom <- list(
         geom = "line",
         stat = "identity",
@@ -979,8 +968,6 @@ plot.see_equivalence_test_ggeffects <- function(x,
                                                 n_columns = 1,
                                                 ...) {
   insight::check_if_installed("ggplot2")
-  .data <- NULL
-
   .rope <- c(x$ROPE_low[1], x$ROPE_high[1])
 
   # check for user defined arguments
@@ -1013,12 +1000,15 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
   p <- ggplot2::ggplot(
     x,
-    ggplot2::aes(
-      y = .data[["Parameter"]],
-      x = .data[["Estimate"]],
-      xmin = .data[["CI_low"]],
-      xmax = .data[["CI_high"]],
-      colour = .data[["ROPE_Equivalence"]]
+    mapping = do.call(
+      ggplot2::aes,
+      list(
+        y = str2lang("Parameter"),
+        x = str2lang("Estimate"),
+        xmin = str2lang("CI_low"),
+        xmax = str2lang("CI_high"),
+        colour = str2lang("ROPE_Equivalence")
+      )
     )
   ) +
     ggplot2::annotate(
@@ -1103,20 +1093,10 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
 
 #' @keywords internal
-.add_raw_data_to_plot <- function(p,
-                                  x,
-                                  rawdat,
-                                  label.data,
-                                  ci_style,
-                                  dot_alpha,
-                                  dot_size,
-                                  dodge,
-                                  jitter,
-                                  jitter.miss,
-                                  colors,
+.add_raw_data_to_plot <- function(p, x, rawdat, label.data, ci_style, dot_alpha,
+                                  dot_size, dodge, jitter, jitter.miss, colors,
                                   verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
-  .data <- NULL
 
   # we need an own aes for this
   # we plot rawdata first, so it doesn't overlay the
@@ -1228,20 +1208,16 @@ plot.see_equivalence_test_ggeffects <- function(x,
     p <- p + do.call(ggplot2::layer, plot_geom)
 
     if (label.data) {
+      aes_args <- list(
+        x = str2lang("x"),
+        y = str2lang("response"),
+        label = str2lang("rowname")
+      )
       if (grps) {
-        mp2 <- ggplot2::aes(
-          x = .data[["x"]],
-          y = .data[["response"]],
-          label = .data[["rowname"]],
-          colour = .data[["group_col"]]
-        )
-      } else {
-        mp2 <- ggplot2::aes(
-          x = .data[["x"]],
-          y = .data[["response"]],
-          label = .data[["rowname"]]
-        )
+        aes_args$colour <- str2lang("group_col")
       }
+      mp2 <- do.call(ggplot2::aes, aes_args)
+
       if (insight::check_if_installed("ggrepel", quietly = TRUE)) {
         p <- p + ggrepel::geom_text_repel(
           data = rawdat,
@@ -1269,24 +1245,12 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
 
 #' @keywords internal
-.add_residuals_to_plot <- function(p,
-                                   x,
-                                   residuals,
-                                   residuals.line,
-                                   ci_style,
-                                   line_size,
-                                   dot_alpha,
-                                   dot_size,
-                                   dodge,
-                                   jitter,
-                                   colors,
-                                   x_is_factor,
-                                   verbose = TRUE) {
+.add_residuals_to_plot <- function(p, x, residuals, residuals.line, ci_style,
+                                   line_size, dot_alpha, dot_size, dodge,
+                                   jitter, colors, x_is_factor, verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
-  .data <- NULL
 
   if (!is.null(residuals)) {
-
     # if we have a categorical x, we may need to reorder values, e.g. if we
     # have a reference level that results in non-alphabetical order of levels, see #288
     if (x_is_factor) {
@@ -1309,7 +1273,6 @@ plot.see_equivalence_test_ggeffects <- function(x,
     residuals$facet <- NULL
     residuals$panel <- NULL
 
-
     # check if we have a group-variable with at least two groups
     if (.obj_has_name(residuals, "group")) {
 
@@ -1331,53 +1294,39 @@ plot.see_equivalence_test_ggeffects <- function(x,
       residuals <- residuals[which(residuals$group %in% x$group), , drop = FALSE]
     }
 
-
-    # if we have groups, add colour aes, to map raw data to
-    # grouping variable
+    # if we have groups, add colour aes, to map raw data to grouping variable
+    aes_args <- list(x = str2lang("x"), y = str2lang("predicted"))
     if (grps) {
-      mp <- ggplot2::aes(x = .data[["x"]], y = .data[["predicted"]], colour = .data[["group_col"]])
-    } else {
-      mp <- ggplot2::aes(x = .data[["x"]], y = .data[["predicted"]])
+      aes_args$colour <- str2lang("group_col")
+    }
+    mp <- do.call(ggplot2::aes, aes_args)
+
+    # base geom
+    plot_geom <- list(
+      geom = "point",
+      position = "identity",
+      stat = "identity",
+      mapping = mp,
+      data = residuals
+      show.legend = FALSE,
+      inherit.aes = FALSE,
+      params = list(size = dot_size, alpha = dot_alpha, shape = 16)
+    )
+
+    if (is.null(jitter) && verbose) {
+      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
     }
 
-    # if ("group" %in% colnames(residuals)) {
-    #   if (isTRUE(attr(x, "continuous.group"))) {
-    #     residuals$group_col <- as.numeric(as.character(residuals$group))
-    #   } else {
-    #     residuals$group_col <- residuals$group
-    #   }
-    #   residuals$group <- as.factor(residuals$group)
-    #   mp <- ggplot2::aes(x = .data[["x, y = .data[["predicted, colour = .data[["group_col)
-    # } else {
-    #   mp <- ggplot2::aes(x = .data[["x, y = .data[["predicted)
-    # }
-
-    if (is.null(jitter)) {
-      p <- p + ggplot2::geom_point(
-        data = residuals,
-        mapping = mp,
-        alpha = dot_alpha,
-        size = dot_size,
-        show.legend = FALSE,
-        inherit.aes = FALSE,
-        shape = 16
-      )
-      if (verbose) {
-        insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.")
-      }
-    } else {
-      p <- p + ggplot2::geom_jitter(
-        data = residuals,
-        mapping = mp,
-        alpha = dot_alpha,
-        size = dot_size,
+    # add jitter, if requested
+    if (!is.null(jitter)) {
+      plot_geom$position <- ggplot2::position_jitter(
         width = jitter[1],
-        height = jitter[2],
-        show.legend = FALSE,
-        inherit.aes = FALSE,
-        shape = 16
+        height = jitter[2]
       )
     }
+
+    # add layer
+    p <- p + do.call(ggplot2::layer, plot_geom)
 
     if (isTRUE(residuals.line)) {
       p <- p + ggplot2::geom_smooth(
@@ -1399,14 +1348,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
 
 #' @keywords internal
-.add_re_data_to_plot <- function(p,
-                                 x,
-                                 random_effects_data,
-                                 dot_alpha,
-                                 dot_size,
-                                 dodge,
-                                 jitter,
-                                 verbose = TRUE) {
+.add_re_data_to_plot <- function(p, x, random_effects_data, dot_alpha, dot_size,
+                                 dodge, jitter, verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
   .data <- NULL
 
