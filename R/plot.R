@@ -1199,16 +1199,14 @@ plot.see_equivalence_test_ggeffects <- function(x,
     )
 
     # for binary response, no jittering by default
-    if ((attr(x, "logistic", exact = TRUE) == "1" && jitter.miss) || is.null(jitter)) {
-      # do nothing
-    } else {
-      # no jitter
+    if (attr(x, "logistic", exact = TRUE) != "1" || !jitter.miss || !is.null(jitter)) {
+      # no jitter desired?
       if (is.null(jitter) || isTRUE(all(jitter == 0))) {
         jitter <- c(0, 0)
       }
-      # if we have error bars, these are dodged, so we need to dodge the
-      # data points as well
       if (ci_style == "errorbar") {
+        # if we have error bars, these are dodged, so we need to dodge the
+        # data points as well
         plot_geom$position <- ggplot2::position_jitterdodge(
           jitter.width = jitter[1],
           jitter.height = jitter[2],
@@ -1218,6 +1216,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
           plot_geom$params$colour <- colors[1]
         }
       } else {
+        # for ribbons, we have no dodged position, so just add
+        # some jitter to the data points
         plot_geom$position <- ggplot2::position_jitter(
           width = jitter[1],
           height = jitter[2]
