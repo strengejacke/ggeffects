@@ -1351,7 +1351,6 @@ plot.see_equivalence_test_ggeffects <- function(x,
 .add_re_data_to_plot <- function(p, x, random_effects_data, dot_alpha, dot_size,
                                  dodge, jitter, verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
-  .data <- NULL
 
   # make sure x on x-axis is on same scale
   if (is.numeric(x$x) && !is.numeric(random_effects_data$x)) {
@@ -1363,44 +1362,42 @@ plot.see_equivalence_test_ggeffects <- function(x,
     random_effects_data$group_col <- as.factor(random_effects_data$group_col)
   }
 
+  # if we have groups, add colour aes, to map raw data to grouping variable
+  aes_args <- list(x = str2lang("x"), colour = str2lang("group_col"))
   if ("response" %in% names(random_effects_data)) {
-    mp <- ggplot2::aes(x = .data[["x"]], y = .data[["response"]], colour = .data[["group_col"]])
+    aes_args$y <- str2lang("response")
   } else {
-    mp <- ggplot2::aes(x = .data[["x"]], y = .data[["predicted"]], colour = .data[["group_col"]])
+    aes_args$y <- str2lang("predicted")
+  }
+  mp <- do.call(ggplot2::aes, aes_args)
+
+  # base geom
+  plot_geom <- list(
+    geom = "point",
+    stat = "identity",
+    mapping = mp,
+    data = random_effects_data
+    show.legend = FALSE,
+    inherit.aes = FALSE,
+    params = list(size = dot_size, alpha = dot_alpha, shape = 16)
+  )
+
+  if (is.null(jitter) && verbose) {
+    insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.") # nolint
   }
 
+  # add jitter, if requested
   if (is.null(jitter)) {
-    p <- p + ggplot2::geom_point(
-      data = random_effects_data,
-      mapping = mp,
-      alpha = dot_alpha,
-      size = dot_size,
-      position = ggplot2::position_dodge(width = dodge),
-      show.legend = FALSE,
-      inherit.aes = FALSE,
-      shape = 16
-    )
-    if (verbose) {
-      insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.") # nolint
-    }
+    plot_geom$position <- ggplot2::position_dodge(width = dodge)
   } else {
-    p <- p + ggplot2::geom_point(
-      data = random_effects_data,
-      mapping = mp,
-      alpha = dot_alpha,
-      size = dot_size,
-      position = ggplot2::position_jitterdodge(
-        jitter.width = jitter[1],
-        jitter.height = jitter[2],
-        dodge.width = dodge
-      ),
-      show.legend = FALSE,
-      inherit.aes = FALSE,
-      shape = 16
+    plot_geom$position <- ggplot2::position_jitter(
+      width = jitter[1],
+      height = jitter[2]
     )
   }
 
-  p
+  # add layer
+  p + do.call(ggplot2::layer, plot_geom)
 }
 
 
