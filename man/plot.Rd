@@ -25,11 +25,12 @@
   case = NULL,
   colors = NULL,
   alpha = 0.15,
+  dot_size = NULL,
   dot_alpha = 0.35,
+  dot_shape = NULL,
+  line_size = NULL,
   jitter = NULL,
   dodge = 0.25,
-  dot_size = NULL,
-  line_size = NULL,
   use_theme = TRUE,
   log_y = FALSE,
   connect_lines = FALSE,
@@ -116,7 +117,13 @@ e.g. \code{colors = "metro"}. See \code{\link[=show_palettes]{show_palettes()}} 
 
 \item{alpha}{Alpha value for the confidence bands.}
 
+\item{dot_size}{Numeric, size of the point geoms.}
+
 \item{dot_alpha}{Alpha value for data points, when \code{show_data = TRUE}.}
+
+\item{dot_shape}{Shape of data points, when \code{show_data = TRUE}.}
+
+\item{line_size}{Numeric, size of the line geoms.}
 
 \item{jitter}{Numeric, between 0 and 1. If not \code{NULL} and \code{show_data = TRUE},
 adds a small amount of random variation to the location of data points dots,
@@ -129,10 +136,6 @@ jittered by default to avoid that data points exceed the axis limits.}
 Only applies, if a factor is plotted at the x-axis (in such cases, the
 confidence bands are replaced by error bars automatically), or if
 \code{ci_style = "errorbars"}.}
-
-\item{dot_size}{Numeric, size of the point geoms.}
-
-\item{line_size}{Numeric, size of the line geoms.}
 
 \item{use_theme}{Logical, if \code{TRUE}, a slightly tweaked version of ggplot's
 minimal-theme, \code{theme_ggeffects()}, is applied to the plot. If \code{FALSE}, no

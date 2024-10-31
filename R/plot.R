@@ -57,6 +57,8 @@
 #' @param alpha Alpha value for the confidence bands.
 #' @param line_size Numeric, size of the line geoms.
 #' @param dot_size Numeric, size of the point geoms.
+#' @param dot_alpha Alpha value for data points, when `show_data = TRUE`.
+#' @param dot_shape Shape of data points, when `show_data = TRUE`.
 #' @param dodge Value for offsetting or shifting error bars, to avoid overlapping.
 #'   Only applies, if a factor is plotted at the x-axis (in such cases, the
 #'   confidence bands are replaced by error bars automatically), or if
@@ -64,7 +66,6 @@
 #' @param use_theme Logical, if `TRUE`, a slightly tweaked version of ggplot's
 #'   minimal-theme, `theme_ggeffects()`, is applied to the plot. If `FALSE`, no
 #'   theme-modifications are applied.
-#' @param dot_alpha Alpha value for data points, when `show_data = TRUE`.
 #' @param jitter Numeric, between 0 and 1. If not `NULL` and `show_data = TRUE`,
 #'   adds a small amount of random variation to the location of data points dots,
 #'   to avoid overplotting. Hence the points don't reflect exact values in the
@@ -166,11 +167,12 @@ plot.ggeffects <- function(x,
                            # appearance colors and geoms
                            colors = NULL,
                            alpha = 0.15,
+                           dot_size = NULL,
                            dot_alpha = 0.35,
+                           dot_shape = NULL,
+                           line_size = NULL,
                            jitter = NULL,
                            dodge = 0.25,
-                           dot_size = NULL,
-                           line_size = NULL,
                            # appearance theme and axis
                            use_theme = TRUE,
                            log_y = FALSE,
@@ -361,6 +363,7 @@ plot.ggeffects <- function(x,
     show_ci = show_ci,
     ci_style = ci_style,
     dot_size = dot_size,
+    dot_shape = dot_shape,
     line_size = line_size,
     connect_lines = connect_lines,
     case = case,
@@ -434,11 +437,12 @@ plot.ggeffects <- function(x,
 
 plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
                        is_black_white, x_is_factor, alpha, dot_alpha, dodge,
-                       show_ci, ci_style, dot_size, line_size, connect_lines,
-                       case, jitter, jitter.miss, show_data, label.data,
-                       residuals, residuals.line, show_title, show_x_title,
-                       show_y_title, show_legend, log_y, y.breaks, y.limits,
-                       use_theme, n_rows = NULL, latent_thresholds, verbose = TRUE, ...) {
+                       show_ci, ci_style, dot_size, dot_shape = NULL, line_size,
+                       connect_lines, case, jitter, jitter.miss, show_data,
+                       label.data, residuals, residuals.line, show_title,
+                       show_x_title, show_y_title, show_legend, log_y, y.breaks,
+                       y.limits, use_theme, n_rows = NULL, latent_thresholds,
+                       verbose = TRUE, ...) {
   # for plotting, we need to convert groups/facets into factors
   if (.obj_has_name(x, "group") && is.character(x$group)) {
     x$group <- factor(x$group, levels = unique(x$group))
@@ -522,8 +526,8 @@ plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
   rawdat <- attr(x, "rawdata", exact = TRUE)
   if (show_data) {
     p <- .add_raw_data_to_plot(
-      p, x, rawdat, label.data, ci_style, dot_alpha, dot_size, dodge, jitter,
-      jitter.miss, colors, verbose = verbose
+      p, x, rawdat, label.data, ci_style, dot_alpha, dot_size, dot_shape,
+      dodge, jitter, jitter.miss, colors, verbose = verbose
     )
   }
 
@@ -1094,8 +1098,8 @@ plot.see_equivalence_test_ggeffects <- function(x,
 
 #' @keywords internal
 .add_raw_data_to_plot <- function(p, x, rawdat, label.data, ci_style, dot_alpha,
-                                  dot_size, dodge, jitter, jitter.miss, colors,
-                                  verbose = TRUE) {
+                                  dot_size, dot_shape, dodge, jitter, jitter.miss,
+                                  colors, verbose = TRUE) {
   insight::check_if_installed("ggplot2", reason = "to produce plots of adjusted predictions")
 
   # we need an own aes for this
@@ -1162,6 +1166,11 @@ plot.see_equivalence_test_ggeffects <- function(x,
       insight::format_alert("Data points may overlap. Use the `jitter` argument to add some amount of random variation to the location of data points and avoid overplotting.") # nolint
     }
 
+    # drfault shape
+    if (is.null(dot_shape)) {
+      dot_shape <- 16
+    }
+
     # base geom
     plot_geom <- list(
       geom = "point",
@@ -1174,7 +1183,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
       params = list(
         alpha = dot_alpha,
         size = dot_size,
-        shape = 16
+        shape = dot_shape
       )
     )
 
