@@ -1376,7 +1376,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
     geom = "point",
     stat = "identity",
     mapping = mp,
-    data = random_effects_data
+    data = random_effects_data,
     show.legend = FALSE,
     inherit.aes = FALSE,
     params = list(size = dot_size, alpha = dot_alpha, shape = 16)
