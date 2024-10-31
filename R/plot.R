@@ -1189,11 +1189,11 @@ plot.see_equivalence_test_ggeffects <- function(x,
       position = "identity",
       data = rawdat,
       mapping = mp,
+      show.legend = FALSE,
+      inherit.aes = FALSE,
       params = list(
         alpha = dot_alpha,
         size = dot_size,
-        show.legend = FALSE,
-        inherit.aes = FALSE,
         shape = 16
       )
     )
