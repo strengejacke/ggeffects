@@ -1307,7 +1307,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
       position = "identity",
       stat = "identity",
       mapping = mp,
-      data = residuals
+      data = residuals,
       show.legend = FALSE,
       inherit.aes = FALSE,
       params = list(size = dot_size, alpha = dot_alpha, shape = 16)
