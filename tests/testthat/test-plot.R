@@ -188,6 +188,29 @@ test_that("collapse groups works", {
 })
 
 
+test_that("addn residuals", {
+  set.seed(1234)
+  x <- rnorm(200)
+  z <- rnorm(200)
+  # quadratic relationship
+  y <- 2 * x + x^2 + 4 * z + rnorm(200)
+  d <- data.frame(x, y, z)
+  m <- lm(y ~ x + z, data = d)
+
+  pr <- predict_response(m, "x [all]")
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "show residuals",
+    plot(pr, show_residuals = TRUE)
+  )
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "show residuals line",
+    plot(pr, show_residuals = TRUE, show_residuals_line = TRUE)
+  )
+})
+
+
 test_that("only one legend for multiple panels", {
   data(efc, package = "ggeffects")
   fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
