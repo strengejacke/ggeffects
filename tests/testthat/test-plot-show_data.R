@@ -15,11 +15,23 @@ test_that("plot, vignette", {
     plot(dat, facets = TRUE, show_data = TRUE)
   )
 
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "Vignette-plotintro-1-shape",
+    plot(dat, facets = TRUE, show_data = TRUE, dot_shape = 21)
+  )
+
   # don't use facets, b/w figure, w/o confidence bands
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-2",
     plot(dat, colors = "bw", show_ci = FALSE, show_data = TRUE)
+  )
+
+  set.seed(123)
+  vdiffr::expect_doppelganger(
+    "Vignette-plotintro-2-shape",
+    plot(dat, colors = "bw", show_ci = FALSE, show_data = TRUE, dot_shape = 2)
   )
 
   set.seed(123)
