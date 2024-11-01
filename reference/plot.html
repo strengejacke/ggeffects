@@ -9,7 +9,7 @@ ggeffects_palette() returns show_palettes()"><meta property="og:image" content="
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.9</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,11 +94,12 @@ ggeffects_palette() returns show_palettes()"><meta property="og:image" content="
 <span>  case <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.15</span>,</span>
+<span>  dot_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dot_alpha <span class="op">=</span> <span class="fl">0.35</span>,</span>
+<span>  dot_shape <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  line_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  jitter <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dodge <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>  dot_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  line_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  use_theme <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  log_y <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  connect_lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -218,8 +219,20 @@ e.g. <code>colors = "metro"</code>. See <code>show_palettes()</code> to show all
 <dd><p>Alpha value for the confidence bands.</p></dd>
 
 
+<dt id="arg-dot-size">dot_size<a class="anchor" aria-label="anchor" href="#arg-dot-size"></a></dt>
+<dd><p>Numeric, size of the point geoms.</p></dd>
+
+
 <dt id="arg-dot-alpha">dot_alpha<a class="anchor" aria-label="anchor" href="#arg-dot-alpha"></a></dt>
 <dd><p>Alpha value for data points, when <code>show_data = TRUE</code>.</p></dd>
+
+
+<dt id="arg-dot-shape">dot_shape<a class="anchor" aria-label="anchor" href="#arg-dot-shape"></a></dt>
+<dd><p>Shape of data points, when <code>show_data = TRUE</code>.</p></dd>
+
+
+<dt id="arg-line-size">line_size<a class="anchor" aria-label="anchor" href="#arg-line-size"></a></dt>
+<dd><p>Numeric, size of the line geoms.</p></dd>
 
 
 <dt id="arg-jitter">jitter<a class="anchor" aria-label="anchor" href="#arg-jitter"></a></dt>
@@ -236,14 +249,6 @@ jittered by default to avoid that data points exceed the axis limits.</p></dd>
 Only applies, if a factor is plotted at the x-axis (in such cases, the
 confidence bands are replaced by error bars automatically), or if
 <code>ci_style = "errorbars"</code>.</p></dd>
-
-
-<dt id="arg-dot-size">dot_size<a class="anchor" aria-label="anchor" href="#arg-dot-size"></a></dt>
-<dd><p>Numeric, size of the point geoms.</p></dd>
-
-
-<dt id="arg-line-size">line_size<a class="anchor" aria-label="anchor" href="#arg-line-size"></a></dt>
-<dd><p>Numeric, size of the line geoms.</p></dd>
 
 
 <dt id="arg-use-theme">use_theme<a class="anchor" aria-label="anchor" href="#arg-use-theme"></a></dt>
