@@ -31,10 +31,6 @@ get_predict_function <- function(model) {
     "glmRob"
   } else if (inherits(model, "svyglm.nb")) {
     "svyglm.nb"
-  } else if (inherits(model, "stanreg")) {
-    "stanreg"
-  } else if (inherits(model, "brmsfit")) {
-    "brmsfit"
   } else if (inherits(model, "gamlss")) {
     "gamlss"
   } else if (inherits(model, "gam")) {
@@ -75,12 +71,6 @@ get_predict_function <- function(model) {
     "coxph"
   } else if (inherits(model, "Zelig-relogit")) {
     "Zelig-relogit"
-  } else if (inherits(model, "zerotrunc")) {
-    "zerotrunc"
-  } else if (inherits(model, "zeroinfl")) {
-    "zeroinfl"
-  } else if (inherits(model, "hurdle")) {
-    "hurdle"
   } else if (inherits(model, "MixMod")) {
     "MixMod"
   } else {
