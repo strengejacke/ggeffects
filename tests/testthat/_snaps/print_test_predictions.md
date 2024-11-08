@@ -239,7 +239,7 @@
 ---
 
     Code
-      print(ht)
+      print(ht, table_width = Inf)
     Output
       # Pairwise comparisons
       

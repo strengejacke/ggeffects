@@ -1340,7 +1340,7 @@ plot.see_equivalence_test_ggeffects <- function(x,
         mapping = mp,
         method = "loess",
         inherit.aes = FALSE,
-        size = line_size,
+        linewidth = line_size,
         se = FALSE
       )
     }
