@@ -179,7 +179,7 @@ test_that("print hypothesis_test comma and dash levels", {
   m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
   ht <- hypothesis_test(m, c("f1", "f2"))
   expect_identical(nrow(ht), 15L)
-  expect_snapshot(print(ht))
+  expect_snapshot(print(ht, table_width = Inf))
 
   d <- iris
   set.seed(1234)
