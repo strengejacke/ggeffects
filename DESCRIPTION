@@ -54,7 +54,7 @@ Suggests:
     gt,
     haven,
     htmltools,
-    httr,
+    httr2,
     jsonlite,
     knitr,
     lme4 (>= 1.1-35),
@@ -100,3 +100,4 @@ Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 License: MIT + file LICENSE
 LazyData: true
+Remotes: easystats/insight
