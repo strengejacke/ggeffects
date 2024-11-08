@@ -322,7 +322,7 @@ print_html.ggeffects <- function(x,
   insight::export_table(
     out,
     format = "html",
-    group_by = "groups",
+    by = "groups",
     footer = footer,
     caption = caption
   )
@@ -699,7 +699,7 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, t
     insight::export_table(
       x,
       format = "html",
-      group_by = "groups",
+      by = "groups",
       footer = footer,
       caption = caption
     )
