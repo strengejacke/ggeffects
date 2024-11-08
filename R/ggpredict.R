@@ -75,7 +75,7 @@ ggpredict <- function(model,
   vcov <- .prepare_vcov_args(vcov, ...)
 
   # make sure we have valid values
-  interval <- .check_arg(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
 
   model.name <- deparse(substitute(model))
 

@@ -30,7 +30,7 @@ ggemmeans <- function(model,
   )
 
   # check arguments
-  interval <- .check_arg(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
 

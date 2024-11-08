@@ -896,7 +896,7 @@ test_predictions.ggeffects <- function(object,
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
   # validate "engine" argument
-  engine <- .check_arg(engine, c("marginaleffects", "emmeans", "ggeffects"))
+  engine <- insight::validate_argument(engine, c("marginaleffects", "emmeans", "ggeffects"))
 
   if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
     engine <- "emmeans"
@@ -1002,7 +1002,7 @@ test_predictions.ggeffects <- function(object,
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
   # validate "margin" argument
-  margin <- .check_arg(
+  margin <- insight::validate_argument(
     margin,
     c(
       "mean_reference", "mean_mode", "marginalmeans", "empirical",
