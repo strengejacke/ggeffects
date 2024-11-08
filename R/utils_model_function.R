@@ -43,12 +43,8 @@ get_predict_function <- function(model) {
     "MCMCglmm"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
-  } else if (inherits(model, "lme")) {
-    "lme"
   } else if (inherits(model, c("logistf", "flic", "flac"))) {
     "logistf"
-  } else if (inherits(model, "gls")) {
-    "gls"
   } else if (inherits(model, "geeglm")) {
     "geeglm"
   } else if (inherits(model, "clmm")) {
@@ -63,8 +59,6 @@ get_predict_function <- function(model) {
     "rq"
   } else if (inherits(model, "gee")) {
     "gee"
-  } else if (inherits(model, "plm")) {
-    "plm"
   } else if (inherits(model, "vglm")) {
     "vglm"
   } else if (inherits(model, "Zelig-relogit")) {
