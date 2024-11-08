@@ -67,8 +67,6 @@ get_predict_function <- function(model) {
     "plm"
   } else if (inherits(model, "vglm")) {
     "vglm"
-  } else if (inherits(model, "coxph")) {
-    "coxph"
   } else if (inherits(model, "Zelig-relogit")) {
     "Zelig-relogit"
   } else if (inherits(model, "MixMod")) {

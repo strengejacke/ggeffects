@@ -20,10 +20,6 @@ select_prediction_method <- function(model_class,
 
   if (model_class == "svyglm.nb") {
     prediction_data <- get_predictions_svyglmnb(model, data_grid, ci_level, linv, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
-  } else if (model_class == "coxph" && type != "survival" && type != "cumulative_hazard") {
-    prediction_data <- get_predictions_coxph(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, verbose = verbose, ...) # nolint
-  } else if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
-    prediction_data <- get_predictions_survival(model, data_grid, ci_level, type, terms, ...)
   } else if (model_class == "ols") {
     prediction_data <- get_predictions_ols(model, data_grid, ci_level, ...)
   } else if (model_class == "logitr") {
