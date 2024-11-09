@@ -20,8 +20,6 @@ select_prediction_method <- function(model_class,
 
 if (model_class == "logitr") {
     prediction_data <- get_predictions_logitr(model, data_grid, ci_level, ...)
-  } else if (model_class == "nestedLogit") {
-    prediction_data <- get_predictions_nestedLogit(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "sdmTMB") {

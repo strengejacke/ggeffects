@@ -1,10 +1,25 @@
-get_predictions_nestedLogit <- function(model, data_grid, ci_level, linv, ...) {
+#' @export
+get_predictions.nestedLogit <- function(model,
+                                        data_grid = NULL,
+                                        terms = NULL,
+                                        ci_level = 0.95,
+                                        type = NULL,
+                                        typical = NULL,
+                                        vcov = NULL,
+                                        vcov_args = NULL,
+                                        condition = NULL,
+                                        interval = "confidence",
+                                        bias_correction = FALSE,
+                                        link_inverse = insight::link_inverse(model),
+                                        model_info = NULL,
+                                        verbose = TRUE,
+                                        ...) {
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
-
+  }
 
   predictions <- as.data.frame(stats::predict(
     model,
