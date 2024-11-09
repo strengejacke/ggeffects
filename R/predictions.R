@@ -42,8 +42,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
   } else if (model_class == "vglm") {
     prediction_data <- get_predictions_vglm(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "tobit") {
-    prediction_data <- get_predictions_tobit(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "gee") {
     prediction_data <- get_predictions_gee(model, terms, ...)
   } else if (model_class == "clmm") {

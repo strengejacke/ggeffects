@@ -33,8 +33,6 @@ get_predict_function <- function(model) {
     "svyglm.nb"
   } else if (inherits(model, "gamlss")) {
     "gamlss"
-  } else if (inherits(model, c("tobit", "survreg"))) {
-    "tobit"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
   } else if (inherits(model, "geeglm")) {
