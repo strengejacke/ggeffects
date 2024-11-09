@@ -26,10 +26,6 @@ if (model_class == "logitr") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci_level, linv, type, ...)
   } else if (model_class == "gamlss") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
-  } else if (model_class == "vglm") {
-    prediction_data <- get_predictions_vglm(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "Zelig-relogit") {
-    prediction_data <- get_predictions_zelig(model, data_grid, ci_level, linv, ...)
   } else {
     prediction_data <- get_predictions(model,
       data_grid = data_grid,
