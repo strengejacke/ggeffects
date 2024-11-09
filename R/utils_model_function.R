@@ -5,12 +5,6 @@ get_predict_function <- function(model) {
     "logitr"
   } else if (inherits(model, "glimML")) {
     "glimML"
-  } else if (inherits(model, "lmrob")) {
-    "lmrob"
-  } else if (inherits(model, "glmrob")) {
-    "glmrob"
-  } else if (inherits(model, "glmRob")) {
-    "glmRob"
   } else if (inherits(model, "gamlss")) {
     "gamlss"
   } else if (inherits(model, "sdmTMB")) {

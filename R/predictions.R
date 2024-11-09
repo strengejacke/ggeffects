@@ -42,12 +42,6 @@ if (model_class == "logitr") {
     prediction_data <- get_predictions_zelig(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "rqs") {
     prediction_data <- get_predictions_rqs(model, data_grid, ci_level, ...)
-  } else if (model_class == "lmrob") {
-    prediction_data <- get_predictions_lmrob_base(model, data_grid, ci_level, ...)
-  } else if (model_class == "glmrob") {
-    prediction_data <- get_predictions_glmrob_base(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "glmRob") {
-    prediction_data <- get_predictions_glmRob(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov, vcov_args, condition, interval, ...) # nolint
   } else {
     prediction_data <- get_predictions(model,
       data_grid = data_grid,
