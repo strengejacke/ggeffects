@@ -1,7 +1,5 @@
 get_predict_function <- function(model) {
-  if (inherits(model, c("wblm", "wbm"))) {
-    "wbm"
-  } else if (inherits(model, "glmgee")) {
+  if (inherits(model, "glmgee")) {
     "glmgee"
   } else if (inherits(model, "logitr")) {
     "logitr"

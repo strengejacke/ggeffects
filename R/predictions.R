@@ -26,8 +26,6 @@ if (model_class == "logitr") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci_level, linv, type, ...)
   } else if (model_class == "glmgee") {
     prediction_data <- get_predictions_glmgee(model, data_grid, ci_level, linv, vcov = vcov, ...)
-  } else if (model_class == "wbm") {
-    prediction_data <- get_predictions_wbm(model, data_grid, ci_level, linv, type, terms, condition, ...)
   } else if (model_class == "geeglm") {
     prediction_data <- get_predictions_geeglm(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
