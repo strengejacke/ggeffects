@@ -20,14 +20,10 @@ select_prediction_method <- function(model_class,
 
   if (model_class == "svyglm.nb") {
     prediction_data <- get_predictions_svyglmnb(model, data_grid, ci_level, linv, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
-  } else if (model_class == "ols") {
-    prediction_data <- get_predictions_ols(model, data_grid, ci_level, ...)
   } else if (model_class == "logitr") {
     prediction_data <- get_predictions_logitr(model, data_grid, ci_level, ...)
   } else if (model_class == "nestedLogit") {
     prediction_data <- get_predictions_nestedLogit(model, data_grid, ci_level, linv, ...)
-  } else if (model_class %in% c("lrm", "orm")) {
-    prediction_data <- get_predictions_lrm(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "glimML") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "sdmTMB") {
@@ -66,8 +62,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_mclogit(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov, vcov_args, condition, ...) # nolint
   } else if (model_class == "mlogit") {
     prediction_data <- get_predictions_mlogit(model, data_grid, ...)
-  } else if (model_class == "MixMod") {
-    prediction_data <- get_predictions_MixMod(model, data_grid, ci_level, linv, type, terms, value_adjustment, condition, bias_correction = bias_correction, ...) # nolint
   } else {
     prediction_data <- get_predictions(model,
       data_grid = data_grid,

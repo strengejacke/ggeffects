@@ -11,18 +11,12 @@ get_predict_function <- function(model) {
     "mclogit"
   } else if (inherits(model, "logitr")) {
     "logitr"
-  } else if (inherits(model, "orm")) {
-    "orm"
   } else if (inherits(model, "mlogit")) {
     "mlogit"
   } else if (inherits(model, "glimML")) {
     "glimML"
-  } else if (inherits(model, "ols")) {
-    "ols"
   } else if (inherits(model, "mixor")) {
     "mixor"
-  } else if (inherits(model, "lrm")) {
-    "lrm"
   } else if (inherits(model, "lmrob")) {
     "lmrob"
   } else if (inherits(model, "glmrob")) {
@@ -49,8 +43,6 @@ get_predict_function <- function(model) {
     "vglm"
   } else if (inherits(model, "Zelig-relogit")) {
     "Zelig-relogit"
-  } else if (inherits(model, "MixMod")) {
-    "MixMod"
   } else {
     "generic"
   }

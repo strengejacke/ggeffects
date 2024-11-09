@@ -1,4 +1,19 @@
-get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms, value_adjustment, condition, bias_correction = FALSE, ...) {
+#' @export
+get_predictions.MixMod <- function(model,
+                                   data_grid = NULL,
+                                   terms = NULL,
+                                   ci_level = 0.95,
+                                   type = NULL,
+                                   typical = NULL,
+                                   vcov = NULL,
+                                   vcov_args = NULL,
+                                   condition = NULL,
+                                   interval = "confidence",
+                                   bias_correction = FALSE,
+                                    link_inverse = insight::link_inverse(model),
+                                   model_info = NULL,
+                                   verbose = TRUE,
+                                   ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
 
@@ -12,9 +27,6 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
   # degrees of freedom
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
-
-  # get info about model
-  model_info <- insight::model_info(model)
 
   # copy object
   predicted_data <- data_grid
@@ -92,7 +104,7 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
         model = model,
         model_frame = model_frame,
         terms = terms,
-        value_adjustment = value_adjustment,
+        typical = typical,
         factor_adjustment = FALSE,
         show_pretty_message = FALSE,
         condition = condition
@@ -104,7 +116,7 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
       # based on quantiles of simulated draws from a multivariate normal distribution
       # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
-      prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+      prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, typical, condition)
 
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
         insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
@@ -133,7 +145,7 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
     } else if (!is.null(prdat$se.fit)) {
       if (type == "zi_prob") {
         lf <- stats::qlogis
-        linv <- stats::plogis
+        link_inverse <- stats::plogis
       } else {
         lf <- insight::link_function(model)
         if (is.null(lf)) lf <- function(x) x
@@ -142,10 +154,10 @@ get_predictions_MixMod <- function(model, data_grid, ci_level, linv, type, terms
       # this has not been done before, since we return predictions on
       # the response scale directly, without any adjustment
       if (isTRUE(bias_correction)) {
-        data_grid$predicted <- linv(lf(data_grid$predicted))
+        data_grid$predicted <- link_inverse(lf(data_grid$predicted))
       }
-      predicted_data$conf.low <- linv(lf(predicted_data$predicted) - tcrit * prdat$se.fit)
-      predicted_data$conf.high <- linv(lf(predicted_data$predicted) + tcrit * prdat$se.fit)
+      predicted_data$conf.low <- link_inverse(lf(predicted_data$predicted) - tcrit * prdat$se.fit)
+      predicted_data$conf.high <- link_inverse(lf(predicted_data$predicted) + tcrit * prdat$se.fit)
     } else {
       predicted_data$conf.low <- NA
       predicted_data$conf.high <- NA

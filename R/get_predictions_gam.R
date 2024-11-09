@@ -26,9 +26,7 @@ get_predictions.gam <- function(model,
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
-  mi <- insight::model_info(model)
-
-  if (!mi$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random")) {
+  if (!model_info$is_zero_inflated && type %in% c("zero_inflated", "zero_inflated_random")) {
     type <- "fixed"
     insight::format_alert("Model has no zero-inflation part. Changing prediction-type to \"fixed\".")
   }
@@ -125,7 +123,7 @@ get_predictions.gam <- function(model,
 
   } else {
 
-    if (mi$is_zero_inflated) {
+    if (model_info$is_zero_inflated) {
       if (.obj_has_name(prdat, "fit")) {
         prdat$fit <- as.numeric(as.vector(prdat$fit[, 1]))
         prdat$se.fit <- as.numeric(as.vector(prdat$se.fit[, 1]))
