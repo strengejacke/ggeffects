@@ -1,11 +1,26 @@
-get_predictions_clmm <- function(model, terms, value_adjustment, condition, ci_level, linv, ...) {
+#' @export
+get_predictions.clmm <- function(model,
+                                 data_grid = NULL,
+                                 terms = NULL,
+                                 ci_level = 0.95,
+                                 type = NULL,
+                                 typical = NULL,
+                                 vcov = NULL,
+                                 vcov_args = NULL,
+                                 condition = NULL,
+                                 interval = "confidence",
+                                 bias_correction = FALSE,
+                                 link_inverse = insight::link_inverse(model),
+                                 model_info = NULL,
+                                 verbose = TRUE,
+                                 ...) {
   insight::check_if_installed("emmeans", "to compute estimated marginal means for clmm-models")
 
   values.at <- .data_grid(
     model = model,
     model_frame = insight::get_data(model, source = "frame", verbose = FALSE),
     terms = terms,
-    value_adjustment = value_adjustment,
+    typical = typical,
     condition = condition,
     show_pretty_message = FALSE,
     emmeans_only = TRUE

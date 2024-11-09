@@ -7,12 +7,6 @@ get_predict_function <- function(model) {
     "gamlss"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
-  } else if (inherits(model, "clmm")) {
-    "clmm"
-  } else if (inherits(model, "clm2")) {
-    "clm2"
-  } else if (inherits(model, "rqs")) {
-    "rqs"
   } else if (inherits(model, "vglm")) {
     "vglm"
   } else if (inherits(model, "Zelig-relogit")) {

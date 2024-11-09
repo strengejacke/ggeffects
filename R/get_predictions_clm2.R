@@ -1,4 +1,19 @@
-get_predictions_clm2 <- function(model, data_grid, ci_level, linv, ...) {
+#' @export
+get_predictions.clm2 <- function(model,
+                                 data_grid = NULL,
+                                 terms = NULL,
+                                 ci_level = 0.95,
+                                 type = NULL,
+                                 typical = NULL,
+                                 vcov = NULL,
+                                 vcov_args = NULL,
+                                 condition = NULL,
+                                 interval = "confidence",
+                                 bias_correction = FALSE,
+                                 link_inverse = insight::link_inverse(model),
+                                 model_info = NULL,
+                                 verbose = TRUE,
+                                 ...) {
   # for predict.clm2, we need all unique levels of all included variables
   model_data <- insight::get_data(model, verbose = FALSE)
   prediction_data <- model_data[insight::find_variables(model, flatten = TRUE)]

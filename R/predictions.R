@@ -28,14 +28,8 @@ if (model_class == "logitr") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
   } else if (model_class == "vglm") {
     prediction_data <- get_predictions_vglm(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "clmm") {
-    prediction_data <- get_predictions_clmm(model, terms, value_adjustment, condition, ci_level, linv, ...)
-  } else if (model_class == "clm2") {
-    prediction_data <- get_predictions_clm2(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "Zelig-relogit") {
     prediction_data <- get_predictions_zelig(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "rqs") {
-    prediction_data <- get_predictions_rqs(model, data_grid, ci_level, ...)
   } else {
     prediction_data <- get_predictions(model,
       data_grid = data_grid,
