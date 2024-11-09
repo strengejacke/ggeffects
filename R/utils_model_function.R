@@ -43,8 +43,6 @@ get_predict_function <- function(model) {
     "clm2"
   } else if (inherits(model, "rqs")) {
     "rqs"
-  } else if (inherits(model, c("rq", "rqss"))) {
-    "rq"
   } else if (inherits(model, "gee")) {
     "gee"
   } else if (inherits(model, "vglm")) {
