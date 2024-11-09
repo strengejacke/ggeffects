@@ -46,8 +46,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_clm2(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "Zelig-relogit") {
     prediction_data <- get_predictions_zelig(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "mixor") {
-    prediction_data <- get_predictions_mixor(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, condition, interval, ...) # nolint
   } else if (model_class == "rqs") {
     prediction_data <- get_predictions_rqs(model, data_grid, ci_level, ...)
   } else if (model_class == "lmrob") {
