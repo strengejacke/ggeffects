@@ -24,16 +24,10 @@ if (model_class == "logitr") {
     prediction_data <- get_predictions_glimML(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "sdmTMB") {
     prediction_data <- get_predictions_sdmTMB(model, data_grid, ci_level, linv, type, ...)
-  } else if (model_class == "glmgee") {
-    prediction_data <- get_predictions_glmgee(model, data_grid, ci_level, linv, vcov = vcov, ...)
-  } else if (model_class == "geeglm") {
-    prediction_data <- get_predictions_geeglm(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
   } else if (model_class == "vglm") {
     prediction_data <- get_predictions_vglm(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "gee") {
-    prediction_data <- get_predictions_gee(model, terms, ...)
   } else if (model_class == "clmm") {
     prediction_data <- get_predictions_clmm(model, terms, value_adjustment, condition, ci_level, linv, ...)
   } else if (model_class == "clm2") {

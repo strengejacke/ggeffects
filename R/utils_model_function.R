@@ -1,7 +1,5 @@
 get_predict_function <- function(model) {
-  if (inherits(model, "glmgee")) {
-    "glmgee"
-  } else if (inherits(model, "logitr")) {
+  if (inherits(model, "logitr")) {
     "logitr"
   } else if (inherits(model, "glimML")) {
     "glimML"
@@ -9,16 +7,12 @@ get_predict_function <- function(model) {
     "gamlss"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
-  } else if (inherits(model, "geeglm")) {
-    "geeglm"
   } else if (inherits(model, "clmm")) {
     "clmm"
   } else if (inherits(model, "clm2")) {
     "clm2"
   } else if (inherits(model, "rqs")) {
     "rqs"
-  } else if (inherits(model, "gee")) {
-    "gee"
   } else if (inherits(model, "vglm")) {
     "vglm"
   } else if (inherits(model, "Zelig-relogit")) {
