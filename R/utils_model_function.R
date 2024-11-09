@@ -3,16 +3,10 @@ get_predict_function <- function(model) {
     "wbm"
   } else if (inherits(model, "nestedLogit")) {
     "nestedLogit"
-  } else if (inherits(model, "mblogit")) {
-    "mblogit"
   } else if (inherits(model, "glmgee")) {
     "glmgee"
-  } else if (inherits(model, "mclogit")) {
-    "mclogit"
   } else if (inherits(model, "logitr")) {
     "logitr"
-  } else if (inherits(model, "mlogit")) {
-    "mlogit"
   } else if (inherits(model, "glimML")) {
     "glimML"
   } else if (inherits(model, "mixor")) {

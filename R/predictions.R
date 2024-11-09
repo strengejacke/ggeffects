@@ -56,12 +56,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_glmrob_base(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "glmRob") {
     prediction_data <- get_predictions_glmRob(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov, vcov_args, condition, interval, ...) # nolint
-  } else if (model_class == "mblogit") {
-    prediction_data <- get_predictions_mblogit(model, data_grid, ci_level, linv, ...)
-  } else if (model_class == "mclogit") {
-    prediction_data <- get_predictions_mclogit(model, data_grid, ci_level, model_class, value_adjustment, terms, vcov, vcov_args, condition, ...) # nolint
-  } else if (model_class == "mlogit") {
-    prediction_data <- get_predictions_mlogit(model, data_grid, ...)
   } else {
     prediction_data <- get_predictions(model,
       data_grid = data_grid,
