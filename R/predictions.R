@@ -18,9 +18,7 @@ select_prediction_method <- function(model_class,
   linv <- .link_inverse(model, bias_correction = bias_correction, ...)
   if (is.null(linv)) linv <- function(x) x
 
-  if (model_class == "svyglm.nb") {
-    prediction_data <- get_predictions_svyglmnb(model, data_grid, ci_level, linv, model_class, value_adjustment, terms, vcov, vcov_args, condition, interval, ...) # nolint
-  } else if (model_class == "logitr") {
+if (model_class == "logitr") {
     prediction_data <- get_predictions_logitr(model, data_grid, ci_level, ...)
   } else if (model_class == "nestedLogit") {
     prediction_data <- get_predictions_nestedLogit(model, data_grid, ci_level, linv, ...)

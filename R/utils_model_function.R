@@ -15,8 +15,6 @@ get_predict_function <- function(model) {
     "glmrob"
   } else if (inherits(model, "glmRob")) {
     "glmRob"
-  } else if (inherits(model, "svyglm.nb")) {
-    "svyglm.nb"
   } else if (inherits(model, "gamlss")) {
     "gamlss"
   } else if (inherits(model, "sdmTMB")) {

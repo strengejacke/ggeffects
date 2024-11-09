@@ -191,7 +191,7 @@ get_predictions.default <- function(model,
 .generic_prediction_data <- function(model,
                                      data_grid,
                                      link_inverse,
-                                     prdat,
+                                     prediction_data,
                                      se,
                                      ci_level,
                                      typical,
@@ -212,15 +212,15 @@ get_predictions.default <- function(model,
   tcrit <- stats::qt(ci, df = dof)
 
   # copy predictions
-  if (typeof(prdat) == "double") {
-    .predicted <- prdat
+  if (typeof(prediction_data) == "double") {
+    .predicted <- prediction_data
   } else {
-    .predicted <- prdat$fit
+    .predicted <- prediction_data$fit
   }
 
   # get standard errors, if computed
-  if (.obj_has_name(prdat, "se.fit")) {
-    se.fit <- prdat$se.fit
+  if (.obj_has_name(prediction_data, "se.fit")) {
+    se.fit <- prediction_data$se.fit
     # reset interval, since we have normal confidence intervals already here
     if (interval == "confidence") interval <- NULL
   } else {
