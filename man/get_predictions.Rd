@@ -11,7 +11,7 @@ get_predictions(model, ...)
   model,
   data_grid = NULL,
   terms = NULL,
-  ci_level,
+  ci_level = 0.95,
   type = NULL,
   typical = NULL,
   vcov = NULL,
@@ -27,7 +27,11 @@ get_predictions(model, ...)
 }
 \arguments{
 \item{model, terms, ci_level, type, typical, vcov, vcov_args, condition, interval, bias_correction, verbose}{Arguments
-from the call to \code{predict_response()} that are passed down to \code{get_predictions()}.}
+from the call to \code{predict_response()} that are passed down to \code{get_predictions()}.
+Note that \code{bias_correction} is usally already processed in \code{predict_response()}
+and thus doesn't need further handling in \code{get_predictions()}, unless you
+need to re-calculate the link-inverse-function (argument \code{link_inverse})
+inside the \code{get_predictions()} method.}
 
 \item{...}{Further arguments, passed to \code{predict()} or other methods used
 in \code{get_predictions()}.}

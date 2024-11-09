@@ -40,10 +40,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_geeglm(model, data_grid, ci_level, linv, type, model_class, value_adjustment, terms, condition, ...) # nolint
   } else if (model_class == "gamlss") {
     prediction_data <- get_predictions_gamlss(model, data_grid, ci_level, terms, model_class, value_adjustment, condition, verbose = verbose, ...) # nolint
-  } else if (model_class == "gam") {
-    prediction_data <- get_predictions_gam(model, data_grid, ci_level, linv, type, ...)
-  } else if (model_class == "Gam") {
-    prediction_data <- get_predictions_Gam(model, data_grid, ci_level, linv, value_adjustment, terms, model_class, condition, ...) # nolint
   } else if (model_class == "vglm") {
     prediction_data <- get_predictions_vglm(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "tobit") {
@@ -52,8 +48,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_gee(model, terms, ...)
   } else if (model_class == "clmm") {
     prediction_data <- get_predictions_clmm(model, terms, value_adjustment, condition, ci_level, linv, ...)
-  } else if (model_class == "clm") {
-    prediction_data <- get_predictions_clm(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "clm2") {
     prediction_data <- get_predictions_clm2(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "Zelig-relogit") {
@@ -70,8 +64,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_glmrob_base(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "glmRob") {
     prediction_data <- get_predictions_glmRob(model, data_grid, ci_level, linv, value_adjustment, model_class, terms, vcov, vcov_args, condition, interval, ...) # nolint
-  } else if (model_class == "logistf") {
-    prediction_data <- get_predictions_logistf(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "mblogit") {
     prediction_data <- get_predictions_mblogit(model, data_grid, ci_level, linv, ...)
   } else if (model_class == "mclogit") {
@@ -80,8 +72,6 @@ select_prediction_method <- function(model_class,
     prediction_data <- get_predictions_mlogit(model, data_grid, ...)
   } else if (model_class == "MixMod") {
     prediction_data <- get_predictions_MixMod(model, data_grid, ci_level, linv, type, terms, value_adjustment, condition, bias_correction = bias_correction, ...) # nolint
-  } else if (model_class == "MCMCglmm") {
-    prediction_data <- get_predictions_MCMCglmm(model, data_grid, ci_level, interval, terms, value_adjustment, condition, ...) # nolint
   } else {
     prediction_data <- get_predictions(model,
       data_grid = data_grid,

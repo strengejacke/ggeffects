@@ -33,24 +33,14 @@ get_predict_function <- function(model) {
     "svyglm.nb"
   } else if (inherits(model, "gamlss")) {
     "gamlss"
-  } else if (inherits(model, "gam")) {
-    "gam"
   } else if (inherits(model, c("tobit", "survreg"))) {
     "tobit"
-  } else if (inherits(model, "Gam")) {
-    "Gam"
-  } else if (inherits(model, "MCMCglmm")) {
-    "MCMCglmm"
   } else if (inherits(model, "sdmTMB")) {
     "sdmTMB"
-  } else if (inherits(model, c("logistf", "flic", "flac"))) {
-    "logistf"
   } else if (inherits(model, "geeglm")) {
     "geeglm"
   } else if (inherits(model, "clmm")) {
     "clmm"
-  } else if (inherits(model, "clm")) {
-    "clm"
   } else if (inherits(model, "clm2")) {
     "clm2"
   } else if (inherits(model, "rqs")) {

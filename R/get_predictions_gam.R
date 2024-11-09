@@ -1,4 +1,19 @@
-get_predictions_gam <- function(model, data_grid, ci_level, linv, type, ...) {
+#' @export
+get_predictions.gam <- function(model,
+                                data_grid = NULL,
+                                terms = NULL,
+                                ci_level = 0.95,
+                                type = NULL,
+                                typical = NULL,
+                                vcov = NULL,
+                                vcov_args = NULL,
+                                condition = NULL,
+                                interval = "confidence",
+                                bias_correction = FALSE,
+                                link_inverse = insight::link_inverse(model),
+                                model_info = NULL,
+                                verbose = TRUE,
+                                ...) {
   se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
@@ -45,7 +60,11 @@ get_predictions_gam <- function(model, data_grid, ci_level, linv, type, ...) {
 
     # simulate predictions, for standad errors / CI
 
-    prdat.sim <- .get_zeroinfl_gam_predictions(model = model, newdata = data_grid, nsim = nsim)
+    prdat.sim <- .get_zeroinfl_gam_predictions(
+      model = model,
+      newdata = data_grid,
+      nsim = nsim
+    )
 
 
     # make sure we have only predicted values as vector, no SE
@@ -113,24 +132,24 @@ get_predictions_gam <- function(model, data_grid, ci_level, linv, type, ...) {
       } else {
         prdat <- as.numeric(as.vector(prdat[, 1]))
       }
-      linv <- exp
+      link_inverse <- exp
     }
 
     # did user request standard errors? if yes, compute CI
     if (se) {
       # copy predictions
-      data_grid$predicted <- linv(as.numeric(as.vector(prdat$fit)))
+      data_grid$predicted <- link_inverse(as.numeric(as.vector(prdat$fit)))
 
       # calculate CI
-      data_grid$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
-      data_grid$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)
+      data_grid$conf.low <- link_inverse(prdat$fit - tcrit * prdat$se.fit)
+      data_grid$conf.high <- link_inverse(prdat$fit + tcrit * prdat$se.fit)
 
       # copy standard errors
       attr(data_grid, "std.error") <- prdat$se.fit
 
     } else {
       # copy predictions
-      data_grid$predicted <- linv(as.numeric(as.vector(prdat)))
+      data_grid$predicted <- link_inverse(as.numeric(as.vector(prdat)))
 
       # no CI
       data_grid$conf.low <- NA

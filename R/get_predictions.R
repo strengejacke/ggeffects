@@ -16,6 +16,10 @@
 #'
 #' @param model,terms,ci_level,type,typical,vcov,vcov_args,condition,interval,bias_correction,verbose Arguments
 #' from the call to `predict_response()` that are passed down to `get_predictions()`.
+#' Note that `bias_correction` is usally already processed in `predict_response()`
+#' and thus doesn't need further handling in `get_predictions()`, unless you
+#' need to re-calculate the link-inverse-function (argument `link_inverse`)
+#' inside the `get_predictions()` method.
 #' @param data_grid A data frame containing the data grid (or reference grid)
 #' with all relevant values of predictors for which the adjusted predictions
 #' should be made. Typically the data frame that is passed to the `newdata`
@@ -136,7 +140,7 @@ get_predictions <- function(model, ...) {
 get_predictions.default <- function(model,
                                     data_grid = NULL,
                                     terms = NULL,
-                                    ci_level,
+                                    ci_level = 0.95,
                                     type = NULL,
                                     typical = NULL,
                                     vcov = NULL,

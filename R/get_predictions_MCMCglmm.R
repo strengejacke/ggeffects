@@ -1,4 +1,19 @@
-get_predictions_MCMCglmm <- function(model, fitfram, ci_level, interval, terms, value_adjustment, condition, ...) {
+#' @export
+get_predictions.MCMCglmm <- function(model,
+                                     data_grid = NULL,
+                                     terms = NULL,
+                                     ci_level = 0.95,
+                                     type = NULL,
+                                     typical = NULL,
+                                     vcov = NULL,
+                                     vcov_args = NULL,
+                                     condition = NULL,
+                                     interval = "confidence",
+                                     bias_correction = FALSE,
+                                     link_inverse = insight::link_inverse(model),
+                                     model_info = NULL,
+                                     verbose = TRUE,
+                                     ...) {
   if (!(interval %in% c("confidence", "prediction"))) {
     interval <- "confidence"
   }
@@ -7,7 +22,7 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci_level, interval, terms, 
     model,
     model_frame = insight::get_data(model, source = "frame", verbose = FALSE),
     terms = terms,
-    value_adjustment = value_adjustment,
+    typical = typical,
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
     condition = condition,
@@ -26,11 +41,11 @@ get_predictions_MCMCglmm <- function(model, fitfram, ci_level, interval, terms, 
   new_grid$predicted <- prdat[, 1]
   new_grid$conf.low <- prdat[, 2]
   new_grid$conf.high <- prdat[, 3]
-  fitfram <- merge(new_grid, fitfram, sort = FALSE)
+  data_grid <- merge(new_grid, data_grid, sort = FALSE)
 
   # copy standard errors
-  attr(fitfram, "std.error") <- NULL
-  attr(fitfram, "prediction.interval") <- interval == "prediction"
+  attr(data_grid, "std.error") <- NULL
+  attr(data_grid, "prediction.interval") <- interval == "prediction"
 
-  fitfram
+  data_grid
 }
