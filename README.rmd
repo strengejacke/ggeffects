@@ -30,7 +30,7 @@ ggeffects_namespace <- ls(getNamespace("ggeffects"))
 ns_get_predictions <- ggeffects_namespace[grepl("^get_predictions\\.", ggeffects_namespace)]
 .supported_models <- gsub("^get_predictions\\.", "", ns_get_predictions)
 
-.supported_models <- unique(sort(c(.supported_models,
+.supported_models <- setdiff(unique(sort(c(.supported_models,
   "wblm", "wbm", "phylolm", "phyloglm", "mblogit", "mclogit", "logitr", "averaging",
   "orm", "mlogit", "glimML", "cgam", "ols", "mixor", "glmx", "lrm", "lmrob", "feglm",
   "glmrob", "glmRob", "brglm", "bigglm", "biglm", "speedglm", "speedlm", "svyglm.nb",
@@ -43,7 +43,7 @@ ns_get_predictions <- ggeffects_namespace[grepl("^get_predictions\\.", ggeffects
   "glm", "lm", "tidymodels", "betabin", "bglmer", "blmer", "cgamm", "gamm", "gamm4",
   "glm.nb", "polr", "rlm", "rqs", "glmer.nb", "glmmPQL", "nestedLogit", "sdmTMB",
   "flic", "flac", "glmgee", "glm_weightit", "multinom_weightit", "ordinal_weightit"
-)))
+))), "default")
 ```
 
 # ggeffects - Estimated Marginal Means and Adjusted Predictions from Regression Models<img src="man/figures/logo.png" align="right" />
