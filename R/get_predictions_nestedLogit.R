@@ -31,9 +31,9 @@ get_predictions.nestedLogit <- function(model,
   colnames(predictions)[colnames(predictions) == "logit"] <- "predicted"
 
   # CI
-  predictions$conf.low <- linv(predictions$predicted - stats::qnorm(ci) * predictions$se.logit)
-  predictions$conf.high <- linv(predictions$predicted + stats::qnorm(ci) * predictions$se.logit)
-  predictions$predicted <- linv(predictions$predicted)
+  predictions$conf.low <- link_inverse(predictions$predicted - stats::qnorm(ci) * predictions$se.logit)
+  predictions$conf.high <- link_inverse(predictions$predicted + stats::qnorm(ci) * predictions$se.logit)
+  predictions$predicted <- link_inverse(predictions$predicted)
 
   # remove SE
   predictions$se.logit <- NULL
