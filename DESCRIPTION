@@ -84,6 +84,7 @@ Suggests:
     see,
     sjlabelled (>= 1.1.2),
     sjstats,
+    speedglm,
     survey,
     survival,
     testthat,

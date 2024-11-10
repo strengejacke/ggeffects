@@ -27,26 +27,15 @@ get_predictions.glm <- function(model,
     # simulate predictions
     .do_simulate(model, terms, ci, interval = interval, ...)
   } else {
-    if (inherits(model, "bayesglm")) {
-      prdat <- stats::predict(
-        model,
-        newdata = data_grid,
-        type = "link",
-        se.fit = se,
-        ...
-      )
-    } else {
-      # for models from "robust"-pkg (glmRob) we need to
-      # suppress warnings about fake models
-      prdat <- suppressWarnings(stats::predict.glm(
-        model,
-        newdata = data_grid,
-        type = "link",
-        se.fit = se,
-        ...
-      ))
-    }
-
+    # for models from "robust"-pkg (glmRob) we need to
+    # suppress warnings about fake models
+    prdat <- suppressWarnings(stats::predict.glm(
+      model,
+      newdata = data_grid,
+      type = "link",
+      se.fit = se,
+      ...
+    ))
     # copy predictions
     .generic_prediction_data(
       model,
@@ -64,12 +53,6 @@ get_predictions.glm <- function(model,
     )
   }
 }
-
-#' @export
-get_predictions.speedglm <- get_predictions.glm
-
-#' @export
-get_predictions.bigglm <- get_predictions.glm
 
 #' @export
 get_predictions.brglm <- get_predictions.glm
