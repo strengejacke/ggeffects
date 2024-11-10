@@ -21,7 +21,7 @@ test_that("ggpredict, speedglm", {
   )
   expect_equal(
     out$predicted,
-    predict(m2, newdata = data_grid(m, "s1"), type = "response"),
+    predict(m2, newdata = data_grid(m2, "s1"), type = "response"),
     tolerance = 1e-3,
     ignore_attr = TRUE
   )
