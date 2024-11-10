@@ -67,6 +67,7 @@ Suggests:
     mice,
     MCMCglmm,
     mgcv,
+    mclogit,
     mlogit,
     nestedLogit (>= 0.3.0),
     nlme,
