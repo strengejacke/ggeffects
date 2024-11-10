@@ -1,14 +1,18 @@
-get_predictions_lm <- function(model,
-                               data_grid,
-                               ci_level,
-                               model_class,
-                               value_adjustment,
-                               terms,
-                               vcov,
-                               vcov_args,
-                               condition,
-                               interval,
-                               type,
+#' @export
+get_predictions.lm <- function(model,
+                               data_grid = NULL,
+                               terms = NULL,
+                               ci_level = 0.95,
+                               type = NULL,
+                               typical = NULL,
+                               vcov = NULL,
+                               vcov_args = NULL,
+                               condition = NULL,
+                               interval = "confidence",
+                               bias_correction = FALSE,
+                               link_inverse = NULL,
+                               model_info = NULL,
+                               verbose = TRUE,
                                ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov)
@@ -48,9 +52,8 @@ get_predictions_lm <- function(model,
     se.pred <- .standard_error_predictions(
       model = model,
       prediction_data = data_grid,
-      value_adjustment = value_adjustment,
+      typical = typical,
       terms = terms,
-      model_class = model_class,
       vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
@@ -108,3 +111,15 @@ get_predictions_lm <- function(model,
 
   data_grid
 }
+
+#' @export
+get_predictions.lmRob <- get_predictions.lm
+
+#' @export
+get_predictions.lm_robust <- get_predictions.lm
+
+#' @export
+get_predictions.biglm <- get_predictions.lm
+
+#' @export
+get_predictions.speedlm <- get_predictions.lm

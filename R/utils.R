@@ -1,3 +1,30 @@
+.get_model_function <- function(model) {
+  # check class of fitted model
+  lm_models <- c(
+    "wblm", "wbm", "biglm", "speedlm", "gls", "ols", "ivreg", "gee", "plm", "lm",
+    "rqss", "lmRob", "lm_robust", "lme", "truncreg", "nlmerMod", "glmgee",
+    "lmerMod", "merModLmerTest", "rlmerMod", "bayesx", "mclogit"
+  )
+
+  info <- insight::model_info(model, verbose = FALSE)
+  if (insight::is_multivariate(model) && !inherits(model, c("vglm", "vgam"))) {
+    info <- info[[1]]
+  }
+
+  if (inherits(model, lm_models) && !inherits(model, "glm")) {
+    "lm"
+  } else if (inherits(model, "coxph")) {
+    "coxph"
+  } else if (inherits(model, "betareg")) {
+    "betareg"
+  } else if (isTRUE(info$is_linear)) {
+    "lm"
+  } else {
+    "glm"
+  }
+}
+
+
 .data_frame <- function(...) {
   x <- data.frame(..., stringsAsFactors = FALSE)
   rownames(x) <- NULL
@@ -202,18 +229,6 @@ is.whole <- function(x) {
 
 is.whole.number <- function(x) {
   (is.numeric(x) && isTRUE(all.equal(x, round(x))))
-}
-
-
-.get_poly_term <- function(x) {
-  p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
-  sub(p, "\\2", x)
-}
-
-
-.get_poly_degree <- function(x) {
-  p <- "(.*)poly\\(([^,]*)([^)])*\\)(.*)"
-  tryCatch(as.numeric(sub(p, "\\3", x)), error = function(x) 1)
 }
 
 
@@ -467,39 +482,4 @@ is.gamm4 <- function(x) {
     }
   }
   ifnotfound
-}
-
-
-# this is a wrapper around `match.arg()`, but provided clearer information on fail
-.check_arg <- function(argument, options) {
-  # save this information for printin
-  argument_name <- deparse(substitute(argument))
-  original_argument <- argument
-  # catch error, we want our own message
-  argument <- .safe(match.arg(argument, options))
-  # proceed here if argument option was invalid
-  if (is.null(argument)) {
-    # check whether we find a typo
-    suggestion <- .misspelled_string(options, original_argument)
-    msg <- sprintf("Invalid option for argument `%s`.", argument_name)
-    if (is.null(suggestion$msg) || !length(suggestion$msg) || !nzchar(suggestion$msg)) {
-      msg <- paste(
-        msg,
-        "Please use one of the following options:",
-        datawizard::text_concatenate(options, last = " or ", enclose = "\"")
-      )
-    } else {
-      options <- setdiff(options, suggestion$possible_strings)
-      msg <- paste(msg, suggestion$msg)
-      if (length(options)) {
-        msg <- paste(
-          msg,
-          "Otherwise, use one of the following options:",
-          datawizard::text_concatenate(options, last = " or ", enclose = "\"")
-        )
-      }
-    }
-    insight::format_error(msg)
-  }
-  argument
 }

@@ -40,6 +40,24 @@
 }
 
 
+
+.has_poly_term <- function(x) {
+  any(grepl("poly\\(([^,)]*)", x))
+}
+
+
+.get_poly_term <- function(x) {
+  p <- "(.*)poly\\(([^,]*)[^)]*\\)(.*)"
+  sub(p, "\\2", x)
+}
+
+
+.get_poly_degree <- function(x) {
+  p <- "(.*)poly\\(([^,]*)([^)])*\\)(.*)"
+  tryCatch(as.numeric(sub(p, "\\3", x)), error = function(x) 1)
+}
+
+
 .get_log_terms <- function(model) {
   form <- .get_pasted_formula(model)
   if (is.null(form)) return(FALSE)
@@ -85,11 +103,6 @@
     log_terms <- NULL
   }
   log_terms
-}
-
-
-.has_poly_term <- function(x) {
-  any(grepl("poly\\(([^,)]*)", x))
 }
 
 

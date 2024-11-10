@@ -88,7 +88,7 @@ vcov.ggeffects <- function(object,
     model,
     model_frame,
     terms = original_terms,
-    value_adjustment = "mean",
+    typical = "mean",
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
     condition = const.values,
@@ -131,10 +131,8 @@ vcov.ggeffects <- function(object,
   rownames(newdata) <- NULL
   tryCatch(
     .vcov_helper(
-      model, model_frame, get_predict_function(model), newdata,
-      vcov = vcov, vcov_args = vcov_args,
-      original_terms = original_terms, full.vcov = TRUE,
-      verbose = verbose
+      model, model_frame, newdata, vcov = vcov, vcov_args = vcov_args,
+      original_terms = original_terms, full.vcov = TRUE, verbose = verbose
     ),
     error = function(e) {
       if (verbose) {
@@ -151,7 +149,6 @@ vcov.ggeffects <- function(object,
 
 .vcov_helper <- function(model,
                          model_frame,
-                         model_class,
                          newdata,
                          vcov,
                          vcov_args,
@@ -310,11 +307,7 @@ vcov.ggeffects <- function(object,
 
   mm <- mm[rows_to_keep, , drop = FALSE]
 
-  # check class of fitted model, to make sure we have just one class-attribute
-  # (while "inherits()" may return multiple attributes)
-  model_class <- get_predict_function(model)
-
-  if (!is.null(model_class) && model_class %in% c("polr", "mixor", "multinom", "brmultinom", "bracl", "fixest", "multinom_weightit")) { # nolint
+  if (inherits(model, c("polr", "mixor", "multinom", "ordinal_weightit", "brmultinom", "bracl", "fixest", "multinom_weightit"))) { # nolint
     keep <- intersect(colnames(mm), colnames(vcm))
     vcm <- vcm[keep, keep, drop = FALSE]
     mm <- mm[, keep]

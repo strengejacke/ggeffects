@@ -224,7 +224,6 @@
 }
 
 
-
 .recode_to <- function(x, lowest, highest = -1) {
   if (is.factor(x)) {
     x <- as.numeric(as.character(x))

@@ -1,19 +1,27 @@
-get_predictions_gamlss <- function(model,
-                                   fitfram,
-                                   ci_level,
-                                   terms,
-                                   model_class,
-                                   value_adjustment,
-                                   condition,
+#' @export
+get_predictions.gamlss <- function(model,
+                                   data_grid = NULL,
+                                   terms = NULL,
+                                   ci_level = 0.95,
+                                   type = NULL,
+                                   typical = NULL,
+                                   vcov = NULL,
+                                   vcov_args = NULL,
+                                   condition = NULL,
+                                   interval = "confidence",
+                                   bias_correction = FALSE,
+                                   link_inverse = insight::link_inverse(model),
+                                   model_info = NULL,
                                    verbose = TRUE,
                                    ...) {
   se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
@@ -21,13 +29,13 @@ get_predictions_gamlss <- function(model,
 
   prdat <- suppressMessages(stats::predict(
     model,
-    newdata = fitfram,
+    newdata = data_grid,
     type = "link",
     se.fit = FALSE,
     ...
   ))
 
-  fitfram$predicted <- as.vector(prdat)
+  data_grid$predicted <- as.vector(prdat)
 
   # check whether prediction are requested for specific distribution parameter
   # and if so, use correct link-inverse function.
@@ -40,16 +48,15 @@ get_predictions_gamlss <- function(model,
     what <- "mu"
   }
 
-  linv <- insight::link_inverse(model, what = what)
+  link_inverse <- insight::link_inverse(model, what = what)
 
 
   # did user request standard errors? if yes, compute CI
   se.pred <- .standard_error_predictions(
     model = model,
-    prediction_data = fitfram,
-    value_adjustment = value_adjustment,
+    prediction_data = data_grid,
+    typical = typical,
     terms = terms,
-    model_class = model_class,
     condition = condition,
     verbose = verbose
   )
@@ -57,22 +64,22 @@ get_predictions_gamlss <- function(model,
   if (se && .check_returned_se(se.pred)) {
 
     se.fit <- se.pred$se.fit
-    fitfram <- se.pred$prediction_data
+    data_grid <- se.pred$prediction_data
 
     # CI
-    fitfram$conf.low <- linv(fitfram$predicted - tcrit * se.fit)
-    fitfram$conf.high <- linv(fitfram$predicted + tcrit * se.fit)
+    data_grid$conf.low <- link_inverse(data_grid$predicted - tcrit * se.fit)
+    data_grid$conf.high <- link_inverse(data_grid$predicted + tcrit * se.fit)
 
     # copy standard errors
-    attr(fitfram, "std.error") <- se.fit
+    attr(data_grid, "std.error") <- se.fit
 
   } else {
     # CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram$predicted <- linv(fitfram$predicted)
+  data_grid$predicted <- link_inverse(data_grid$predicted)
 
-  fitfram
+  data_grid
 }

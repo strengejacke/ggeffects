@@ -27,6 +27,9 @@
 
 ## Changes
 
+* Added a `get_preditions()` method, which can be used to implement own S3-classes
+  to add support for new models to **ggeffects**.
+
 * The `plot()` method gets a `dot_shape` argument, to change the shape of data
   points when `show_data = TRUE`.
 

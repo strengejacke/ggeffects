@@ -30,7 +30,7 @@ ggemmeans <- function(model,
   )
 
   # check arguments
-  interval <- .check_arg(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
 
@@ -82,7 +82,7 @@ ggemmeans <- function(model,
   cleaned_terms <- .clean_terms(terms)
 
   data_grid <- .data_grid(
-    model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
+    model = model, model_frame = model_frame, terms = terms, typical = typical,
     condition = condition, emmeans_only = TRUE, show_pretty_message = verbose,
     verbose = verbose
   )
@@ -120,7 +120,7 @@ ggemmeans <- function(model,
       interval = interval,
       terms = terms,
       cleaned_terms = cleaned_terms,
-      value_adjustment = typical,
+      typical = typical,
       condition = condition,
       nsim = nsim,
       type = type

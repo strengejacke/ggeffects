@@ -253,12 +253,12 @@ brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac,
 flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb,
 glm_weightit, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob,
 glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob,
-lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merModLmerTest,
-MixMod, mixor, mlogit, multinom, multinom_weightit, negbin, nestedLogit,
-nlmerMod, ols, ordinal_weightit, orm, phyloglm, phylolm, plm, polr, rlm,
-rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg,
-svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm,
-Zelig-relogit, zeroinfl, zerotrunc.
+lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merMod,
+merModLmerTest, MixMod, mixor, mlogit, multinom, multinom_weightit,
+negbin, nestedLogit, nlmerMod, ols, ordinal_weightit, orm, phyloglm,
+phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm,
+speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit,
+truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
 
 Support for models varies by marginalization method (the `margin`
 argument), i.e. although `predict_response()` supports most models, some

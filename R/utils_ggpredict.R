@@ -1,83 +1,3 @@
-.validate_type_argument <- function(model,
-                                    type,
-                                    marginaleffects = FALSE,
-                                    emmeans_call = FALSE) {
-  # marginaleffects supports the predict-method types
-  # we need a different approach to validation here
-  if (marginaleffects) {
-    # for zero-inflation models, we need to find the correct name
-    # for the type argument...
-    is_zero_inflated <- insight::model_info(model)$is_zero_inflated
-    if (is_zero_inflated) {
-      if (inherits(model, "glmmTMB")) {
-        types <- c("conditional", "zprob")
-      } else {
-        types <- c("count", "zero")
-      }
-    }
-    # first, we overwrite the "default"
-    if (type == "fixed") {
-      if (is_zero_inflated) {
-        type <- types[1]
-      } else if (class(model)[1] %in% .default_type$class) {
-        type <- .default_type$type[.default_type$class == class(model)[1]]
-      } else {
-        type <- "response"
-      }
-    } else if (type %in% c("zi", "zero_inflated", "fe.zi")) {
-      type <- "response"
-    } else if (type %in% c("zi.prob", "zi_prob")) {
-      type <- types[2]
-    }
-    # check which types are supported by the model's predict-method
-    type_options <- .typedic$type[.typedic$class == class(model)[1]]
-    if (!type %in% c("response", type_options)) {
-      insight::format_error(sprintf(
-        "`type = \"%s\"` is not supported. Please use %s%s.",
-        type,
-        if (length(type_options) > 1) "one of " else "",
-        toString(paste0("`", type_options, "`"))
-      ))
-    }
-    return(type)
-  }
-
-  # if we call "predict()" or "emmeans()", we have these different options
-  if (emmeans_call) {
-    type_choices <- c("fixed", "count", "zero_inflated", "zi_prob")
-  } else {
-    type_choices <- c(
-      "fixed", "count", "random", "zero_inflated", "zi_random",
-      "zero_inflated_random", "zi_prob", "simulate", "survival",
-      "cumulative_hazard", "simulate_random", "debug"
-    )
-  }
-  type <- .check_arg(type, type_choices)
-
-  switch(type,
-    count = "fixed",
-    zi_random = "zero_inflated_random",
-    type
-  )
-}
-
-
-.retrieve_type_option <- function(model) {
-  # retrieve model object's predict-method prediction-types (if any)
-  predict_method <- .safe(lapply(
-    class(model), function(i) {
-      utils::getS3method("predict", i)
-    }
-  ))
-  # check whether model class has a predict method
-  if (!is.null(predict_method)) {
-    predict_method <- predict_method[!vapply(predict_method, is.null, TRUE)][[1]]
-  }
-  # retrieve model object's predict-method prediction-types (if any)
-  .safe(suppressWarnings(eval(formals(predict_method)$type)))
-}
-
-
 .back_transform_response <- function(model, mydf, back_transform, response.name = NULL, verbose = TRUE) {
   # skip if no information available
   if (is.null(model) && is.null(response.name)) {
@@ -232,99 +152,22 @@
 }
 
 
-# internal to return possibly bias correct link-function
-.link_inverse <- function(model = NULL, bias_correction = FALSE, residual_variance = NULL, ...) {
-  if (bias_correction) {
-    dots <- list(...)
-    if (!is.null(dots$sigma) && !is.na(dots$sigma)) {
-      residual_variance <- dots$sigma^2
-    }
-    l <- .bias_correction(model, residual_variance)$linkinv
-    if (is.null(l)) {
-      l <- insight::link_inverse(model)
-    }
-  } else {
-    l <- insight::link_inverse(model)
-  }
-  l
-}
-
-
-# apply bias-correction for back-transformation of predictions on the link-scale
-# we want sigma^2 (residual_variance) here to calculate the correction
-.bias_correction <- function(model = NULL, residual_variance = NULL) {
-  # we need a model object
-  if (is.null(model)) {
-    return(NULL)
-  }
-  # extract residual variance, if not provided
-  if (is.null(residual_variance)) {
-    if (insight::is_mixed_model(model)) {
-      residual_variance <- .safe(insight::get_variance_residual(model))
-    } else {
-      residual_variance <- .get_residual_variance(model) # returns sigma^2
-    }
-  }
-  # we need residual variance
-  if (is.null(residual_variance)) {
-    return(NULL)
+.check_model_object <- function(model) {
+  # tidymodels?
+  if (inherits(model, "model_fit")) {
+    model <- model$fit
   }
 
-  # extract current link function
-  link <- .safe(insight::get_family(model))
-  # we need a link function
-  if (is.null(link)) {
-    return(NULL)
+  # for gamm/gamm4 objects, we have a list with two items, mer and gam
+  # extract just the gam-part then
+  if (is.gamm(model) || is.gamm4(model)) {
+    model <- model$gam
   }
 
-  link$inv <- link$linkinv
-  link$der <- link$mu.eta
-  link$residual_variance <- residual_variance / 2
+  # for sdmTMB objects, delta/hurdle models have family lists
+  if (.is_delta_sdmTMB(model)) {
+    insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
+  }
 
-  link$der2 <- function(eta) {
-    with(link, 1000 * (der(eta + 5e-4) - der(eta - 5e-4)))
-  }
-  link$linkinv <- function(eta) {
-    with(link, inv(eta) + residual_variance * der2(eta))
-  }
-  link$mu.eta <- function(eta) {
-    with(link, der(eta) + 1000 * residual_variance * (der2(eta + 5e-4) - der2(eta - 5e-4)))
-  }
-  link
-}
-
-
-.check_bias_correction <- function(model, type, bias_correction, verbose = TRUE) {
-  # exception: sdmTMB. return FALSE
-  if (inherits(model, "sdmTMB")) {
-    return(FALSE)
-  }
-  # sanity check - bias correction only for mixed models for now
-  if (isTRUE(bias_correction) && !insight::is_mixed_model(model) && !inherits(model, c("gee", "geeglm"))) {
-    bias_correction <- FALSE
-    if (verbose) {
-      insight::format_alert("Bias-correction is currently only supported for mixed or gee models. No bias-correction is applied.") # nolint
-    }
-  }
-  info <- insight::model_info(model)
-  # sanity check - multivariate models?
-  if (insight::is_multivariate(model)) {
-    info <- info[[1]]
-  }
-  # for GLMMs, when re.form is set to NA and bias_correction = FALSE, warn user
-  if (isFALSE(bias_correction) &&
-    verbose &&
-    isTRUE(getOption("ggeffects_warning_bias_correction", TRUE)) &&
-    insight::is_mixed_model(model) &&
-    !info$is_linear &&
-    !info$is_tweedie &&
-    type %in% c("fixed", "zero_inflated")) {
-    insight::format_alert(
-      "You are calculating adjusted predictions on the population-level (i.e. `type = \"fixed\"`) for a *generalized* linear mixed model.",
-      "This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.",
-      "See also the documentation of the `bias_correction` argument."
-    )
-    options(ggeffects_warning_bias_correction = FALSE)
-  }
-  bias_correction
+  model
 }

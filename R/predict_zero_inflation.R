@@ -89,7 +89,7 @@
                                      newdata,
                                      nsim = 1000,
                                      terms = NULL,
-                                     value_adjustment = NULL,
+                                     typical = NULL,
                                      condition = NULL) {
 
   # Since the zero inflation and the conditional model are working in "opposite
@@ -99,11 +99,11 @@
   # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
   if (inherits(model, "glmmTMB")) {
-    .simulate_predictions_glmmTMB(model, newdata, nsim, terms, value_adjustment, condition)
+    .simulate_predictions_glmmTMB(model, newdata, nsim, terms, typical, condition)
   } else if (inherits(model, "MixMod")) {
-    .simulate_predictions_MixMod(model, newdata, nsim, terms, value_adjustment, condition)
+    .simulate_predictions_MixMod(model, newdata, nsim, terms, typical, condition)
   } else {
-    .simulate_predictions_zeroinfl(model, newdata, nsim, terms, value_adjustment, condition)
+    .simulate_predictions_zeroinfl(model, newdata, nsim, terms, typical, condition)
   }
 }
 
@@ -116,7 +116,7 @@
                                           newdata,
                                           nsim,
                                           terms = NULL,
-                                          value_adjustment = NULL,
+                                          typical = NULL,
                                           condition = NULL) {
   insight::check_if_installed("lme4")
 
@@ -136,7 +136,7 @@
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
+      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -177,7 +177,7 @@
                                          newdata,
                                          nsim,
                                          terms = NULL,
-                                         value_adjustment = NULL,
+                                         typical = NULL,
                                          condition = NULL) {
   insight::check_if_installed("lme4")
 
@@ -191,7 +191,7 @@
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
+      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -232,7 +232,7 @@
                                            newdata,
                                            nsim = 1000,
                                            terms = NULL,
-                                           value_adjustment = NULL,
+                                           typical = NULL,
                                            condition = NULL) {
   tryCatch(
     {
@@ -244,7 +244,7 @@
       # re-build the newdata-argument by including all values for poly-terms, if
       # these are hold constant.
 
-      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, value_adjustment, condition)
+      fixes <- .rows_to_keep(model, newdata, condformula, ziformula, terms, typical, condition)
 
       if (!is.null(fixes)) {
         keep <- fixes$keep
@@ -286,7 +286,7 @@
 
 
 
-.rows_to_keep <- function(model, newdata, condformula, ziformula, terms, value_adjustment, condition) {
+.rows_to_keep <- function(model, newdata, condformula, ziformula, terms, typical, condition) {
   # if formula has a polynomial term, and this term is one that is held
   # constant, model.matrix() with "newdata" will throw an error - so we
   # re-build the newdata-argument by including all values for poly-terms, if
@@ -335,7 +335,7 @@
       model = model,
       model_frame = model_frame,
       terms = terms,
-      value_adjustment = value_adjustment,
+      typical = typical,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
       condition = condition,
@@ -347,14 +347,14 @@
 
     if (!is.null(polycondcheck)) {
       keep.cond <- unlist(lapply(polycondcheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = typical)))]
         as.vector(which(newdata[[.x]] == wm))
       }), use.names = FALSE)
     }
 
     if (!is.null(polyzicheck)) {
       keep.zi <- unlist(lapply(polyzicheck, function(.x) {
-        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = value_adjustment)))]
+        wm <- newdata[[.x]][which.min(abs(newdata[[.x]] - .typical_value(newdata[[.x]], fun = typical)))]
         as.vector(which(newdata[[.x]] == wm))
       }), use.names = FALSE)
     }

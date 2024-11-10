@@ -1,12 +1,20 @@
-get_predictions_stan <- function(model,
-                                 data_grid,
-                                 ci_level,
-                                 type,
-                                 model_info,
-                                 interval,
-                                 terms = NULL,
-                                 verbose = TRUE,
-                                 ...) {
+#' @export
+get_predictions.stanreg <- function(model,
+                                    data_grid = NULL,
+                                    terms = NULL,
+                                    ci_level = 0.95,
+                                    type = NULL,
+                                    typical = NULL,
+                                    vcov = NULL,
+                                    vcov_args = NULL,
+                                    condition = NULL,
+                                    interval = "confidence",
+                                    bias_correction = FALSE,
+                                    link_inverse = insight::link_inverse(model),
+                                    model_info = NULL,
+                                    verbose = TRUE,
+                                    ...) {
+
   # check if pkg is available
   insight::check_if_installed("rstantools")
 
@@ -193,3 +201,6 @@ get_predictions_stan <- function(model,
 
   data_grid
 }
+
+#' @export
+get_predictions.brmsfit <- get_predictions.stanreg

@@ -633,7 +633,7 @@ predict_response <- function(model,
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
   # validate "margin" argument
-  margin <- .check_arg(
+  margin <- insight::validate_argument(
     argument = margin,
     options = c(
       "mean_reference", "mean_mode", "marginalmeans", "empirical",
@@ -657,7 +657,7 @@ predict_response <- function(model,
   )
 
   # make sure we have valid values
-  interval <- .check_arg(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
 
   out <- switch(margin,
     mean_reference = ggpredict(

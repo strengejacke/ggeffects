@@ -35,7 +35,7 @@
     custom_contrasts <- test
     test <- "custom"
   }
-  test <- .check_arg(
+  test <- insight::validate_argument(
     test,
     c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive", "polynomial")
   )
@@ -64,7 +64,7 @@
     object,
     model_frame = model_data,
     terms = terms,
-    value_adjustment = "mean",
+    typical = "mean",
     emmeans_only = TRUE,
     verbose = FALSE
   )

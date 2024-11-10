@@ -1,4 +1,19 @@
-get_predictions_tobit <- function(model, fitfram, ci_level, linv, ...) {
+#' @export
+get_predictions.tobit <- function(model,
+                                  data_grid = NULL,
+                                  terms = NULL,
+                                  ci_level = 0.95,
+                                  type = NULL,
+                                  typical = NULL,
+                                  vcov = NULL,
+                                  vcov_args = NULL,
+                                  condition = NULL,
+                                  interval = "confidence",
+                                  bias_correction = FALSE,
+                                  link_inverse = insight::link_inverse(model),
+                                  model_info = NULL,
+                                  verbose = TRUE,
+                                  ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
 
@@ -14,7 +29,7 @@ get_predictions_tobit <- function(model, fitfram, ci_level, linv, ...) {
 
   prdat <- stats::predict(
     model,
-    newdata = fitfram,
+    newdata = data_grid,
     type = "lp",
     se.fit = se,
     ...
@@ -23,23 +38,26 @@ get_predictions_tobit <- function(model, fitfram, ci_level, linv, ...) {
   # did user request standard errors? if yes, compute CI
   if (se) {
     # copy predictions
-    fitfram$predicted <- linv(prdat$fit)
+    data_grid$predicted <- link_inverse(prdat$fit)
 
     # calculate CI
-    fitfram$conf.low <- linv(prdat$fit - tcrit * prdat$se.fit)
-    fitfram$conf.high <- linv(prdat$fit + tcrit * prdat$se.fit)
+    data_grid$conf.low <- link_inverse(prdat$fit - tcrit * prdat$se.fit)
+    data_grid$conf.high <- link_inverse(prdat$fit + tcrit * prdat$se.fit)
 
     # copy standard errors
-    attr(fitfram, "std.error") <- prdat$se.fit
+    attr(data_grid, "std.error") <- prdat$se.fit
 
   } else {
     # copy predictions
-    fitfram$predicted <- linv(as.vector(prdat))
+    data_grid$predicted <- link_inverse(as.vector(prdat))
 
     # no CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram
+  data_grid
 }
+
+#' @export
+get_predictions.survreg <- get_predictions.tobit

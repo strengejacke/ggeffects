@@ -1,15 +1,17 @@
-get_predictions_zeroinfl <- function(model,
-                                     data_grid,
-                                     ci_level,
-                                     linv,
-                                     type,
-                                     model_class,
-                                     value_adjustment,
-                                     terms,
-                                     vcov,
-                                     vcov_args,
-                                     condition,
-                                     interval = NULL,
+#' @export
+get_predictions.zeroinfl <- function(model,
+                                     data_grid = NULL,
+                                     terms = NULL,
+                                     ci_level = 0.95,
+                                     type = NULL,
+                                     typical = NULL,
+                                     vcov = NULL,
+                                     vcov_args = NULL,
+                                     condition = NULL,
+                                     interval = "confidence",
+                                     bias_correction = FALSE,
+                                     link_inverse = insight::link_inverse(model),
+                                     model_info = NULL,
                                      verbose = TRUE,
                                      ...) {
   # get prediction type.
@@ -52,7 +54,7 @@ get_predictions_zeroinfl <- function(model,
   )
 
   if (type == "zi_prob") {
-    linv <- stats::plogis
+    link_inverse <- stats::plogis
     # need back-transformation
     predicted_data$predicted <- stats::qlogis(as.vector(prdat))
   } else {
@@ -69,7 +71,7 @@ get_predictions_zeroinfl <- function(model,
       model,
       model_frame,
       terms,
-      value_adjustment = value_adjustment,
+      typical = typical,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
       condition = condition
@@ -81,7 +83,7 @@ get_predictions_zeroinfl <- function(model,
     # based on quantiles of simulated draws from a multivariate normal distribution
     # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
-    prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+    prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, typical, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
       insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
@@ -113,10 +115,9 @@ get_predictions_zeroinfl <- function(model,
     se.pred <- .standard_error_predictions(
       model = model,
       prediction_data = predicted_data,
-      value_adjustment = value_adjustment,
+      typical = typical,
       type = type,
       terms = terms,
-      model_class = model_class,
       vcov = vcov,
       vcov_args = vcov_args,
       condition = condition,
@@ -129,8 +130,8 @@ get_predictions_zeroinfl <- function(model,
       predicted_data <- se.pred$prediction_data
 
       # CI
-      predicted_data$conf.low <- linv(predicted_data$predicted - tcrit * se.fit)
-      predicted_data$conf.high <- linv(predicted_data$predicted + tcrit * se.fit)
+      predicted_data$conf.low <- link_inverse(predicted_data$predicted - tcrit * se.fit)
+      predicted_data$conf.high <- link_inverse(predicted_data$predicted + tcrit * se.fit)
 
       # copy standard errors and attributes
       attr(predicted_data, "std.error") <- se.fit
@@ -141,8 +142,15 @@ get_predictions_zeroinfl <- function(model,
       predicted_data$conf.high <- NA
     }
 
-    predicted_data$predicted <- linv(predicted_data$predicted)
+    predicted_data$predicted <- link_inverse(predicted_data$predicted)
   }
 
   predicted_data
 }
+
+
+#' @export
+get_predictions.hurdle <- get_predictions.zeroinfl
+
+#' @export
+get_predictions.zerotrunc <- get_predictions.zeroinfl

@@ -1,4 +1,19 @@
-get_predictions_clm <- function(model, data_grid, ci_level, linv, ...) {
+#' @export
+get_predictions.clm <- function(model,
+                                data_grid = NULL,
+                                terms = NULL,
+                                ci_level = 0.95,
+                                type = NULL,
+                                typical = NULL,
+                                vcov = NULL,
+                                vcov_args = NULL,
+                                condition = NULL,
+                                interval = "confidence",
+                                bias_correction = FALSE,
+                                link_inverse = insight::link_inverse(model),
+                                model_info = NULL,
+                                verbose = TRUE,
+                                ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
 

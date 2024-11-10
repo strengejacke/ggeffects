@@ -2,7 +2,7 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 1.8.10
+Version: 1.8.11
 Authors@R: c(
       person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
       person("Frederik", "Aust", role = "ctb", comment = c(ORCID = "0000-0003-4900-788X")),
@@ -32,12 +32,14 @@ Suggests:
     aod,
     bayestestR,
     betareg,
+    brglm,
     brglm2,
     brms,
     broom,
     car,
     carData,
     clubSandwich,
+    dfidx,
     effects (>= 4.2-2),
     emmeans (>= 1.8.9),
     fixest,
@@ -65,6 +67,8 @@ Suggests:
     mice,
     MCMCglmm,
     mgcv,
+    mclogit,
+    mlogit,
     nestedLogit (>= 0.3.0),
     nlme,
     nnet,
@@ -84,6 +88,7 @@ Suggests:
     see,
     sjlabelled (>= 1.1.2),
     sjstats,
+    speedglm,
     survey,
     survival,
     testthat,

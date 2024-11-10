@@ -1,4 +1,19 @@
-get_predictions_lrm <- function(model, fitfram, ci_level, linv, ...) {
+#' @export
+get_predictions.lrm <- function(model,
+                                data_grid = NULL,
+                                terms = NULL,
+                                ci_level = 0.95,
+                                type = NULL,
+                                typical = NULL,
+                                vcov = NULL,
+                                vcov_args = NULL,
+                                condition = NULL,
+                                interval = "confidence",
+                                bias_correction = FALSE,
+                                link_inverse = insight::link_inverse(model),
+                                model_info = NULL,
+                                verbose = TRUE,
+                                ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
 
@@ -14,56 +29,59 @@ get_predictions_lrm <- function(model, fitfram, ci_level, linv, ...) {
   tcrit <- stats::qt(ci, df = dof)
 
   # for ordinal models, we need special handling
-  if (isTRUE(insight::model_info(model)$is_ordinal)) {
+  if (isTRUE(model_info$is_ordinal)) {
     prdat <- stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "fitted.ind",
       se.fit = FALSE,
       ...
     )
 
     # bind predictions to model frame
-    fitfram <- cbind(prdat, fitfram)
+    data_grid <- cbind(prdat, data_grid)
 
     # reshape
-    fitfram <- .gather(
-      fitfram,
+    data_grid <- .gather(
+      data_grid,
       names_to = "response.level",
       values_to = "predicted",
       colnames(prdat)
     )
 
     # No CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
 
   } else {
     prdat <- stats::predict(
       model,
-      newdata = fitfram,
+      newdata = data_grid,
       type = "lp",
       se.fit = se,
       ...
     )
 
     # copy predictions
-    fitfram$predicted <- stats::plogis(prdat$linear.predictors)
+    data_grid$predicted <- stats::plogis(prdat$linear.predictors)
 
     # did user request standard errors? if yes, compute CI
     if (se) {
       # calculate CI
-      fitfram$conf.low <- stats::plogis(prdat$linear.predictors - tcrit * prdat$se.fit)
-      fitfram$conf.high <- stats::plogis(prdat$linear.predictors + tcrit * prdat$se.fit)
+      data_grid$conf.low <- stats::plogis(prdat$linear.predictors - tcrit * prdat$se.fit)
+      data_grid$conf.high <- stats::plogis(prdat$linear.predictors + tcrit * prdat$se.fit)
 
       # copy standard errors
-      attr(fitfram, "std.error") <- prdat$se.fit
+      attr(data_grid, "std.error") <- prdat$se.fit
     } else {
       # No CI
-      fitfram$conf.low <- NA
-      fitfram$conf.high <- NA
+      data_grid$conf.low <- NA
+      data_grid$conf.high <- NA
     }
   }
 
-  fitfram
+  data_grid
 }
+
+#' @export
+get_predictions.orm <- get_predictions.lrm

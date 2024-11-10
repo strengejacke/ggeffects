@@ -75,7 +75,7 @@ ggpredict <- function(model,
   vcov <- .prepare_vcov_args(vcov, ...)
 
   # make sure we have valid values
-  interval <- .check_arg(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
 
   model.name <- deparse(substitute(model))
 
@@ -94,21 +94,8 @@ ggpredict <- function(model,
     terms <- .reconstruct_focal_terms(terms, model = NULL)
   }
 
-  # tidymodels?
-  if (inherits(model, "model_fit")) {
-    model <- model$fit
-  }
-
-  # for gamm/gamm4 objects, we have a list with two items, mer and gam
-  # extract just the gam-part then
-  if (is.gamm(model) || is.gamm4(model)) {
-    model <- model$gam
-  }
-
-  # for sdmTMB objects, delta/hurdle models have family lists
-  if (.is_delta_sdmTMB(model)) {
-    insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
-  }
+  # check model object, e.g. for gam's or class model_fit
+  model <- .check_model_object(model)
 
   # prepare common arguments, for do.cal()
   fun_args <- list(
@@ -173,10 +160,6 @@ ggpredict_helper <- function(model,
                              bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
-  # check class of fitted model, to make sure we have just one class-attribute
-  # (while "inherits()" may return multiple attributes)
-  model_class <- get_predict_function(model)
-
   # sanity check, if terms really exist in data
   terms <- .check_vars(terms, model)
 
@@ -187,7 +170,7 @@ ggpredict_helper <- function(model,
   model_info <- .get_model_info(model)
 
   # survival models are binomial
-  if (model_class == "coxph" && type == "survival") {
+  if (inherits(model, "coxph") && type == "survival") {
     model_info$is_binomial <- TRUE
   }
 
@@ -202,7 +185,7 @@ ggpredict_helper <- function(model,
 
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(
-    model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
+    model = model, model_frame = model_frame, terms = terms, typical = typical,
     condition = condition, show_pretty_message = verbose, verbose = verbose
   )
 
@@ -213,21 +196,24 @@ ggpredict_helper <- function(model,
   # clear argument from brackets
   terms <- cleaned_terms
 
+  linv <- .link_inverse(model, bias_correction = bias_correction, ...)
+  if (is.null(linv)) linv <- function(x) x
+
   # compute predictions here -----
-  prediction_data <- select_prediction_method(
-    model_class = model_class,
-    model = model,
+  prediction_data <- get_predictions(
+    model,
     data_grid = data_grid,
+    terms = original_terms,
     ci_level = ci_level,
     type = type,
-    model_info = model_info,
-    terms = original_terms,
-    value_adjustment = typical,
+    typical = typical,
     vcov = vcov,
     vcov_args = vcov_args,
     condition = condition,
     interval = interval,
     bias_correction = bias_correction,
+    link_inverse = linv,
+    model_info = model_info,
     verbose = verbose,
     ...
   )
@@ -242,12 +228,12 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-  if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
+  if (inherits(model, "coxph") && type %in% c("survival", "cumulative_hazard")) {
     terms <- c("time", terms)
     cleaned_terms <- c("time", cleaned_terms)
   }
   # special handling for rqs
-  if (model_class == "rqs" && !"tau" %in% cleaned_terms) {
+  if (inherits(model, "rqs") && !"tau" %in% cleaned_terms) {
     cleaned_terms <- c(cleaned_terms, "tau")
   }
 
@@ -293,7 +279,7 @@ ggpredict_helper <- function(model,
     prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
     at_list = .data_grid(
       model = model, model_frame = original_model_frame, terms = original_terms,
-      value_adjustment = typical, condition = condition, show_pretty_message = FALSE,
+      typical = typical, condition = condition, show_pretty_message = FALSE,
       emmeans_only = TRUE, verbose = FALSE
     ),
     condition = condition,

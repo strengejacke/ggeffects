@@ -1,11 +1,26 @@
-get_predictions_logitr <- function(model, fitfram, ci_level, ...) {
+#' @export
+get_predictions.logitr <- function(model,
+                                   data_grid = NULL,
+                                   terms = NULL,
+                                   ci_level = 0.95,
+                                   type = NULL,
+                                   typical = NULL,
+                                   vcov = NULL,
+                                   vcov_args = NULL,
+                                   condition = NULL,
+                                   interval = "confidence",
+                                   bias_correction = FALSE,
+                                   link_inverse = insight::link_inverse(model),
+                                   model_info = NULL,
+                                   verbose = TRUE,
+                                   ...) {
   # bind obsID to new data
   obsID <- parse(text = insight::safe_deparse(insight::get_call(model)))[[1]]$obsID
-  fitfram[[obsID]] <- model$data[[obsID]][1]
+  data_grid[[obsID]] <- model$data[[obsID]][1]
 
   prdat <- stats::predict(
     model,
-    newdata = fitfram,
+    newdata = data_grid,
     obsID = obsID,
     ci = ci_level,
     ...
@@ -13,5 +28,5 @@ get_predictions_logitr <- function(model, fitfram, ci_level, ...) {
 
   colnames(prdat) <- c("ID", "predicted", "conf.low", "conf.high")
   prdat$ID <- NULL
-  cbind(fitfram, prdat)
+  cbind(data_grid, prdat)
 }

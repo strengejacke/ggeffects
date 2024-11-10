@@ -1,7 +1,18 @@
-get_predictions_logistf <- function(model,
-                                    data_grid,
-                                    ci_level,
-                                    linv,
+#' @export
+get_predictions.logistf <- function(model,
+                                    data_grid = NULL,
+                                    terms = NULL,
+                                    ci_level = 0.95,
+                                    type = NULL,
+                                    typical = NULL,
+                                    vcov = NULL,
+                                    vcov_args = NULL,
+                                    condition = NULL,
+                                    interval = "confidence",
+                                    bias_correction = FALSE,
+                                    link_inverse = insight::link_inverse(model),
+                                    model_info = NULL,
+                                    verbose = TRUE,
                                     ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
@@ -27,8 +38,8 @@ get_predictions_logistf <- function(model,
   # did user request standard errors? if yes, compute CI
   if (se && !is.null(prdat$se.fit)) {
     tcrit <- stats::qnorm(ci)
-    data_grid$conf.low <- linv(data_grid$predicted - tcrit * prdat$se.fit)
-    data_grid$conf.high <- linv(data_grid$predicted + tcrit * prdat$se.fit)
+    data_grid$conf.low <- link_inverse(data_grid$predicted - tcrit * prdat$se.fit)
+    data_grid$conf.high <- link_inverse(data_grid$predicted + tcrit * prdat$se.fit)
     # copy standard errors
     attr(data_grid, "std.error") <- prdat$se.fit
   } else {
@@ -38,7 +49,13 @@ get_predictions_logistf <- function(model,
   }
 
   # transform predicted values
-  data_grid$predicted <- linv(data_grid$predicted)
+  data_grid$predicted <- link_inverse(data_grid$predicted)
 
   data_grid
 }
+
+#' @export
+get_predictions.flic <- get_predictions.logistf
+
+#' @export
+get_predictions.flac <- get_predictions.logistf

@@ -28,10 +28,6 @@ ggaverage <- function(model,
     terms <- .reconstruct_focal_terms(terms, model)
   }
 
-  # check class of fitted model, to make sure we have just one class-attribute
-  # (while "inherits()" may return multiple attributes)
-  model_class <- get_predict_function(model)
-
   # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
@@ -46,7 +42,7 @@ ggaverage <- function(model,
 
   # expand model frame to data grid of unique combinations
   data_grid <- .data_grid(
-    model = model, model_frame = model_frame, terms = terms, value_adjustment = typical,
+    model = model, model_frame = model_frame, terms = terms, typical = typical,
     condition = condition, show_pretty_message = verbose, verbose = verbose
   )
 

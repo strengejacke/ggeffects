@@ -1,13 +1,23 @@
-get_predictions_glmgee <- function(model,
-                                   fitfram,
-                                   ci_level,
-                                   linv,
-                                   vcov = c("robust", "df-adjusted", "model", "bias-corrected"),
+#' @export
+get_predictions.glmgee <- function(model,
+                                   data_grid = NULL,
+                                   terms = NULL,
+                                   ci_level = 0.95,
+                                   type = NULL,
+                                   typical = NULL,
+                                   vcov = NULL,
+                                   vcov_args = NULL,
+                                   condition = NULL,
+                                   interval = "confidence",
+                                   bias_correction = FALSE,
+                                   link_inverse = insight::link_inverse(model),
+                                   model_info = NULL,
+                                   verbose = TRUE,
                                    ...) {
   if (is.null(vcov)) {
     vcov <- "robust"
   }
-  vcov <- match.arg(vcov)
+  vcov <- insight::validate_argument(vcov, c("robust", "df-adjusted", "model", "bias-corrected"))
   se <- (!is.null(ci_level) && !is.na(ci_level))
 
   # compute ci, two-ways
@@ -23,29 +33,29 @@ get_predictions_glmgee <- function(model,
   # get predictions
   prdat <- as.data.frame(stats::predict(
     model,
-    newdata = fitfram,
+    newdata = data_grid,
     se.fit = TRUE,
     type = "link",
     varest = vcov,
     ...
   ))
 
-  fitfram$predicted <- prdat$fit
+  data_grid$predicted <- prdat$fit
 
   if (isTRUE(se)) {
     # CI
-    fitfram$conf.low <- linv(fitfram$predicted - tcrit * prdat$se.fit)
-    fitfram$conf.high <- linv(fitfram$predicted + tcrit * prdat$se.fit)
+    data_grid$conf.low <- link_inverse(data_grid$predicted - tcrit * prdat$se.fit)
+    data_grid$conf.high <- link_inverse(data_grid$predicted + tcrit * prdat$se.fit)
 
     # copy standard errors
-    attr(fitfram, "std.error") <- prdat$se.fit
-    attr(fitfram, "prediction.interval") <- FALSE
+    attr(data_grid, "std.error") <- prdat$se.fit
+    attr(data_grid, "prediction.interval") <- FALSE
   } else {
     # CI
-    fitfram$conf.low <- NA
-    fitfram$conf.high <- NA
+    data_grid$conf.low <- NA
+    data_grid$conf.high <- NA
   }
 
-  fitfram$predicted <- linv(fitfram$predicted)
-  fitfram
+  data_grid$predicted <- link_inverse(data_grid$predicted)
+  data_grid
 }

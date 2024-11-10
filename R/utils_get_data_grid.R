@@ -1,13 +1,13 @@
 # "factor_adjustment" indicates if factors should be held constant or not
 # need to be false for computing std.error for merMod objects
 
-# value_adjustment is the function to calculate at which value non-focal
+# typical is the function to calculate at which value non-focal
 # terms are held constant (mean, median, ...)
 
 .data_grid <- function(model,
                        model_frame,
                        terms,
-                       value_adjustment,
+                       typical,
                        factor_adjustment = TRUE,
                        show_pretty_message = TRUE,
                        condition = NULL,
@@ -281,10 +281,10 @@
   # as function for the typical values
 
   if (!.is_empty(w) && length(w) == nrow(model_frame)) {
-    if (identical(value_adjustment, "mean")) {
-      value_adjustment <- "weighted.mean"
-    } else if (is.list(value_adjustment)) {
-      value_adjustment <- lapply(value_adjustment, function(x) {
+    if (identical(typical, "mean")) {
+      typical <- "weighted.mean"
+    } else if (is.list(typical)) {
+      typical <- lapply(typical, function(x) {
         if (identical(x, "mean")) {
           "weighted.mean"
         } else {
@@ -295,10 +295,10 @@
   }
 
   if (.is_empty(w)) {
-    if (identical(value_adjustment, "weighted.mean")) {
-      value_adjustment <- "mean"
-    } else if (is.list(value_adjustment)) {
-      value_adjustment <- lapply(value_adjustment, function(x) {
+    if (identical(typical, "weighted.mean")) {
+      typical <- "mean"
+    } else if (is.list(typical)) {
+      typical <- lapply(typical, function(x) {
         if (identical(x, "weighted.mean")) {
           "mean"
         } else {
@@ -346,7 +346,7 @@
       if (!is.factor(pred) && !is.character(pred) && !x %in% random_effect_terms) {
         .typical_value(
           pred,
-          fun = value_adjustment,
+          fun = typical,
           weights = w,
           predictor = x,
           log_terms = .which_log_terms(model)
@@ -365,7 +365,7 @@
       }
       .typical_value(
         pred,
-        fun = value_adjustment,
+        fun = typical,
         weights = w,
         predictor = x,
         log_terms = .which_log_terms(model)
@@ -388,7 +388,7 @@
         levels(droplevels(x))
       } else {
         if (is.factor(x)) x <- droplevels(x)
-        .typical_value(x, fun = value_adjustment, weights = w)
+        .typical_value(x, fun = typical, weights = w)
       }
     })
     names(constant_values) <- model_predictors

@@ -3,9 +3,8 @@
 .standard_error_predictions <- function(
   model,
   prediction_data,
-  value_adjustment,
+  typical,
   terms,
-  model_class = NULL,
   type = "fixed",
   vcov = NULL,
   vcov_args = NULL,
@@ -17,9 +16,8 @@
     .safe_se_from_vcov(
       model,
       prediction_data,
-      value_adjustment,
+      typical,
       terms,
-      model_class,
       type,
       vcov,
       vcov_args,
@@ -50,9 +48,8 @@
 
 .safe_se_from_vcov <- function(model,
                                prediction_data,
-                               value_adjustment,
+                               typical,
                                terms,
-                               model_class,
                                type,
                                vcov,
                                vcov_args,
@@ -86,7 +83,7 @@
     model,
     model_frame,
     terms,
-    value_adjustment = value_adjustment,
+    typical = typical,
     factor_adjustment = FALSE,
     show_pretty_message = FALSE,
     condition = condition,
@@ -136,7 +133,6 @@
   vmatrix <- .safe(.vcov_helper(
     model,
     model_frame,
-    model_class,
     newdata,
     vcov,
     vcov_args,
@@ -169,7 +165,7 @@
     match_len <- isTRUE(n_pred %% n_se == 0)
 
     # shorten to length of prediction_data
-    if (!is.null(model_class) && model_class %in% c("polr", "multinom", "mixor", "multinom_weightit")) {
+    if (inherits(model, c("polr", "multinom", "mixor", "multinom_weightit", "ordinal_weightit"))) {
       se.fit <- rep(se.fit, each = .n_distinct(prediction_data$response.level))
     } else if (type == "random" && n_se < n_pred && match_len) {
       se.fit <- rep(se.fit, each = n_pred / n_se)

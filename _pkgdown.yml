@@ -52,6 +52,7 @@ reference:
 
 - title: "Utilities"
   contents:
+  - get_predictions
   - install_latest
   - vcov
 
