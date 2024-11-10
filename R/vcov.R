@@ -131,10 +131,8 @@ vcov.ggeffects <- function(object,
   rownames(newdata) <- NULL
   tryCatch(
     .vcov_helper(
-      model, model_frame, get_predict_function(model), newdata,
-      vcov = vcov, vcov_args = vcov_args,
-      original_terms = original_terms, full.vcov = TRUE,
-      verbose = verbose
+      model, model_frame, newdata, vcov = vcov, vcov_args = vcov_args,
+      original_terms = original_terms, full.vcov = TRUE, verbose = verbose
     ),
     error = function(e) {
       if (verbose) {

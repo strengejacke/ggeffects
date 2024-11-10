@@ -160,10 +160,6 @@ ggpredict_helper <- function(model,
                              bias_correction = FALSE,
                              verbose = TRUE,
                              ...) {
-  # check class of fitted model, to make sure we have just one class-attribute
-  # (while "inherits()" may return multiple attributes)
-  model_class <- get_predict_function(model)
-
   # sanity check, if terms really exist in data
   terms <- .check_vars(terms, model)
 
@@ -174,7 +170,7 @@ ggpredict_helper <- function(model,
   model_info <- .get_model_info(model)
 
   # survival models are binomial
-  if (model_class == "coxph" && type == "survival") {
+  if (inherits(model, "coxph") && type == "survival") {
     model_info$is_binomial <- TRUE
   }
 
@@ -232,12 +228,12 @@ ggpredict_helper <- function(model,
 
   # for survival probabilities or cumulative hazards, we need
   # the "time" variable
-  if (model_class == "coxph" && type %in% c("survival", "cumulative_hazard")) {
+  if (inherits(model, "coxph") && type %in% c("survival", "cumulative_hazard")) {
     terms <- c("time", terms)
     cleaned_terms <- c("time", cleaned_terms)
   }
   # special handling for rqs
-  if (model_class == "rqs" && !"tau" %in% cleaned_terms) {
+  if (inherits(model, "rqs") && !"tau" %in% cleaned_terms) {
     cleaned_terms <- c(cleaned_terms, "tau")
   }
 

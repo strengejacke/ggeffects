@@ -28,10 +28,6 @@ ggaverage <- function(model,
     terms <- .reconstruct_focal_terms(terms, model)
   }
 
-  # check class of fitted model, to make sure we have just one class-attribute
-  # (while "inherits()" may return multiple attributes)
-  model_class <- get_predict_function(model)
-
   # clean "terms" from possible brackets
   cleaned_terms <- .clean_terms(terms)
 
