@@ -1,5 +1,19 @@
-get_predictions_sdmTMB <- function(model, data_grid, ci_level, linv, type, ...) {
-
+#' @export
+get_predictions.sdmTMB <- function(model,
+                                   data_grid = NULL,
+                                   terms = NULL,
+                                   ci_level = 0.95,
+                                   type = NULL,
+                                   typical = NULL,
+                                   vcov = NULL,
+                                   vcov_args = NULL,
+                                   condition = NULL,
+                                   interval = "confidence",
+                                   bias_correction = FALSE,
+                                   link_inverse = insight::link_inverse(model),
+                                   model_info = NULL,
+                                   verbose = TRUE,
+                                   ...) {
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level)
 
@@ -24,10 +38,10 @@ get_predictions_sdmTMB <- function(model, data_grid, ci_level, linv, type, ...) 
   )
 
   # form output data frame
-  predicted_data$predicted <- linv(prdat$est)
+  predicted_data$predicted <- link_inverse(prdat$est)
   if (se) {
-    predicted_data$conf.low <- linv(prdat$est - stats::qnorm(ci) * prdat$est_se)
-    predicted_data$conf.high <- linv(prdat$est + stats::qnorm(ci) * prdat$est_se)
+    predicted_data$conf.low <- link_inverse(prdat$est - stats::qnorm(ci) * prdat$est_se)
+    predicted_data$conf.high <- link_inverse(prdat$est + stats::qnorm(ci) * prdat$est_se)
     predicted_data$std.error <- prdat$est_se
   } else {
     predicted_data$conf.low <- NA

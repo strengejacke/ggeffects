@@ -47,7 +47,7 @@ get_predictions.multinom <- function(model,
   #   .standard_error_predictions(
   #     model = model,
   #     prediction_data = data_grid,
-  #     value_adjustment = value_adjustment,
+  #     typical = typical,
   #     terms = terms,
   #     model_class = model_class
   #   )

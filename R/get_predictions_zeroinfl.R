@@ -71,7 +71,7 @@ get_predictions.zeroinfl <- function(model,
       model,
       model_frame,
       terms,
-      value_adjustment = typical,
+      typical = typical,
       factor_adjustment = FALSE,
       show_pretty_message = FALSE,
       condition = condition
@@ -83,7 +83,7 @@ get_predictions.zeroinfl <- function(model,
     # based on quantiles of simulated draws from a multivariate normal distribution
     # (see also _Brooks et al. 2017, pp.391-392_ for details).
 
-    prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, value_adjustment, condition)
+    prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, typical, condition)
 
     if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
       insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
@@ -115,7 +115,7 @@ get_predictions.zeroinfl <- function(model,
     se.pred <- .standard_error_predictions(
       model = model,
       prediction_data = predicted_data,
-      value_adjustment = typical,
+      typical = typical,
       type = type,
       terms = terms,
       vcov = vcov,
