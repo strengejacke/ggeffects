@@ -1,7 +1,8 @@
 skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("speedglm")
 
-test_that("ggpredict, speedglm", {
+test_that("ggpredict, speeglm", {
+  set.seed(123)
   n <- 10000
   k <- 5
   y <- rgamma(n, 1.5, 1)
@@ -16,7 +17,7 @@ test_that("ggpredict, speedglm", {
 
   expect_equal(
     out$predicted,
-    c(1.46128, 1.47384, 1.48652, 1.4993, 1.5122, 1.5252, 1.53832),
+    c(1.57405, 1.52709, 1.48154, 1.43735, 1.39447, 1.35288),
     tolerance = 1e-3
   )
   expect_equal(
@@ -33,7 +34,7 @@ test_that("ggpredict, speedglm", {
   )
   expect_equal(
     out$conf.low,
-    c(1.32374, 1.37825, 1.43335, 1.4753, 1.45869, 1.4269, 1.39415),
+    c(1.47518, 1.47446, 1.45823, 1.387, 1.30606, 1.22845),
     tolerance = 1e-3
   )
 })
