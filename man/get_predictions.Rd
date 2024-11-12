@@ -50,7 +50,7 @@ using \code{insight::link_inverse()}.}
 \value{
 A data frame that contains
 \itemize{
-\item the data grid
+\item the data grid (from the argument \code{data_grid})
 \item the columns \code{predicted}, \code{conf.low}, and \code{conf.high}
 \item optionally, the attribute \code{"std.error"} with the standard errors.
 }
