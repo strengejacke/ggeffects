@@ -51,5 +51,6 @@ The documentation of the *ggeffects* package, including many examples, is [avail
 
 ## Technical details
 
+- [Adding own class-methods to ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_get_predictions.html)
 - [Difference between Marginalization Methods](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
 - [Different Output between Stata and ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_stata.html)

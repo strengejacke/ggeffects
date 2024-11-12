@@ -77,14 +77,30 @@ packages. Hence, methods should be written for those packages, too, if a
 model-object should work with \code{ggemmeans()} or \code{ggaverage()}.
 }
 \details{
-The above mentioned arguments are all passed from \code{predict_response()} to
-\code{get_predictions()}, no matter if they are required to calculate predictions
-or not. Thus, it is not necessary to accept or process all of those
-arguments, but they can be used to modulate certain settings when calculating
-predictions. It is important that the function returns a data frame with a
-specific structure, namely the data grid and the columns \code{predicted},
-\code{conf.low}, and \code{conf.high}. Predictions and intervals should be on the
-response scale.
+Adding support for \strong{ggeffects} is quite easy. The user-level function is
+\code{predict_response()}, which either calls \code{ggpredict()}, \code{ggemmeans()} or
+\code{ggaverage()}. These function, in turn, call \code{predict()}, \code{emmeans::emmeans()}
+or \code{marginaleffects::avg_predictions()}. Following needs to be done to add
+support for new model classes:
+\itemize{
+\item \strong{emmeans}: if your model is supported by emmeans, it is automatically
+supported by \code{ggemmeans()}. Thus, you need to add the corresponding methods
+to your package so that your model class is supported by **emmeans.
+\item \strong{marginaleffects}: similar to \strong{emmeans}, if your package is supported
+by the \strong{marginaleffects} package, it works with \code{ggaverage()}.
+\item \strong{predict}: in order to make your model class work with \code{ggpredict()},
+you need to add a \code{get_predictions()} method. The here documented arguments
+are \emph{all} passed from \code{predict_response()} to \code{get_predictions()}, no
+matter if they are required to calculate predictions or not. Thus, it is
+not necessary to process all of those arguments, but they can be used to
+modulate certain settings when calculating predictions. Note that if your
+method does not define all mentioned arguments, these are still passed via
+\code{...} - make sure that further methods in your \code{get_predictions()} method
+still work when they process the \code{...}. It is important that the function
+returns a data frame with a specific structure, namely the data grid and
+the columns \code{predicted}, \code{conf.low}, and \code{conf.high}. Predictions and
+intervals should be on the response scale.
+}
 
 A simple example for an own class-implementation for Gaussian-alike models
 could look like this:
