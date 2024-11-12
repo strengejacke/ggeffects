@@ -116,6 +116,8 @@ navbar:
         href: articles/practical_marginaleffects_pkg.html
   - text: Technical Details
     menu:
+      - text: 'Adding own class-methods to ggeffects'
+        href: articles/technical_get_predictions.html
       - text: 'Difference between marginalization methods'
         href: articles/technical_differencepredictemmeans.html
       - text: 'Different Output between Stata and ggeffects'
