@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.8.12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="changes-2-0-0">Changes<a class="anchor" aria-label="anchor" href="#changes-2-0-0"></a></h3>
-<ul><li><p>Added a <code>get_preditions()</code> method, which can be used to implement own S3-classes to add support for new models to <strong>ggeffects</strong>.</p></li>
+<ul><li><p>Added a <code>get_preditions()</code> method, which can be used to implement own S3-classes to add support for new models to <strong>ggeffects</strong>. There is a corresponding vignette, too.</p></li>
 <li><p>The <code><a href="../reference/plot.html">plot()</a></code> method gets a <code>dot_shape</code> argument, to change the shape of data points when <code>show_data = TRUE</code>.</p></li>
 <li><p><code>test_predictions</code> gains a <code>test_args</code> argument, to optionally pass further options to <code>test</code> for <em>emmeans</em> engine/options.</p></li>
 <li><p><code><a href="../reference/vcov.html">vcov()</a></code> returns a more informative warning, when the variance-covariance matrix could not be extracted due to problems in creating the model matrix (which prevents confidence intervals from being calculated).</p></li>
