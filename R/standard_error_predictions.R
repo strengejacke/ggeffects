@@ -1,17 +1,15 @@
 # get standard errors of predictions from model matrix and vcov ----
 
-.standard_error_predictions <- function(
-  model,
-  prediction_data,
-  typical,
-  terms,
-  type = "fixed",
-  vcov = NULL,
-  vcov_args = NULL,
-  condition = NULL,
-  interval = NULL,
-  verbose = TRUE) {
-
+.standard_error_predictions <- function(model,
+                                        prediction_data,
+                                        typical,
+                                        terms,
+                                        type = "fixed",
+                                        vcov = NULL,
+                                        vcov_args = NULL,
+                                        condition = NULL,
+                                        interval = NULL,
+                                        verbose = TRUE) {
   se <- tryCatch(
     .safe_se_from_vcov(
       model,
