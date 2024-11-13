@@ -191,7 +191,6 @@ vcov.ggeffects <- function(object,
   # in this case, remove those factors from model formula and vcov
 
   re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-
   nlevels_terms <- vapply(
     colnames(newdata),
     function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1,
@@ -204,7 +203,8 @@ vcov.ggeffects <- function(object,
       colnames(newdata)[nlevels_terms]
     )
     model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
-    vcm <- vcm[!nlevels_terms, !nlevels_terms, drop = FALSE]
+    keep_vcov_cols <- attr(stats::terms(model_terms), "term.labels")
+    vcm <- vcm[keep_vcov_cols, keep_vcov_cols, drop = FALSE]
   }
 
   # sanity check - if "scale()" was used in formula, and that variable is

@@ -376,6 +376,10 @@
   } else {
     # adjust constant values, use all factor levels
     re.grp <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
+    # add fixest cluster Variables
+    if (inherits(model, "fixest")) {
+      re.grp <- c(re.grp, insight::find_variables(model)$cluster)
+    }
     # if factors should not be held constant (needed when computing
     # std.error for merMod objects), we need all factor levels,
     # and not just the typical value
