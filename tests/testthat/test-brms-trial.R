@@ -8,7 +8,10 @@ test_that("ggpredict, brms-trial", {
   m3 <- insight::download_model("brms_2")
 
   skip_if(is.null(m1) || is.null(m2) || is.null(m3))
-  suppressWarnings(ggpredict(m1, c("Base", "Trt")))
-  ggpredict(m2, "Species")
+  suppressWarnings(ggpredict(m1, c("Base", "Trt"), verbose = FALSE))
+  expect_message(
+    ggpredict(m2, "Species"),
+    regex = "Back-transforming"
+  )
   ggpredict(m3, c("treat", "c2"))
 })

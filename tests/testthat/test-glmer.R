@@ -9,7 +9,7 @@ skip_if_not_installed("withr")
 
 
 test_that("ggpredict, lme4::glmer", {
-  data(efc_test)
+  data(efc_test, package = "ggeffects")
   fit <- lme4::glmer(
     negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
     data = efc_test,
@@ -31,9 +31,18 @@ test_that("ggpredict, lme4::glmer", {
   expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
-  expect_s3_class(ggpredict(fit, "c12hour", type = "random", verbose = FALSE), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random", verbose = FALSE), "data.frame")
+  expect_s3_class(
+    ggpredict(fit, "c12hour", type = "random", verbose = FALSE),
+    "data.frame"
+  )
+  expect_s3_class(
+    ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE),
+    "data.frame"
+  )
+  expect_s3_class(
+    ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random", verbose = FALSE),
+    "data.frame"
+  )
 })
 
 
@@ -135,9 +144,15 @@ withr::with_environment(
     m <- insight::download_model("merMod_5")
     dd <- insight::get_data(m, source = "frame")
     expect_s3_class(ggpredict(m, "f1"), "data.frame")
-    expect_s3_class(ggpredict(m, "f1", type = "random"), "data.frame")
+    expect_message(
+      expect_s3_class(ggpredict(m, "f1", type = "random"), "data.frame"),
+      regex = "It seems that"
+    )
     expect_s3_class(ggpredict(m, c("f1", "f2")), "data.frame")
-    expect_s3_class(ggpredict(m, c("f1", "f2"), type = "random"), "data.frame")
+    expect_message(
+      expect_s3_class(ggpredict(m, c("f1", "f2"), type = "random"), "data.frame"),
+      regex = "It seems that"
+    )
     expect_message(ggemmeans(m, "f1"))
     expect_s3_class(ggemmeans(m, c("f1", "f2")), "data.frame")
     expect_s3_class(ggpredict(m, c("f1", "f2"), type = "simulate"), "data.frame")
@@ -153,8 +168,14 @@ test_that("ggpredict, lme4::glmer, cbind", {
 
   expect_s3_class(ggpredict(m1, "period"), "data.frame")
   expect_s3_class(ggpredict(m2, "period"), "data.frame")
-  expect_s3_class(ggpredict(m1, "period", type = "random"), "data.frame")
-  expect_s3_class(ggpredict(m2, "period", type = "random"), "data.frame")
+  expect_message(
+    expect_s3_class(ggpredict(m1, "period", type = "random"), "data.frame"),
+    regex = "It seems that"
+  )
+  expect_message(
+    expect_s3_class(ggpredict(m2, "period", type = "random"), "data.frame"),
+    regex = "It seems that"
+  )
   expect_s3_class(ggemmeans(m1, "period"), "data.frame")
   expect_s3_class(ggemmeans(m2, "period"), "data.frame")
 
