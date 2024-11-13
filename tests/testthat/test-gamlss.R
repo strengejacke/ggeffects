@@ -61,11 +61,11 @@ withr::with_environment(
       regex = "is used on"
     ))
     out <- suppressWarnings(predict_response(m, "cont2", verbose = FALSE))
+    expect_equal(
+      out$conf.low,
+      c(-175.41823, -176.08312, -176.38544, -176.68813, -176.89848, -177.00526),
+      tolerance = 1e-4,
+      ignore_attr = TRUE
+    )
   })
-  expect_equal(
-    out$conf.low,
-    c(-175.41823, -176.08312, -176.38544, -176.68813, -176.89848, -177.00526),
-    tolerance = 1e-4,
-    ignore_attr = TRUE
-  )
 )
