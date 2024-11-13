@@ -186,9 +186,9 @@ vcov.ggeffects <- function(object,
     }
   }
 
-  # check if factors are held constant. if so, we have just one
-  # level in the data, which is too few to compute the vcov -
-  # in this case, remove those factors from model formula and vcov
+  # check if factors are held constant. if so, we have just one level in the
+  # data, which is too few to compute the vcov - in this case, remove those
+  # factors from model formula and vcov
 
   re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
   nlevels_terms <- vapply(
@@ -198,12 +198,25 @@ vcov.ggeffects <- function(object,
   )
 
   if (any(nlevels_terms)) {
+    # once we have removed factors with one level only, we need to recalculate
+    # the model terms
     all_terms <- setdiff(
       insight::find_terms(model)$conditional,
       colnames(newdata)[nlevels_terms]
     )
-    model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
-    keep_vcov_cols <- attr(stats::terms(model_terms), "term.labels")
+    # for the model matrix, we need the variable names, not the term notation
+    # thus, we "reformulate" the terms
+    model_terms <- stats::reformulate(
+      all.vars(stats::reformulate(all_terms)),
+      response = insight::find_response(model)
+    )
+    # check which terms are in the vcov-matrix, and filter
+    keep_vcov_cols <- c("(Intercept)", grep(
+      paste0("(", paste0("\\Q", all_terms, "\\E", collapse = "|") , ")"),
+      colnames(vcm),
+      value = TRUE
+    ))
+    keep_vcov_cols <- intersect(keep_vcov_cols, colnames(vcm))
     vcm <- vcm[keep_vcov_cols, keep_vcov_cols, drop = FALSE]
   }
 
