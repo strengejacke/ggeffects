@@ -45,4 +45,7 @@ test_that("ggpredict", {
   m <- betareg::betareg(ratio ~ GD + Source_Salinity, data = df2)
   p <- ggemmeans(m, "GD")
   expect_equal(p$conf.low, c(0.35636, 0.45329, 0.54815, 0.63206, 0.701, 0.80427), tolerance = 1e-2)
+  p <- ggemmeans(m, "Source_Salinity", verbose = FALSE)
+  out <- test_predictions(p)
+  expect_equal(out$Contrast, -0.00123838580671709, tolerance = 1e-4)
 })
