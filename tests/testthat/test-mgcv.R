@@ -16,6 +16,20 @@ test_that("ggpredict", {
   p <- ggpredict(m1, "x1")
   expect_equal(p$predicted[1], 15.5450060160087, tolerance = 1e-3)
   expect_s3_class(ggpredict(m1, c("x1", "x2")), "data.frame")
+
+  m2 <- mgcv::gam(
+    y ~ s(x0) + s(x1) + s(x2),
+    family = poisson,
+    data = dat,
+    verbosePQL = FALSE
+  )
+  p <- ggpredict(m2, "x1")
+  expect_equal(p$predicted[1], 22.57359, tolerance = 1e-3)
+  expect_equal(p$conf.low[1], 17.89382, tolerance = 1e-3)
+
+  skip_if_not_installed("marginaleffects")
+  out <- test_predictions(p)
+  expect_equal(out$Slope, 43.90625, tolerance = 1e-3)
 })
 
 skip_if_not_installed("lme4")
