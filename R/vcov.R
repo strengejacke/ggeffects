@@ -216,9 +216,6 @@ vcov.ggeffects <- function(object,
       colnames(vcm),
       value = TRUE
     ))
-
-    insight::format_warning(paste("It happens with class", class(model)))
-
     keep_vcov_cols <- intersect(keep_vcov_cols, colnames(vcm))
     vcm <- vcm[keep_vcov_cols, keep_vcov_cols, drop = FALSE]
   }
