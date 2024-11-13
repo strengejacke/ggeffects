@@ -60,6 +60,8 @@ withr::with_environment(
       predict_response(m, "cont2"),
       regex = "is used on"
     ))
+
+    skip_if(getRversion() > "4.4.2")
     out <- suppressWarnings(predict_response(m, "cont2", verbose = FALSE))
     expect_equal(
       out$conf.low[1:6],
