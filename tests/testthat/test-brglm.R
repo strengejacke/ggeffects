@@ -18,4 +18,8 @@ test_that(" ggpredict brglm", {
   )
   expect_equal(out$predicted, c(0.8701, 0.95295), tolerance = 1e-4)
   expect_equal(out$conf.low, c(0.77567, 0.90524), tolerance = 1e-4)
+
+  skip_if_not_installed("marginaleffects")
+  comp <- test_predictions(out)
+  expect_snapshot(print(comp))
 })
