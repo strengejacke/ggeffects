@@ -75,7 +75,7 @@ withr::with_environment(
     set.seed(123)
     vdiffr::expect_doppelganger(
       "show_data, back-transformed-FALSE",
-      suppressWarnings(plot(pr, show_data = TRUE))
+      suppressWarnings(plot(pr, show_data = TRUE, verbose = FALSE))
     )
 
     pr <- ggpredict(model, "Days", back_transform = TRUE)
@@ -91,7 +91,7 @@ withr::with_environment(
     set.seed(123)
     vdiffr::expect_doppelganger(
       "show_data, back-transformed-TRUE",
-      suppressWarnings(plot(pr, show_data = TRUE))
+      suppressWarnings(plot(pr, show_data = TRUE, verbose = FALSE))
     )
   })
 )

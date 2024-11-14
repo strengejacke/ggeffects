@@ -23,14 +23,14 @@ test_that("ggpredict, brms-ppd", {
     iter = 500,
     refresh = 0
   ))
-  expect_s3_class(suppressWarnings(ggpredict(m1, interval = "prediction")), c("ggalleffects", "list"))
-  expect_s3_class(suppressWarnings(ggpredict(m1, "x", interval = "prediction")), "data.frame")
-  expect_s3_class(ggpredict(m1, interval = "prediction"), c("ggalleffects", "list"))
-  expect_s3_class(ggpredict(m1, "x", interval = "prediction"), "data.frame")
+  expect_s3_class(suppressWarnings(ggpredict(m1, interval = "prediction", verbose = FALSE)), c("ggalleffects", "list"))
+  expect_s3_class(suppressWarnings(ggpredict(m1, "x", interval = "prediction", verbose = FALSE)), "data.frame")
+  expect_s3_class(ggpredict(m1, interval = "prediction", verbose = FALSE), c("ggalleffects", "list"))
+  expect_s3_class(ggpredict(m1, "x", interval = "prediction", verbose = FALSE), "data.frame")
   expect_s3_class(suppressWarnings(ggpredict(m2, interval = "prediction")), c("ggalleffects", "list"))
   expect_s3_class(suppressWarnings(ggpredict(m2, "x", interval = "prediction")), "data.frame")
-  expect_s3_class(ggpredict(m1, interval = "confidence"), c("ggalleffects", "list"))
-  expect_s3_class(ggpredict(m1, "x", interval = "confidence"), "data.frame")
+  expect_s3_class(ggpredict(m1, interval = "confidence", verbose = FALSE), c("ggalleffects", "list"))
+  expect_s3_class(ggpredict(m1, "x", interval = "confidence", verbose = FALSE), "data.frame")
   expect_s3_class(ggpredict(m2, interval = "confidence"), c("ggalleffects", "list"))
   expect_s3_class(ggpredict(m2, "x", interval = "confidence"), "data.frame")
 

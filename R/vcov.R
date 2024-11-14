@@ -186,12 +186,11 @@ vcov.ggeffects <- function(object,
     }
   }
 
-  # check if factors are held constant. if so, we have just one
-  # level in the data, which is too few to compute the vcov -
-  # in this case, remove those factors from model formula and vcov
+  # check if factors are held constant. if so, we have just one level in the
+  # data, which is too few to compute the vcov - in this case, remove those
+  # factors from model formula and vcov
 
   re.terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
-
   nlevels_terms <- vapply(
     colnames(newdata),
     function(.x) !(.x %in% re.terms) && is.factor(newdata[[.x]]) && nlevels(newdata[[.x]]) == 1,
@@ -199,12 +198,32 @@ vcov.ggeffects <- function(object,
   )
 
   if (any(nlevels_terms)) {
+    # once we have removed factors with one level only, we need to recalculate
+    # the model terms
     all_terms <- setdiff(
       insight::find_terms(model)$conditional,
       colnames(newdata)[nlevels_terms]
     )
-    model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
-    vcm <- vcm[!nlevels_terms, !nlevels_terms, drop = FALSE]
+
+    # This was the old code - restore if we run into any edge cases that
+    # no longer work.
+    # model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
+    # vcm <- vcm[!nlevels_terms, !nlevels_terms, drop = FALSE]
+
+    # for the model matrix, we need the variable names, not the term notation
+    # thus, we "reformulate" the terms
+    model_terms <- stats::reformulate(
+      all.vars(stats::reformulate(all_terms)),
+      response = insight::find_response(model)
+    )
+    # check which terms are in the vcov-matrix, and filter
+    keep_vcov_cols <- c("(Intercept)", grep(
+      paste0("(", paste0("\\Q", all_terms, "\\E", collapse = "|") , ")"),
+      colnames(vcm),
+      value = TRUE
+    ))
+    keep_vcov_cols <- intersect(keep_vcov_cols, colnames(vcm))
+    vcm <- vcm[keep_vcov_cols, keep_vcov_cols, drop = FALSE]
   }
 
   # sanity check - if "scale()" was used in formula, and that variable is
@@ -234,7 +253,7 @@ vcov.ggeffects <- function(object,
             datawizard::text_concatenate(names(scale_terms)[problematic], enclose = "\""),
             ifelse(sum(problematic) > 1, ", which are ", ", which is "),
             "used as non-focal term and hold constant at a specific value.",
-            " Confidence intervals are eventually not calculated.",
+            " Confidence intervals are eventually not calculated or inaccurate.",
             " To solve this issue, standardize your variable before fitting",
             " the model and don't use `scale()` in the model-formula."
           ))
