@@ -204,6 +204,12 @@ vcov.ggeffects <- function(object,
       insight::find_terms(model)$conditional,
       colnames(newdata)[nlevels_terms]
     )
+
+    # This was the old code - restore if we run into any edge cases that
+    # no longer work.
+    # model_terms <- stats::reformulate(all_terms, response = insight::find_response(model))
+    # vcm <- vcm[!nlevels_terms, !nlevels_terms, drop = FALSE]
+
     # for the model matrix, we need the variable names, not the term notation
     # thus, we "reformulate" the terms
     model_terms <- stats::reformulate(
