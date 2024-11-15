@@ -147,7 +147,9 @@
 #'     the **survial**-package. These options calculate the survival probability
 #'     or the cumulative hazard of an event. `type = "quantile"` only applies to
 #'     `survreg`-object from package **survival**, which returns the predicted
-#'     quantiles.
+#'     quantiles. For this option, the `p` argument is passed to `predict()`,
+#'     so that quantiles for different probabilities can be calculated, e.g.
+#'     `predict_response(..., type = "quantile", p = c(0.2, 0.5, 0.8))`.
 #'
 #' When `margin = "empirical"` (or when calling `ggaverage()`), the `type`
 #' argument accepts all values from the `type`-argument of the model's respective

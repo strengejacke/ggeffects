@@ -215,7 +215,9 @@ Use \code{nsim} to set the number of simulated draws (see \code{...} for details
 the \strong{survial}-package. These options calculate the survival probability
 or the cumulative hazard of an event. \code{type = "quantile"} only applies to
 \code{survreg}-object from package \strong{survival}, which returns the predicted
-quantiles.
+quantiles. For this option, the \code{p} argument is passed to \code{predict()},
+so that quantiles for different probabilities can be calculated, e.g.
+\code{predict_response(..., type = "quantile", p = c(0.2, 0.5, 0.8))}.
 }
 
 When \code{margin = "empirical"} (or when calling \code{ggaverage()}), the \code{type}
