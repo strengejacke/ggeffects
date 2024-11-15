@@ -146,7 +146,7 @@
 #'     `"survival"` and `"cumulative_hazard"` apply only to `coxph`-objects from
 #'     the **survial**-package. These options calculate the survival probability
 #'     or the cumulative hazard of an event. `type = "quantile"` only applies to
-#'     `survreg`-object from package **survival**, which returns the predicted
+#'     `survreg`-objects from package **survival**, which returns the predicted
 #'     quantiles. For this option, the `p` argument is passed to `predict()`,
 #'     so that quantiles for different probabilities can be calculated, e.g.
 #'     `predict_response(..., type = "quantile", p = c(0.2, 0.5, 0.8))`.
