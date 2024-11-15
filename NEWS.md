@@ -45,6 +45,10 @@
 
 * For models of class `survreg`, argument `type` can also be `"quantile"`.
 
+## Bug fixes
+
+* Fixed issue with argument `condition` for `ggaverage()`.
+
 # ggeffects 1.7.2
 
 ## Breaking changes
