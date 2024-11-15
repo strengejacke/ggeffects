@@ -179,7 +179,7 @@
     type_choices <- c(
       "fixed", "count", "random", "zero_inflated", "zi_random",
       "zero_inflated_random", "zi_prob", "simulate", "survival",
-      "cumulative_hazard", "simulate_random", "debug"
+      "cumulative_hazard", "simulate_random", "debug", "quantile" # for survreg
     )
   }
   type <- insight::validate_argument(type, type_choices)
