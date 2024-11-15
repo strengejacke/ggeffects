@@ -138,10 +138,13 @@ simulations, i.e. calls to \code{simulate()}. This type of prediction takes
 all model uncertainty into account. Currently supported models are
 objects of class \code{lm}, \code{glm}, \code{glmmTMB}, \code{wbm}, \code{MixMod} and \code{merMod}.
 Use \code{nsim} to set the number of simulated draws (see \code{...} for details).
-\item \code{"survival"} and \code{"cumulative_hazard"}
+\item \code{"survival"}, \code{"cumulative_hazard"} and \code{"quantile"}
 
-Applies only to \code{coxph}-objects from the \strong{survial}-package and
-calculates the survival probability or the cumulative hazard of an event.
+\code{"survival"} and \code{"cumulative_hazard"} apply only to \code{coxph}-objects from
+the \strong{survial}-package. These options calculate the survival probability
+or the cumulative hazard of an event. \code{type = "quantile"} only applies to
+\code{survreg}-object from package \strong{survival}, which returns the predicted
+quantiles.
 }
 
 When \code{margin = "empirical"} (or when calling \code{ggaverage()}), the \code{type}

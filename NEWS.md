@@ -43,6 +43,8 @@
 
 * Added Okabe-Ito color scale to the available color ggeffects-palettes.
 
+* For models of class `survreg`, argument `type` can also be `"quantile"`.
+
 # ggeffects 1.7.2
 
 ## Breaking changes

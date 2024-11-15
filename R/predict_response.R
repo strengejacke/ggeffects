@@ -141,10 +141,13 @@
 #'     objects of class `lm`, `glm`, `glmmTMB`, `wbm`, `MixMod` and `merMod`.
 #'     Use `nsim` to set the number of simulated draws (see `...` for details).
 #'
-#'   - `"survival"` and `"cumulative_hazard"`
+#'   - `"survival"`, `"cumulative_hazard"` and `"quantile"`
 #'
-#'     Applies only to `coxph`-objects from the **survial**-package and
-#'     calculates the survival probability or the cumulative hazard of an event.
+#'     `"survival"` and `"cumulative_hazard"` apply only to `coxph`-objects from
+#'     the **survial**-package. These options calculate the survival probability
+#'     or the cumulative hazard of an event. `type = "quantile"` only applies to
+#'     `survreg`-object from package **survival**, which returns the predicted
+#'     quantiles.
 #'
 #' When `margin = "empirical"` (or when calling `ggaverage()`), the `type`
 #' argument accepts all values from the `type`-argument of the model's respective
