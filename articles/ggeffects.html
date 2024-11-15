@@ -263,13 +263,14 @@ randomly picking a subject of your sample and the result you get on
 average.</p>
 </li>
 <li>
-<p><code>"empirical"</code> (or <code>"counterfactual"</code>):
-calls <code><a href="../reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are
-marginalized over the observations in your sample. The response is
-predicted for each subject in the data and predicted values are then
-averaged across all subjects, aggregated/grouped by the focal terms. In
-particular, averaging is applied to <em>counterfactual predictions</em>
-(Dickerman and Hernan 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this
+<p><code>"empirical"</code> (or on of its aliases,
+<code>"counterfactual"</code> or <code>"average"</code>): calls
+<code><a href="../reference/ggpredict.html">ggaverage()</a></code>, i.e. non-focal predictors are marginalized
+over the observations in your sample. The response is predicted for each
+subject in the data and predicted values are then averaged across all
+subjects, aggregated/grouped by the focal terms. In particular,
+averaging is applied to <em>counterfactual predictions</em> (Dickerman
+and Hernan 2020). There is a more detailed description in <a href="https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html">this
 vignette</a>.</p>
 <p><code>"empirical"</code>is probably the most “realistic” approach,
 insofar as the results can also be transferred to other contexts. It
