@@ -116,15 +116,6 @@ Or you can run
 [`ggeffects::install_latest()`](https://strengejacke.github.io/ggeffects/reference/install_latest.html)
 to install the latest development version from r-universe.
 
-## Citation
-
-In case you want / have to cite my package, please use
-`citation('ggeffects')` for citation information:
-
-Lüdecke D (2018). *ggeffects: Tidy Data Frames of Marginal Effects from
-Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
-[10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
-
 ## Adjusted predictions at…: marginalizing over non-focal predictors
 
 `predict_response()` is a wrapper around three “workhorse” functions,
@@ -380,6 +371,15 @@ different from each other.
 
 More features are explained in detail in the
 [package-vignettes](https://strengejacke.github.io/ggeffects/).
+
+## Citation
+
+In case you want / have to cite my package, please use
+`citation('ggeffects')` for citation information:
+
+Lüdecke D (2018). *ggeffects: Tidy Data Frames of Marginal Effects from
+Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
+[10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
 
 ## References
 
