@@ -33,7 +33,7 @@
   # add raw data as well
   attr(result, "rawdata") <- .back_transform_data(
     model,
-    mydf = .get_raw_data(model, original_model_frame, original_terms),
+    mydf = .get_raw_data(model, original_model_frame, cleaned_terms),
     back_transform = back_transform
   )
 
