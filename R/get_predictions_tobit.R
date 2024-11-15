@@ -18,19 +18,28 @@ get_predictions.tobit <- function(model,
   se <- !is.null(ci_level) && !is.na(ci_level)
 
   # compute ci, two-ways
-  if (!is.null(ci_level) && !is.na(ci_level))
+  if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
-  else
+  } else {
     ci <- 0.975
+  }
 
   # degrees of freedom
   dof <- .get_df(model)
   tcrit <- stats::qt(ci, df = dof)
 
+  # special handling for survival regression with type = "quantile"
+  if (is.null(type) || type != "quantile") {
+    type <- "lp"
+  }
+  if (type == "quantile") {
+    link_inverse <- function(x) x
+  }
+
   prdat <- stats::predict(
     model,
     newdata = data_grid,
-    type = "lp",
+    type = type,
     se.fit = se,
     ...
   )
