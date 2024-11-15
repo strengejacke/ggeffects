@@ -73,11 +73,19 @@ ggaverage <- function(model,
     vcov_arg <- TRUE
   }
 
+  # variables used in at-list
+  at_list_vars <- terms
+  if (!is.null(condition)) {
+    # if we condition on certain values, we need to include these
+    # in the "variables" argument as well.
+    at_list_vars <- unique(c(at_list_vars, names(condition)))
+  }
+
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
   me_args <- list(
     model,
-    variables = at_list[terms],
+    variables = at_list[at_list_vars],
     conf_level = ci_level,
     type = type,
     df = .get_df(model),
