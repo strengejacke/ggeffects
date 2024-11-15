@@ -138,26 +138,6 @@ ggaverage <- function(model,
     averaged_predictions = TRUE
   )
 
-  # check if outcome is log-transformed, and if so,
-  # back-transform predicted values to response scale
-  # but first, save original predicted values, to save as attribute
-  if (back_transform) {
-    untransformed.predictions <- result$predicted
-    response.transform <- insight::find_terms(model)[["response"]]
-  } else {
-    untransformed.predictions <- response.transform <- NULL
-  }
-  result <- .back_transform_response(model, result, back_transform, verbose = verbose)
-
-  # add raw data as well
-  attr(result, "rawdata") <- .back_transform_data(
-    model,
-    mydf = .get_raw_data(model, original_model_frame, terms),
-    back_transform = back_transform
-  )
-
-  attr(result, "model.name") <- model_name
-
   .post_processing_labels(
     model = model,
     result = result,
@@ -176,6 +156,7 @@ ggaverage <- function(model,
     response.transform = response.transform,
     vcov_args = if (isTRUE(vcov_arg)) NULL else vcov_arg,
     margin = "empirical",
+    model_name = model_name,
     verbose = verbose
   )
 }
