@@ -18,8 +18,8 @@
 #' them are also passed down further to [`insight::format_table()`] or
 #' [`insight::format_value()`].
 #'
-#' @return `format()` return a formatted data frame, `print()` prints a formatted
-#' data frame printed to the console. `print_html()` returns a `tinytable`
+#' @return `format()` return a formatted data frame, `print()` prints a
+#' formatted data frame to the console. `print_html()` returns a `tinytable`
 #' object by default (unless changed with `engine = "gt"`), which is printed as
 #' HTML, markdown or LaTeX table (depending on the context from which
 #' `print_html()` is called, see [`tinytable::tt()`] for details).

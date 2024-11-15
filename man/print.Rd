@@ -105,8 +105,8 @@ useful when comparing multiple focal terms, e.g. \code{education = low-high} and
 \code{"tt"} uses the \emph{tinytable} package, \code{"gt"} uses the \emph{gt} package.}
 }
 \value{
-\code{format()} return a formatted data frame, \code{print()} prints a formatted
-data frame printed to the console. \code{print_html()} returns a \code{tinytable}
+\code{format()} return a formatted data frame, \code{print()} prints a
+formatted data frame to the console. \code{print_html()} returns a \code{tinytable}
 object by default (unless changed with \code{engine = "gt"}), which is printed as
 HTML, markdown or LaTeX table (depending on the context from which
 \code{print_html()} is called, see \code{\link[tinytable:tt]{tinytable::tt()}} for details).

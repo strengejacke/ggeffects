@@ -128,12 +128,6 @@ get_predictions.glmmTMB <- function(model,
         condition
       )
 
-      if (any(vapply(prdat.sim, nrow, numeric(1)) == 0)) {
-        insight::format_error(
-          "Could not simulate predictions. Maybe you have used 'scale()' in the formula? If so, please standardize your data before fitting the model." # nolint
-        )
-      }
-
       if (is.null(prdat.sim) || inherits(prdat.sim, c("error", "simpleError"))) {
         if (verbose) {
           insight::print_color("Error: Confidence intervals could not be computed.\n", "red")
@@ -141,6 +135,10 @@ get_predictions.glmmTMB <- function(model,
             cat(sprintf("* Reason: %s\n", insight::safe_deparse(prdat.sim[[1]])))
             cat(sprintf("* Source: %s\n", insight::safe_deparse(prdat.sim[[2]])))
           }
+        } else if (any(vapply(prdat.sim, nrow, numeric(1)) == 0)) {
+          insight::format_error(
+            "Could not simulate predictions. Maybe you have used 'scale()' in the formula? If so, please standardize your data before fitting the model." # nolint
+          )
         }
 
         predicted_data$predicted <- prdat
