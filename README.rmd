@@ -130,35 +130,6 @@ The `margin` argument in `predict_response()` indicates how to marginalize over 
 
   Question answered: "What is the predicted (or: expected) value of the response at meaningful values or levels of my focal terms for the 'average' observation in the population?". It does not only refer to the actual data in your sample, but also "what would be if" we had more data, or if we had data from a different population.
 
-**And what about marginal effects?** Marginal effects refer to the difference between two adjacent predictions. They are not the same as marginal means or adjusted predictions. However, calculating contrasts or pairwise comparisons with `test_predictions()` can be used to test for differences in predictions (aka marginal effects).
-
-Here's an example:
-
-```{r}
-library(ggeffects)
-library(marginaleffects)
-m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
-
-# we want the marginal effects for "Species". We can calculate
-# the marginal effect using the "marginaleffects" package
-marginaleffects::avg_slopes(m, variables = "Species")
-
-# here we show that marginal effects refer to the difference between
-# predictions for a one-unit change of "Species"
-out <- predict_response(m, "Species", margin = "empirical")
-out
-
-# marginal effects of "versicolor", relative to "setosa"
-out$predicted[2] - out$predicted[1]
-# marginal effects of "virginica", relative to "setosa"
-out$predicted[3] - out$predicted[1]
-
-# finally, test_predictions() returns the same. while the previous results
-# report the marginal effect compared to the reference level "setosa",
-# test_predictions() returns the marginal effects for all pairwise comparisons
-test_predictions(m, "Species")
-```
-
 ## Documentation and Support
 
 Please visit [https://strengejacke.github.io/ggeffects/](https://strengejacke.github.io/ggeffects/) for documentation and vignettes. For questions about the functionality, you may either contact me via email or also file an issue.

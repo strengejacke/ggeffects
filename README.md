@@ -178,66 +178,6 @@ questions. Possible values are:
   the actual data in your sample, but also “what would be if” we had
   more data, or if we had data from a different population.
 
-**And what about marginal effects?** Marginal effects refer to the
-difference between two adjacent predictions. They are not the same as
-marginal means or adjusted predictions. However, calculating contrasts
-or pairwise comparisons with `test_predictions()` can be used to test
-for differences in predictions (aka marginal effects).
-
-Here’s an example:
-
-``` r
-library(ggeffects)
-library(marginaleffects)
-m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
-
-# we want the marginal effects for "Species". We can calculate
-# the marginal effect using the "marginaleffects" package
-marginaleffects::avg_slopes(m, variables = "Species")
-#> 
-#>                         Contrast Estimate Std. Error    z Pr(>|z|)    S 2.5 %
-#>  mean(versicolor) - mean(setosa)    0.435      0.103 4.23   <0.001 15.4 0.234
-#>  mean(virginica) - mean(setosa)     0.838      0.145 5.76   <0.001 26.9 0.553
-#>  97.5 %
-#>   0.637
-#>   1.123
-#> 
-#> Term: Species
-#> Type:  response 
-#> Columns: term, contrast, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high, predicted_lo, predicted_hi, predicted
-
-# here we show that marginal effects refer to the difference between
-# predictions for a one-unit change of "Species"
-out <- predict_response(m, "Species", margin = "empirical")
-out
-#> # Average predicted values of Petal.Width
-#> 
-#> Species    | Predicted |     95% CI
-#> -----------------------------------
-#> setosa     |      0.77 | 0.61, 0.94
-#> versicolor |      1.21 | 1.15, 1.27
-#> virginica  |      1.61 | 1.48, 1.74
-
-# marginal effects of "versicolor", relative to "setosa"
-out$predicted[2] - out$predicted[1]
-#> [1] 0.44
-# marginal effects of "virginica", relative to "setosa"
-out$predicted[3] - out$predicted[1]
-#> [1] 0.84
-
-# finally, test_predictions() returns the same. while the previous results
-# report the marginal effect compared to the reference level "setosa",
-# test_predictions() returns the marginal effects for all pairwise comparisons
-test_predictions(m, "Species")
-#> # Pairwise comparisons
-#> 
-#> Species              | Contrast |       95% CI |      p
-#> -------------------------------------------------------
-#> setosa-versicolor    |    -0.44 | -0.64, -0.23 | < .001
-#> setosa-virginica     |    -0.84 | -1.12, -0.55 | < .001
-#> versicolor-virginica |    -0.40 | -0.52, -0.29 | < .001
-```
-
 ## Documentation and Support
 
 Please visit <https://strengejacke.github.io/ggeffects/> for
@@ -247,13 +187,13 @@ may either contact me via email or also file an issue.
 ## ggeffects supports many different models and is easy to use
 
 Adjusted predictions can be calculated for many different models.
-Currently supported model-objects are: averaging, bamlss, bayesx,
-betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit,
-brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac,
-flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb,
-glm_weightit, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob,
-glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob,
-lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merMod,
+Currently supported model-objects are: averaging, bamlss, bayesglm,
+bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm,
+brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest,
+flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm,
+glm.nb, glm_weightit, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB,
+glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod,
+lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merMod,
 merModLmerTest, MixMod, mixor, mlogit, multinom, multinom_weightit,
 negbin, nestedLogit, nlmerMod, ols, ordinal_weightit, orm, phyloglm,
 phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm,
@@ -326,7 +266,7 @@ ggplot(mydf, aes(x, predicted)) +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
 ```
 
-![](man/figures/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 However, there is also a `plot()`-method. This method uses convenient
 defaults, to easily create the most suitable plot for the predictions.
@@ -336,7 +276,7 @@ mydf <- predict_response(fit, terms = "c12hour")
 plot(mydf)
 ```
 
-![](man/figures/unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/unnamed-chunk-4-1.png)<!-- -->
 
 ### Adjusted predictions for several focal predictors
 
@@ -391,7 +331,7 @@ ggplot(result, aes(x = x, y = predicted, colour = group)) +
   facet_wrap(~facet)
 ```
 
-![](man/figures/unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/unnamed-chunk-5-1.png)<!-- -->
 
 `plot()` works for this case, as well:
 
@@ -399,7 +339,7 @@ ggplot(result, aes(x = x, y = predicted, colour = group)) +
 plot(result)
 ```
 
-![](man/figures/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/unnamed-chunk-6-1.png)<!-- -->
 
 ### Contrasts and pairwise comparisons
 
@@ -412,7 +352,7 @@ result <- predict_response(fit, c("barthtot", "c161sex"))
 plot(result)
 ```
 
-![](man/figures/unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/unnamed-chunk-7-1.png)<!-- -->
 
 This can be achieved by `test_predictions()`.
 
