@@ -376,12 +376,12 @@ answer the question, "What is the predicted (or: expected) value of the
 response at meaningful values or levels of my focal terms for an 'average'
 observation in my data?". It refers to randomly picking a subject of your
 sample and the result you get on average.
-\item \code{"empirical"} (or \code{"counterfactual"}): non-focal predictors are averaged
-over the observations in the sample. The response is predicted for each
-subject in the data and predicted values are then averaged across all
-subjects, aggregated/grouped by the focal terms. In particular, averaging
-is applied to \emph{counterfactual predictions} (Dickerman and Hernan 2020).
-There is a more detailed description in
+\item \code{"empirical"} (or \code{"counterfactual"} or \code{"average"}): non-focal predictors
+are averaged over the observations in the sample. The response is predicted
+for each subject in the data and predicted values are then averaged across
+all subjects, aggregated/grouped by the focal terms. In particular,
+averaging is applied to \emph{counterfactual predictions} (Dickerman and Hernan
+2020). There is a more detailed description in
 \href{https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html}{this vignette}.
 
 Counterfactual predictions are useful, insofar as the results can also be

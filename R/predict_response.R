@@ -293,12 +293,12 @@
 #'   observation in my data?". It refers to randomly picking a subject of your
 #'   sample and the result you get on average.
 #'
-#' - `"empirical"` (or `"counterfactual"`): non-focal predictors are averaged
-#'   over the observations in the sample. The response is predicted for each
-#'   subject in the data and predicted values are then averaged across all
-#'   subjects, aggregated/grouped by the focal terms. In particular, averaging
-#'   is applied to _counterfactual predictions_ (Dickerman and Hernan 2020).
-#'   There is a more detailed description in
+#' - `"empirical"` (or `"counterfactual"` or `"average"`): non-focal predictors
+#'   are averaged over the observations in the sample. The response is predicted
+#'   for each subject in the data and predicted values are then averaged across
+#'   all subjects, aggregated/grouped by the focal terms. In particular,
+#'   averaging is applied to _counterfactual predictions_ (Dickerman and Hernan
+#'   2020). There is a more detailed description in
 #'   [this vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 #'
 #'   Counterfactual predictions are useful, insofar as the results can also be
