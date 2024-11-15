@@ -1006,7 +1006,7 @@ test_predictions.ggeffects <- function(object,
     margin,
     c(
       "mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data", "ame", "marginaleffects"
+      "counterfactual", "full_data", "average", "marginaleffects"
     )
   )
   # harmonize argument

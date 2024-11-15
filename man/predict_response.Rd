@@ -53,11 +53,12 @@ to fix non-focal terms to specific values, and argument \code{typical} for
 \item{margin}{Character string, indicating how to marginalize over the
 \emph{non-focal} predictors, i.e. those variables that are \emph{not} specified in
 \code{terms}. Possible values are \code{"mean_reference"}, \code{"mean_mode"},
-\code{"marginalmeans"} and \code{"empirical"} (or \code{"counterfactual"}, aka average
-"counterfactual" predictions). You can set a default-option for the \code{margin}
-argument via \code{options()}, e.g. \code{options(ggeffects_margin = "empirical")},
-so you don't have to specify your preferred marginalization method each time
-you call \code{predict_response()}. See details in the documentation below.}
+\code{"marginalmeans"} and \code{"empirical"} (or one of its aliases,
+\code{"counterfactual"} or \code{"average"}, aka average "counterfactual" predictions).
+You can set a default-option for the \code{margin} argument via \code{options()}, e.g.
+\code{options(ggeffects_margin = "empirical")}, so you don't have to specify your
+preferred marginalization method each time you call \code{predict_response()}. See
+details in the documentation below.}
 
 \item{ci_level}{Numeric, the level of the confidence intervals. Use
 \code{ci_level = NA} if confidence intervals should not be calculated

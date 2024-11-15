@@ -157,11 +157,12 @@
 #' @param margin Character string, indicating how to marginalize over the
 #' *non-focal* predictors, i.e. those variables that are *not* specified in
 #' `terms`. Possible values are `"mean_reference"`, `"mean_mode"`,
-#' `"marginalmeans"` and `"empirical"` (or `"counterfactual"`, aka average
-#' "counterfactual" predictions). You can set a default-option for the `margin`
-#' argument via `options()`, e.g. `options(ggeffects_margin = "empirical")`,
-#' so you don't have to specify your preferred marginalization method each time
-#' you call `predict_response()`. See details in the documentation below.
+#' `"marginalmeans"` and `"empirical"` (or one of its aliases,
+#' `"counterfactual"` or `"average"`, aka average "counterfactual" predictions).
+#' You can set a default-option for the `margin` argument via `options()`, e.g.
+#' `options(ggeffects_margin = "empirical")`, so you don't have to specify your
+#' preferred marginalization method each time you call `predict_response()`. See
+#' details in the documentation below.
 #' @param back_transform Logical, if `TRUE` (the default), predicted values for
 #' log-, log-log, exp, sqrt and similar transformed responses will be
 #' back-transformed to original response-scale. See
@@ -642,7 +643,7 @@ predict_response <- function(model,
     argument = margin,
     options = c(
       "mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data", "ame", "marginaleffects"
+      "counterfactual", "full_data", "average", "marginaleffects"
     )
   )
 
@@ -657,7 +658,7 @@ predict_response <- function(model,
     model,
     type,
     # check for aliases for "empirical" margin
-    marginaleffects = margin %in% c("empirical", "counterfactual", "ame", "marginaleffects"),
+    marginaleffects = margin %in% c("empirical", "counterfactual", "average", "marginaleffects"),
     emmeans_call = margin == "marginalmeans"
   )
 
@@ -711,7 +712,7 @@ predict_response <- function(model,
       verbose = verbose,
       ...
     ),
-    ame = ,
+    average = ,
     counterfactual = ,
     marginaleffects = ,
     empirical = ggaverage(

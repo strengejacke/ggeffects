@@ -163,13 +163,13 @@ questions. Possible values are:
   ‘average’ observation in my data?”. It refers to randomly picking a
   subject of your sample and the result you get on average.
 
-- `"empirical"` (or `"counterfactual"`): calls `ggaverage()`,
-  i.e. non-focal predictors are marginalized over the observations in
-  your sample. The response is predicted for each subject in the data
-  and predicted values are then averaged across all subjects,
-  aggregated/grouped by the focal terms. Averaging is applied to
-  “counterfactual” predictions (Dickerman and Hernán 2020). There is a
-  more detailed description in [this
+- `"empirical"` (or on of its aliases, `"counterfactual"` or
+  `"average"`): calls `ggaverage()`, i.e. non-focal predictors are
+  marginalized over the observations in your sample. The response is
+  predicted for each subject in the data and predicted values are then
+  averaged across all subjects, aggregated/grouped by the focal terms.
+  Averaging is applied to “counterfactual” predictions (Dickerman and
+  Hernán 2020). There is a more detailed description in [this
   vignette](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html).
 
   Question answered: “What is the predicted (or: expected) value of the

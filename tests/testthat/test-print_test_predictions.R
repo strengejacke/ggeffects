@@ -262,6 +262,6 @@ test_that("glmmTMB, orderedbeta", {
     data = mtcars,
     family = glmmTMB::ordbeta()
   )
-  out2 <- predict_response(m, "gear", margin = "ame")
+  out2 <- predict_response(m, "gear", margin = "average")
   expect_snapshot(print(test_predictions(out2)))
 })
