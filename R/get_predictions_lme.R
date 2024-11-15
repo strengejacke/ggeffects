@@ -34,13 +34,13 @@ get_predictions.lme <- function(model,
     pr.type <- "response"
   }
 
-  prdat <- stats::predict(
+  prdat <- suppressWarnings(stats::predict(
     model,
     newdata = data_grid,
     type = pr.type,
     level = 0, # always population level, see #267
     ...
-  )
+  ))
 
   # copy predictions
   data_grid$predicted <- as.vector(prdat)
