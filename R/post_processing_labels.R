@@ -15,8 +15,28 @@
                                     response.transform = NULL,
                                     vcov_args = NULL,
                                     margin = NULL,
+                                    model_name = NULL,
                                     bias_correction = FALSE,
                                     verbose = TRUE) {
+  # check if outcome is log-transformed, and if so,
+  # back-transform predicted values to response scale
+  # but first, save original predicted values, to save as attribute
+  if (back_transform) {
+    untransformed.predictions <- result$predicted
+    response.transform <- insight::find_terms(model)[["response"]]
+  } else {
+    untransformed.predictions <- response.transform <- NULL
+  }
+  result <- .back_transform_response(model, result, back_transform, verbose = verbose)
+  attr(result, "model.name") <- model_name
+
+  # add raw data as well
+  attr(result, "rawdata") <- .back_transform_data(
+    model,
+    mydf = .get_raw_data(model, original_model_frame, cleaned_terms),
+    back_transform = back_transform
+  )
+
   # get axis titles and labels
   all.labels <- .get_axis_titles_and_labels(
     model,

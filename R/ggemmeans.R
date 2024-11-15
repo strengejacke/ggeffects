@@ -218,26 +218,6 @@ ggemmeans <- function(model,
     cleaned_terms = cleaned_terms
   )
 
-  # check if outcome is log-transformed, and if so,
-  # back-transform predicted values to response scale
-  # but first, save original predicted values, to save as attribute
-  if (back_transform) {
-    untransformed.predictions <- result$predicted
-    response.transform <- insight::find_terms(model)[["response"]]
-  } else {
-    untransformed.predictions <- response.transform <- NULL
-  }
-  result <- .back_transform_response(model, result, back_transform, verbose = verbose)
-
-  attr(result, "model.name") <- model_name
-
-  # add raw data as well
-  attr(result, "rawdata") <- .back_transform_data(
-    model,
-    mydf = .get_raw_data(model, original_model_frame, cleaned_terms),
-    back_transform = back_transform
-  )
-
   .post_processing_labels(
     model = model,
     result = result,
@@ -255,6 +235,7 @@ ggemmeans <- function(model,
     back_transform = back_transform,
     response.transform = response.transform,
     margin = "marginalmeans",
+    model_name = model_name,
     vcov_args = vcov,
     bias_correction = bias_correction,
     verbose = verbose
