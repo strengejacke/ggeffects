@@ -34,22 +34,32 @@ test_that("ggpredict, survreg, quantile", {
     out$predicted[order(out$response.level)],
     c(out2[, 1], out2[, 2]),
     tolerance = 1e-4,
-    ignore_atte = TRUE
+    ignore_attr = TRUE
   )
   expect_equal(
     out$conf.low,
     c(63.80253, 662.8553, 91.94941, 904.90683),
     tolerance = 1e-4,
-    ignore_atte = TRUE
+    ignore_attr = TRUE
   )
   expect_equal(
     out$predicted,
     c(93.02258, 891.08697, 138.31619, 1324.96601),
     tolerance = 1e-4,
-    ignore_atte = TRUE
+    ignore_attr = TRUE
   )
 
+  # muliple time points for quantiles
   out <- predict_response(fit, "sex", type = "quantile", p = 0.5)
   out2 <- predict(fit, newdata = data_grid(fit, "sex"), type = "quantile", p = 0.5)
-  expect_equal(out$predicted, out2,  tolerance = 1e-4, ignore_atte = TRUE)
+  expect_equal(out$predicted, out2,  tolerance = 1e-4, ignore_attr = TRUE)
+
+  out <- predict_response(fit, "sex", type = "quantile", p = c(0.1, 0.5, 0.8))
+  out2 <- predict(fit, newdata = data_grid(fit, "sex"), type = "quantile", p = c(0.1, 0.5, 0.8))
+  expect_equal(
+    out$predicted[order(out$response.level)],
+    c(out2[, 1], out2[, 2], out2[, 3]),
+    tolerance = 1e-4,
+    ignore_attr = TRUE
+  )
 })

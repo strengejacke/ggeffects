@@ -45,24 +45,34 @@ get_predictions.tobit <- function(model,
   )
 
   # we need to shape data into long-format when type = "quantile",
-  # but only when it's a matrix - for median time, when argument `p` is also
-  # given, we don't have a matrix
-  if (type %in% c("quantile", "uquantile") && (is.matrix(prdat) || (!is.null(prdat$fit) && is.matrix(prdat$fit)))) { # nolint
-    ## FIXME: check matrix structure
-    # for type = "quantile", we get a matrix of predictions, with two columns
-    # (or maybe even more columns, one per status? need to check!)
-    # we now duplicate the data grid and add the two status options as
-    # "response" column to the data gridd
-    data_grid <- rbind(data_grid, data_grid)
-    data_grid$response.level <- 2
-    data_grid$response.level[1:(nrow(data_grid) / 2)] <- 1
+  # but only when it's a matrix. Determine number of columns now
+  if (is.matrix(prdat) || (!is.null(prdat$fit) && is.matrix(prdat$fit))) {
+    if (is.null(prdat$fit)) {
+      n_columns <- ncol(prdat)
+    } else {
+      n_columns <- ncol(prdat$fit)
+    }
+  } else {
+    n_columns <- 1
+  }
+
+  # reshape here if we have more than one column (i.e. a matrix)
+  if (type %in% c("quantile", "uquantile") && n_columns > 1) {
+    # for type = "quantile", we get a matrix of predictions, with multiple
+    # columns. we now duplicate the data grid and add the different status
+    # options as "response" column to the data grid
+    out <- NULL
+    for (i in seq_len(n_columns)) {
+      data_grid$response.level <- i
+      out <- rbind(out, data_grid)
+    }
     # if SE are requested, we need to gather multiple columns
     if (se) {
       prdat <- .multiple_gather(
         as.data.frame(prdat),
         names_to = "status",
         values_to = c("predicted", "se"),
-        columns = list(1:2, 3:4)
+        columns = list(seq_len(n_columns), n_columns + seq_len(n_columns))
       )
       prdat <- list(fit = prdat$predicted, se.fit = prdat$se)
     } else {
@@ -70,6 +80,7 @@ get_predictions.tobit <- function(model,
     }
     # we now have "prdat" in the same structure as for other types, so we
     # can proceed as usual from here...
+    data_grid <- out
   }
 
   # did user request standard errors? if yes, compute CI
