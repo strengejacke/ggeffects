@@ -21,6 +21,9 @@ ggaverage <- function(model,
   type <- .validate_type_argument(model, type, marginaleffects = TRUE)
   dot_args <- list(...)
 
+  # check formula
+  insight::formula_ok(model)
+
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are
   # indeed existing in the data

@@ -82,7 +82,7 @@
 .get_pasted_formula <- function(model) {
   tryCatch(
     {
-      model_terms <- unlist(.compact_list(insight::find_terms(model)[c("conditional", "random", "instruments")]))
+      model_terms <- unlist(.compact_list(insight::find_terms(model, verbose = FALSE)[c("conditional", "random", "instruments")])) # nolint
       if (model_terms[1] %in% c("0", "1")) {
         model_terms <- model_terms[-1]
       }

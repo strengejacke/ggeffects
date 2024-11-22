@@ -98,7 +98,13 @@
         any_offset_log_term <- .get_offset_log_terms(model)
         # check if we have offset() in formula, with transformed variable
         if (any(any_offset_log_term)) {
-          clean.term <- insight::find_predictors(model, effects = "all", component = "all", flatten = FALSE)
+          clean.term <- insight::find_predictors(
+            model,
+            effects = "all",
+            component = "all",
+            flatten = FALSE,
+            verbose = FALSE
+          )
           clean.term <- unlist(clean.term[c("conditional", "random", "instruments")])[any_offset_log_term]
 
           # try to back-transform
@@ -186,7 +192,7 @@
   # in the data grid that actually appear in the data
 
   if (inherits(model, "brmsfit")) {
-    model_terms <- insight::find_terms(model, flatten = TRUE)
+    model_terms <- insight::find_terms(model, flatten = TRUE, verbose = FALSE)
     monotonics <- grepl("mo\\((.*)\\)", model_terms)
     if (any(monotonics)) {
       mo_terms <- gsub("mo\\((.*)\\)", "\\1", model_terms[monotonics])
@@ -218,7 +224,13 @@
 
   offset_term <- .offset_term(model, condition, show_pretty_message)
   model_predictors <- c(
-    insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE),
+    insight::find_predictors(
+      model,
+      effects = "all",
+      component = "all",
+      flatten = TRUE,
+      verbose = FALSE
+    ),
     offset_term
   )
   if (inherits(model, "wbm")) {
@@ -537,7 +549,10 @@
     cleaned_terms <- .clean_terms(terms)
 
     # check if we have fixed effects as grouping factor in random effects as well...
-    cleaned_terms <- unique(c(cleaned_terms, insight::find_predictors(model, effects = "fixed", flatten = TRUE)))
+    cleaned_terms <- unique(c(
+      cleaned_terms,
+      insight::find_predictors(model, effects = "fixed", flatten = TRUE, verbose = FALSE)
+    ))
     # if so, remove from random-effects here
     random_effect_terms <- random_effect_terms[!(random_effect_terms %in% cleaned_terms)]
 

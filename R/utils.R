@@ -46,7 +46,13 @@
   out_msg <- NULL
   msg <- tryCatch(
     {
-      pv <- insight::find_predictors(model, effects = "all", component = "all", flatten = TRUE)
+      pv <- insight::find_predictors(
+        model,
+        effects = "all",
+        component = "all",
+        flatten = TRUE,
+        verbose = FALSE
+      )
       clean.terms <- .clean_terms(terms)
       if (!all(clean.terms %in% pv)) {
         out_msg <- c(

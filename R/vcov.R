@@ -160,18 +160,18 @@ vcov.ggeffects <- function(object,
 
   model_terms <- tryCatch(
     stats::terms(model),
-    error = function(e) insight::find_formula(model)$conditional
+    error = function(e) insight::find_formula(model, verbose = FALSE)$conditional
   )
 
   # exception for gamlss, who may have "random()" function in formula
   # we need to remove this term...
   if (inherits(model, "gamlss") && grepl("random\\((.*\\))", insight::safe_deparse(stats::formula(model)))) {
-    model_terms <- insight::find_formula(model)$conditional
+    model_terms <- insight::find_formula(model, verbose = FALSE)$conditional
   }
 
   # drop offset from model_terms
   if (inherits(model, c("zeroinfl", "hurdle", "zerotrunc"))) {
-    all_terms <- insight::find_terms(model)$conditional
+    all_terms <- insight::find_terms(model, verbose = FALSE)$conditional
     off_terms <- grepl("^offset\\((.*)\\)", all_terms)
     if (any(off_terms)) {
       all_terms <- all_terms[!off_terms]
@@ -201,7 +201,7 @@ vcov.ggeffects <- function(object,
     # once we have removed factors with one level only, we need to recalculate
     # the model terms
     all_terms <- setdiff(
-      insight::find_terms(model)$conditional,
+      insight::find_terms(model, verbose = FALSE)$conditional,
       colnames(newdata)[nlevels_terms]
     )
 
@@ -232,7 +232,7 @@ vcov.ggeffects <- function(object,
   # (so we can find the variables in the "newdata") - but only run this check if
   # the user wants to hear it
   if (verbose) {
-    scale_terms <- insight::find_terms(model)$conditional
+    scale_terms <- insight::find_terms(model, verbose = FALSE)$conditional
     scale_terms <- stats::setNames(scale_terms, insight::clean_names(scale_terms))
     # check if any term containts "scale()"
     scale_transform <- grepl("scale(", scale_terms, fixed = TRUE)

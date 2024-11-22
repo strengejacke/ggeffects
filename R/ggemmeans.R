@@ -29,6 +29,9 @@ ggemmeans <- function(model,
     verbose = verbose
   )
 
+  # check formula
+  insight::formula_ok(model)
+
   # check arguments
   interval <- insight::validate_argument(interval, c("confidence", "prediction"))
   model_name <- deparse(substitute(model))

@@ -74,6 +74,9 @@ ggpredict <- function(model,
   ## TODO: remove deprecated later
   vcov <- .prepare_vcov_args(vcov, ...)
 
+  # check formula
+  insight::formula_ok(model)
+
   # make sure we have valid values
   interval <- insight::validate_argument(interval, c("confidence", "prediction"))
 
@@ -120,7 +123,13 @@ ggpredict <- function(model,
     class(result) <- c("ggalleffects", class(result))
   } else if (missing(terms) || is.null(terms)) {
     # if no terms are specified, we try to find all predictors ---------------
-    predictors <- insight::find_predictors(model, effects = "fixed", component = "conditional", flatten = TRUE)
+    predictors <- insight::find_predictors(
+      model,
+      effects = "fixed",
+      component = "conditional",
+      flatten = TRUE,
+      verbose = FALSE
+    )
     result <- lapply(
       predictors,
       function(focal_term) {

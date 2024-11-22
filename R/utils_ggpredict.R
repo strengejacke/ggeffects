@@ -15,7 +15,7 @@
 
   # we need the string of the response variable, to get information about transformation
   if (is.null(response.name)) {
-    rv <- insight::find_terms(model)[["response"]]
+    rv <- insight::find_terms(model, verbose = FALSE)[["response"]]
   } else {
     # for pool_predictions(), we have no model object, but the response-string
     rv <- response.name
@@ -104,7 +104,7 @@
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
   if (is.null(response.name)) {
-    rv <- insight::find_terms(model)[["response"]]
+    rv <- insight::find_terms(model, verbose = FALSE)[["response"]]
   } else {
     rv <- response.name
   }

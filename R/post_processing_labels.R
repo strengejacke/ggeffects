@@ -23,7 +23,7 @@
   # but first, save original predicted values, to save as attribute
   if (back_transform) {
     untransformed.predictions <- result$predicted
-    response.transform <- insight::find_terms(model)[["response"]]
+    response.transform <- insight::find_terms(model, verbose = FALSE)[["response"]]
   } else {
     untransformed.predictions <- response.transform <- NULL
   }
