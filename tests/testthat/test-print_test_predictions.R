@@ -231,16 +231,6 @@ test_that("print hypothesis_test collapse levels", {
   expect_snapshot(print(out))
 })
 
-test_that("print hypothesis_test collapse CI", {
-  data(efc, package = "ggeffects")
-  efc$e42dep <- as.factor(efc$e42dep)
-  fit <- lm(barthtot ~ e42dep + c160age, data = efc)
-  pr <- ggpredict(fit, "e42dep")
-  out <- hypothesis_test(pr)
-  expect_snapshot(print(out))
-  expect_snapshot(print(out, collapse_ci = TRUE))
-})
-
 
 test_that("hypothesis_test, ci-level", {
   data(iris)
@@ -265,3 +255,18 @@ test_that("glmmTMB, orderedbeta", {
   out2 <- predict_response(m, "gear", margin = "average")
   expect_snapshot(print(test_predictions(out2)))
 })
+
+
+skip_if_not_installed("withr")
+withr::with_environment(
+  new.env(),
+  test_that("print hypothesis_test collapse CI", {
+    data(efc, package = "ggeffects")
+    efc$e42dep <- as.factor(efc$e42dep)
+    fit <- lm(barthtot ~ e42dep + c160age, data = efc)
+    pr <- ggpredict(fit, "e42dep")
+    out <- hypothesis_test(pr)
+    expect_snapshot(print(out))
+    expect_snapshot(print(out, collapse_ci = TRUE))
+  })
+)
