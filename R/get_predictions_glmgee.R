@@ -17,7 +17,10 @@ get_predictions.glmgee <- function(model,
   if (is.null(vcov)) {
     vcov <- "robust"
   }
-  vcov <- insight::validate_argument(vcov, c("robust", "df-adjusted", "model", "bias-corrected"))
+  vcov <- .validate_argument(
+    vcov,
+    c("robust", "df-adjusted", "model", "bias-corrected")
+  )
   se <- (!is.null(ci_level) && !is.na(ci_level))
 
   # compute ci, two-ways

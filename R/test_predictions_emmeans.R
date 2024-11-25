@@ -35,7 +35,7 @@
     custom_contrasts <- test
     test <- "custom"
   }
-  test <- insight::validate_argument(
+  test <- .validate_argument(
     test,
     c("contrast", "pairwise", "interaction", "custom", "exclude", "consecutive", "polynomial")
   )

@@ -98,7 +98,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
 
   # check arguments
   if (!is.null(p_adjust)) {
-    p_adjust <- insight::validate_argument(p_adjust, c("esarey", "es", "fdr", "bh"))
+    p_adjust <- .validate_argument(p_adjust, c("esarey", "es", "fdr", "bh"))
     # just keep one shortcut
     p_adjust <- switch(p_adjust,
       esarey = "es",
