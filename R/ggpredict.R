@@ -258,7 +258,7 @@ ggpredict_helper <- function(model,
     attributes(data_grid)$constant.values <- NULL
   }
 
-  .post_processing_labels(
+  .post_processing_labels_and_data(
     model = model,
     result = result,
     original_model_frame = original_model_frame,
@@ -275,9 +275,7 @@ ggpredict_helper <- function(model,
     ),
     condition = condition,
     ci_level = ci_level,
-    untransformed.predictions = untransformed.predictions,
     back_transform = back_transform,
-    response.transform = response.transform,
     vcov_args = .get_variance_covariance_matrix(model, vcov, vcov_args, skip_if_null = TRUE, verbose = FALSE), # nolint
     margin = "mean_reference",
     model_name = NULL,

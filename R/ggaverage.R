@@ -149,7 +149,7 @@ ggaverage <- function(model,
     averaged_predictions = TRUE
   )
 
-  .post_processing_labels(
+  .post_processing_labels_and_data(
     model = model,
     result = result,
     original_model_frame = original_model_frame,
@@ -162,9 +162,7 @@ ggaverage <- function(model,
     at_list = at_list,
     condition = condition,
     ci_level = ci_level,
-    untransformed.predictions = untransformed.predictions,
     back_transform = back_transform,
-    response.transform = response.transform,
     vcov_args = if (isTRUE(vcov_arg)) NULL else vcov_arg,
     margin = "empirical",
     model_name = model_name,

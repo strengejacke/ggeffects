@@ -16,9 +16,9 @@
                                       condition = NULL,
                                       ci_level = 0.95,
                                       type = NULL,
-                                      untransformed.predictions = NULL,
+                                      untransformed_predictions = NULL,
                                       back_transform = FALSE,
-                                      response.transform = NULL,
+                                      response_transform = NULL,
                                       original_model_frame = NULL,
                                       vcov_args = NULL,
                                       margin = NULL,
@@ -54,8 +54,8 @@
   attr(data, "type") <- type
   attr(data, "response.name") <- insight::find_response(model)
   attr(data, "back_transform") <- back_transform
-  attr(data, "response.transform") <- response.transform
-  attr(data, "untransformed.predictions") <- untransformed.predictions
+  attr(data, "response_transform") <- response_transform
+  attr(data, "untransformed_predictions") <- untransformed_predictions
   attr(data, "standard_error") <- data$std.error
   attr(data, "vcov") <- vcov_args
   attr(data, "margin") <- margin

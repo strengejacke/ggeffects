@@ -221,7 +221,7 @@ ggemmeans <- function(model,
     cleaned_terms = cleaned_terms
   )
 
-  .post_processing_labels(
+  .post_processing_labels_and_data(
     model = model,
     result = result,
     original_model_frame = original_model_frame,
@@ -234,9 +234,7 @@ ggemmeans <- function(model,
     at_list = data_grid,
     condition = condition,
     ci_level = ci_level,
-    untransformed.predictions = untransformed.predictions,
     back_transform = back_transform,
-    response.transform = response.transform,
     margin = "marginalmeans",
     model_name = model_name,
     vcov_args = vcov,
