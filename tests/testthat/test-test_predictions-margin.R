@@ -48,9 +48,9 @@ test_that("test_predictions, margin", {
   )
 
   # green Austria, left Belgium
-  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "marginalmeans", test = "b4 = b13")))) # nolint
+  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "marginalmeans", test = "b19 = b26")))) # nolint
   expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam [green, left]", "countryname [Austria, Belgium]"), margin = "marginalmeans")))) # nolint
   # green Austria, left Belgium
-  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "empirical", test = "b4 = b13")))) # nolint
+  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "empirical", test = "b19 = b26")))) # nolint
   expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam [green, left]", "countryname [Austria, Belgium]"), margin = "empirical")))) # nolint
 })
