@@ -22,7 +22,7 @@ ggaverage <- function(model,
   dot_args <- list(...)
 
   # check formula
-  insight::formula_ok(model)
+  insight::formula_ok(model, verbose = verbose)
 
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are

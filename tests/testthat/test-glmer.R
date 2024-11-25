@@ -28,7 +28,7 @@ withr::with_options(
       tolerance = 1e-3,
       ignore_attr = TRUE
     )
-    expect_message(expect_message(ggpredict(fit, "c12hour"), "prettified"), "You are")
+    expect_message(ggpredict(fit, "c12hour"), "prettified")
     expect_silent(ggpredict(fit, "c12hour", verbose = FALSE))
     expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
     expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")

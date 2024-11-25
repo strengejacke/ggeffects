@@ -30,7 +30,7 @@ ggemmeans <- function(model,
   )
 
   # check formula
-  insight::formula_ok(model)
+  insight::formula_ok(model, verbose = verbose)
 
   # check arguments
   interval <- .validate_argument(interval, c("confidence", "prediction"))
