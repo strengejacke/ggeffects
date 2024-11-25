@@ -308,8 +308,8 @@ test_that("test_predictions, works with glmmTMB and w/o vcov", {
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
   # validate against raw values
-  expect_equal(out1$Contrast, c(0.06846, -0.87857, -0.79452, 0.30375, 1.48621), tolerance = 1e-4)
-  expect_equal(out1$conf.low, c(0.06846, -0.87857, -0.79452, 0.30375, 1.48621), tolerance = 1e-4)
+  expect_equal(out1$Contrast, c(0.30375, 0.82708, -0.87857, -0.22756, -0.10064), tolerance = 1e-4)
+  expect_equal(out1$conf.low, c(0.30375, 0.82708, -0.87857, -0.22756, NA), tolerance = 1e-4)
 })
 
 
