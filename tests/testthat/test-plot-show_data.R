@@ -12,33 +12,33 @@ test_that("plot, vignette", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-1",
-    plot(dat, facets = TRUE, show_data = TRUE)
+    plot(dat, facets = TRUE, show_data = TRUE, verbose = FALSE)
   )
 
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-1-shape",
-    plot(dat, facets = TRUE, show_data = TRUE, dot_shape = 21)
+    plot(dat, facets = TRUE, show_data = TRUE, dot_shape = 21, verbose = FALSE)
   )
 
   # don't use facets, b/w figure, w/o confidence bands
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-2",
-    plot(dat, colors = "bw", show_ci = FALSE, show_data = TRUE)
+    plot(dat, colors = "bw", show_ci = FALSE, show_data = TRUE, verbose = FALSE)
   )
 
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-2-shape",
-    plot(dat, colors = "bw", show_ci = FALSE, show_data = TRUE, dot_shape = 2)
+    plot(dat, colors = "bw", show_ci = FALSE, show_data = TRUE, dot_shape = 2, verbose = FALSE)
   )
 
   set.seed(123)
   dat <- predict_response(fit, terms = c("c12hour", "c172code"))
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-3",
-    plot(dat, show_data = TRUE)
+    plot(dat, show_data = TRUE, verbose = FALSE)
   )
 
   # for three variables, automatic facetting
@@ -54,14 +54,14 @@ test_that("plot, vignette", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-5",
-    plot(dat, show_data = TRUE, jitter = TRUE)
+    plot(dat, show_data = TRUE, jitter = TRUE, verbose = FALSE)
   )
 
   # point-geoms for discrete x-axis can be connected with lines
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-6",
-    plot(dat, connect_lines = TRUE, show_data = TRUE, jitter = TRUE)
+    plot(dat, connect_lines = TRUE, show_data = TRUE, jitter = TRUE, verbose = FALSE)
   )
 
   ## FIXME: doesn't work
@@ -79,7 +79,7 @@ test_that("plot, vignette", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-9",
-    plot(dat, ci_style = "dash", show_data = TRUE)
+    plot(dat, ci_style = "dash", show_data = TRUE, verbose = FALSE)
   )
 
   # facet by group
@@ -87,13 +87,13 @@ test_that("plot, vignette", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-10",
-    plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5, show_data = TRUE)
+    plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5, show_data = TRUE, verbose = FALSE) # nolint
   )
 
   dat <- predict_response(fit, terms = "c172code")
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-11",
-    plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5, show_data = TRUE, jitter = TRUE)
+    plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5, show_data = TRUE, jitter = TRUE, verbose = FALSE) # nolint
   )
 })

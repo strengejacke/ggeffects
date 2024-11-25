@@ -23,7 +23,7 @@ test_that("plot, vignette", {
   dat <- predict_response(fit, terms = c("c12hour", "c172code"))
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-3",
-    plot(dat, show_data = TRUE)
+    plot(dat, show_data = TRUE, verbose = FALSE)
   )
 
   # for three variables, automatic facetting

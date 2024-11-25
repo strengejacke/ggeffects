@@ -90,12 +90,12 @@ test_that("ggpredict, lm", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Simple plot, show data",
-    suppressWarnings(plot(pr, show_data = TRUE))
+    suppressWarnings(plot(pr, show_data = TRUE, verbose = FALSE))
   )
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Simple plot, show data, jitter",
-    plot(pr, show_data = TRUE, jitter = TRUE)
+    plot(pr, show_data = TRUE, jitter = TRUE, verbose = FALSE)
   )
   vdiffr::expect_doppelganger(
     "Simple plot, bw",
@@ -127,12 +127,12 @@ test_that("ggpredict, lm", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Simple plot, categorical, show data",
-    suppressWarnings(plot(pr, show_data = TRUE))
+    suppressWarnings(plot(pr, show_data = TRUE, verbose = FALSE))
   )
   set.seed(123)
   vdiffr::expect_doppelganger(
     "Simple plot, categorical, show data, jitter",
-    plot(pr, show_data = TRUE, jitter = TRUE)
+    plot(pr, show_data = TRUE, jitter = TRUE, verbose = FALSE)
   )
   vdiffr::expect_doppelganger(
     "Simple plot, categorical, bw",
@@ -171,7 +171,7 @@ test_that("plot with data points", {
   beta_fit_preds <- ggpredict(beta_fit, terms = c("x", "group [a, b]"))
   vdiffr::expect_doppelganger(
     "Colored data points with special focal terms",
-    plot(beta_fit_preds, show_data = TRUE)
+    plot(beta_fit_preds, show_data = TRUE, verbose = FALSE)
   )
 })
 

@@ -8,7 +8,12 @@ test_that("ggpredict-backticks-and-CI", {
   d$`test var` <- runif(nrow(d), 10, 40)
 
   m_backtick <- lme4::lmer(Reaction ~ Days + `test var` + (1 | Subject), data = d)
-  out <- ggpredict(m_backtick, terms = c("Days", "test var"))
+  expect_warning(
+    {
+      out <- ggpredict(m_backtick, terms = c("Days", "test var"))
+    },
+    regex = "Looks like you"
+  )
   expect_equal(
     out$conf.low,
     c(

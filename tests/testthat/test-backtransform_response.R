@@ -14,10 +14,10 @@ test_that("ggpredict-log-/srqtresponse", {
   m2 <-  lm(log(score + 1) ~ as.numeric(time) * group2, data = reprex)
 
   # log-response
-  p1 <- suppressMessages(ggpredict(m1, c("time", "group2")))
+  p1 <- ggpredict(m1, c("time", "group2"), verbose = FALSE)
   p2 <- as.data.frame(emmeans::emmeans(m1, c("time", "group2"), at = list(time = 1:5), type = "response"))
-  p3 <- suppressMessages(ggaverage(m1, c("time", "group2")))
-  p4 <- suppressMessages(predict_response(m1, c("time", "group2"), margin = "average"))
+  p3 <- ggaverage(m1, c("time", "group2"), verbose = FALSE)
+  p4 <- predict_response(m1, c("time", "group2"), margin = "average", verbose = FALSE)
   expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
   expect_equal(p1$predicted[1], 6.677575, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
@@ -26,10 +26,10 @@ test_that("ggpredict-log-/srqtresponse", {
   expect_equal(p1$conf.low, p4$conf.low, tolerance = 1e-3)
 
   # sqrt-response
-  p1 <- suppressMessages(ggpredict(m2, c("time", "group2")))
+  p1 <- ggpredict(m2, c("time", "group2"), verbose = FALSE)
   p2 <- as.data.frame(emmeans::emmeans(m2, c("time", "group2"), at = list(time = 1:5), type = "response"))
-  p3 <- suppressMessages(ggaverage(m2, c("time", "group2")))
-  p4 <- suppressMessages(predict_response(m2, c("time", "group2"), margin = "average"))
+  p3 <- ggaverage(m2, c("time", "group2"), verbose = FALSE)
+  p4 <- predict_response(m2, c("time", "group2"), margin = "average", verbose = FALSE)
   expect_equal(p1$predicted[1], p2$response[1], tolerance = 1e-3)
   expect_equal(p1$predicted[1], 6.743365, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
@@ -62,7 +62,12 @@ withr::with_environment(
     data(sleepstudy, package = "lme4")
     model <- lme4::lmer(log(Reaction) ~ Days + (1 | Subject), data = sleepstudy)
 
-    pr <- ggpredict(model, "Days", back_transform = FALSE)
+    expect_message(
+      {
+        pr <- ggpredict(model, "Days", back_transform = FALSE)
+      },
+      regex = "Model has log transformed response"
+    )
     d <- attr(pr, "rawdata")
     expect_equal(
       d$response[1:10],
@@ -78,7 +83,7 @@ withr::with_environment(
       suppressWarnings(plot(pr, show_data = TRUE, verbose = FALSE))
     )
 
-    pr <- ggpredict(model, "Days", back_transform = TRUE)
+    pr <- ggpredict(model, "Days", back_transform = TRUE, verbose = FALSE)
     d <- attr(pr, "rawdata")
     expect_equal(
       d$response[1:10],
