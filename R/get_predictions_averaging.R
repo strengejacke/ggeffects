@@ -17,10 +17,17 @@ get_predictions.averaging <- function(model,
   # does user want standard errors?
   se <- !is.null(ci_level) && !is.na(ci_level) && is.null(vcov)
 
+  # check for valid prediction type
+  if (model_info$is_linear) {
+    pred_type <- "response"
+  } else {
+    pred_type <- "link"
+  }
+
   prdat <- stats::predict(
     model,
     newdata = data_grid,
-    type = "link",
+    type = pred_type,
     se.fit = se,
     ...
   )
