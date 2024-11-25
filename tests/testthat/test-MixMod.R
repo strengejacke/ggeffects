@@ -62,7 +62,7 @@ test_that("ggpredict", {
   withr::with_options(
     list(ggeffects_warning_bias_correction = TRUE),
     {
-      expect_message(expect_message(expect_message(ggpredict(m2, "zg", type = "zero_inflated"))))
+      expect_message(expect_message(expect_message(expect_message(ggpredict(m2, "zg", type = "zero_inflated")))))
     }
   )
 })
