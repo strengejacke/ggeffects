@@ -9,105 +9,104 @@ skip_if_not_installed("withr")
 
 withr::with_options(
   list(ggeffects_warning_bias_correction = FALSE),
-  {
-    test_that("validate ggpredict against predict, nbinom", {
-      data(Owls, package = "glmmTMB")
-      data(Salamanders, package = "glmmTMB")
-      m1 <- suppressWarnings(glmmTMB::glmmTMB(
-        SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-        data = Owls,
-        family = glmmTMB::nbinom1()
-      ))
-      m2 <- glmmTMB::glmmTMB(
-        SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-        data = Owls,
-        family = glmmTMB::nbinom2()
-      )
-      m4 <- glmmTMB::glmmTMB(
-        SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
-        data = Owls,
-        ziformula = ~1,
-        family = glmmTMB::truncated_poisson(link = "log")
-      )
-      nd <- data_grid(m1, "SexParent")
-      pr <- predict(m1, newdata = nd, type = "link", se.fit = TRUE)
-      linv <- insight::link_inverse(m1)
-      dof <- insight::get_df(m1, type = "wald", verbose = FALSE)
-      tcrit <- stats::qt(0.975, df = dof)
+  test_that("validate ggpredict against predict, nbinom", {
+    data(Owls, package = "glmmTMB")
+    data(Salamanders, package = "glmmTMB")
+    m1 <- suppressWarnings(glmmTMB::glmmTMB(
+      SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+      data = Owls,
+      family = glmmTMB::nbinom1()
+    ))
+    m2 <- glmmTMB::glmmTMB(
+      SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+      data = Owls,
+      family = glmmTMB::nbinom2()
+    )
+    m4 <- glmmTMB::glmmTMB(
+      SiblingNegotiation ~ FoodTreatment + ArrivalTime + SexParent + (1 | Nest),
+      data = Owls,
+      ziformula = ~1,
+      family = glmmTMB::truncated_poisson(link = "log")
+    )
+    nd <- data_grid(m1, "SexParent")
+    pr <- predict(m1, newdata = nd, type = "link", se.fit = TRUE)
+    linv <- insight::link_inverse(m1)
+    dof <- insight::get_df(m1, type = "wald", verbose = FALSE)
+    tcrit <- stats::qt(0.975, df = dof)
 
-      out1 <- data.frame(
-        predicted = linv(pr$fit),
-        conf.low = linv(pr$fit - tcrit * pr$se.fit),
-        conf.high = linv(pr$fit + tcrit * pr$se.fit)
-      )
-      out2 <- ggpredict(m1, "SexParent")
+    out1 <- data.frame(
+      predicted = linv(pr$fit),
+      conf.low = linv(pr$fit - tcrit * pr$se.fit),
+      conf.high = linv(pr$fit + tcrit * pr$se.fit)
+    )
+    out2 <- ggpredict(m1, "SexParent")
 
-      expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
-      expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
-      expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
+    expect_equal(out1$conf.high, out2$conf.high, tolerance = 1e-4, ignore_attr = TRUE)
 
-      expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
-      expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
-      expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
-      expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
-      expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent"), type = "random"), "data.frame")
-      expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random"), "data.frame")
+    expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
+    expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
+    expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
+    expect_s3_class(
+      ggpredict(m1, c("ArrivalTime", "SexParent"), type = "random", verbose = FALSE),
+      "data.frame"
+    )
+    expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random"), "data.frame")
 
-      expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "zero_inflated"))
+    expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "zero_inflated"))
 
-      p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
-      p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
-      p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
-      p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
-      expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
-      expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
+    p1 <- ggpredict(m1, c("ArrivalTime", "SexParent"))
+    p2 <- ggpredict(m2, c("ArrivalTime", "SexParent"))
+    p3 <- ggemmeans(m1, c("ArrivalTime", "SexParent"))
+    p4 <- ggemmeans(m2, c("ArrivalTime", "SexParent"))
+    expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
+    expect_equal(p2$predicted[1], p4$predicted[1], tolerance = 1e-3)
 
-      # test messages for unit- and population level predictions
-      expect_message(
-        predict_response(m1, "Nest"),
-        regex = "All focal terms are included"
-      )
-      expect_message(
-        predict_response(m1, "SexParent", type = "random"),
-        regex = "It seems that unit-level predictions"
-      )
-    })
-  }
+    # test messages for unit- and population level predictions
+    expect_message(
+      predict_response(m1, "Nest"),
+      regex = "All focal terms are included"
+    )
+    expect_message(
+      predict_response(m1, "SexParent", type = "random"),
+      regex = "It seems that unit-level predictions"
+    )
+  })
 )
 
 
 withr::with_options(
   list(ggeffects_warning_bias_correction = FALSE),
-  {
-    test_that("validate ggpredict lmer against marginaleffects", {
-      data(Owls, package = "glmmTMB")
-      m1 <- suppressWarnings(glmmTMB::glmmTMB(
-        SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
-        data = Owls,
-        family = glmmTMB::nbinom1()
-      ))
-      out1 <- suppressWarnings(marginaleffects::predictions(
-        m1,
-        variables = "SexParent",
-        newdata = marginaleffects::datagrid(m1),
-        vcov = FALSE,
-        re.form = NULL
-      ))
-      out1 <- out1[order(out1$SexParent), ]
-      out2 <- ggpredict(
-        m1,
-        "SexParent",
-        condition = c(Nest = "Oleyes"),
-        type = "random"
-      )
-      expect_equal(
-        out1$estimate,
-        out2$predicted,
-        tolerance = 1e-4,
-        ignore_attr = TRUE
-      )
-    })
-  }
+  test_that("validate ggpredict lmer against marginaleffects", {
+    data(Owls, package = "glmmTMB")
+    m1 <- suppressWarnings(glmmTMB::glmmTMB(
+      SiblingNegotiation ~ SexParent + ArrivalTime + (1 | Nest),
+      data = Owls,
+      family = glmmTMB::nbinom1()
+    ))
+    out1 <- suppressWarnings(marginaleffects::predictions(
+      m1,
+      variables = "SexParent",
+      newdata = marginaleffects::datagrid(m1),
+      vcov = FALSE,
+      re.form = NULL
+    ))
+    out1 <- out1[order(out1$SexParent), ]
+    out2 <- ggpredict(
+      m1,
+      "SexParent",
+      condition = c(Nest = "Oleyes"),
+      type = "random",
+      verbose = FALSE
+    )
+    expect_equal(
+      out1$estimate,
+      out2$predicted,
+      tolerance = 1e-4,
+      ignore_attr = TRUE
+    )
+  })
 )
 
 
@@ -375,9 +374,9 @@ test_that("ggpredict, glmmTMB", {
     family = glmmTMB::nbinom2()
   )
   expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "fixed"), "data.frame")
-  expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "zero_inflated"), "data.frame")
-  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "random")), "data.frame")
-  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "zero_inflated_random")), "data.frame")
+  expect_s3_class(ggpredict(m9, c("cover", "mined", "spp"), type = "zero_inflated"), "data.frame") # nolint
+  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "random", verbose = FALSE)), "data.frame") # nolint
+  expect_s3_class(suppressWarnings(ggpredict(m9, c("cover", "mined", "spp"), type = "zero_inflated_random", verbose = FALSE)), "data.frame") # nolint
 })
 
 
@@ -398,7 +397,7 @@ test_that("validate ggpredict against predict, linear, REML-fit", {
     conf.low = pr$fit - tcrit * pr$se.fit,
     conf.high = pr$fit + tcrit * pr$se.fit
   )
-  out2 <- ggpredict(m10, "Days", type = "random", interval = "confidence")
+  out2 <- ggpredict(m10, "Days", type = "random", interval = "confidence", verbose = FALSE)
 
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4, ignore_attr = TRUE)
@@ -420,7 +419,7 @@ test_that("validate ggpredict against predict, linear, REML-fit", {
     conf.high = pr$fit + tcrit * pr$se.fit
   )
   out2 <- ggpredict(m11, "Days")
-  out3 <- ggpredict(m11, "Days", type = "random", interval = "confidence")
+  out3 <- ggpredict(m11, "Days", type = "random", interval = "confidence", verbose = FALSE)
 
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-4, ignore_attr = TRUE)
   expect_equal(out1$predicted, out3$predicted, tolerance = 1e-4, ignore_attr = TRUE)

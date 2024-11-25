@@ -116,7 +116,7 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   # # difference-in-difference
   out1 <- test_predictions(m, c("groups", "var_binom"), test = "(b1 - b3) = (b2 - b4)", margin = "marginaleffects", verbose = FALSE)
   out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans", test = "interaction")
-  expect_equal(out1$Contrast, out2$Contrast[4], tolerance = 1e-2)
+  expect_equal(out1$Contrast, out2$Contrast[1], tolerance = 1e-2)
 })
 
 

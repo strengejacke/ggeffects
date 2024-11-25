@@ -1,31 +1,29 @@
-.post_processing_labels <- function(model,
-                                    result,
-                                    original_model_frame,
-                                    data_grid,
-                                    cleaned_terms,
-                                    original_terms,
-                                    model_info,
-                                    type,
-                                    prediction.interval,
-                                    at_list,
-                                    condition = NULL,
-                                    ci_level = 0.95,
-                                    untransformed.predictions = NULL,
-                                    back_transform = FALSE,
-                                    response.transform = NULL,
-                                    vcov_args = NULL,
-                                    margin = NULL,
-                                    model_name = NULL,
-                                    bias_correction = FALSE,
-                                    verbose = TRUE) {
+.post_processing_labels_and_data <- function(model,
+                                             result,
+                                             original_model_frame,
+                                             data_grid,
+                                             cleaned_terms,
+                                             original_terms,
+                                             model_info,
+                                             type,
+                                             prediction.interval,
+                                             at_list,
+                                             condition = NULL,
+                                             ci_level = 0.95,
+                                             back_transform = FALSE,
+                                             vcov_args = NULL,
+                                             margin = NULL,
+                                             model_name = NULL,
+                                             bias_correction = FALSE,
+                                             verbose = TRUE) {
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
   # but first, save original predicted values, to save as attribute
   if (back_transform) {
-    untransformed.predictions <- result$predicted
-    response.transform <- insight::find_terms(model, verbose = FALSE)[["response"]]
+    untransformed_predictions <- result$predicted
+    response_transform <- insight::find_terms(model, verbose = FALSE)[["response"]]
   } else {
-    untransformed.predictions <- response.transform <- NULL
+    untransformed_predictions <- response_transform <- NULL
   }
   result <- .back_transform_response(model, result, back_transform, verbose = verbose)
   attr(result, "model.name") <- model_name
@@ -70,9 +68,9 @@
     condition = condition,
     ci_level = ci_level,
     type = type,
-    untransformed.predictions = untransformed.predictions,
+    untransformed_predictions = untransformed_predictions,
     back_transform = back_transform,
-    response.transform = response.transform,
+    response_transform = response_transform,
     original_model_frame = original_model_frame,
     vcov_args = vcov_args,
     margin = margin,

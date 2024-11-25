@@ -8,42 +8,45 @@ skip_if_not_installed("effects")
 skip_if_not_installed("withr")
 
 
-test_that("ggpredict, lme4::glmer", {
-  data(efc_test, package = "ggeffects")
-  fit <- lme4::glmer(
-    negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
-    data = efc_test,
-    family = binomial(link = "logit")
-  )
-  pr <- ggpredict(fit, "c12hour", verbose = FALSE)
-  expect_equal(
-    pr$predicted,
-    c(0.34217, 0.34406, 0.34596, 0.34787, 0.34978, 0.3517, 0.35362,
-      0.35554, 0.35747, 0.35941, 0.36135, 0.36329, 0.36524, 0.36719,
-      0.36915, 0.37111, 0.37307, 0.37504, 0.37702, 0.37899, 0.38098,
-      0.38296, 0.38495, 0.38694, 0.38894, 0.39094, 0.39295, 0.39496,
-      0.39697, 0.39898, 0.401, 0.40302, 0.40505, 0.40708, 0.40911),
-    tolerance = 1e-3,
-    ignore_attr = TRUE
-  )
-  expect_message(ggpredict(fit, "c12hour"), "prettified")
-  expect_silent(ggpredict(fit, "c12hour", verbose = FALSE))
-  expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
-  expect_s3_class(
-    ggpredict(fit, "c12hour", type = "random", verbose = FALSE),
-    "data.frame"
-  )
-  expect_s3_class(
-    ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE),
-    "data.frame"
-  )
-  expect_s3_class(
-    ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random", verbose = FALSE),
-    "data.frame"
-  )
-})
+withr::with_options(
+  list(ggeffects_warning_bias_correction = FALSE),
+  test_that("ggpredict, lme4::glmer", {
+    data(efc_test, package = "ggeffects")
+    fit <- lme4::glmer(
+      negc7d ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+      data = efc_test,
+      family = binomial(link = "logit")
+    )
+    pr <- ggpredict(fit, "c12hour", verbose = FALSE)
+    expect_equal(
+      pr$predicted,
+      c(0.34217, 0.34406, 0.34596, 0.34787, 0.34978, 0.3517, 0.35362,
+        0.35554, 0.35747, 0.35941, 0.36135, 0.36329, 0.36524, 0.36719,
+        0.36915, 0.37111, 0.37307, 0.37504, 0.37702, 0.37899, 0.38098,
+        0.38296, 0.38495, 0.38694, 0.38894, 0.39094, 0.39295, 0.39496,
+        0.39697, 0.39898, 0.401, 0.40302, 0.40505, 0.40708, 0.40911),
+      tolerance = 1e-3,
+      ignore_attr = TRUE
+    )
+    expect_message(ggpredict(fit, "c12hour"), "prettified")
+    expect_silent(ggpredict(fit, "c12hour", verbose = FALSE))
+    expect_s3_class(ggpredict(fit, "c12hour", verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), verbose = FALSE), "data.frame")
+    expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), verbose = FALSE), "data.frame")
+    expect_s3_class(
+      ggpredict(fit, "c12hour", type = "random", verbose = FALSE),
+      "data.frame"
+    )
+    expect_s3_class(
+      ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE),
+      "data.frame"
+    )
+    expect_s3_class(
+      ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random", verbose = FALSE),
+      "data.frame"
+    )
+  })
+)
 
 
 test_that("ggpredict, lme4::glmer, conf int, validate against predict", {

@@ -77,7 +77,7 @@ pool_predictions <- function(x, ...) {
     # pooled estimate
     pooled_pred <- unlist(lapply(original_x, function(j) {
       if (back_transform) {
-        untransformed_predictions <- attributes(j)$untransformed.predictions
+        untransformed_predictions <- attributes(j)$untransformed_predictions
         if (!is.null(untransformed_predictions)) {
           link_fun(untransformed_predictions[i])
         } else {
@@ -121,7 +121,7 @@ pool_predictions <- function(x, ...) {
       model = NULL,
       pooled_predictions,
       back_transform = TRUE,
-      response.name = attributes(original_x[[1]])$response.transform
+      response.name = attributes(original_x[[1]])$response_transform
     )
   }
 

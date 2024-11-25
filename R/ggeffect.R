@@ -5,7 +5,7 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
   model_name <- deparse(substitute(model))
 
   # check formula
-  insight::formula_ok(model)
+  insight::formula_ok(model, verbose = verbose)
 
   # process "terms", so we have the default character format. Furthermore,
   # check terms argument, to make sure that terms were not misspelled and are

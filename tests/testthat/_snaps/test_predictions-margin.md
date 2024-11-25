@@ -187,11 +187,11 @@
 
     Code
       suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "marginalmeans",
-      test = "b4 = b13")))
+      test = "b19 = b26")))
     Output
       Hypothesis | Contrast |      95% CI |     p
       -------------------------------------------
-      b4=b13     |    -0.37 | -1.01, 0.27 | 0.262
+      b19=b26    |    -0.37 | -1.01, 0.27 | 0.262
       
       Tested hypothesis: parfam[green],countryname[Austria] =
         parfam[left],countryname[Belgium]
@@ -209,12 +209,12 @@
       
       parfam      |     countryname | Contrast |      95% CI |     p
       --------------------------------------------------------------
-      green-left  | Austria-Austria |    -0.17 | -0.91, 0.56 | 0.648
       green-green | Austria-Belgium |    -0.45 | -1.10, 0.20 | 0.173
+      green-left  | Austria-Austria |    -0.17 | -0.91, 0.56 | 0.648
       green-left  | Austria-Belgium |    -0.37 | -1.01, 0.27 | 0.262
-      left-green  | Austria-Belgium |    -0.28 | -0.88, 0.32 | 0.362
-      left-left   | Austria-Belgium |    -0.20 | -0.79, 0.40 | 0.519
+      green-left  | Belgium-Austria |     0.28 | -0.32, 0.88 | 0.362
       green-left  | Belgium-Belgium |     0.09 | -0.40, 0.57 | 0.730
+      left-left   | Austria-Belgium |    -0.20 | -0.79, 0.40 | 0.519
     Message
       
       Contrasts are presented as probabilities (in %-points).
@@ -223,11 +223,11 @@
 
     Code
       suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "empirical",
-      test = "b4 = b13")))
+      test = "b19 = b26")))
     Output
       Hypothesis | Contrast |      95% CI |     p
       -------------------------------------------
-      b4=b13     |    -0.37 | -1.01, 0.27 | 0.262
+      b19=b26    |    -0.37 | -1.01, 0.27 | 0.262
       
       Tested hypothesis: parfam[green],countryname[Austria] =
         parfam[left],countryname[Belgium]
@@ -245,12 +245,12 @@
       
       parfam      |     countryname | Contrast |      95% CI |     p
       --------------------------------------------------------------
-      green-left  | Austria-Austria |    -0.17 | -0.91, 0.56 | 0.648
       green-green | Austria-Belgium |    -0.45 | -1.10, 0.20 | 0.173
+      green-left  | Austria-Austria |    -0.17 | -0.91, 0.56 | 0.648
       green-left  | Austria-Belgium |    -0.37 | -1.01, 0.27 | 0.262
-      left-green  | Austria-Belgium |    -0.28 | -0.88, 0.32 | 0.362
-      left-left   | Austria-Belgium |    -0.20 | -0.79, 0.40 | 0.519
+      green-left  | Belgium-Austria |     0.28 | -0.32, 0.88 | 0.362
       green-left  | Belgium-Belgium |     0.09 | -0.40, 0.57 | 0.730
+      left-left   | Austria-Belgium |    -0.20 | -0.79, 0.40 | 0.519
     Message
       
       Contrasts are presented as probabilities (in %-points).
