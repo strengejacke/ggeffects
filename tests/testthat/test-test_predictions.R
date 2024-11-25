@@ -157,8 +157,9 @@ test_that("test_predictions, categorical, pairwise", {
   expect_equal(
     out$Contrast,
     c(
-      0.4199, -0.2051, -0.1528, 0.0666, 0.1187, -0.6251, -0.5727,
-      -0.3533, -0.3012, 0.0524, 0.2718, 0.3239, 0.2194, 0.2715, 0.0521
+      -0.20515, 0.06664, 0.41991, -0.15277, 0.11871, 0.27179, 0.62506,
+      0.05238, 0.32386, 0.35326, -0.21941, 0.05207, -0.57267, -0.3012,
+      0.27148
     ),
     tolerance = 1e-3,
     ignore_attr = FALSE
@@ -166,18 +167,18 @@ test_that("test_predictions, categorical, pairwise", {
   expect_identical(
     out$groups,
     c(
-      "control-treatment", "control-control", "control-treatment",
-      "control-control", "control-treatment", "treatment-control",
-      "treatment-treatment", "treatment-control", "treatment-treatment",
-      "control-treatment", "control-control", "control-treatment",
-      "treatment-control", "treatment-treatment", "control-treatment"
+      "control-control", "control-control", "control-treatment",
+      "control-treatment", "control-treatment", "control-control",
+      "control-treatment", "control-treatment", "control-treatment",
+      "control-treatment", "control-treatment", "control-treatment",
+      "treatment-treatment", "treatment-treatment", "treatment-treatment"
     )
   )
   expect_identical(
     out$episode,
     c(
-      "1-1", "1-2", "1-2", "1-3", "1-3", "1-2", "1-2", "1-3", "1-3",
-      "2-2", "2-3", "2-3", "2-3", "2-3", "3-3"
+      "1-2", "1-3", "1-1", "1-2", "1-3", "2-3", "2-1", "2-2", "2-3",
+      "3-1", "3-2", "3-3", "1-2", "1-3", "2-3"
     )
   )
 })
