@@ -78,7 +78,7 @@ ggpredict <- function(model,
   insight::formula_ok(model, verbose = verbose)
 
   # make sure we have valid values
-  interval <- .validate_argument(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
 
   model.name <- deparse(substitute(model))
 

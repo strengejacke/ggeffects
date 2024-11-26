@@ -182,7 +182,7 @@
       "cumulative_hazard", "simulate_random", "debug", "quantile" # for survreg
     )
   }
-  type <- .validate_argument(type, type_choices)
+  type <- insight::validate_argument(type, type_choices)
 
   switch(type,
     count = "fixed",
