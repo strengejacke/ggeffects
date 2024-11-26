@@ -49,6 +49,8 @@
 
 * Fixed issue with argument `condition` for `ggaverage()`.
 
+* Fixed issues with missing confidence intervals for objects of class `averaging`.
+
 # ggeffects 1.7.2
 
 ## Breaking changes
