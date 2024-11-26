@@ -183,7 +183,7 @@ test_that("collapse groups works", {
   gge <- ggpredict(m, terms = "Diet")
   vdiffr::expect_doppelganger(
     "Collapse random effects works again",
-    plot(gge, collapse_group = TRUE)
+    plot(gge, collapse_group = TRUE, verbose = FALSE)
   )
 })
 
@@ -201,12 +201,12 @@ test_that("addn residuals", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "show residuals",
-    plot(pr, show_residuals = TRUE)
+    plot(pr, show_residuals = TRUE, verbose = FALSE)
   )
   set.seed(123)
   vdiffr::expect_doppelganger(
     "show residuals line",
-    plot(pr, show_residuals = TRUE, show_residuals_line = TRUE)
+    plot(pr, show_residuals = TRUE, show_residuals_line = TRUE, verbose = FALSE)
   )
 })
 
@@ -238,7 +238,7 @@ test_that("test plots from vignette", {
   set.seed(123)
   vdiffr::expect_doppelganger(
     "add-data-points",
-    plot(dat, show_data = TRUE)
+    plot(dat, show_data = TRUE, verbose = FALSE)
   )
   dat <- predict_response(fit, terms = c("c172code", "c161sex"))
   vdiffr::expect_doppelganger(

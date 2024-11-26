@@ -47,12 +47,15 @@ withr::with_options(
 
     expect_s3_class(ggpredict(m1, c("ArrivalTime", "SexParent")), "data.frame")
     expect_s3_class(ggpredict(m2, c("ArrivalTime", "SexParent")), "data.frame")
-    expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame")
+    expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent")), "data.frame") # nolint
     expect_s3_class(
       ggpredict(m1, c("ArrivalTime", "SexParent"), type = "random", verbose = FALSE),
       "data.frame"
     )
-    expect_s3_class(ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random"), "data.frame")
+    expect_s3_class(
+      ggpredict(m4, c("FoodTreatment", "ArrivalTime [21,24,30]", "SexParent"), type = "random", verbose = FALSE), # nolint
+      "data.frame"
+    )
 
     expect_message(ggpredict(m1, c("ArrivalTime", "SexParent"), type = "zero_inflated"))
 

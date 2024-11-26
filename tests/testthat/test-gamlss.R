@@ -4,11 +4,11 @@ skip_if_not_installed("gamlss")
 
 test_that("ggpredict", {
   data(iris)
-  m1 <- gamlss::gamlss(
+  m1 <- suppressMessages(gamlss::gamlss(
     Sepal.Length ~ Sepal.Width + gamlss::random(Species),
     sigma.formula = ~Sepal.Width,
     data = iris
-  )
+  ))
 
   p <- ggpredict(m1, "Sepal.Width")
   expect_equal(
@@ -52,10 +52,10 @@ withr::with_environment(
       cat1 = sample(LETTERS[1:3], 100, replace = TRUE),
       stringsAsFactors = FALSE
     )
-    m <- gamlss::gamlss(
+    m <- suppressMessages(gamlss::gamlss(
       Y ~ date + scale(cont1) + scale(cont2) + I(scale(cont2)^2) * cat1,
       data = dat
-    )
+    ))
     expect_warning(expect_message(
       predict_response(m, "cont2"),
       regex = "is used on"

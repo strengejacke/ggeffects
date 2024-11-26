@@ -14,17 +14,17 @@ withr::with_package(
     m1 <- ordinal::clmm(rating ~ temp + contact + (1 | judge), data = wine)
 
     # ggpredict
-    p <- ggpredict(m1, "temp")
+    p <- ggpredict(m1, "temp", verbose = FALSE)
     expect_equal(p$predicted[1], 0.09760731, tolerance = 1e-3)
     ggpredict(m1, c("temp", "contact"))
 
     # ggeffect
-    p <- ggeffect(m1, "temp")
+    p <- ggeffect(m1, "temp", verbose = FALSE)
     expect_equal(p$predicted[1], 0.0730260420584538, tolerance = 1e-3)
     ggeffect(m1, c("temp", "contact"))
 
     # ggemmeans
-    p <- ggemmeans(m1, "contact")
+    p <- ggemmeans(m1, "contact", verbose = FALSE)
     expect_equal(p$predicted[1], 0.08691649, tolerance = 1e-5)
     ggemmeans(m1, c("temp", "contact"))
   })
