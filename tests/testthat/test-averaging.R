@@ -5,6 +5,7 @@ skip_if_not_installed("glmmTMB")
 skip_if_not_installed("betareg")
 
 test_that("ggpredict, glmmTMB averaging", {
+  library(MuMIn)
   data(FoodExpenditure, package = "betareg")
   m <- glmmTMB::glmmTMB(
     I(food / income) ~ income + (1 | persons),
@@ -40,6 +41,7 @@ skip_if_not_installed("withr")
 withr::with_options(
   list(na.action = "na.fail"),
   test_that("ggpredict, poly averaging", {
+    library(MuMIn)
     data(mtcars)
     mtcars$am <- factor(mtcars$am)
 
@@ -77,3 +79,5 @@ withr::with_options(
     )
   })
 )
+
+try(unloadNamespace("MuMIn"), silent = TRUE)
