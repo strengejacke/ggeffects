@@ -35,9 +35,9 @@ test_that("ggpredict, brms-ppd", {
   expect_s3_class(ggpredict(m2, "x", interval = "confidence"), "data.frame")
 
   set.seed(123)
-  out1 <- suppressWarnings(ggpredict(m1, "x", interval = "prediction"))
+  out1 <- suppressWarnings(ggpredict(m1, "x", interval = "prediction", verbose = FALSE))
   set.seed(123)
-  out2 <- ggpredict(m1, "x", interval = "prediction")
+  out2 <- ggpredict(m1, "x", interval = "prediction", verbose = FALSE)
   expect_equal(out1$predicted, out2$predicted, tolerance = 1e-3)
   expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-3)
 })

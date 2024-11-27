@@ -15,8 +15,8 @@ test_that("ggpredict, glmmTMB averaging", {
     family = glmmTMB::beta_family()
   )
   set.seed(123)
-  dr <- MuMIn::dredge(m)
-  avg <- MuMIn::model.avg(object = dr, fit = TRUE)
+  dr <- suppressMessages(MuMIn::dredge(m))
+  avg <- suppressMessages(MuMIn::model.avg(object = dr, fit = TRUE))
   out <- predict_response(avg, "income", verbose = FALSE)
 
   expect_equal(
@@ -47,9 +47,9 @@ withr::with_options(
 
     set.seed(123)
     m <- lm(disp ~ mpg + I(mpg^2) + am + gear, mtcars)
-    dr <- MuMIn::dredge(m, subset = dc(mpg, I(mpg^2)))
+    dr <- suppressMessages(MuMIn::dredge(m, subset = dc(mpg, I(mpg^2))))
     dr <- subset(dr, !(has(mpg) & !has(I(mpg^2))))
-    mod.avg.i <- MuMIn::model.avg(dr, fit = TRUE)
+    mod.avg.i <- suppressMessages(MuMIn::model.avg(dr, fit = TRUE))
     out <- suppressWarnings(ggpredict(mod.avg.i, terms = c("mpg [all]", "am"), verbose = FALSE))
     expect_equal(
       out$predicted[1:5],
@@ -64,8 +64,8 @@ withr::with_options(
 
     set.seed(123)
     m <- lm(disp ~ poly(mpg, 2, raw = TRUE) + am + gear, mtcars)
-    dr <- MuMIn::dredge(m)
-    mod.avg.poly <- MuMIn::model.avg(dr, fit = TRUE)
+    dr <- suppressMessages(MuMIn::dredge(m))
+    mod.avg.poly <- suppressMessages(MuMIn::model.avg(dr, fit = TRUE))
     out <- suppressWarnings(ggpredict(mod.avg.poly, terms = c("mpg [all]", "am")))
     expect_equal(
       out$predicted[1:5],

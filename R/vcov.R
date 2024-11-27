@@ -416,7 +416,7 @@ vcov.ggeffects <- function(object,
   }
   dots <- list(...)
   if (!is.null(dots$vcov_fun) || !is.null(dots$vcov_type)) {
-    insight::format_warning("The arguments `vcov_fun` and `vcov_type` are deprecated and no longer. Please only use `vcov` to specify a variance-covariance matrix or a string to identify the function to compute heteroscedasticity-consistent standard errors, and the `vcov_args` argument for further arguments passed to that function.") # nolint
+    insight::format_warning("The arguments `vcov_fun` and `vcov_type` are deprecated. Please only use `vcov` to specify a variance-covariance matrix or a string to identify the function to compute heteroscedasticity-consistent standard errors, and the `vcov_args` argument for further arguments passed to that function.") # nolint
   }
   if (!is.null(dots$vcov_type)) {
     return(dots$vcov_type)

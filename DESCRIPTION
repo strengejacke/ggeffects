@@ -2,7 +2,7 @@ Package: ggeffects
 Type: Package
 Encoding: UTF-8
 Title: Create Tidy Data Frames of Marginal Effects for 'ggplot' from Model Outputs
-Version: 1.8.21
+Version: 2.0.0
 Authors@R: c(
       person("Daniel", "Lüdecke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
       person("Frederik", "Aust", role = "ctb", comment = c(ORCID = "0000-0003-4900-788X")),
@@ -22,7 +22,7 @@ Depends:
     R (>= 3.6)
 Imports:
     graphics,
-    insight (>= 0.20.5),
+    insight (>= 1.0.0),
     datawizard (>= 0.13.0),
     stats,
     utils
@@ -61,7 +61,7 @@ Suggests:
     knitr,
     lme4 (>= 1.1-35),
     logistf,
-    marginaleffects (>= 0.19.0),
+    marginaleffects (>= 0.24.0),
     MASS,
     Matrix,
     mice,
@@ -107,4 +107,3 @@ Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 License: MIT + file LICENSE
 LazyData: true
-Remotes: vincentarelbundock/marginaleffects

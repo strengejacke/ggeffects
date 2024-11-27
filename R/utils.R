@@ -420,40 +420,6 @@ is.gamm4 <- function(x) {
 }
 
 
-.validate_argument <- function(argument, options) {
-  # save this information for printin
-  argument_name <- deparse(substitute(argument))
-  original_argument <- argument
-  # catch error, we want our own message
-  argument <- .safe(match.arg(argument, options))
-  # proceed here if argument option was invalid
-  if (is.null(argument)) {
-    # check whether we find a typo
-    suggestion <- .misspelled_string(options, original_argument)
-    msg <- sprintf("Invalid option for argument `%s`.", argument_name)
-    if (is.null(suggestion$msg) || !length(suggestion$msg) || !nzchar(suggestion$msg)) {
-      msg <- paste(
-        msg,
-        "Please use one of the following options:",
-        datawizard::text_concatenate(options, last = " or ", enclose = "\"")
-      )
-    } else {
-      options <- setdiff(options, suggestion$possible_strings)
-      msg <- paste(msg, suggestion$msg)
-      if (length(options)) {
-        msg <- paste(
-          msg,
-          "Otherwise, use one of the following options:",
-          datawizard::text_concatenate(options, last = " or ", enclose = "\"")
-        )
-      }
-    }
-    insight::format_error(msg)
-  }
-  argument
-}
-
-
 .misspelled_string <- function(source, searchterm, default_message = NULL) {
   if (is.null(searchterm) || length(searchterm) < 1) {
     return(default_message)

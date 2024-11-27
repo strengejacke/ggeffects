@@ -32,7 +32,8 @@ test_that("validate ggpredict lmer against marginaleffects", {
     "e42dep",
     condition = c(grp = "child"),
     type = "random",
-    interval = "confidence"
+    interval = "confidence",
+    verbose = FALSE
   )
   expect_equal(
     out1$estimate,
@@ -53,9 +54,9 @@ test_that("ggpredict, lmer", {
   expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
-  expect_s3_class(ggpredict(fit, "c12hour", type = "random"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "random"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(fit, "c12hour", type = "random", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE), "data.frame") # nolint
+  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random", verbose = FALSE), "data.frame") # nolint
 })
 
 

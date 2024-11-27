@@ -8,8 +8,8 @@ test_that("ggpredict, lme", {
   fit <- nlme::lme(distance ~ age + Sex, data = Orthodont, random = ~ 1 | Subject)
   expect_s3_class(ggpredict(fit, "age"), "data.frame")
   expect_s3_class(ggpredict(fit, c("age", "Sex")), "data.frame")
-  expect_s3_class(ggpredict(fit, "age", type = "random"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("age", "Sex"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(fit, "age", type = "random", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(fit, c("age", "Sex"), type = "random", verbose = FALSE), "data.frame")
   expect_s3_class(ggeffect(fit, "age"), "data.frame")
   expect_s3_class(ggeffect(fit, c("age", "Sex")), "data.frame")
 })
@@ -20,8 +20,8 @@ test_that("ggpredict, lme", {
   m6 <- nlme::lme(distance ~ age * Sex, data = Orthodont, random = ~ age | Subject)
   expect_s3_class(ggpredict(m5, c("age", "Sex")), "data.frame")
   expect_s3_class(ggpredict(m6, c("age", "Sex")), "data.frame")
-  expect_s3_class(ggpredict(m5, c("age", "Sex"), type = "random"), "data.frame")
-  expect_s3_class(ggpredict(m6, c("age", "Sex"), type = "random"), "data.frame")
+  expect_s3_class(ggpredict(m5, c("age", "Sex"), type = "random", verbose = FALSE), "data.frame")
+  expect_s3_class(ggpredict(m6, c("age", "Sex"), type = "random", verbose = FALSE), "data.frame")
 })
 
 test_that("ggpredict, lme, type=re", {
