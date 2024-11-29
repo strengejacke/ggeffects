@@ -57,12 +57,6 @@
     )
   }
 
-  # any weights?
-  w <- insight::get_weights(model)
-  if (is.null(w) || all(w == 1)) {
-    w <- NULL
-  }
-
   # get random effects (grouping factor)
   random_effect_terms <- insight::find_random(model, split_nested = TRUE, flatten = TRUE)
 
@@ -288,6 +282,12 @@
 
   # keep those, which we did not process yet
   model_predictors <- model_predictors[!(model_predictors %in% names(focal_terms))]
+
+  # any weights?
+  w <- insight::get_weights(model)
+  if (is.null(w) || all(w == 1)) {
+    w <- NULL
+  }
 
   # if we have weights, and typical value is mean, use weighted means
   # as function for the typical values
