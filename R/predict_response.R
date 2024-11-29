@@ -647,9 +647,6 @@ predict_response <- function(model,
     )
   )
 
-  ## TODO: remove deprecated later
-  vcov <- .prepare_vcov_args(vcov, ...)
-
   # save name, so it can later be retrieved from environment
   model_name <- insight::safe_deparse(substitute(model))
 

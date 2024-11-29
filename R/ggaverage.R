@@ -14,9 +14,6 @@ ggaverage <- function(model,
                       ...) {
   insight::check_if_installed("marginaleffects")
 
-  ## TODO: remove deprecated later
-  vcov <- .prepare_vcov_args(vcov, ...)
-
   # check arguments
   type <- .validate_type_argument(model, type, marginaleffects = TRUE)
   dot_args <- list(...)

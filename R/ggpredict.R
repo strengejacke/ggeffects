@@ -71,9 +71,6 @@ ggpredict <- function(model,
   # check arguments
   type <- .validate_type_argument(model, type)
 
-  ## TODO: remove deprecated later
-  vcov <- .prepare_vcov_args(vcov, ...)
-
   # check formula
   insight::formula_ok(model, verbose = verbose)
 

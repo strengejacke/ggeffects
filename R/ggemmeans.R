@@ -17,9 +17,6 @@ ggemmeans <- function(model,
   insight::check_if_installed("emmeans")
   additional_dot_args <- list(...)
 
-  ## TODO: remove deprecated later
-  vcov <- .prepare_vcov_args(vcov, ...)
-
   # process vcov-arguments
   vcov <- .get_variance_covariance_matrix(
     model,
