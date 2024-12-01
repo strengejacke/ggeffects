@@ -104,4 +104,16 @@ test_that("plot, vignette introduction", {
     "Vignette-introduction-5-way",
     plot(pr, n_rows = 4) + ggplot2::theme(legend.position = "bottom")
   )
+
+  # check one_plot
+  out <- plot(pr, one_plot = FALSE)
+  expect_length(out, 4)
+  vdiffr::expect_doppelganger(
+    "Vignette-introduction-5-way, single-1",
+    plot(out[[1]])
+  )
+  vdiffr::expect_doppelganger(
+    "Vignette-introduction-5-way, single-2",
+    plot(out[[4]])
+  )
 })
