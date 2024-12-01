@@ -20,7 +20,14 @@ predict_response(). In previous versions of ggeffects, the functions
 ggpredict(), ggemmeans(), ggeffect() and ggaverage() were used to
 calculate marginal means and adjusted predictions. These functions are still
 available, but predict_response() as a "wrapper" around these functions is
-the preferred way to do this now.'><meta property="og:description" content='After fitting a model, it is useful generate model-based estimates (expected
+the preferred way to do this now.
+ggpredict() calls get_predictions() (which in turn calls
+stats::predict())
+ggemmeans() calls emmeans::emmeans()
+ggaverage() calls marginaleffects::avg_predictions()
+ggeffect() calls effects::Effect()
+
+'><meta property="og:description" content='After fitting a model, it is useful generate model-based estimates (expected
 values, or adjusted predictions) of the response variable for different
 combinations of predictor values. Such estimates can be used to make
 inferences about relationships between variables.
@@ -41,7 +48,14 @@ predict_response(). In previous versions of ggeffects, the functions
 ggpredict(), ggemmeans(), ggeffect() and ggaverage() were used to
 calculate marginal means and adjusted predictions. These functions are still
 available, but predict_response() as a "wrapper" around these functions is
-the preferred way to do this now.'><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
+the preferred way to do this now.
+ggpredict() calls get_predictions() (which in turn calls
+stats::predict())
+ggemmeans() calls emmeans::emmeans()
+ggaverage() calls marginaleffects::avg_predictions()
+ggeffect() calls effects::Effect()
+
+'><meta property="og:image" content="https://strengejacke.github.io/ggeffects/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -49,7 +63,7 @@ the preferred way to do this now.'><meta property="og:image" content="https://st
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,8 +146,12 @@ default. <code><a href="plot.html">plot()</a></code> can be used to easily creat
 <code>ggpredict()</code>, <code>ggemmeans()</code>, <code>ggeffect()</code> and <code>ggaverage()</code> were used to
 calculate marginal means and adjusted predictions. These functions are still
 available, but <code><a href="predict_response.html">predict_response()</a></code> as a "wrapper" around these functions is
-the preferred way to do this now.</p>
-    </div>
+the preferred way to do this now.</p><ul><li><p><code>ggpredict()</code> calls <code><a href="get_predictions.html">get_predictions()</a></code> (which in turn calls
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">stats::predict()</a></code>)</p></li>
+<li><p><code>ggemmeans()</code> calls <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code></p></li>
+<li><p><code>ggaverage()</code> calls <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::avg_predictions()</a></code></p></li>
+<li><p><code>ggeffect()</code> calls <code><a href="https://rdrr.io/pkg/effects/man/effect.html" class="external-link">effects::Effect()</a></code></p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
@@ -264,8 +282,8 @@ character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.</p></li>
 <li><p>A data frame representing a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.</p></li>
-</ul><p><code>terms</code> at least requires one variable name. The maximum length is four terms,
-where the second to fourth term indicate the groups, i.e. predictions of the first
+</ul><p><code>terms</code> at least requires one variable name. The maximum length is five terms,
+where the second to fifth term indicate the groups, i.e. predictions of the first
 term are grouped at meaningful values or levels of the remaining terms (see
 <code><a href="values_at.html">values_at()</a></code>). It is also possible to define specific values for focal
 terms, at which adjusted predictions should be calculated (see details below).

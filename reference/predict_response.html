@@ -53,7 +53,7 @@ means and adjusted predictions now.'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -182,8 +182,8 @@ character vector. This is probably the least flexible way, as you cannot
 specify representative values for the focal terms.</p></li>
 <li><p>A data frame representing a "data grid" or "reference grid". Predictions
 are then made for all combinations of the variables in the data frame.</p></li>
-</ul><p><code>terms</code> at least requires one variable name. The maximum length is four terms,
-where the second to fourth term indicate the groups, i.e. predictions of the first
+</ul><p><code>terms</code> at least requires one variable name. The maximum length is five terms,
+where the second to fifth term indicate the groups, i.e. predictions of the first
 term are grouped at meaningful values or levels of the remaining terms (see
 <code><a href="values_at.html">values_at()</a></code>). It is also possible to define specific values for focal
 terms, at which adjusted predictions should be calculated (see details below).

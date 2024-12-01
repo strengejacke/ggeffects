@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -581,8 +581,17 @@ manually (or using the <code><a href="../reference/plot.html">plot()</a></code> 
 <span><span class="co">#&gt; [1] "fit"</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="two-way-three-way--and-four-way-interactions">Two-Way, Three-Way- and Four-Way-Interactions<a class="anchor" aria-label="anchor" href="#two-way-three-way--and-four-way-interactions"></a>
+<h2 id="many-focal-terms-two-way-three-way--four-way--and-five-way-interactions">Many focal terms: Two-Way, Three-Way-, Four-Way- and
+Five-Way-Interactions<a class="anchor" aria-label="anchor" href="#many-focal-terms-two-way-three-way--four-way--and-five-way-interactions"></a>
 </h2>
+<p>Here we show examples of interaction terms, however, this section
+applies in general to using many focal terms. You can plot up to five
+focal terms. For all of these examples, you can easily use the <a href="https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html"><code>plot()</code>-method</a>.
+<strong>ggplot2</strong> is just used to show how to create plots from
+scratch.</p>
+<div class="section level3">
+<h3 id="two-focal-terms">Two focal terms<a class="anchor" aria-label="anchor" href="#two-focal-terms"></a>
+</h3>
 <p>To plot the adjusted predictions of interaction terms, simply specify
 these terms in the <code>terms</code> argument.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -598,9 +607,13 @@ these terms in the <code>terms</code> argument.</p>
 <span><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
-<p>Since the <code>terms</code> argument accepts up to four focal terms,
-you can also compute adjusted predictions for a 3-way-interaction or
-4-way-interaction. To plot the adjusted predictions of three interaction
+</div>
+<div class="section level3">
+<h3 id="three-focal-terms">Three focal terms<a class="anchor" aria-label="anchor" href="#three-focal-terms"></a>
+</h3>
+<p>Since the <code>terms</code> argument accepts up to five focal terms,
+you can also compute adjusted predictions for a 3-way-, 4-way- or
+5-way-interaction. To plot the adjusted predictions of three interaction
 terms, just like before, specify all three terms in the
 <code>terms</code> argument.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -614,10 +627,16 @@ terms, just like before, specify all three terms in the
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">facet</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<p>4-way-interactions are rather confusing to print and plot. When
-plotting, multiple plots (for each level of the fourth interaction term)
-are plotted for the remaining three interaction terms. This can easily
-be done using the <a href="https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html"><code>plot()</code>-method</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="four-focal-terms">Four focal terms<a class="anchor" aria-label="anchor" href="#four-focal-terms"></a>
+</h3>
+<p>4-way-interactions, or more generally: four focal terms, will be
+plotted in a grid layout. The <em>first</em> focal term is plotted on
+the x-axis. The <em>second</em> focal term is mapped to different colors
+(groups) and appears in the legend. The <em>third</em> focal term is
+mapped to columns, and the <em>fourth</em> focal term is mapped to
+rows.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># fit model with 4-way-interaction</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">*</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
@@ -626,8 +645,27 @@ be done using the <a href="https://strengejacke.github.io/ggeffects/articles/int
 <span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># use plot() method, easier than own ggplot-code from scratch</span></span>
-<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggeffects_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
+</div>
+<div class="section level3">
+<h3 id="five-focal-terms">Five focal terms<a class="anchor" aria-label="anchor" href="#five-focal-terms"></a>
+</h3>
+<p>5-way-interactions are rather confusing to print and plot. When
+plotting, multiple plots (for each level of the fifth interaction term)
+are plotted for the remaining four focal terms. Note that for five focal
+terms, <code>n_rows</code> can be used to arrange the “sub-plots”.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># fit model with 5-way-interaction</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">*</span> <span class="va">c172code</span> <span class="op">*</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># adjusted predictions for all 5 interaction terms</span></span>
+<span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot"</span>, <span class="st">"c161sex"</span>, <span class="st">"c172code"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># use plot() method, easier than own ggplot-code from scratch</span></span>
+<span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="polynomial-terms-and-splines">Polynomial terms and splines<a class="anchor" aria-label="anchor" href="#polynomial-terms-and-splines"></a>
@@ -635,7 +673,7 @@ be done using the <a href="https://strengejacke.github.io/ggeffects/articles/int
 <p><code><a href="../reference/predict_response.html">predict_response()</a></code> also works for models with polynomial
 terms or splines. Following code reproduces the plot from
 <code><a href="https://rdrr.io/r/splines/bs.html" class="external-link">?splines::bs</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">women</span><span class="op">)</span></span>
 <span></span>
@@ -645,7 +683,7 @@ terms or splines. Following code reproduces the plot from
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">predicted</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="survival-models">Survival models<a class="anchor" aria-label="anchor" href="#survival-models"></a>
@@ -660,7 +698,7 @@ across time, the time-variable is automatically used as x-axis in such
 cases, so the <code>terms</code> argument only needs up to
 <strong>two</strong> variables for <code>type = "survival"</code> or
 <code>type = "cumulative_hazard"</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"lung2"</span><span class="op">)</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">ph.ecog</span>, data <span class="op">=</span> <span class="va">lung2</span><span class="op">)</span></span>
@@ -692,7 +730,7 @@ cases, so the <code>terms</code> argument only needs up to
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * age = 62.42</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># probability of survival</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Probability of Survival</span></span>
@@ -794,7 +832,7 @@ term in <code>terms</code>.</li>
 </ul>
 <p>The data frame returned by <code><a href="../reference/predict_response.html">predict_response()</a></code> must be
 used as argument to one of the above function calls.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_title.html">get_x_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "average number of hours of care per week"</span></span>
 <span><span class="fu"><a href="../reference/get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
@@ -808,7 +846,7 @@ used as argument to one of the above function calls.</p>
 <span>    y <span class="op">=</span> <span class="fu"><a href="../reference/get_title.html">get_y_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>,</span>
 <span>    colour <span class="op">=</span> <span class="fu"><a href="../reference/get_title.html">get_legend_title</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="ggeffects_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
+<p><img src="ggeffects_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
