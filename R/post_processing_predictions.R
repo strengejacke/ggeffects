@@ -65,6 +65,11 @@
     attr(result, "numeric.facet") <- TRUE
   }
 
+  if (.obj_has_name(result, "panel") && is.numeric(result$panel)) {
+    result$panel <- as.factor(result$panel)
+    attr(result, "numeric.panel") <- TRUE
+  }
+
   attr(result, "legend.labels") <- legend.labels
   attr(result, "x.is.factor") <- x.is.factor
   attr(result, "averaged_predictions") <- averaged_predictions
@@ -76,7 +81,7 @@
 
 # name and sort columns, depending on groups, facet and panel
 .prepare_columns <- function(result, cleaned_terms) {
-  columns <- c("x", "predicted", "std.error", "conf.low", "conf.high", "response.level", "group", "facet", "panel")
+  columns <- c("x", "predicted", "std.error", "conf.low", "conf.high", "response.level", "group", "facet", "panel", "grid")
 
   # with or w/o grouping factor?
   if (length(cleaned_terms) == 1) {
@@ -89,6 +94,8 @@
     colnames(result)[1:3] <- c("x", "group", "facet")
   } else if (length(cleaned_terms) == 4) {
     colnames(result)[1:4] <- c("x", "group", "facet", "panel")
+  } else if (length(cleaned_terms) == 5) {
+    colnames(result)[1:5] <- c("x", "group", "facet", "panel", "grid")
   }
 
   # sort columns

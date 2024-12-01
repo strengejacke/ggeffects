@@ -383,6 +383,7 @@ format.ggcomparisons <- function(x,
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  has_grid <- .obj_has_name(x, "grid") && length(unique(x$grid)) > 1
   has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
 
   # here comes the top-secret formula that calculates the perfect number of rows

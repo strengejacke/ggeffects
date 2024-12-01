@@ -154,8 +154,8 @@ of same groups will be connected with a line.}
 \code{facets = TRUE} to wrap the plot into facets even for grouping variables
 (see 'Examples'). \code{grid} is an alias for \code{facets}.}
 
-\item{one_plot}{Logical, if \code{TRUE} and \code{x} has a \code{panel} column (i.e. when
-four \code{terms} were used), a single, integrated plot is produced.}
+\item{one_plot}{Logical, if \code{TRUE} and \code{x} has a \code{grid} column (i.e. when
+five \code{terms} were used), a single, integrated plot is produced.}
 
 \item{n_rows}{Number of rows to align plots. By default, all plots are aligned
 in one row. For facets, or multiple panels, plots can also be aligned in
