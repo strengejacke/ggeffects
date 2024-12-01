@@ -181,7 +181,11 @@ mydf
 ```
 
 
-# Two-Way, Three-Way- and Four-Way-Interactions
+# Many focal terms: Two-Way, Three-Way-, Four-Way- and Five-Way-Interactions
+
+Here we show examples of interaction terms, however, this section applies in general to using many focal terms. You can plot up to five focal terms. For all of these examples, you can easily use the [`plot()`-method](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html). **ggplot2** is just used to show how to create plots from scratch.
+
+## Two focal terms
 
 To plot the adjusted predictions of interaction terms, simply specify these terms in the `terms` argument.
 
@@ -199,7 +203,9 @@ mydf <- predict_response(fit, terms = c("barthtot [30,50,70]", "c161sex"))
 ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
 ```
 
-Since the `terms` argument accepts up to four focal terms, you can also compute adjusted predictions for a 3-way-interaction or 4-way-interaction. To plot the adjusted predictions of three interaction terms, just like before, specify all three terms in the `terms` argument.
+## Three focal terms
+
+Since the `terms` argument accepts up to five focal terms, you can also compute adjusted predictions for a 3-way-, 4-way- or 5-way-interaction. To plot the adjusted predictions of three interaction terms, just like before, specify all three terms in the `terms` argument.
 
 ```{r}
 # fit model with 3-way-interaction
@@ -213,7 +219,9 @@ ggplot(mydf, aes(x, predicted, colour = group)) +
   facet_wrap(~facet)
 ```
 
-4-way-interactions are rather confusing to print and plot. When plotting, multiple plots (for each level of the fourth interaction term) are plotted for the remaining three interaction terms. This can easily be done using the [`plot()`-method](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html).
+## Four focal terms
+
+4-way-interactions, or more generally: four focal terms, will be plotted in a grid layout. The _first_ focal term is plotted on the x-axis. The _second_ focal term is mapped to different colors (groups) and appears in the legend. The _third_ focal term is mapped to columns, and the _fourth_ focal term is mapped to rows.
 
 ```{r fig.height=6.5}
 # fit model with 4-way-interaction
@@ -223,9 +231,23 @@ fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
 pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
 
 # use plot() method, easier than own ggplot-code from scratch
-plot(pr, n_rows = 2) + theme(legend.position = "bottom")
+plot(pr) + theme(legend.position = "bottom")
 ```
 
+## Five focal terms
+
+5-way-interactions are rather confusing to print and plot. When plotting, multiple plots (for each level of the fifth interaction term) are plotted for the remaining four focal terms. Note that for five focal terms, `n_rows` can be used to arrange the "sub-plots".
+
+```{r fig.height=6.5}
+# fit model with 4-way-interaction
+fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code * e42dep, data = efc)
+
+# adjusted predictions for all 5 interaction terms
+pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))
+
+# use plot() method, easier than own ggplot-code from scratch
+plot(pr, n_rows = 2) + theme(legend.position = "bottom")
+```
 
 # Polynomial terms and splines
 
