@@ -217,7 +217,7 @@ test_that("only one legend for multiple panels", {
   mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
   vdiffr::expect_doppelganger(
     "One legend for panels",
-    plot(mydf, one_plot = TRUE)
+    plot(mydf)
   )
 })
 

@@ -2,6 +2,11 @@
 
 ## Changes
 
+* The `terms` argument can now include up to five focal terms (formerly: four).
+  Accordingly, the `plot()` method was revised. For four focal terms, a facet
+  grid is used to plot all relevant panels. For five focal terms, multiple
+  plots with facet grids are arranged using the **patchwork** package.
+
 * `values_at()` gains a new `"threenum"` option. `"quartiles"` and `"quartiles2"`
   can be used as full-name alternatives to `"quart"` and `"quart2"`.
 

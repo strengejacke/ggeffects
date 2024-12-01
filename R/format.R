@@ -86,10 +86,11 @@ format.ggeffects <- function(x,
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  has_grid <- .obj_has_name(x, "grid") && length(unique(x$grid)) > 1
   has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
 
   # check which columns we have - we want to sort by "subgroups"
-  sort_columns <- c("response.level", "group", "facet", "panel")[c(has_response, has_groups, has_facets, has_panel)]
+  sort_columns <- c("response.level", "group", "facet", "panel", "grid")[c(has_response, has_groups, has_facets, has_panel, has_grid)] # nolint
 
   # response needs to be factor
   if (has_response) {
@@ -140,6 +141,7 @@ format.ggeffects <- function(x,
           group = ifelse(length(focal_terms) > 1, focal_terms[2], ""),
           facet = ifelse(length(focal_terms) > 2, focal_terms[3], ""),
           panel = ifelse(length(focal_terms) > 3, focal_terms[4], ""),
+          grid = ifelse(length(focal_terms) > 4, focal_terms[5], ""),
           ""
         )
         x[[i]] <- paste(prefix, x[[i]], sep = ": ")
@@ -197,7 +199,7 @@ format.ggeffects <- function(x,
   }
 
   # clean-up
-  x[c("response.level", "group", "facet", "panel")] <- NULL
+  x[c("response.level", "group", "facet", "panel", "grid")] <- NULL
 
   # collapse CI?
   x <- .collapse_ci(x, collapse_ci, ci_brackets = dots$ci_brackets)
@@ -383,6 +385,7 @@ format.ggcomparisons <- function(x,
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  has_grid <- .obj_has_name(x, "grid") && length(unique(x$grid)) > 1
   has_response <- .obj_has_name(x, "response.level") && length(unique(x$response.level)) > 1
 
   # here comes the top-secret formula that calculates the perfect number of rows

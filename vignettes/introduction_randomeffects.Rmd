@@ -249,7 +249,7 @@ me <- predict_response(m, terms = c("c12hour", "e15relat [child,sibling]"), type
 plot(me, show_ci = FALSE)
 ```
 
-The most complex plot in this scenario would be a term (`c12hour`) at certain values of two other terms (`c161sex`, `c160age`) for specific unit-levels of random effects (`e15relat`), so we have four variables in the `terms`-argument.
+The complex plot in this scenario would be a term (`c12hour`) at certain values of two other terms (`c161sex`, `c160age`) for specific unit-levels of random effects (`e15relat`), so we have four variables in the `terms`-argument.
 
 ```{r fig.height=7}
 me <- predict_response(
@@ -257,7 +257,7 @@ me <- predict_response(
   terms = c("c12hour", "c161sex", "c160age", "e15relat [child,sibling]"),
   type = "random"
 )
-plot(me, n_rows = 2)
+plot(me)
 ```
 
 If the group factor has too many levels, you can also take a random sample of all possible levels and plot the adjusted predictions for this subsample of unit-levels. To do this, use `term = "<groupfactor> [sample=n]"`.

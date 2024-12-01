@@ -120,8 +120,8 @@ specify representative values for the focal terms.
 are then made for all combinations of the variables in the data frame.
 }
 
-\code{terms} at least requires one variable name. The maximum length is four terms,
-where the second to fourth term indicate the groups, i.e. predictions of the first
+\code{terms} at least requires one variable name. The maximum length is five terms,
+where the second to fifth term indicate the groups, i.e. predictions of the first
 term are grouped at meaningful values or levels of the remaining terms (see
 \code{\link[=values_at]{values_at()}}). It is also possible to define specific values for focal
 terms, at which adjusted predictions should be calculated (see details below).
@@ -387,6 +387,13 @@ The main function to calculate marginal means and adjusted predictions is
 calculate marginal means and adjusted predictions. These functions are still
 available, but \code{predict_response()} as a "wrapper" around these functions is
 the preferred way to do this now.
+\itemize{
+\item \code{ggpredict()} calls \code{get_predictions()} (which in turn calls
+\code{stats::predict()})
+\item \code{ggemmeans()} calls \code{emmeans::emmeans()}
+\item \code{ggaverage()} calls \code{marginaleffects::avg_predictions()}
+\item \code{ggeffect()} calls \code{effects::Effect()}
+}
 }
 \details{
 Please see \code{?predict_response} for details and examples.

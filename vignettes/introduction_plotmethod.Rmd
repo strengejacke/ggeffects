@@ -30,8 +30,8 @@ If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-me
 library(ggplot2)
 library(ggeffects)
 data(efc, package = "ggeffects")
-efc$c172code <- datawizard::to_factor(efc$c172code)
-fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+efc <- datawizard::to_factor(efc, c("c172code", "e42dep"))
+fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code + e42dep, data = efc)
 ```
 
 ## Facet by Group
@@ -78,21 +78,24 @@ plot(dat)
 plot(dat, connect_lines = TRUE)
 ```
 
-## Create Panel Plots for more than three Terms
+## Create Panel Plots for five Terms
 
-For three grouping variable (i.e. if `terms` is of length four), one plot per `panel` (the values of the fourth variable in `terms`) is created, and a single, integrated plot is produced by default. Use `one_plot = FALSE` to return one plot per panel.
+For four grouping variable (i.e. if `terms` is of length five), one plot per value/level of the fifth variable in `terms` is created, and a single, integrated plot is produced by default. Use `one_plot = FALSE` to return one plot per panel.
 
 ```{r fig.height = 6}
-# for four variables, automatic facetting and integrated panel
-dat <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
+# for five variables, automatic facetting and integrated panel
+dat <- predict_response(
+  fit,
+  terms = c("c12hour", "c172code", "c161sex", "neg_c_7", "e42dep")
+)
 # use 'one_plot = FALSE' for returning multiple single plots
 plot(dat, one_plot = TRUE)
 ```
 
 If facets become too small, you can align the panels in multiple rows, using the `n_rows` argument. Furthermore, use functions from *ggplot2* to align the legend.
 
-```{r fig.height = 7}
-plot(dat, one_plot = TRUE, n_rows = 2) + theme(legend.position = "bottom")
+```{r fig.height = 12}
+plot(dat, one_plot = TRUE, n_rows = 4) + theme(legend.position = "bottom")
 ```
 
 # Change appearance of confidence bands

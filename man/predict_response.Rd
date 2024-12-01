@@ -40,8 +40,8 @@ specify representative values for the focal terms.
 are then made for all combinations of the variables in the data frame.
 }
 
-\code{terms} at least requires one variable name. The maximum length is four terms,
-where the second to fourth term indicate the groups, i.e. predictions of the first
+\code{terms} at least requires one variable name. The maximum length is five terms,
+where the second to fifth term indicate the groups, i.e. predictions of the first
 term are grouped at meaningful values or levels of the remaining terms (see
 \code{\link[=values_at]{values_at()}}). It is also possible to define specific values for focal
 terms, at which adjusted predictions should be calculated (see details below).
