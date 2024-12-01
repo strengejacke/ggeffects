@@ -2,6 +2,7 @@ skip_on_os(c("mac", "solaris"))
 skip_if_not_installed("ggplot2")
 skip_if_not_installed("datawizard")
 skip_if_not_installed("vdiffr")
+skip_on_cran()
 
 test_that("plot, vignette", {
   data(efc, package = "ggeffects")

@@ -209,3 +209,23 @@ test_that("ggpredict, weights", {
   m <- lm(Freq ~ Infl * Type * Sat, data = housing)
   expect_snapshot(print(ggaverage(m, c("Infl", "Type", "Sat")), collapse_tables = TRUE))
 })
+
+
+test_that("print, 5-way-interaction", {
+  skip_on_cran()
+  data(efc, package = "ggeffects")
+  # make categorical
+  efc <- datawizard::to_factor(efc, c("c161sex", "e42dep"))
+  # fit model with 4-way-interaction
+  fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
+  # adjusted predictions for all 4 interaction terms
+  pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
+  expect_snapshot(print(pr))
+  expect_snapshot(print(pr, collapse_tables = TRUE))
+  # fit model with 5-way-interaction
+  fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code * e42dep, data = efc)
+  # adjusted predictions for all 5 interaction terms
+  pr <- suppressWarnings(predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))) # nolint
+  expect_snapshot(print(pr))
+  expect_snapshot(print(pr, collapse_tables = TRUE))
+})
