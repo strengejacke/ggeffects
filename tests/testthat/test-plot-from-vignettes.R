@@ -50,7 +50,7 @@ test_that("plot, vignette", {
   # use 'one_plot = FALSE' for returning multiple single plots
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-7",
-    plot(dat, one_plot = TRUE)
+    plot(dat)
   )
 
   # dashed lines for CI
