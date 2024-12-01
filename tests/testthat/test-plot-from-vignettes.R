@@ -53,11 +53,6 @@ test_that("plot, vignette", {
     plot(dat, one_plot = TRUE)
   )
 
-  vdiffr::expect_doppelganger(
-    "Vignette-plotintro-8",
-    plot(dat, one_plot = TRUE, n_rows = 2) + ggplot2::theme(legend.position = "bottom")
-  )
-
   # dashed lines for CI
   dat <- predict_response(fit, terms = "c12hour")
   vdiffr::expect_doppelganger(
@@ -76,5 +71,29 @@ test_that("plot, vignette", {
   vdiffr::expect_doppelganger(
     "Vignette-plotintro-11",
     plot(dat, facets = TRUE, ci_style = "errorbar", dot_size = 1.5)
+  )
+})
+
+
+test_that("plot, vignette introduction", {
+  data(efc, package = "ggeffects")
+
+  # make categorical
+  efc <- datawizard::to_factor(efc, c("c161sex", "e42dep"))
+  # fit model with 4-way-interaction
+  fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
+  # adjusted predictions for all 4 interaction terms
+  pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
+  vdiffr::expect_doppelganger(
+    "Vignette-introduction-4-way",
+    plot(pr) + ggplot2::theme(legend.position = "bottom")
+  )
+  # fit model with 5-way-interaction
+  fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code * e42dep, data = efc)
+  # adjusted predictions for all 5 interaction terms
+  pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))
+  vdiffr::expect_doppelganger(
+    "Vignette-introduction-5-way",
+    plot(pr, n_rows = 2) + ggplot2::theme(legend.position = "bottom")
   )
 })

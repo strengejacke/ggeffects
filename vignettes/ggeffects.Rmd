@@ -239,7 +239,7 @@ plot(pr) + theme(legend.position = "bottom")
 5-way-interactions are rather confusing to print and plot. When plotting, multiple plots (for each level of the fifth interaction term) are plotted for the remaining four focal terms. Note that for five focal terms, `n_rows` can be used to arrange the "sub-plots".
 
 ```{r fig.height=6.5}
-# fit model with 4-way-interaction
+# fit model with 5-way-interaction
 fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code * e42dep, data = efc)
 
 # adjusted predictions for all 5 interaction terms
