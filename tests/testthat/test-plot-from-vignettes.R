@@ -94,6 +94,14 @@ test_that("plot, vignette introduction", {
   pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))
   vdiffr::expect_doppelganger(
     "Vignette-introduction-5-way",
+    plot(pr)
+  )
+  vdiffr::expect_doppelganger(
+    "Vignette-introduction-5-way",
     plot(pr, n_rows = 2) + ggplot2::theme(legend.position = "bottom")
+  )
+  vdiffr::expect_doppelganger(
+    "Vignette-introduction-5-way",
+    plot(pr, n_rows = 4) + ggplot2::theme(legend.position = "bottom")
   )
 })
