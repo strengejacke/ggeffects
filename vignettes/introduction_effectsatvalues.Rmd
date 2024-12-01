@@ -89,7 +89,7 @@ terms
 
 2. Ranges are specified with a colon: `terms = c("c12hour [30:80]", "c172code [1,3]")`. This would plot all values from 30 to 80 for the variable _c12hour_. By default, the step size is 1, i.e. `[1:4]` would create the range `1, 2, 3, 4`. You can choose different step sizes with `by`, e.g. `[1:4 by=.5]`. As named list, this would be `terms = list(c12hour = 30:80)` or `terms = list(c12hour = seq(1, 4, 0.5))`.
 
-3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quart]"`) or minumum and maximum values (`terms = "c12hour [minmax]"`). See `values_at()` for the different options.
+3. Convenient shortcuts to calculate common values like mean +/- 1 SD (`terms = "c12hour [meansd]"`), quartiles (`terms = "c12hour [quartiles]"`) or minumum and maximum values (`terms = "c12hour [minmax]"`). See `values_at()` for the different options.
 
 4. A function name. The function is then applied to all unique values of the indicated variable, e.g. `terms = "hp [exp]"`. You can also define own functions, and pass the name of it to the `terms`-values, e.g. `terms = "hp [own_function]"`.
 
@@ -145,8 +145,9 @@ You can use
 * `"zeromax"`: is similar to the `"minmax"` option, however, 0 is always used as minimum value. This may be useful for predictors that don't have an empirical zero-value.
 * `"terciles"` calculates and uses the terciles (lower, middle and upper), _including_ minimum and maximum value.
 * `"terciles2"` calculates and uses the terciles (lower, middle and upper), _excluding_ minimum and maximum value.
-* `"quart"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
-* `"quart2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
+* `"quartiles"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
+* `"quartiles2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
+* `"threenum"` calculates a three-number-summary (lower-hinge, median, and upper-hinge).
 * `"fivenum"` calculates Tukey's five-number-summary (minimum, lower-hinge, median, upper-hinge, maximum).
 * `"percentile"` (including the percentile-value) calculates a range of values from the given percentile, e.g. `"percentile80"`.
 * `"all"` takes all values of the vector.
@@ -160,7 +161,7 @@ fit <- lm(barthtot ~ c12hour * c161sex + neg_c_7, data = efc)
 mydf <- predict_response(fit, terms = c("c161sex", "c12hour [meansd]"))
 plot(mydf)
 
-mydf <- predict_response(fit, terms = c("c161sex", "c12hour [quart]"))
+mydf <- predict_response(fit, terms = c("c161sex", "c12hour [quartiles]"))
 plot(mydf)
 ```
 

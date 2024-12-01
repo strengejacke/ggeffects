@@ -25,8 +25,10 @@
 
   # reserved patterns, that can be used to automatically calulate
   # representative values based on the data (distribution of that variable)
-  at_pattern <- c("minmax", "meansd", "zeromax", "quart2", "all", "quart",
-                  "fivenum", "terciles", "terciles2", "quartiles", "quartiles2")
+  at_pattern <- c(
+    "minmax", "meansd", "zeromax", "quart2", "all", "quart",
+    "threenum", "fivenum", "terciles", "terciles2", "quartiles", "quartiles2"
+  )
 
   # now check for ranges
   at_levels <- Map(function(x, y) {

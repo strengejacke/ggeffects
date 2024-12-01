@@ -20,12 +20,16 @@
 #'     used as minimum value for the moderator. This may be useful for predictors
 #'     that don't have an empirical zero-value, but absence of moderation should
 #'     be simulated by using 0 as minimum.
+#'   - `"threenum": `calculates a three number summary (lower-hinge, median, and
+#'     upper-hinge) of the moderator value.
 #'   - `"fivenum": `calculates and uses the Tukey's five number summary (minimum,
 #'     lower-hinge, median, upper-hinge, maximum) of the moderator value.
-#'   - `"quart"`: calculates and uses the quartiles (lower, median and upper) of
-#'     the moderator value, \emph{including} minimum and maximum value.
-#'   - `"quart2"`: calculates and uses the quartiles (lower, median and upper) of
-#'     the moderator value, \emph{excluding} minimum and maximum value.
+#'   - `"quartiles"`: calculates and uses the quartiles (lower, median and
+#'     upper) of the moderator value, \emph{including} minimum and maximum
+#'     value.
+#'   - `"quartiles2"`: calculates and uses the quartiles (lower, median and
+#'     upper) of the moderator value, \emph{excluding} minimum and maximum
+#'     value.
 #'   - `"terciles"`: calculates and uses the terciles (lower and upper third) of
 #'     the moderator value, \emph{including} minimum and maximum value.
 #'   - `"terciles2"`: calculates and uses the terciles (lower and upper third)
@@ -43,7 +47,7 @@
 #' @examples
 #' data(efc)
 #' values_at(efc$c12hour)
-#' values_at(efc$c12hour, "quart2")
+#' values_at(efc$c12hour, "quartiles2")
 #'
 #' mean_sd <- values_at(values = "meansd")
 #' mean_sd(efc$c12hour)
@@ -84,9 +88,12 @@ values_at <- function(x, values = "meansd") {
           c(0, mv.max)
         },
         all = as.vector(unique(sort(x, na.last = NA))),
+        threenum = as.vector(stats::fivenum(x, na.rm = TRUE))[2:4],
         fivenum = as.vector(stats::fivenum(x, na.rm = TRUE)),
-        quart = as.vector(stats::quantile(x, na.rm = TRUE)),
-        quart2 = as.vector(stats::quantile(x, na.rm = TRUE))[2:4],
+        quart = ,
+        quartiles = as.vector(stats::quantile(x, na.rm = TRUE)),
+        quart2 = ,
+        quartiles2 = as.vector(stats::quantile(x, na.rm = TRUE))[2:4],
         terciles = as.vector(stats::quantile(x, probs = (0:3) / 3, na.rm = TRUE)),
         terciles2 = as.vector(stats::quantile(x, probs = (1:2) / 3, na.rm = TRUE))
       )

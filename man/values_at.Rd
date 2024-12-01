@@ -25,12 +25,16 @@ on the independent variable.
 used as minimum value for the moderator. This may be useful for predictors
 that don't have an empirical zero-value, but absence of moderation should
 be simulated by using 0 as minimum.
+\item \verb{"threenum": }calculates a three number summary (lower-hinge, median, and
+upper-hinge) of the moderator value.
 \item \verb{"fivenum": }calculates and uses the Tukey's five number summary (minimum,
 lower-hinge, median, upper-hinge, maximum) of the moderator value.
-\item \code{"quart"}: calculates and uses the quartiles (lower, median and upper) of
-the moderator value, \emph{including} minimum and maximum value.
-\item \code{"quart2"}: calculates and uses the quartiles (lower, median and upper) of
-the moderator value, \emph{excluding} minimum and maximum value.
+\item \code{"quartiles"}: calculates and uses the quartiles (lower, median and
+upper) of the moderator value, \emph{including} minimum and maximum
+value.
+\item \code{"quartiles2"}: calculates and uses the quartiles (lower, median and
+upper) of the moderator value, \emph{excluding} minimum and maximum
+value.
 \item \code{"terciles"}: calculates and uses the terciles (lower and upper third) of
 the moderator value, \emph{including} minimum and maximum value.
 \item \code{"terciles2"}: calculates and uses the terciles (lower and upper third)
@@ -56,7 +60,7 @@ representative values.
 \examples{
 data(efc)
 values_at(efc$c12hour)
-values_at(efc$c12hour, "quart2")
+values_at(efc$c12hour, "quartiles2")
 
 mean_sd <- values_at(values = "meansd")
 mean_sd(efc$c12hour)

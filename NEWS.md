@@ -1,3 +1,10 @@
+# ggeffects 2.0.1
+
+## Changes
+
+* `values_at()` gains a new `"threenum"` option. `"quartiles"` and `"quartiles2"`
+  can be used as full-name alternatives to `"quart"` and `"quart2"`.
+
 # ggeffects 2.0.0
 
 ## Breaking changes
