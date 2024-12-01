@@ -241,6 +241,7 @@ plot.ggeffects <- function(x,
   has_groups <- .obj_has_name(x, "group") && length(unique(x$group)) > 1
   has_facets <- .obj_has_name(x, "facet") && length(unique(x$facet)) > 1
   has_panel <- .obj_has_name(x, "panel") && length(unique(x$panel)) > 1
+  high_five <- .obj_has_name(x, "grid") && length(unique(x$grid)) > 1
 
   # special case, for ordinal models where latent = TRUE
   latent_thresholds <- attr(x, "latent_thresholds", exact = TRUE)
@@ -338,7 +339,7 @@ plot.ggeffects <- function(x,
   }
 
   # one integrated ("patchworked") plot only if we have multiple panels
-  if (!has_panel) {
+  if (!high_five) {
     one_plot <- FALSE
   }
 
@@ -356,6 +357,7 @@ plot.ggeffects <- function(x,
     facets_grp = facets_grp,
     facets = facets,
     facet_polr = facet_polr,
+    facet_panel = has_panel,
     is_black_white = is_black_white,
     x_is_factor = x_is_factor,
     alpha = alpha,
@@ -385,7 +387,7 @@ plot.ggeffects <- function(x,
     verbose = verbose
   )
 
-  if (has_panel) {
+  if (high_five) {
     panels <- unique(x$panel)
     p <- lapply(seq_along(panels), function(.i) {
       .p <- panels[.i]
@@ -428,7 +430,7 @@ plot.ggeffects <- function(x,
   }
 
 
-  if (has_panel && one_plot && requireNamespace("see", quietly = TRUE)) {
+  if (high_five && one_plot && requireNamespace("see", quietly = TRUE)) {
     do.call(see::plots, list(p, n_rows = n_rows))
   } else {
     p
@@ -437,10 +439,10 @@ plot.ggeffects <- function(x,
 
 
 plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
-                       is_black_white, x_is_factor, alpha, dot_alpha, dodge,
-                       show_ci, ci_style, dot_size, dot_shape = NULL, line_size,
-                       connect_lines, case, jitter, jitter.miss, show_data,
-                       label.data, residuals, residuals.line, show_title,
+                       facet_panel, is_black_white, x_is_factor, alpha, dot_alpha,
+                       dodge, show_ci, ci_style, dot_size, dot_shape = NULL,
+                       line_size, connect_lines, case, jitter, jitter.miss,
+                       show_data, label.data, residuals, residuals.line, show_title,
                        show_x_title, show_y_title, show_legend, log_y, y.breaks,
                        y.limits, use_theme, n_rows = NULL, latent_thresholds,
                        verbose = TRUE, ...) {
@@ -731,15 +733,31 @@ plot_panel <- function(x, colors, has_groups, facets_grp, facets, facet_polr,
 
   # facets ----
 
-  if (facets_grp) {
-    # facet groups
-    p <- p + ggplot2::facet_wrap(~group, scales = "free_x", nrow = n_rows)
-    # remove legends
-    p <- p + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
-  } else if (facet_polr) {
-    p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x", nrow = n_rows)
-  } else if (facets) {
-    p <- p + ggplot2::facet_wrap(~facet, scales = "free_x", nrow = n_rows)
+  if (facet_panel) {
+    if (is.null(n_rows)) {
+      n_rows <- unique(x$panel)
+    }
+    if (facets_grp) {
+      # facet groups
+      p <- p + ggplot2::facet_grid(panel ~ group, scales = "free_x", nrow = n_rows)
+      # remove legends
+      p <- p + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
+    } else if (facet_polr) {
+      p <- p + ggplot2::facet_wrap(panel ~ response.level, scales = "free_x", nrow = n_rows)
+    } else if (facets) {
+      p <- p + ggplot2::facet_wrap(panel ~ facet, scales = "free_x", nrow = n_rows)
+    }
+  } else {
+    if (facets_grp) {
+      # facet groups
+      p <- p + ggplot2::facet_wrap(~group, scales = "free_x", nrow = n_rows)
+      # remove legends
+      p <- p + ggplot2::guides(colour = "none", linetype = "none", shape = "none")
+    } else if (facet_polr) {
+      p <- p + ggplot2::facet_wrap(~response.level, scales = "free_x", nrow = n_rows)
+    } else if (facets) {
+      p <- p + ggplot2::facet_wrap(~facet, scales = "free_x", nrow = n_rows)
+    }
   }
 
 
