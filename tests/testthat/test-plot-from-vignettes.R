@@ -91,7 +91,7 @@ test_that("plot, vignette introduction", {
   # fit model with 5-way-interaction
   fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code * e42dep, data = efc)
   # adjusted predictions for all 5 interaction terms
-  pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))
+  pr <- suppressWarnings(predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))) # nolint
   vdiffr::expect_doppelganger(
     "Vignette-introduction-5-way",
     plot(pr)
