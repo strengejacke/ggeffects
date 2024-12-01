@@ -94,15 +94,15 @@ test_that("plot, vignette introduction", {
   # adjusted predictions for all 5 interaction terms
   pr <- suppressWarnings(predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))) # nolint
   vdiffr::expect_doppelganger(
-    "Vignette-introduction-5-way",
+    "Vignette-introduction-5-way-1",
     plot(pr)
   )
   vdiffr::expect_doppelganger(
-    "Vignette-introduction-5-way",
+    "Vignette-introduction-5-way-2",
     plot(pr, n_rows = 2) + ggplot2::theme(legend.position = "bottom")
   )
   vdiffr::expect_doppelganger(
-    "Vignette-introduction-5-way",
+    "Vignette-introduction-5-way-3",
     plot(pr, n_rows = 4) + ggplot2::theme(legend.position = "bottom")
   )
 
