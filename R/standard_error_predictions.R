@@ -108,7 +108,7 @@
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
-  for (i in length(terms):1) {
+  for (i in rev(seq_along(terms))) {
     trms <- terms[i]
     newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
     prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
