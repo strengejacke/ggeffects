@@ -377,8 +377,8 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
     colnames(tmp)[ft]
   )
 
-  new_names <- c("x", "group", "facet", "panel", "grid")[seq_len(length(terms))]
-  colnames(tmp)[seq_len(length(terms))] <- new_names
+  new_names <- c("x", "group", "facet", "panel", "grid")[seq_along(terms)]
+  colnames(tmp)[seq_along(terms)] <- new_names
 
   if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- 1 - ((1 - ci_level) / 2)
@@ -425,8 +425,8 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
   colnames(tmp)[colnames(tmp) == "fit"] <- "predicted"
   colnames(tmp)[colnames(tmp) == "se"] <- "std.error"
 
-  new_names <- c("x", "group", "facet", "panel", "grid")[seq_len(length(terms))]
-  for (i in seq_len(new_names)) {
+  new_names <- c("x", "group", "facet", "panel", "grid")[seq_along(terms)]
+  for (i in seq_along(new_names)) {
     colnames(tmp)[colnames(tmp) == terms[i]] <- new_names[i]
   }
 
