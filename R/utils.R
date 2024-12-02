@@ -167,6 +167,17 @@
     facet <- as.factor(1)
   }
 
+  if (length(terms) > 3) {
+    panel <- .as_label(
+      mf[[terms[4]]],
+      prefix = FALSE,
+      drop.na = TRUE,
+      drop.levels = !is.numeric(mf[[terms[4]]])
+    )
+  } else {
+    panel <- as.factor(1)
+  }
+
   # return all as data.frame
   tryCatch(
     .data_frame(
@@ -174,6 +185,7 @@
       x = x,
       group = group,
       facet = facet,
+      panel = panel,
       rowname = mf$rowname
     ),
     error = function(x) NULL,
