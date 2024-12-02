@@ -13,7 +13,7 @@ representative values."><meta property="og:image" content="https://strengejacke.
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.4</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,42 +99,35 @@ representative values.</p>
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
 <dd><p>Character vector, naming a pattern for which representative values
 should be calculcated.</p><ul><li><p><code>"minmax": </code>(default) minimum and maximum values (lower and upper bounds)
-of the moderator are used to plot the interaction between independent
-variable and moderator.</p></li>
-<li><p><code>"meansd"</code>: uses the mean value of the moderator as well as one standard
-deviation below and above mean value to plot the effect of the moderator
-on the independent variable.</p></li>
+of <code>x</code>.</p></li>
+<li><p><code>"meansd"</code>: uses the mean value of <code>x</code> as well as one standard deviation
+below and above mean value to plot the effect of the moderator on the
+independent variable.</p></li>
 <li><p><code>"zeromax"</code>: is similar to the <code>"minmax"</code> option, however, <code>0</code> is always
-used as minimum value for the moderator. This may be useful for predictors
-that don't have an empirical zero-value, but absence of moderation should
-be simulated by using 0 as minimum.</p></li>
-<li><p><code>"threenum": </code>calculates a three number summary (lower-hinge, median, and
-upper-hinge) of the moderator value.</p></li>
-<li><p><code>"fivenum": </code>calculates and uses the Tukey's five number summary (minimum,
-lower-hinge, median, upper-hinge, maximum) of the moderator value.</p></li>
-<li><p><code>"quartiles"</code>: calculates and uses the quartiles (lower, median and
-upper) of the moderator value, <em>including</em> minimum and maximum
-value.</p></li>
-<li><p><code>"quartiles2"</code>: calculates and uses the quartiles (lower, median and
-upper) of the moderator value, <em>excluding</em> minimum and maximum
-value.</p></li>
+used as minimum value for <code>x</code>. This may be useful for predictors that
+don't have an empirical zero-value, but absence of moderation should be
+simulated by using 0 as minimum.</p></li>
+<li><p><code>"fivenum"</code>: calculates and uses the Tukey's five number summary
+(minimum, lower-hinge, median, upper-hinge, maximum) of <code>x</code>. This is
+equivalent to <code>"quartiles"</code>.</p></li>
+<li><p><code>"threenum"</code>: calculates a three number summary (lower-hinge, median, and
+upper-hinge) of <code>x</code>. This is equivalent to <code>"quartiles2"</code>.</p></li>
 <li><p><code>"terciles"</code>: calculates and uses the terciles (lower and upper third) of
-the moderator value, <em>including</em> minimum and maximum value.</p></li>
+<code>x</code>, <em>including</em> minimum and maximum value.</p></li>
 <li><p><code>"terciles2"</code>: calculates and uses the terciles (lower and upper third)
-of the moderator value, <em>excluding</em> minimum and maximum value.</p></li>
+of <code>x</code>, <em>excluding</em> minimum and maximum value.</p></li>
 <li><p>an option to compute a range of percentiles is also possible, using
 <code>"percentile"</code>, followed by the percentage of the range. For example,
-<code>"percentile95"</code> will calculate the 95% range of the variable.</p></li>
-<li><p><code>"all"</code>: uses all values of the moderator variable.</p></li>
+<code>"percentile95"</code> will calculate the 95% range of <code>x</code>.</p></li>
+<li><p><code>"all"</code>: uses all values of <code>x</code>.</p></li>
 </ul></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A numeric vector of length two or three, representing the required
-values from <code>x</code>, like minimum/maximum value or mean and +/- 1 SD. If
-<code>x</code> is missing, a function, pre-programmed with <code>n</code> and
-<code>length</code> is returned. See examples.</p>
+    <p>A numeric vector, representing the required values from <code>x</code>, like
+minimum/maximum value or mean and +/- 1 SD. If <code>x</code> is missing, a function,
+pre-programmed with <code>n</code> and <code>length</code> is returned. See examples.</p>
     </div>
 
     <div class="section level2">
