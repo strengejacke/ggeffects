@@ -108,21 +108,11 @@
 
   # sort data by grouping levels, so we have the correct order
   # to slice data afterwards
-  if (length(terms) > 2) {
-    trms <- terms[3]
+  for (i in rev(seq_along(terms))) {
+    trms <- terms[i]
     newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
     prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
   }
-
-  if (length(terms) > 1) {
-    trms <- terms[2]
-    newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
-    prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
-  }
-
-  trms <- terms[1]
-  newdata <- newdata[order(newdata[[trms]]), , drop = FALSE]
-  prediction_data <- prediction_data[order(prediction_data[[trms]]), , drop = FALSE]
 
   # rownames were resorted as well, which causes troubles in model.matrix
   rownames(newdata) <- NULL

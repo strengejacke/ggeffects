@@ -377,9 +377,8 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
     colnames(tmp)[ft]
   )
 
-  colnames(tmp)[1] <- "x"
-  if (length(terms) > 1) colnames(tmp)[2] <- "group"
-  if (length(terms) > 2) colnames(tmp)[3] <- "facet"
+  new_names <- c("x", "group", "facet", "panel", "grid")[seq_along(terms)]
+  colnames(tmp)[seq_along(terms)] <- new_names
 
   if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- 1 - ((1 - ci_level) / 2)
@@ -425,9 +424,12 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
   # rename columns
   colnames(tmp)[colnames(tmp) == "fit"] <- "predicted"
   colnames(tmp)[colnames(tmp) == "se"] <- "std.error"
-  colnames(tmp)[colnames(tmp) == terms[1]] <- "x"
-  if (length(terms) > 1) colnames(tmp)[colnames(tmp) == terms[2]] <- "group"
-  if (length(terms) > 2) colnames(tmp)[colnames(tmp) == terms[2]] <- "facet"
+
+  new_names <- c("x", "group", "facet", "panel", "grid")[seq_along(terms)]
+  for (i in seq_along(new_names)) {
+    colnames(tmp)[colnames(tmp) == terms[i]] <- new_names[i]
+  }
+
   # remove CI
   tmp$lower <- tmp$upper <- NULL
 
@@ -446,7 +448,10 @@ ggeffect <- function(model, terms, ci_level = 0.95, bias_correction = FALSE, ver
 
   # sort columns
   valid_cols <- intersect(
-    c("x", "predicted", "std.error", "conf.low", "conf.high", "group", "facet"),
+    c(
+      "x", "predicted", "std.error", "conf.low", "conf.high",
+      "group", "facet", "panel", "grid"
+    ),
     colnames(tmp)
   )
 
