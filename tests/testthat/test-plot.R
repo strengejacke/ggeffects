@@ -269,3 +269,20 @@ test_that("test plots from vignette", {
     plot(dat, ci_style = "dot")
   )
 })
+
+
+test_that("test plots polr", {
+  skip_if_not_installed("MASS")
+  data(housing, package = "MASS")
+  fit <- MASS::polr(Sat ~ Infl + Type + Cont + Freq, data = housing)
+  pr <- predict_response(fit, c("Infl", "Type", "Cont"))
+  vdiffr::expect_doppelganger(
+    "polr-1",
+    plot(pr)
+  )
+  pr <- predict_response(fit, c("Infl", "Type", "Cont", "Freq"))
+  vdiffr::expect_doppelganger(
+    "polr-2",
+    plot(pr)
+  )
+})
