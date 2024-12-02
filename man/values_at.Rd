@@ -16,40 +16,33 @@ representative_values(x, values = "meansd")
 should be calculcated.
 \itemize{
 \item \verb{"minmax": }(default) minimum and maximum values (lower and upper bounds)
-of the moderator are used to plot the interaction between independent
-variable and moderator.
-\item \code{"meansd"}: uses the mean value of the moderator as well as one standard
-deviation below and above mean value to plot the effect of the moderator
-on the independent variable.
+of \code{x}.
+\item \code{"meansd"}: uses the mean value of \code{x} as well as one standard deviation
+below and above mean value to plot the effect of the moderator on the
+independent variable.
 \item \code{"zeromax"}: is similar to the \code{"minmax"} option, however, \code{0} is always
-used as minimum value for the moderator. This may be useful for predictors
-that don't have an empirical zero-value, but absence of moderation should
-be simulated by using 0 as minimum.
-\item \verb{"threenum": }calculates a three number summary (lower-hinge, median, and
-upper-hinge) of the moderator value.
-\item \verb{"fivenum": }calculates and uses the Tukey's five number summary (minimum,
-lower-hinge, median, upper-hinge, maximum) of the moderator value.
-\item \code{"quartiles"}: calculates and uses the quartiles (lower, median and
-upper) of the moderator value, \emph{including} minimum and maximum
-value.
-\item \code{"quartiles2"}: calculates and uses the quartiles (lower, median and
-upper) of the moderator value, \emph{excluding} minimum and maximum
-value.
+used as minimum value for \code{x}. This may be useful for predictors that
+don't have an empirical zero-value, but absence of moderation should be
+simulated by using 0 as minimum.
+\item \code{"fivenum"}: calculates and uses the Tukey's five number summary
+(minimum, lower-hinge, median, upper-hinge, maximum) of \code{x}. This is
+equivalent to \code{"quartiles"}.
+\item \code{"threenum"}: calculates a three number summary (lower-hinge, median, and
+upper-hinge) of \code{x}. This is equivalent to \code{"quartiles2"}.
 \item \code{"terciles"}: calculates and uses the terciles (lower and upper third) of
-the moderator value, \emph{including} minimum and maximum value.
+\code{x}, \emph{including} minimum and maximum value.
 \item \code{"terciles2"}: calculates and uses the terciles (lower and upper third)
-of the moderator value, \emph{excluding} minimum and maximum value.
+of \code{x}, \emph{excluding} minimum and maximum value.
 \item an option to compute a range of percentiles is also possible, using
 \code{"percentile"}, followed by the percentage of the range. For example,
-\code{"percentile95"} will calculate the 95\% range of the variable.
-\item \code{"all"}: uses all values of the moderator variable.
+\code{"percentile95"} will calculate the 95\% range of \code{x}.
+\item \code{"all"}: uses all values of \code{x}.
 }}
 }
 \value{
-A numeric vector of length two or three, representing the required
-values from \code{x}, like minimum/maximum value or mean and +/- 1 SD. If
-\code{x} is missing, a function, pre-programmed with \code{n} and
-\code{length} is returned. See examples.
+A numeric vector, representing the required values from \code{x}, like
+minimum/maximum value or mean and +/- 1 SD. If \code{x} is missing, a function,
+pre-programmed with \code{n} and \code{length} is returned. See examples.
 }
 \description{
 This function calculates representative values of a vector,

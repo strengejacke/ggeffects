@@ -11,38 +11,31 @@
 #'   should be calculcated.
 #'
 #'   - `"minmax": `(default) minimum and maximum values (lower and upper bounds)
-#'     of the moderator are used to plot the interaction between independent
-#'     variable and moderator.
-#'   - `"meansd"`: uses the mean value of the moderator as well as one standard
-#'     deviation below and above mean value to plot the effect of the moderator
-#'     on the independent variable.
+#'     of `x`.
+#'   - `"meansd"`: uses the mean value of `x` as well as one standard deviation
+#'     below and above mean value to plot the effect of the moderator on the
+#'     independent variable.
 #'   - `"zeromax"`: is similar to the `"minmax"` option, however, `0` is always
-#'     used as minimum value for the moderator. This may be useful for predictors
-#'     that don't have an empirical zero-value, but absence of moderation should
-#'     be simulated by using 0 as minimum.
-#'   - `"threenum": `calculates a three number summary (lower-hinge, median, and
-#'     upper-hinge) of the moderator value.
-#'   - `"fivenum": `calculates and uses the Tukey's five number summary (minimum,
-#'     lower-hinge, median, upper-hinge, maximum) of the moderator value.
-#'   - `"quartiles"`: calculates and uses the quartiles (lower, median and
-#'     upper) of the moderator value, \emph{including} minimum and maximum
-#'     value.
-#'   - `"quartiles2"`: calculates and uses the quartiles (lower, median and
-#'     upper) of the moderator value, \emph{excluding} minimum and maximum
-#'     value.
+#'     used as minimum value for `x`. This may be useful for predictors that
+#'     don't have an empirical zero-value, but absence of moderation should be
+#'     simulated by using 0 as minimum.
+#'   - `"fivenum"`: calculates and uses the Tukey's five number summary
+#'     (minimum, lower-hinge, median, upper-hinge, maximum) of `x`. This is
+#'     equivalent to `"quartiles"`.
+#'   - `"threenum"`: calculates a three number summary (lower-hinge, median, and
+#'     upper-hinge) of `x`. This is equivalent to `"quartiles2"`.
 #'   - `"terciles"`: calculates and uses the terciles (lower and upper third) of
-#'     the moderator value, \emph{including} minimum and maximum value.
+#'     `x`, \emph{including} minimum and maximum value.
 #'   - `"terciles2"`: calculates and uses the terciles (lower and upper third)
-#'     of the moderator value, \emph{excluding} minimum and maximum value.
+#'     of `x`, \emph{excluding} minimum and maximum value.
 #'   - an option to compute a range of percentiles is also possible, using
 #'     `"percentile"`, followed by the percentage of the range. For example,
-#'     `"percentile95"` will calculate the 95% range of the variable.
-#'   - `"all"`: uses all values of the moderator variable.
+#'     `"percentile95"` will calculate the 95% range of `x`.
+#'   - `"all"`: uses all values of `x`.
 #'
-#' @return A numeric vector of length two or three, representing the required
-#'   values from `x`, like minimum/maximum value or mean and +/- 1 SD. If
-#'   `x` is missing, a function, pre-programmed with `n` and
-#'   `length` is returned. See examples.
+#' @return A numeric vector, representing the required values from `x`, like
+#'   minimum/maximum value or mean and +/- 1 SD. If `x` is missing, a function,
+#'   pre-programmed with `n` and `length` is returned. See examples.
 #'
 #' @examples
 #' data(efc)
@@ -88,10 +81,10 @@ values_at <- function(x, values = "meansd") {
           c(0, mv.max)
         },
         all = as.vector(unique(sort(x, na.last = NA))),
-        threenum = as.vector(stats::fivenum(x, na.rm = TRUE))[2:4],
-        fivenum = as.vector(stats::fivenum(x, na.rm = TRUE)),
+        fivenum = ,
         quart = ,
         quartiles = as.vector(stats::quantile(x, na.rm = TRUE)),
+        threenum = ,
         quart2 = ,
         quartiles2 = as.vector(stats::quantile(x, na.rm = TRUE))[2:4],
         terciles = as.vector(stats::quantile(x, probs = (0:3) / 3, na.rm = TRUE)),
@@ -136,7 +129,7 @@ check_rv <- function(values, x) {
     values <- "all"
   }
 
-  if (is.numeric(x) && (values %in% c("quart", "quart2", "quartiles", "quartiles2", "terciles", "terciles2") || startsWith(values, "percentile"))) { # nolint
+  if (is.numeric(x) && (values %in% c("quart", "quart2", "quartiles", "quartiles2", "fivenum", "threenum", "terciles", "terciles2") || startsWith(values, "percentile"))) { # nolint
     mvc <- length(unique(as.vector(stats::quantile(x, na.rm = TRUE))))
     if (mvc < 3) {
       # tell user that quart won't work

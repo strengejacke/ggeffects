@@ -145,8 +145,6 @@ You can use
 * `"zeromax"`: is similar to the `"minmax"` option, however, 0 is always used as minimum value. This may be useful for predictors that don't have an empirical zero-value.
 * `"terciles"` calculates and uses the terciles (lower, middle and upper), _including_ minimum and maximum value.
 * `"terciles2"` calculates and uses the terciles (lower, middle and upper), _excluding_ minimum and maximum value.
-* `"quartiles"` calculates and uses the quartiles (lower, median and upper), _including_ minimum and maximum value.
-* `"quartiles2"` calculates and uses the quartiles (lower, median and upper), _excluding_ minimum and maximum value.
 * `"threenum"` calculates a three-number-summary (lower-hinge, median, and upper-hinge).
 * `"fivenum"` calculates Tukey's five-number-summary (minimum, lower-hinge, median, upper-hinge, maximum).
 * `"percentile"` (including the percentile-value) calculates a range of values from the given percentile, e.g. `"percentile80"`.
