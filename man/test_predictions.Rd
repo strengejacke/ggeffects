@@ -114,7 +114,7 @@ to calculate contrasts and pairwise comparisons} below.}
 named list. Only applies to those options that use the \strong{emmeans} package
 as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed to
 \code{emmeans::contrast(interaction = test_args)}. For other \emph{emmeans} options
-(like \code{"cotrast"}, \code{"exclude"}, \code{"consecutive"} and so on), \code{test_args} will
+(like \code{"contrast"}, \code{"exclude"}, \code{"consecutive"} and so on), \code{test_args} will
 be passed to the \code{option} argument in \code{emmeans::contrast()}.}
 
 \item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or

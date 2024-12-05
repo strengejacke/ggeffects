@@ -41,7 +41,7 @@
 #' named list. Only applies to those options that use the **emmeans** package
 #' as backend, e.g. if `test = "interaction"`, `test_args` will be passed to
 #' `emmeans::contrast(interaction = test_args)`. For other *emmeans* options
-#' (like `"cotrast"`, `"exclude"`, `"consecutive"` and so on), `test_args` will
+#' (like `"contrast"`, `"exclude"`, `"consecutive"` and so on), `test_args` will
 #' be passed to the `option` argument in `emmeans::contrast()`.
 #' @param terms If `object` is an object of class `ggeffects`, the same `terms`
 #' argument is used as for the predictions, i.e. `terms` can be ignored. Else,
