@@ -10,6 +10,7 @@
 #' are taken from the `ggeffects` object and don't need to be specified.
 #' @param test Hypothesis to test, defined as character string. Can be one of:
 #'
+#' * String:
 #'   - `"pairwise"` (default), to test pairwise comparisons.
 #'   - `"trend"` (or `"slope"`) to test for the linear trend/slope of (usually)
 #'     continuous predictors. These options are just aliases for setting
@@ -25,14 +26,33 @@
 #'   - `"consecutive"` to test contrasts between consecutive levels of a predictor.
 #'   - `"polynomial"` to test orthogonal polynomial contrasts, assuming
 #'     equally-spaced factor levels.
-#'   - A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
-#'     test if the second level of a predictor is different from the first level.
-#'     Custom hypotheses are very flexible. It is also possible to test interaction
-#'     contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
-#'     `"(b2 - b1) = (b4 - b3)"`. See also section _Introduction into contrasts
-#'     and pairwise comparisons_.
-#'   - A data frame with custom contrasts. See 'Examples'.
-#'   - `NULL`, in which case simple contrasts are computed.
+#'
+#' * String equation:
+#'   A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
+#'   test if the second level of a predictor is different from the first level.
+#'   Custom hypotheses are very flexible. It is also possible to test interaction
+#'   contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
+#'   `"(b2 - b1) = (b4 - b3)"`. See also section _Introduction into contrasts
+#'   and pairwise comparisons_.
+#'
+#' * data frame:
+#'   A data frame with custom contrasts. See 'Examples'.
+#'
+#' * Formula:
+#'   A formula, where the left-hand side indicates the type of comparison and
+#'   the right-hand side which pairs to compare. Optionally, grouping variables
+#'   can be specified after a vertical bar. See also 'Examples'.
+#'   - For the left-hand side, comparisons can be `difference` or `ratio`.
+#'   - For the right-hand side, pairs can be `reference`, `sequential`, or
+#'     `meandev`. For `reference`, all factor levels are compared to the
+#'     reference level. `sequential` compares each factor level against the
+#'     next level in the factor. `meandev` compares each factor level against
+#'     the "mean".
+#'   - If a variable is specified after `|`, comparisons will be grouped by
+#'     that variable.
+#'
+#' * `NULL`:
+#'   `NULL`, in which case simple contrasts are computed.
 #'
 #' Technical details about the packages used as back-end to calculate contrasts
 #' and pairwise comparisons are provided in the section _Packages used as back-end
@@ -315,9 +335,17 @@
 #' # consecutive contrasts
 #' test_predictions(m, "time", by = "coffee", test = "consecutive")
 #'
+#' # same as (using formula):
+#' pr <- predict_response(m, c("time", "coffee"))
+#' test_predictions(pr, test = difference ~ sequential | coffee)
+#'
 #' # interaction contrasts - difference-in-difference comparisons
 #' pr <- predict_response(m, c("time", "coffee"), margin = "marginalmeans")
 #' test_predictions(pr, test = "interaction")
+#'
+#' # Ratio contrasts ---------------------------------------
+#' # -------------------------------------------------------
+#' test_predictions(test = ratio ~ reference | coffee)
 #'
 #' # Custom contrasts --------------------------------------
 #' # -------------------------------------------------------
