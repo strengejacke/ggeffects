@@ -9,6 +9,10 @@
 
 * `values_at()` gains a new `"threenum"` option.
 
+* The `test` argument is `test_predictions()` can now also be a formula to
+  calculate consecutive contrasts, contrasts against the reference level or
+  against the "average" factor level.
+
 # ggeffects 2.0.0
 
 ## Breaking changes
