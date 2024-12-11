@@ -763,9 +763,16 @@ test_predictions.default <- function(object,
       out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
     } else if (inherits(test, "formula")) {
       ## formula -----
-
-      columns_to_select <- c("hypothesis", intersect(focal, colnames(.comparisons)))
-      out <- as.data.frame(.comparisons[columns_to_select], stringsAsFactors = FALSE)
+      result <- .tp_label_hypothesis_formula(
+        .comparisons,
+        focal = focal,
+        margin = margin,
+        model_data = model_data,
+        test = test
+      )
+      # update objects
+      hypothesis_label <- result$hypothesis_label
+      out <- result$out
     } else {
       ## hypothesis testing of group levels -----
       result <- .tp_label_hypothesis_categorical(
