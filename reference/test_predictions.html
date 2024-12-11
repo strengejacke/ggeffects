@@ -11,7 +11,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.5</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -166,7 +166,8 @@ categorical predictors.</p></dd>
 
 
 <dt id="arg-test">test<a class="anchor" aria-label="anchor" href="#arg-test"></a></dt>
-<dd><p>Hypothesis to test, defined as character string. Can be one of:</p><ul><li><p><code>"pairwise"</code> (default), to test pairwise comparisons.</p></li>
+<dd><p>Hypothesis to test, defined as character string, formula, or
+data frame. Can be one of:</p><ul><li><p>String:</p><ul><li><p><code>"pairwise"</code> (default), to test pairwise comparisons.</p></li>
 <li><p><code>"trend"</code> (or <code>"slope"</code>) to test for the linear trend/slope of (usually)
 continuous predictors. These options are just aliases for setting
 <code>trend = NULL</code>.</p></li>
@@ -181,12 +182,25 @@ the <code>test_args</code> argument.</p></li>
 <li><p><code>"consecutive"</code> to test contrasts between consecutive levels of a predictor.</p></li>
 <li><p><code>"polynomial"</code> to test orthogonal polynomial contrasts, assuming
 equally-spaced factor levels.</p></li>
-<li><p>A character string with a custom hypothesis, e.g. <code>"b2 = b1"</code>. This would
+</ul></li>
+<li><p>String equation:</p>
+<p>A character string with a custom hypothesis, e.g. <code>"b2 = b1"</code>. This would
 test if the second level of a predictor is different from the first level.
 Custom hypotheses are very flexible. It is also possible to test interaction
 contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
 <code>"(b2 - b1) = (b4 - b3)"</code>. See also section <em>Introduction into contrasts
 and pairwise comparisons</em>.</p></li>
+<li><p>Formula:</p>
+<p>A formula, where the left-hand side indicates the type of comparison and
+the right-hand side which pairs to compare. Optionally, grouping variables
+can be specified after a vertical bar. See also 'Examples'.</p><ul><li><p>For the left-hand side, comparisons can be <code>difference</code> or <code>ratio</code>.</p></li>
+<li><p>For the right-hand side, pairs can be <code>reference</code>, <code>sequential</code>, or
+<code>meandev</code>. For <code>reference</code>, all factor levels are compared to the
+reference level. <code>sequential</code> compares consecutive levels of a predictor.
+<code>meandev</code> compares each factor level against the "average" factor level.</p></li>
+<li><p>If a variable is specified after <code>|</code>, comparisons will be grouped by
+that variable.</p></li>
+</ul></li>
 <li><p>A data frame with custom contrasts. See 'Examples'.</p></li>
 <li><p><code>NULL</code>, in which case simple contrasts are computed.</p></li>
 </ul><p>Technical details about the packages used as back-end to calculate contrasts
@@ -285,17 +299,17 @@ contrasts and pairwise comparisons. <code>engine</code> can be either <code>"mar
 (default) or <code>"emmeans"</code>. The latter is useful when the <strong>marginaleffects</strong>
 package is not available, or when the <strong>emmeans</strong> package is preferred. Note
 that using <strong>emmeans</strong> as back-end is currently not as feature rich as the default
-(<strong>marginaleffects</strong>) and still in development. Setting <code>engine = "emmeans"</code>
-provides some additional test options: <code>"interaction"</code> to calculate interaction
-contrasts, <code>"consecutive"</code> to calculate contrasts between consecutive levels of a
+(<strong>marginaleffects</strong>). Setting <code>engine = "emmeans"</code> provides some additional
+test options: <code>"interaction"</code> to calculate interaction contrasts,
+<code>"consecutive"</code> to calculate contrasts between consecutive levels of a
 predictor, or a data frame with custom contrasts (see also <code>test</code>). There is
-an experimental option as well, <code>engine = "ggeffects"</code>. However, this is
-currently work-in-progress and offers much less options as the default engine,
-<code>"marginaleffects"</code>. It can be faster in some cases, though, and works for
-comparing predicted random effects in mixed models, or predicted probabilities
-of the zero-inflation component. If the <strong>marginaleffects</strong> package is not
-installed, the <strong>emmeans</strong> package is used automatically. If this package is
-not installed as well, <code>engine = "ggeffects"</code> is used.</p></dd>
+a third option as well, <code>engine = "ggeffects"</code>. However, this option offers
+less features as the default engine, <code>"marginaleffects"</code>. It can be faster in
+some cases, though, and works for comparing predicted random effects in mixed
+models, or predicted probabilities of the zero-inflation component. If the
+<strong>marginaleffects</strong> package is not installed, the <strong>emmeans</strong> package is used
+automatically. If this package is not installed as well, <code>engine = "ggeffects"</code>
+is used.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -357,6 +371,7 @@ is called.</p></li>
 <li><p>a character string with a custom hypothesis, the <strong>marginaleffects</strong>
 package is used.</p></li>
 <li><p>a data frame with custom contrasts, <strong>emmeans</strong> is used again.</p></li>
+<li><p>for formulas, the <strong>marginaleffects</strong> package is used.</p></li>
 <li><p><code>NULL</code> calls functions from the <strong>marginaleffects</strong> package with
 <code>hypothesis = NULL</code>.</p></li>
 <li><p>If all focal terms are only present as random effects in a mixed model,
@@ -398,8 +413,7 @@ package (e.g. <code>options(ggeffects_test_engine = "emmeans")</code>). The latt
 useful when the <strong>marginaleffects</strong> package is not available, or when the
 <strong>emmeans</strong> package is preferred. You can also provide the engine directly, e.g.
 <code>test_predictions(..., engine = "emmeans")</code>. Note that using <strong>emmeans</strong> as
-backend is currently not as feature rich as the default (<strong>marginaleffects</strong>)
-and still in development.</p>
+backend is currently not as feature rich as the default (<strong>marginaleffects</strong>).</p>
 <p>If <code>engine = "emmeans"</code>, the <code>test</code> argument can also be <code>"interaction"</code>
 to calculate interaction contrasts (difference-in-difference contrasts),
 <code>"consecutive"</code> to calculate contrasts between consecutive levels of a predictor,
@@ -521,9 +535,17 @@ has a <code><a href="plot.html">plot()</a></code> method, hence it is possible t
 <span class="r-in"><span><span class="co"># consecutive contrasts</span></span></span>
 <span class="r-in"><span><span class="fu">test_predictions</span><span class="op">(</span><span class="va">m</span>, <span class="st">"time"</span>, by <span class="op">=</span> <span class="st">"coffee"</span>, test <span class="op">=</span> <span class="st">"consecutive"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># same as (using formula):</span></span></span>
+<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"coffee"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">test_predictions</span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="va">difference</span> <span class="op">~</span> <span class="va">sequential</span> <span class="op">|</span> <span class="va">coffee</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># interaction contrasts - difference-in-difference comparisons</span></span></span>
 <span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"coffee"</span><span class="op">)</span>, margin <span class="op">=</span> <span class="st">"marginalmeans"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">test_predictions</span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="st">"interaction"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Ratio contrasts ---------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># -------------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="fu">test_predictions</span><span class="op">(</span>test <span class="op">=</span> <span class="va">ratio</span> <span class="op">~</span> <span class="va">reference</span> <span class="op">|</span> <span class="va">coffee</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Custom contrasts --------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># -------------------------------------------------------</span></span></span>
