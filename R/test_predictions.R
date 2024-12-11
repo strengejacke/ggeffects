@@ -8,7 +8,8 @@
 #' @param object A fitted model object, or an object of class `ggeffects`. If
 #' `object` is of class `ggeffects`, arguments `terms`, `margin` and `ci_level`
 #' are taken from the `ggeffects` object and don't need to be specified.
-#' @param test Hypothesis to test, defined as character string. Can be one of:
+#' @param test Hypothesis to test, defined as character string, formula, or
+#' data frame. Can be one of:
 #'
 #' * String:
 #'   - `"pairwise"` (default), to test pairwise comparisons.
@@ -28,6 +29,7 @@
 #'     equally-spaced factor levels.
 #'
 #' * String equation:
+#'
 #'   A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
 #'   test if the second level of a predictor is different from the first level.
 #'   Custom hypotheses are very flexible. It is also possible to test interaction
@@ -36,9 +38,11 @@
 #'   and pairwise comparisons_.
 #'
 #' * data frame:
+#'
 #'   A data frame with custom contrasts. See 'Examples'.
 #'
 #' * Formula:
+#'
 #'   A formula, where the left-hand side indicates the type of comparison and
 #'   the right-hand side which pairs to compare. Optionally, grouping variables
 #'   can be specified after a vertical bar. See also 'Examples'.
@@ -52,6 +56,7 @@
 #'     that variable.
 #'
 #' * `NULL`:
+#'
 #'   `NULL`, in which case simple contrasts are computed.
 #'
 #' Technical details about the packages used as back-end to calculate contrasts
@@ -217,6 +222,7 @@
 #'   - a character string with a custom hypothesis, the **marginaleffects**
 #'     package is used.
 #'   - a data frame with custom contrasts, **emmeans** is used again.
+#'   - for formula, the **marginaleffects** package is used.
 #'   - `NULL` calls functions from the **marginaleffects** package with
 #'     `hypothesis = NULL`.
 #'   - If all focal terms are only present as random effects in a mixed model,

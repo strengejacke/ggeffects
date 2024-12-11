@@ -79,7 +79,8 @@ variables. This is useful especially for interaction terms, where we want
 to test the interaction within "groups". \code{by} is only relevant for
 categorical predictors.}
 
-\item{test}{Hypothesis to test, defined as character string. Can be one of:
+\item{test}{Hypothesis to test, defined as character string, formula, or
+data frame. Can be one of:
 \itemize{
 \item String:
 \itemize{
@@ -100,6 +101,7 @@ the \code{test_args} argument.
 equally-spaced factor levels.
 }
 \item String equation:
+
 A character string with a custom hypothesis, e.g. \code{"b2 = b1"}. This would
 test if the second level of a predictor is different from the first level.
 Custom hypotheses are very flexible. It is also possible to test interaction
@@ -107,8 +109,10 @@ contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
 \code{"(b2 - b1) = (b4 - b3)"}. See also section \emph{Introduction into contrasts
 and pairwise comparisons}.
 \item data frame:
+
 A data frame with custom contrasts. See 'Examples'.
 \item Formula:
+
 A formula, where the left-hand side indicates the type of comparison and
 the right-hand side which pairs to compare. Optionally, grouping variables
 can be specified after a vertical bar. See also 'Examples'.
@@ -123,6 +127,7 @@ the "mean".
 that variable.
 }
 \item \code{NULL}:
+
 \code{NULL}, in which case simple contrasts are computed.
 }
 
@@ -280,6 +285,7 @@ is called.
 \item a character string with a custom hypothesis, the \strong{marginaleffects}
 package is used.
 \item a data frame with custom contrasts, \strong{emmeans} is used again.
+\item for formula, the \strong{marginaleffects} package is used.
 \item \code{NULL} calls functions from the \strong{marginaleffects} package with
 \code{hypothesis = NULL}.
 \item If all focal terms are only present as random effects in a mixed model,
