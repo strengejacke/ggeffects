@@ -108,9 +108,6 @@ Custom hypotheses are very flexible. It is also possible to test interaction
 contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
 \code{"(b2 - b1) = (b4 - b3)"}. See also section \emph{Introduction into contrasts
 and pairwise comparisons}.
-\item data frame:
-
-A data frame with custom contrasts. See 'Examples'.
 \item Formula:
 
 A formula, where the left-hand side indicates the type of comparison and
@@ -125,9 +122,8 @@ reference level. \code{sequential} compares consecutive levels of a predictor.
 \item If a variable is specified after \code{|}, comparisons will be grouped by
 that variable.
 }
-\item \code{NULL}:
-
-\code{NULL}, in which case simple contrasts are computed.
+\item A data frame with custom contrasts. See 'Examples'.
+\item \code{NULL}, in which case simple contrasts are computed.
 }
 
 Technical details about the packages used as back-end to calculate contrasts
@@ -284,7 +280,7 @@ is called.
 \item a character string with a custom hypothesis, the \strong{marginaleffects}
 package is used.
 \item a data frame with custom contrasts, \strong{emmeans} is used again.
-\item for formula, the \strong{marginaleffects} package is used.
+\item for formulas, the \strong{marginaleffects} package is used.
 \item \code{NULL} calls functions from the \strong{marginaleffects} package with
 \code{hypothesis = NULL}.
 \item If all focal terms are only present as random effects in a mixed model,

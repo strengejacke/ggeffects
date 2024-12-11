@@ -37,10 +37,6 @@
 #'   `"(b2 - b1) = (b4 - b3)"`. See also section _Introduction into contrasts
 #'   and pairwise comparisons_.
 #'
-#' * data frame:
-#'
-#'   A data frame with custom contrasts. See 'Examples'.
-#'
 #' * Formula:
 #'
 #'   A formula, where the left-hand side indicates the type of comparison and
@@ -54,9 +50,9 @@
 #'   - If a variable is specified after `|`, comparisons will be grouped by
 #'     that variable.
 #'
-#' * `NULL`:
+#' * A data frame with custom contrasts. See 'Examples'.
 #'
-#'   `NULL`, in which case simple contrasts are computed.
+#' * `NULL`, in which case simple contrasts are computed.
 #'
 #' Technical details about the packages used as back-end to calculate contrasts
 #' and pairwise comparisons are provided in the section _Packages used as back-end
@@ -221,7 +217,7 @@
 #'   - a character string with a custom hypothesis, the **marginaleffects**
 #'     package is used.
 #'   - a data frame with custom contrasts, **emmeans** is used again.
-#'   - for formula, the **marginaleffects** package is used.
+#'   - for formulas, the **marginaleffects** package is used.
 #'   - `NULL` calls functions from the **marginaleffects** package with
 #'     `hypothesis = NULL`.
 #'   - If all focal terms are only present as random effects in a mixed model,
