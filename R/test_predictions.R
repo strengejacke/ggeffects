@@ -133,17 +133,17 @@
 #' (default) or `"emmeans"`. The latter is useful when the **marginaleffects**
 #' package is not available, or when the **emmeans** package is preferred. Note
 #' that using **emmeans** as back-end is currently not as feature rich as the default
-#' (**marginaleffects**) and still in development. Setting `engine = "emmeans"`
-#' provides some additional test options: `"interaction"` to calculate interaction
-#' contrasts, `"consecutive"` to calculate contrasts between consecutive levels of a
+#' (**marginaleffects**). Setting `engine = "emmeans"` provides some additional
+#' test options: `"interaction"` to calculate interaction contrasts,
+#' `"consecutive"` to calculate contrasts between consecutive levels of a
 #' predictor, or a data frame with custom contrasts (see also `test`). There is
-#' an experimental option as well, `engine = "ggeffects"`. However, this is
-#' currently work-in-progress and offers much less options as the default engine,
-#' `"marginaleffects"`. It can be faster in some cases, though, and works for
-#' comparing predicted random effects in mixed models, or predicted probabilities
-#' of the zero-inflation component. If the **marginaleffects** package is not
-#' installed, the **emmeans** package is used automatically. If this package is
-#' not installed as well, `engine = "ggeffects"` is used.
+#' a third option as well, `engine = "ggeffects"`. However, this option offers
+#' less features as the default engine, `"marginaleffects"`. It can be faster in
+#' some cases, though, and works for comparing predicted random effects in mixed
+#' models, or predicted probabilities of the zero-inflation component. If the
+#' **marginaleffects** package is not installed, the **emmeans** package is used
+#' automatically. If this package is not installed as well, `engine = "ggeffects"`
+#' is used.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values, for instance
 #' `condition = c(covariate1 = 20, covariate2 = 5)`.
@@ -256,8 +256,7 @@
 #' useful when the **marginaleffects** package is not available, or when the
 #' **emmeans** package is preferred. You can also provide the engine directly, e.g.
 #' `test_predictions(..., engine = "emmeans")`. Note that using **emmeans** as
-#' backend is currently not as feature rich as the default (**marginaleffects**)
-#' and still in development.
+#' backend is currently not as feature rich as the default (**marginaleffects**).
 #'
 #' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`
 #' to calculate interaction contrasts (difference-in-difference contrasts),

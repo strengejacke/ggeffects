@@ -206,17 +206,17 @@ contrasts and pairwise comparisons. \code{engine} can be either \code{"marginale
 (default) or \code{"emmeans"}. The latter is useful when the \strong{marginaleffects}
 package is not available, or when the \strong{emmeans} package is preferred. Note
 that using \strong{emmeans} as back-end is currently not as feature rich as the default
-(\strong{marginaleffects}) and still in development. Setting \code{engine = "emmeans"}
-provides some additional test options: \code{"interaction"} to calculate interaction
-contrasts, \code{"consecutive"} to calculate contrasts between consecutive levels of a
+(\strong{marginaleffects}). Setting \code{engine = "emmeans"} provides some additional
+test options: \code{"interaction"} to calculate interaction contrasts,
+\code{"consecutive"} to calculate contrasts between consecutive levels of a
 predictor, or a data frame with custom contrasts (see also \code{test}). There is
-an experimental option as well, \code{engine = "ggeffects"}. However, this is
-currently work-in-progress and offers much less options as the default engine,
-\code{"marginaleffects"}. It can be faster in some cases, though, and works for
-comparing predicted random effects in mixed models, or predicted probabilities
-of the zero-inflation component. If the \strong{marginaleffects} package is not
-installed, the \strong{emmeans} package is used automatically. If this package is
-not installed as well, \code{engine = "ggeffects"} is used.}
+a third option as well, \code{engine = "ggeffects"}. However, this option offers
+less features as the default engine, \code{"marginaleffects"}. It can be faster in
+some cases, though, and works for comparing predicted random effects in mixed
+models, or predicted probabilities of the zero-inflation component. If the
+\strong{marginaleffects} package is not installed, the \strong{emmeans} package is used
+automatically. If this package is not installed as well, \code{engine = "ggeffects"}
+is used.}
 
 \item{verbose}{Toggle messages and warnings.}
 }
@@ -322,8 +322,7 @@ package (e.g. \code{options(ggeffects_test_engine = "emmeans")}). The latter is
 useful when the \strong{marginaleffects} package is not available, or when the
 \strong{emmeans} package is preferred. You can also provide the engine directly, e.g.
 \code{test_predictions(..., engine = "emmeans")}. Note that using \strong{emmeans} as
-backend is currently not as feature rich as the default (\strong{marginaleffects})
-and still in development.
+backend is currently not as feature rich as the default (\strong{marginaleffects}).
 
 If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"}
 to calculate interaction contrasts (difference-in-difference contrasts),
