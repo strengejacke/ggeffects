@@ -79,7 +79,10 @@ variables. This is useful especially for interaction terms, where we want
 to test the interaction within "groups". \code{by} is only relevant for
 categorical predictors.}
 
-\item{test}{Hypothesis to test, defined as character string. Can be one of:
+\item{test}{Hypothesis to test, defined as character string, formula, or
+data frame. Can be one of:
+\itemize{
+\item String:
 \itemize{
 \item \code{"pairwise"} (default), to test pairwise comparisons.
 \item \code{"trend"} (or \code{"slope"}) to test for the linear trend/slope of (usually)
@@ -96,12 +99,29 @@ the \code{test_args} argument.
 \item \code{"consecutive"} to test contrasts between consecutive levels of a predictor.
 \item \code{"polynomial"} to test orthogonal polynomial contrasts, assuming
 equally-spaced factor levels.
-\item A character string with a custom hypothesis, e.g. \code{"b2 = b1"}. This would
+}
+\item String equation:
+
+A character string with a custom hypothesis, e.g. \code{"b2 = b1"}. This would
 test if the second level of a predictor is different from the first level.
 Custom hypotheses are very flexible. It is also possible to test interaction
 contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
 \code{"(b2 - b1) = (b4 - b3)"}. See also section \emph{Introduction into contrasts
 and pairwise comparisons}.
+\item Formula:
+
+A formula, where the left-hand side indicates the type of comparison and
+the right-hand side which pairs to compare. Optionally, grouping variables
+can be specified after a vertical bar. See also 'Examples'.
+\itemize{
+\item For the left-hand side, comparisons can be \code{difference} or \code{ratio}.
+\item For the right-hand side, pairs can be \code{reference}, \code{sequential}, or
+\code{meandev}. For \code{reference}, all factor levels are compared to the
+reference level. \code{sequential} compares consecutive levels of a predictor.
+\code{meandev} compares each factor level against the "average" factor level.
+\item If a variable is specified after \code{|}, comparisons will be grouped by
+that variable.
+}
 \item A data frame with custom contrasts. See 'Examples'.
 \item \code{NULL}, in which case simple contrasts are computed.
 }
@@ -186,17 +206,17 @@ contrasts and pairwise comparisons. \code{engine} can be either \code{"marginale
 (default) or \code{"emmeans"}. The latter is useful when the \strong{marginaleffects}
 package is not available, or when the \strong{emmeans} package is preferred. Note
 that using \strong{emmeans} as back-end is currently not as feature rich as the default
-(\strong{marginaleffects}) and still in development. Setting \code{engine = "emmeans"}
-provides some additional test options: \code{"interaction"} to calculate interaction
-contrasts, \code{"consecutive"} to calculate contrasts between consecutive levels of a
+(\strong{marginaleffects}). Setting \code{engine = "emmeans"} provides some additional
+test options: \code{"interaction"} to calculate interaction contrasts,
+\code{"consecutive"} to calculate contrasts between consecutive levels of a
 predictor, or a data frame with custom contrasts (see also \code{test}). There is
-an experimental option as well, \code{engine = "ggeffects"}. However, this is
-currently work-in-progress and offers much less options as the default engine,
-\code{"marginaleffects"}. It can be faster in some cases, though, and works for
-comparing predicted random effects in mixed models, or predicted probabilities
-of the zero-inflation component. If the \strong{marginaleffects} package is not
-installed, the \strong{emmeans} package is used automatically. If this package is
-not installed as well, \code{engine = "ggeffects"} is used.}
+a third option as well, \code{engine = "ggeffects"}. However, this option offers
+less features as the default engine, \code{"marginaleffects"}. It can be faster in
+some cases, though, and works for comparing predicted random effects in mixed
+models, or predicted probabilities of the zero-inflation component. If the
+\strong{marginaleffects} package is not installed, the \strong{emmeans} package is used
+automatically. If this package is not installed as well, \code{engine = "ggeffects"}
+is used.}
 
 \item{verbose}{Toggle messages and warnings.}
 }
@@ -260,6 +280,7 @@ is called.
 \item a character string with a custom hypothesis, the \strong{marginaleffects}
 package is used.
 \item a data frame with custom contrasts, \strong{emmeans} is used again.
+\item for formulas, the \strong{marginaleffects} package is used.
 \item \code{NULL} calls functions from the \strong{marginaleffects} package with
 \code{hypothesis = NULL}.
 \item If all focal terms are only present as random effects in a mixed model,
@@ -301,8 +322,7 @@ package (e.g. \code{options(ggeffects_test_engine = "emmeans")}). The latter is
 useful when the \strong{marginaleffects} package is not available, or when the
 \strong{emmeans} package is preferred. You can also provide the engine directly, e.g.
 \code{test_predictions(..., engine = "emmeans")}. Note that using \strong{emmeans} as
-backend is currently not as feature rich as the default (\strong{marginaleffects})
-and still in development.
+backend is currently not as feature rich as the default (\strong{marginaleffects}).
 
 If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"}
 to calculate interaction contrasts (difference-in-difference contrasts),
@@ -411,9 +431,17 @@ m <- lm(alertness ~ time * coffee + sex, data = coffee_data)
 # consecutive contrasts
 test_predictions(m, "time", by = "coffee", test = "consecutive")
 
+# same as (using formula):
+pr <- predict_response(m, c("time", "coffee"))
+test_predictions(pr, test = difference ~ sequential | coffee)
+
 # interaction contrasts - difference-in-difference comparisons
 pr <- predict_response(m, c("time", "coffee"), margin = "marginalmeans")
 test_predictions(pr, test = "interaction")
+
+# Ratio contrasts ---------------------------------------
+# -------------------------------------------------------
+test_predictions(test = ratio ~ reference | coffee)
 
 # Custom contrasts --------------------------------------
 # -------------------------------------------------------
