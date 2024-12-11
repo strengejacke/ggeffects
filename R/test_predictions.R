@@ -49,9 +49,8 @@
 #'   - For the left-hand side, comparisons can be `difference` or `ratio`.
 #'   - For the right-hand side, pairs can be `reference`, `sequential`, or
 #'     `meandev`. For `reference`, all factor levels are compared to the
-#'     reference level. `sequential` compares each factor level against the
-#'     next level in the factor. `meandev` compares each factor level against
-#'     the "mean".
+#'     reference level. `sequential` compares consecutive levels of a predictor.
+#'     `meandev` compares each factor level against the "average" factor level.
 #'   - If a variable is specified after `|`, comparisons will be grouped by
 #'     that variable.
 #'

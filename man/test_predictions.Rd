@@ -120,9 +120,8 @@ can be specified after a vertical bar. See also 'Examples'.
 \item For the left-hand side, comparisons can be \code{difference} or \code{ratio}.
 \item For the right-hand side, pairs can be \code{reference}, \code{sequential}, or
 \code{meandev}. For \code{reference}, all factor levels are compared to the
-reference level. \code{sequential} compares each factor level against the
-next level in the factor. \code{meandev} compares each factor level against
-the "mean".
+reference level. \code{sequential} compares consecutive levels of a predictor.
+\code{meandev} compares each factor level against the "average" factor level.
 \item If a variable is specified after \code{|}, comparisons will be grouped by
 that variable.
 }
