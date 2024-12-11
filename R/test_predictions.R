@@ -376,7 +376,7 @@ test_predictions.default <- function(object,
   margin <- .tp_validate_margin(margin)
 
   # handle alias - "slope" or "trend" are aliases for simply setting it to NULL
-  if (!is.null(test) && !is.data.frame(test) && test %in% c("trend", "slope")) {
+  if (!is.null(test) && !is.data.frame(test) && !inherits(test, "formula") && test %in% c("trend", "slope")) { # nolint
     test <- NULL
   }
 
@@ -631,7 +631,7 @@ test_predictions.default <- function(object,
       # ----------------------------------------------------------------------
 
       # for pairwise comparisons, we need to extract contrasts
-      if (!is.null(test) && all(test == "pairwise")) {
+      if (!is.null(test) && !inherits(test, "formula") && all(test == "pairwise")) {
         # pairwise comparisons of slopes --------------------------------------
         # here comes the code to extract labels for pairwise comparison of slopes
         # ---------------------------------------------------------------------
@@ -654,6 +654,13 @@ test_predictions.default <- function(object,
         )
         out <- cbind(data.frame(x_ = "slope", stringsAsFactors = FALSE), grid_categorical)
         colnames(out) <- focal
+      } else if (inherits(test, "formula")) {
+        # formulas -----------------------------------------------
+        # here comes the code to extract labels from formula tests
+        # --------------------------------------------------------
+
+        columns_to_select <- c("hypothesis", intersect(focal, colnames(.comparisons)))
+        out <- as.data.frame(.comparisons[columns_to_select], stringsAsFactors = FALSE)
       } else {
         # hypothesis testing of slopes ----------------------------------------
         # here comes the code to extract labels for special hypothesis tests
@@ -737,7 +744,7 @@ test_predictions.default <- function(object,
 
     # pairwise comparisons - we now extract the group levels from the "term"
     # column and create separate columns for contrats of focal predictors
-    if (!is.null(test) && all(test == "pairwise")) {
+    if (!is.null(test) && !inherits(test, "formula") && all(test == "pairwise")) {
       ## pairwise comparisons of group levels -----
       out <- .tp_label_pairwise_categorical(
         .comparisons,
@@ -754,6 +761,11 @@ test_predictions.default <- function(object,
       # we have simple contrasts - we can just copy from the data frame
       # returned by "marginaleffects" to get nice labels
       out <- as.data.frame(.comparisons[focal], stringsAsFactors = FALSE)
+    } else if (inherits(test, "formula")) {
+      ## formula -----
+
+      columns_to_select <- c("hypothesis", intersect(focal, colnames(.comparisons)))
+      out <- as.data.frame(.comparisons[columns_to_select], stringsAsFactors = FALSE)
     } else {
       ## hypothesis testing of group levels -----
       result <- .tp_label_hypothesis_categorical(
