@@ -112,6 +112,8 @@
 
     
     
+<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 <p>This vignette compares the <em>ggeffects</em> package with the
 <em>marginaleffects</em> package, which is another package that can be
 used to create predictions for mixed models. It shows how to reproduce
@@ -126,7 +128,7 @@ models.</p>
 <em>marginaleffects</em> and <em>ggeffects</em><a class="anchor" aria-label="anchor" href="#population-level-and-unit-level-predictions-comparison-between-marginaleffects-and-ggeffects"></a>
 </h2>
 <p>First, we fit the two example models.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span>            <span class="co"># modelling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span>       <span class="co"># predictions</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/" class="external-link">marginaleffects</a></span><span class="op">)</span> <span class="co"># predictions</span></span>
@@ -151,7 +153,7 @@ models.</p>
 <p>The first two plots show unit-level predictions created with the
 <em>marginaleffects</em> package. As can be seen, predictions for each
 level of the random effects are included.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">predictions</a></span><span class="op">(</span><span class="va">model1</span>,</span>
 <span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html" class="external-link">datagrid</a></span><span class="op">(</span></span>
 <span>    Chick <span class="op">=</span> <span class="va">ChickWeight</span><span class="op">$</span><span class="va">Chick</span>,</span>
@@ -182,7 +184,7 @@ vignette</a>) - each unit-level is considered as own “group”, thus the
 plot would normally use colors and a color legend to distinguish between
 the unit-levels. In this example, the default color palette is too small
 to plot all unit-levels.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Chick"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in `palette()`:</span></span>
@@ -190,7 +192,7 @@ to plot all unit-levels.</p>
 <p>To reproduce the plots from the <em>marginaleffects</em> package, we
 need to modify our plot. We simply provide a vector with a sufficient
 amount of color values and hide the legend.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Chick"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"grey30"</span>, <span class="fl">50</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
@@ -205,7 +207,7 @@ amount of color values and hide the legend.</p>
 </h3>
 <p>This is the next plot shown in the <em>marginaleffects</em> case
 study. Unit-level predictions are stratified by <code>Diet</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">predictions</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">pred</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">estimate</span>, level <span class="op">=</span> <span class="va">Chick</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -217,13 +219,13 @@ study. Unit-level predictions are stratified by <code>Diet</code>.</p>
 for all possible combinations in the data. That’s why the following plot
 looks different than the one above. We see predictions for <em>all</em>
 unit-levels in each panel of <code>Diet</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Chick"</span>, <span class="st">"Diet"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"grey30"</span>, <span class="fl">50</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>To limit the plot to the unit-levels that are actually present in the
 data, we need to set <code>limit_range = TRUE</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Chick"</span>, <span class="st">"Diet"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">pr</span>,</span>
@@ -238,7 +240,7 @@ data, we need to set <code>limit_range = TRUE</code>.</p>
 <h3 id="population-level-predictions">Population-level predictions<a class="anchor" aria-label="anchor" href="#population-level-predictions"></a>
 </h3>
 <p>The last example shows population-level predictions.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">predictions</a></span><span class="op">(</span></span>
 <span>  <span class="va">model2</span>,</span>
 <span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html" class="external-link">datagrid</a></span><span class="op">(</span></span>
@@ -259,7 +261,7 @@ data, we need to set <code>limit_range = TRUE</code>.</p>
 don’t need to specify the <code>type</code> argument, since
 <code>type = "fixed"</code> is the default and returns population-level
 predictions.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Diet"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>

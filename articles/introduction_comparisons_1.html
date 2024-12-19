@@ -112,6 +112,8 @@
 
     
     
+<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 <style type="text/css">.callout-tip {
   border: solid 3px #fbd46d;
   border-radius: 5px;
@@ -217,7 +219,7 @@ categorical predictors. No interaction is involved for now.</p>
 <p>We display a simple table of regression coefficients, created with
 <code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters()</a></code> from the <em>parameters</em>
 package.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/" class="external-link">parameters</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -242,7 +244,7 @@ package.</p>
 <h4 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
 </h4>
 <p>Let us look at the adjusted predictions.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span></span>
 <span><span class="va">my_predictions</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
@@ -282,7 +284,7 @@ using the <code>test</code> argument (which defaults to
 <code>"pairwise"</code>, see <code><a href="../reference/test_predictions.html">?test_predictions</a></code>). For now,
 we go on with the simpler example of contrasts or pairwise
 comparisons.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># argument `test` defaults to "pairwise"</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span> <span class="co"># same as test_predictions(my_predictions)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -305,7 +307,7 @@ statistically significant.</p>
 values” via that argument (for details, see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">this
 vignette</a>). For example, we could also specify the levels of
 <code>episode</code> directly, to simplify the output:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode [1:2]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -322,7 +324,7 @@ its reference level, <code>episode = 1</code>.</p>
 <code><a href="../reference/predict_response.html">predict_response()</a></code> again, we can also pass the objects
 returned by <code><a href="../reference/predict_response.html">predict_response()</a></code> directly into
 <code><a href="../reference/test_predictions.html">test_predictions()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model1</span>, <span class="st">"episode"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -339,7 +341,7 @@ returned by <code><a href="../reference/predict_response.html">predict_response(
 </h3>
 <p>The next example includes a pairwise comparison of an interaction
 between two categorical predictors.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">outcome</span> <span class="op">~</span> <span class="va">grp</span> <span class="op">*</span> <span class="va">episode</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Parameter                     | Coefficient |   SE |        95% CI | t(194) |     p</span></span>
@@ -355,7 +357,7 @@ between two categorical predictors.</p>
 </h4>
 <p>First, we look at the predicted values of <em>outcome</em> for all
 combinations of the involved interaction term.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">my_predictions</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
@@ -393,7 +395,7 @@ comparisons, i.e. the comparison (or test for differences) between all
 combinations of our <em>focal predictors</em>. The focal predictors
 we’re interested here are our two variables used for the
 interaction.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># we want "episode = 2-2" and "grp = control-treatment"</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -435,7 +437,7 @@ argument, which is the same as for
 <div class="section level5">
 <h5 id="option-1-directly-specify-the-comparison">Option 1: Directly specify the comparison<a class="anchor" aria-label="anchor" href="#option-1-directly-specify-the-comparison"></a>
 </h5>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># adjusted predictions, compact table</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; episode |       grp | Predicted |       95% CI |     p</span></span>
@@ -454,7 +456,7 @@ interest. Our groups we want to include in our comparison are rows two
 null hypothesis we want to test is whether both predictions are equal,
 i.e. <code>test = "b2 = b5"</code>. We can now calculate the desired
 comparison directly:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># compute specific contrast directly</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b2 = b5"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |      95% CI |     p</span></span>
@@ -474,7 +476,7 @@ argument</a> of those functions.</p>
 <p>Again, using representative values for the <code>terms</code>
 argument, we can also simplify the output using an alternative
 syntax:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># return pairwise comparisons for specific values, in</span></span>
 <span><span class="co"># this case for episode = 2 in both groups</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [2]"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
@@ -508,7 +510,7 @@ in the <code>treatment</code> group and <code>episode = 3</code> in the
 <code>control</code> group. These are the predicted values in rows three
 and four (c.f. above table of predicted values), thus we
 <code>test</code> whether <code>"b4 = b3"</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"b4 = b3"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; -------------------------------------------</span></span>
@@ -518,7 +520,7 @@ and four (c.f. above table of predicted values), thus we
 <p>Another way to produce this pairwise comparison, we can reduce the
 table of predicted values by providing <a href="https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html">specific
 values or levels</a> in the <code>terms</code> argument:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,3]"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of outcome</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -539,7 +541,7 @@ values or levels</a> in the <code>terms</code> argument:</p>
 <code>episode = 3</code> in the <code>control</code> group refer now to
 rows two and three, thus we also can obtain the desired comparison this
 way:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode [1,3]"</span>, <span class="st">"grp"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="st">"b3 = b2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis | Contrast |      95% CI |     p</span></span>
@@ -560,7 +562,7 @@ significantly different from the difference of the same two episode
 levels in the other group?</p>
 <p><img src="introduction_comparisons_1_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 <p>As a reminder, we look at the table of predictions again:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; episode |       grp | Predicted |       95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------------</span></span>
@@ -578,7 +580,7 @@ treatment group refer to the difference between rows four and five
 <code>b1 - b2</code> and <code>b4 - b5</code>, and our null hypothesis
 is that these two differences are equal:
 <code>test = "(b1 - b2) = (b4 - b5)"</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b2) = (b4 - b5)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis      | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------</span></span>
@@ -590,7 +592,7 @@ is that these two differences are equal:
 <em>emmeans</em> package is used an backend,
 i.e. <code><a href="../reference/test_predictions.html">test_predictions()</a></code> is called with
 <code>engine = "emmeans"</code> (silently).</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># test = "interaction" always returns *all* possible interaction contrasts</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">model2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"episode"</span>, <span class="st">"grp"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"interaction"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Interaction contrasts</span></span>

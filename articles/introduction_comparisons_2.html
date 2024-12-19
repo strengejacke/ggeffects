@@ -112,6 +112,8 @@
 
     
     
+<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 <style type="text/css">.callout-tip {
   border: solid 3px #fbd46d;
   border-radius: 5px;
@@ -181,7 +183,7 @@ It is even more complicated to deal with interactions of (at least) two continuo
 </ul>
 </div>
 <p>Let’s start with a simple example again.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/" class="external-link">parameters</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
@@ -197,7 +199,7 @@ It is even more complicated to deal with interactions of (at least) two continuo
 <code>Sepal.Length</code> is 0.35. We will thus find the same increase
 for the predicted values in our outcome when our focal variable,
 <code>Sepal.Length</code> increases by one unit.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Sepal.Length [4,5,6,7]"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Predicted values of Sepal.Width</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -213,7 +215,7 @@ for the predicted values in our outcome when our focal variable,
 <p>Consequently, in this case of a simple slope, we see the same result
 for the hypothesis test for the linar trend of
 <code>Sepal.Length</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"Sepal.Length"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -229,7 +231,7 @@ numeric and categorical variable.</p>
 <div class="section level4">
 <h4 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a>
 </h4>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">*</span> <span class="va">Species</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span></code></pre></div>
@@ -247,7 +249,7 @@ case, when interaction terms are included, the linear trend
 (<em>slope</em>) for our numeric focal predictor,
 <code>Sepal.Length</code>, is tested for each level of
 <code>Species</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># test = "slope" is just an alias for test = NULL</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"slope"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Sepal.Length</span></span>
@@ -267,7 +269,7 @@ case, when interaction terms are included, the linear trend
 significantly between each other, i.e. we test differences in slopes,
 which is a pairwise comparison between slopes. To do this, we use the
 default for <code>test</code>, which is <code>"pairwise"</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -300,7 +302,7 @@ by the purple arrow in the below plot.</p>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>Let’s look at the different slopes separately first, i.e. the slopes
 of <code>Sepal.Length</code> by levels of <code>Species</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Sepal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -315,7 +317,7 @@ i.e. <code>b1 - b2</code> (=0.48). The second difference is between
 levels <code>setosa</code> (0.8) and <code>virginica</code> (0.23),
 which is <code>b1 - b3</code> (=0.57). We test the null hypothesis that
 <code>(b1 - b2) = (b1 - b3)</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Species"</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"(b1 - b2) = (b1 - b3)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Hypothesis      | Contrast |      95% CI |     p</span></span>
 <span><span class="co">#&gt; ------------------------------------------------</span></span>
@@ -354,7 +356,7 @@ three different, representative values of <code>Petal.Width</code>: Mean
 <div class="section level4">
 <h4 id="predictions-1">Predictions<a class="anchor" aria-label="anchor" href="#predictions-1"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Width</span> <span class="op">~</span> <span class="va">Petal.Length</span> <span class="op">*</span> <span class="va">Petal.Width</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Petal.Length"</span>, <span class="st">"Petal.Width"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span></code></pre></div>
@@ -365,7 +367,7 @@ categorical predictor with three levels.</p>
 <p>First, we want to see at which value of <code>Petal.Width</code> the
 slopes of <code>Petal.Length</code> are significant. We do no pairwise
 comparison here, hence we set <code>test = "slope"</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span>, test <span class="op">=</span> <span class="st">"slope"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Petal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -384,7 +386,7 @@ comparison here, hence we set <code>test = "slope"</code>.</p>
 that all linear trends (slopes) are significantly different from each
 other, i.e. the slope of the green line is significantly different from
 the slope of the red line, and so on.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Petal.Length</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -408,7 +410,7 @@ moderator at which the slope of the predictor is significant
 <code>Income</code> for <code>Murder</code> at nine different values of
 <code>Illiteracy</code> (there are no more colors in the default palette
 to show more lines).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.x77</span><span class="op">)</span></span>
 <span><span class="va">states</span><span class="op">$</span><span class="va">HSGrad</span> <span class="op">&lt;-</span> <span class="va">states</span><span class="op">$</span><span class="va">`HS Grad`</span></span>
 <span><span class="va">m_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Income</span> <span class="op">~</span> <span class="va">HSGrad</span> <span class="op">+</span> <span class="va">Murder</span> <span class="op">*</span> <span class="va">Illiteracy</span>, data <span class="op">=</span> <span class="va">states</span><span class="op">)</span></span>
@@ -421,7 +423,7 @@ to show more lines).</p>
 the association between <code>Murder</code> and <code>Income</code>
 might be statistically signifiant. We still can use
 <code><a href="../reference/test_predictions.html">test_predictions()</a></code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">pr</span>, test <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for Murder</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -444,13 +446,13 @@ larger than <code>2.6</code>, the association between
 signifiant.</p>
 <p>However, this test can be simplified using the
 <code><a href="../reference/johnson_neyman.html">johnson_neyman()</a></code> function:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of</span></span>
 <span><span class="co">#&gt; `Illiteracy` lower than 0.79 and negative for values higher than 2.67.</span></span>
 <span><span class="co">#&gt; Inside the interval of [0.79, 2.67], there were no clear associations.</span></span></code></pre></div>
 <p>Furthermore, it is possible to create a spotlight-plot.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/johnson_neyman.html">johnson_neyman</a></span><span class="op">(</span><span class="va">pr</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The association between `Murder` and `Income` is positive for values of `Illiteracy` lower than 0.80 and negative for values higher than 2.67. Inside the interval of [0.80, 2.67], there were no clear associations.</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-22-1.png" width="672"></p>
@@ -467,7 +469,7 @@ green line represent values of <code>Illiteracy</code> at which we find
 clear positive resp. negative associations between <code>Murder</code>
 and <code>Income</code>, while we find no clear (positive or negative)
 association for the blue line.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Murder"</span>, <span class="st">"Illiteracy [0.7, 1.5, 2.8]"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_comparisons_2_files/figure-html/unnamed-chunk-23-1.png" width="672"></p>
