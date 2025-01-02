@@ -187,6 +187,10 @@
 #' to hold these covariates constant, `condition` can be used to define
 #' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' See 'Examples'.
+#' @param parameter Character string, name of the auxiliary parameter that
+#' should be estimated. Currently only works for models of class `brmsfit`.
+#' The `parameter` argument is passed to the `dpar` argument in either
+#' `rstantools::posterior_epred()` or `rstantools::posterior_predict()`.
 #' @param interval Type of interval calculation, can either be `"confidence"`
 #' (default) or `"prediction"`. May be abbreviated. Unlike *confidence
 #' intervals*, *prediction intervals* include the residual variance (sigma^2) to
@@ -628,6 +632,7 @@ predict_response <- function(model,
                              ci_level = 0.95,
                              type = "fixed",
                              condition = NULL,
+                             parameter = NULL,
                              interval = "confidence",
                              back_transform = TRUE,
                              vcov = NULL,
@@ -670,6 +675,7 @@ predict_response <- function(model,
       type = type,
       typical = "mean",
       condition = condition,
+      parameter = parameter,
       back_transform = back_transform,
       vcov = vcov,
       vcov_args = vcov_args,
@@ -685,6 +691,7 @@ predict_response <- function(model,
       type = type,
       typical = c(numeric = "mean", factor = "mode"),
       condition = condition,
+      parameter = parameter,
       back_transform = back_transform,
       vcov = vcov,
       vcov_args = vcov_args,
@@ -719,6 +726,7 @@ predict_response <- function(model,
       type = type,
       typical = "mean",
       condition = condition,
+      parameter = parameter,
       back_transform = back_transform,
       vcov = vcov,
       vcov_args = vcov_args,

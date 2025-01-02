@@ -15,6 +15,7 @@
                                              margin = NULL,
                                              model_name = NULL,
                                              bias_correction = FALSE,
+                                             parameter = NULL,
                                              verbose = TRUE) {
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
@@ -75,6 +76,7 @@
     vcov_args = vcov_args,
     margin = margin,
     bias_correction = bias_correction,
+    parameter = parameter,
     verbose = verbose
   )
 }

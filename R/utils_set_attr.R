@@ -25,6 +25,7 @@
                                       latent = FALSE,
                                       latent_thresholds = NULL,
                                       bias_correction = FALSE,
+                                      parameter = NULL,
                                       verbose = TRUE) {
   # check correct labels
   if (!is.null(x.axis.labels) && length(x.axis.labels) != length(stats::na.omit(unique(data$x)))) {
@@ -50,6 +51,7 @@
   attr(data, "at.list") <- at_list
   attr(data, "prediction.interval") <- prediction.interval
   attr(data, "condition") <- condition
+  attr(data, "aux_parameter") <- parameter
   attr(data, "ci_level") <- ci_level
   attr(data, "type") <- type
   attr(data, "response.name") <- insight::find_response(model)

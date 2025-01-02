@@ -6,6 +6,7 @@ ggaverage <- function(model,
                       type = "fixed",
                       typical = "mean",
                       condition = NULL,
+                      parameter = parameter,
                       back_transform = TRUE,
                       vcov = NULL,
                       vcov_args = NULL,
@@ -90,7 +91,8 @@ ggaverage <- function(model,
     type = type,
     df = .get_df(model),
     vcov = vcov_arg,
-    wts = weights
+    wts = weights,
+    dpar = parameter
   )
   prediction_data <- .call_me(
     "avg_predictions",
@@ -163,6 +165,7 @@ ggaverage <- function(model,
     vcov_args = if (isTRUE(vcov_arg)) NULL else vcov_arg,
     margin = "empirical",
     model_name = model_name,
+    parameter = parameter,
     verbose = verbose
   )
 }

@@ -14,7 +14,7 @@
 #' packages. Hence, methods should be written for those packages, too, if a
 #' model-object should work with `ggemmeans()` or `ggaverage()`.
 #'
-#' @param model,terms,ci_level,type,typical,vcov,vcov_args,condition,interval,bias_correction,verbose Arguments
+#' @param model,terms,ci_level,type,typical,vcov,vcov_args,condition,parameter,interval,bias_correction,verbose Arguments
 #' from the call to `predict_response()` that are passed down to `get_predictions()`.
 #' Note that `bias_correction` is usally already processed in `predict_response()`
 #' and thus doesn't need further handling in `get_predictions()`, unless you

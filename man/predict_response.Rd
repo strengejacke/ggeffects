@@ -11,6 +11,7 @@ predict_response(
   ci_level = 0.95,
   type = "fixed",
   condition = NULL,
+  parameter = NULL,
   interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
@@ -160,6 +161,11 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
+
+\item{parameter}{Character string, name of the auxiliary parameter that
+should be estimated. Currently only works for models of class \code{brmsfit}.
+The \code{parameter} argument is passed to the \code{dpar} argument in either
+\code{rstantools::posterior_epred()} or \code{rstantools::posterior_predict()}.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence

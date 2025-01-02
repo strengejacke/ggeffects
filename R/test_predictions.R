@@ -596,6 +596,19 @@ test_predictions.default <- function(object,
     df <- .get_df(object)
   }
 
+  # estimate auxiliary parameters?
+  aux_parameter <- attributes(object)$aux_parameter
+  # check if auxiliary was passed via "..."
+  if ("dpar" %in% names(dot_args)) {
+    aux_parameter <- dot_args$dpar
+  }
+  if ("parameter" %in% names(dot_args)) {
+    aux_parameter <- dot_args$parameter
+  }
+  dot_args$parameter <- NULL
+  dot_args$dpar <- aux_parameter
+
+
   # ===========================================================================
   # the following, very long code block, mainly does two things: first, extract
   # the requested pairwise comparisons or contrasts, either for slopes or for

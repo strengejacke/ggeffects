@@ -26,7 +26,7 @@ get_predictions(model, ...)
 )
 }
 \arguments{
-\item{model, terms, ci_level, type, typical, vcov, vcov_args, condition, interval, bias_correction, verbose}{Arguments
+\item{model, terms, ci_level, type, typical, vcov, vcov_args, condition, parameter, interval, bias_correction, verbose}{Arguments
 from the call to \code{predict_response()} that are passed down to \code{get_predictions()}.
 Note that \code{bias_correction} is usally already processed in \code{predict_response()}
 and thus doesn't need further handling in \code{get_predictions()}, unless you

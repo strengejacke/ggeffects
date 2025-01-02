@@ -8,6 +8,7 @@ get_predictions.stanreg <- function(model,
                                     vcov = NULL,
                                     vcov_args = NULL,
                                     condition = NULL,
+                                    parameter = NULL,
                                     interval = "confidence",
                                     bias_correction = FALSE,
                                     link_inverse = insight::link_inverse(model),
@@ -66,6 +67,7 @@ get_predictions.stanreg <- function(model,
       model,
       newdata = data_grid,
       re.form = ref,
+      dpar = parameter,
       ...
     )
 
@@ -78,6 +80,7 @@ get_predictions.stanreg <- function(model,
       newdata = data_grid,
       re.form = ref,
       re_formula = ref,
+      dpar = parameter,
       ...
     )
 

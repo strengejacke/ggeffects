@@ -25,6 +25,7 @@ ggaverage(
   type = "fixed",
   typical = "mean",
   condition = NULL,
+  parameter = parameter,
   back_transform = TRUE,
   vcov = NULL,
   vcov_args = NULL,
@@ -66,6 +67,7 @@ ggpredict(
   type = "fixed",
   typical = "mean",
   condition = NULL,
+  parameter = NULL,
   interval = "confidence",
   back_transform = TRUE,
   vcov = NULL,
@@ -245,6 +247,11 @@ applies a function to the covariates to determine the value that is used
 to hold these covariates constant, \code{condition} can be used to define
 exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}.
 See 'Examples'.}
+
+\item{parameter}{Character string, name of the auxiliary parameter that
+should be estimated. Currently only works for models of class \code{brmsfit}.
+The \code{parameter} argument is passed to the \code{dpar} argument in either
+\code{rstantools::posterior_epred()} or \code{rstantools::posterior_predict()}.}
 
 \item{back_transform}{Logical, if \code{TRUE} (the default), predicted values for
 log-, log-log, exp, sqrt and similar transformed responses will be

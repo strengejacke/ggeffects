@@ -13,6 +13,12 @@
   calculate consecutive contrasts, contrasts against the reference level or
   against the "average" factor level.
 
+* `predict_response()` (and `ggpredict()` and `ggaverage()`) gets a `parameter`
+  argument, to estimate adjusted predictions for auxiliary parameters. This is
+  currently only possible for models of class `brmsfit`, and the `parameter`
+  argument is used as option for the `dpar` argument (which is, in turn, passed
+  to the related predict-methods).
+
 # ggeffects 2.0.0
 
 ## Breaking changes
