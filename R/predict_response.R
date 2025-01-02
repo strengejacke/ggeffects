@@ -691,25 +691,27 @@ predict_response <- function(model,
   )
 
   out <- switch(margin,
-    mean_reference = do.call(
-      "ggpredict",
-      c(predict_args, list(typical = "mean"), dot_args)
-    ),
-    mean_mode = do.call(
-      "ggpredict",
-      c(predict_args, list(typical = c(numeric = "mean", factor = "mode")), dot_args)
-    ),
-    marginalmeans = do.call(
-      "ggemmeans",
-      c(predict_args, list(typical = "mean", weights = weights), dot_args)
-    ),
+    mean_reference = {
+      predict_args$typical <- "mean"
+      do.call("ggpredict", c(predict_args, dot_args))
+    },
+    mean_mode = {
+      predict_args$typical <- c(numeric = "mean", factor = "mode")
+      do.call("ggpredict", c(predict_args, dot_args))
+    },
+    marginalmeans = {
+      predict_args$typical <- "mean"
+      predict_args$weights <- weights
+      do.call("ggemmeans", c(predict_args, dot_args))
+    }
     average = ,
     counterfactual = ,
     marginaleffects = ,
-    empirical = do.call(
-      "ggaverage",
-      c(predict_args, list(typical = "mean", weights = weights), dot_args)
-    ),
+    empirical = {
+      predict_args$typical <- "mean"
+      predict_args$weights <- weights
+      do.call("ggaverage", c(predict_args, dot_args))
+    },
     full_data = {
       ## TODO: implement
       # should be:

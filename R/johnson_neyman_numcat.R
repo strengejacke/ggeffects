@@ -369,4 +369,3 @@ plot.ggjohnson_neyman_numcat <- function(x,
 # out2 <- johnson_neyman(pr)
 # head(as.data.frame(out2))
 # head(as.data.frame(out))
-
