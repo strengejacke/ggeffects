@@ -163,7 +163,7 @@ exact values, for instance \code{condition = c(covariate1 = 20, covariate2 = 5)}
 See 'Examples'.}
 
 \item{parameter}{Character string, name of the auxiliary parameter that
-should be estimated. Currently only works for models of class \code{brmsfit}.
+should be predicted. Currently only works for models of class \code{brmsfit}.
 The \code{parameter} argument is passed to the \code{dpar} argument in either
 \code{rstantools::posterior_epred()} or \code{rstantools::posterior_predict()}.}
 

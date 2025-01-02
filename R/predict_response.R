@@ -188,7 +188,7 @@
 #' exact values, for instance `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' See 'Examples'.
 #' @param parameter Character string, name of the auxiliary parameter that
-#' should be estimated. Currently only works for models of class `brmsfit`.
+#' should be predicted. Currently only works for models of class `brmsfit`.
 #' The `parameter` argument is passed to the `dpar` argument in either
 #' `rstantools::posterior_epred()` or `rstantools::posterior_predict()`.
 #' @param interval Type of interval calculation, can either be `"confidence"`
@@ -667,72 +667,48 @@ predict_response <- function(model,
   # make sure we have valid values
   interval <- insight::validate_argument(interval, c("confidence", "prediction"))
 
+  # prepare arguments
+  dot_args <- list(...)
+  # handle dpar-argument
+  if ("dpar" %in% names(dot_args)) {
+    parameter <- dot_args$dpar
+    dot_args$dpar <- NULL
+  }
+  # main arguments
+  predict_args <- list(
+    model,
+    terms = terms,
+    ci_level = ci_level,
+    type = type,
+    condition = condition,
+    parameter = parameter,
+    back_transform = back_transform,
+    vcov = vcov,
+    vcov_args = vcov_args,
+    interval = interval,
+    bias_correction = bias_correction,
+    verbose = verbose
+  )
+
   out <- switch(margin,
-    mean_reference = ggpredict(
-      model,
-      terms = terms,
-      ci_level = ci_level,
-      type = type,
-      typical = "mean",
-      condition = condition,
-      parameter = parameter,
-      back_transform = back_transform,
-      vcov = vcov,
-      vcov_args = vcov_args,
-      interval = interval,
-      bias_correction = bias_correction,
-      verbose = verbose,
-      ...
+    mean_reference = do.call(
+      "ggpredict",
+      c(predict_args, list(typical = "mean"), dot_args)
     ),
-    mean_mode = ggpredict(
-      model,
-      terms = terms,
-      ci_level = ci_level,
-      type = type,
-      typical = c(numeric = "mean", factor = "mode"),
-      condition = condition,
-      parameter = parameter,
-      back_transform = back_transform,
-      vcov = vcov,
-      vcov_args = vcov_args,
-      interval = interval,
-      bias_correction = bias_correction,
-      verbose = verbose,
-      ...
+    mean_mode = do.call(
+      "ggpredict",
+      c(predict_args, list(typical = c(numeric = "mean", factor = "mode")), dot_args)
     ),
-    marginalmeans = ggemmeans(
-      model,
-      terms = terms,
-      ci_level = ci_level,
-      type = type,
-      typical = "mean",
-      condition = condition,
-      back_transform = back_transform,
-      vcov = vcov,
-      vcov_args = vcov_args,
-      interval = interval,
-      bias_correction = bias_correction,
-      weights = weights,
-      verbose = verbose,
-      ...
+    marginalmeans = do.call(
+      "ggemmeans",
+      c(predict_args, list(typical = "mean", weights = weights), dot_args)
     ),
     average = ,
     counterfactual = ,
     marginaleffects = ,
-    empirical = ggaverage(
-      model,
-      terms = terms,
-      ci_level = ci_level,
-      type = type,
-      typical = "mean",
-      condition = condition,
-      parameter = parameter,
-      back_transform = back_transform,
-      vcov = vcov,
-      vcov_args = vcov_args,
-      weights = weights,
-      verbose = verbose,
-      ...
+    empirical = do.call(
+      "ggaverage",
+      c(predict_args, list(typical = "mean", weights = weights), dot_args)
     ),
     full_data = {
       ## TODO: implement

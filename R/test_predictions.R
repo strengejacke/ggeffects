@@ -975,6 +975,8 @@ test_predictions.ggeffects <- function(object,
   # check prediction type - we set the default scale here. This is only
   # required for models with zero-inflation component (see later)
   type <- attributes(object)$type
+  # estimate auxiliary parameters?
+  aux_parameter <- attributes(object)$aux_parameter
 
   # check if all focal terms are random effects - if so, we switch to ggeffects
   # because we cannot calculate comparisons for random effects with marginaleffects
@@ -1033,6 +1035,11 @@ test_predictions.ggeffects <- function(object,
   # set default for marginaleffects, we pass this via dots
   if (!is.null(vcov_matrix) && is.null(dot_args$vcov)) {
     dot_args$vcov <- vcov_matrix
+  }
+
+  # set auxiliary parameter
+  if (!is.null(aux_parameter)) {
+    dot_args$dpar <- aux_parameter
   }
 
   my_args <- list(

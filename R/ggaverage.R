@@ -82,6 +82,12 @@ ggaverage <- function(model,
     at_list_vars <- unique(c(at_list_vars, names(condition)))
   }
 
+  # handle dpar argument
+  if ("dpar" %in% names(dot_args)) {
+    parameter <- dpar
+    dot_args$dpar <- NULL
+  }
+
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
   me_args <- list(

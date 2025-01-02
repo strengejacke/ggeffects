@@ -215,7 +215,13 @@ ggpredict_helper <- function(model,
   if (is.null(linv)) linv <- function(x) x
 
   # compute predictions here -----
-  prediction_data <- get_predictions(
+  dot_args <- list(...)
+  # handle dpar-argument
+  if ("dpar" %in% names(dot_args)) {
+    parameter <- dot_args$dpar
+    dot_args$dpar <- NULL
+  }
+  predict_args <- list(
     model,
     data_grid = data_grid,
     terms = original_terms,
@@ -230,9 +236,9 @@ ggpredict_helper <- function(model,
     bias_correction = bias_correction,
     link_inverse = linv,
     model_info = model_info,
-    verbose = verbose,
-    ...
+    verbose = verbose
   )
+  prediction_data <- do.call("get_predictions", c(predict_args, dot_args))
 
   # return if no predicted values have been computed
   if (is.null(prediction_data)) {
