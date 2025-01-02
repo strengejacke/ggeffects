@@ -90,7 +90,7 @@ ggaverage <- function(model,
 
   # calculate average predictions
   at_list <- lapply(data_grid, unique)
-  me_args <- list(
+  me_args <- insight::compact_list(list(
     model,
     variables = at_list[at_list_vars],
     conf_level = ci_level,
@@ -99,7 +99,7 @@ ggaverage <- function(model,
     vcov = vcov_arg,
     wts = weights,
     dpar = parameter
-  )
+  ))
   prediction_data <- .call_me(
     "avg_predictions",
     me_args,

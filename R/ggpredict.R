@@ -221,7 +221,7 @@ ggpredict_helper <- function(model,
     parameter <- dot_args$dpar
     dot_args$dpar <- NULL
   }
-  predict_args <- list(
+  predict_args <- insight::compact_list(list(
     model,
     data_grid = data_grid,
     terms = original_terms,
@@ -237,7 +237,7 @@ ggpredict_helper <- function(model,
     link_inverse = linv,
     model_info = model_info,
     verbose = verbose
-  )
+  ))
   prediction_data <- do.call("get_predictions", c(predict_args, dot_args))
 
   # return if no predicted values have been computed
