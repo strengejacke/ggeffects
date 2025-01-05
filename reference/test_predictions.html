@@ -11,7 +11,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.7</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,7 +132,7 @@ are taken from the <code>ggeffects</code> object and don't need to be specified.
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed down to <code><a href="new_data.html">data_grid()</a></code> when creating the reference
-grid and to <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
+grid and to <code><a href="https://marginaleffects.com/man/r/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://marginaleffects.com/man/r/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
 For instance, arguments <code>type</code> or <code>transform</code> can be used to back-transform
 comparisons and contrasts to different scales. <code>vcov</code> can be used to
 calculate heteroscedasticity-consistent standard errors for contrasts.
@@ -143,7 +143,7 @@ for further details.</p>
 either use the same arguments as for <code><a href="predict_response.html">predict_response()</a></code> etc., namely <code>vcov</code>
 and <code>vcov_args</code>. These are then transformed into a matrix and passed down to
 the <code>vcov</code> argument in <strong>marginaleffects</strong>. Or you directly use the <code>vcov</code>
-argument. See <code><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">?marginaleffects::slopes</a></code> for further details.</p></dd>
+argument. See <code><a href="https://marginaleffects.com/man/r/slopes.html" class="external-link">?marginaleffects::slopes</a></code> for further details.</p></dd>
 
 
 <dt id="arg-terms">terms<a class="anchor" aria-label="anchor" href="#arg-terms"></a></dt>
@@ -562,7 +562,7 @@ has a <code><a href="plot.html">plot()</a></code> method, hence it is possible t
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># we now want the marginal effects for "Species". We can calculate</span></span></span>
 <span class="r-in"><span><span class="co"># the marginal effect using the "marginaleffects" package</span></span></span>
-<span class="r-in"><span><span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/slopes.html" class="external-link">avg_slopes</a></span><span class="op">(</span><span class="va">m</span>, variables <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/slopes.html" class="external-link">avg_slopes</a></span><span class="op">(</span><span class="va">m</span>, variables <span class="op">=</span> <span class="st">"Species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># finally, test_predictions() returns the same. while the previous results</span></span></span>
 <span class="r-in"><span><span class="co"># report the marginal effect compared to the reference level "setosa",</span></span></span>
