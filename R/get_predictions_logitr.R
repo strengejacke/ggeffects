@@ -22,7 +22,8 @@ get_predictions.logitr <- function(model,
     model,
     newdata = data_grid,
     obsID = obsID,
-    ci = ci_level,
+    level = ci_level,
+    interval = "confidence",
     ...
   )
 
