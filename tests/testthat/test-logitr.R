@@ -16,5 +16,5 @@ test_that("ggpredict, logistr", {
   expect_equal(pr$conf.low, c(0.24978, 0.00487, 0.12894, 0.53434), tolerance = 1e-3)
 
   expect_error(ggemmeans(m, "brand"))
-  expect_error(ggaverage(m, "brand")  )
+  expect_error(ggaverage(m, "brand"))
 })
