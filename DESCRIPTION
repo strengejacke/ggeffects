@@ -23,7 +23,7 @@ Depends:
 Imports:
     graphics,
     insight (>= 1.0.0),
-    datawizard (>= 0.13.0),
+    datawizard (>= 1.0.0),
     stats,
     utils
 Suggests:
