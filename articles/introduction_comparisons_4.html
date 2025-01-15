@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,8 +112,6 @@
 
     
     
-<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 <style type="text/css">.callout-tip {
   border: solid 3px #fbd46d;
   border-radius: 5px;
@@ -259,7 +257,7 @@ the probabilities whether an observation is a “true zero” or not. Use
 <code>type = "zi_prob"</code> for this. It only related to the
 zero-inflation component of the model.</p></li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
 <span></span>
@@ -284,7 +282,7 @@ components are automatically detected.</p>
 predictions is <code>"fixed"</code>, i.e. the conditional mean is
 predicted. This is the average count of the response, excluding the
 zero-inflation component.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># predicting the conditional mean</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"mined"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="va">p</span></span>
@@ -310,7 +308,7 @@ zero-inflation component.</p>
 <p>If <code>type = "zero_inflated"</code>, adjusted predictions are
 returned for the full model, i.e. the average expected count of the
 response, including the zero-inflation component.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># predicting the expected value of the response</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"mined"</span>, type <span class="op">=</span> <span class="st">"zero_inflated"</span>, margin <span class="op">=</span> <span class="st">"empirical"</span><span class="op">)</span></span>
 <span><span class="va">p</span></span>
@@ -337,7 +335,7 @@ response, including the zero-inflation component.</p>
 not, use <code>type = "zi_prob"</code>. Note that <code>margin</code>
 should not be <code>"empirical"</code> in this case, because this will
 not include confidence intervals for the adjusted predictions.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># predicting the zero-inflation probabilities</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"mined"</span>, type <span class="op">=</span> <span class="st">"zi_prob"</span><span class="op">)</span></span>
 <span><span class="va">p</span></span>

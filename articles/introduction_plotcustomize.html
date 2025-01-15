@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,8 +112,6 @@
 
     
     
-<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 <p>This vignettes demonstrates how to customize plots created with the
 <code><a href="../reference/plot.html">plot()</a></code>-method of the
 <strong>ggeffects</strong>-package.</p>
@@ -122,7 +120,7 @@
 the resulting plot. You may want to load the ggplot2-package to do this:
 <code><a href="https://ggplot2.tidyverse.org" class="external-link">library(ggplot2)</a></code>.</p>
 <p>Let’s start with a default-plot:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
@@ -143,7 +141,7 @@ the resulting plot. You may want to load the ggplot2-package to do this:
 </h2>
 <p>The simplest thing is to change the titles from the plot, x- and
 y-axis. This can be done with <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::labs()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="st">"Number of forward gears"</span>,</span>
@@ -160,14 +158,14 @@ y-axis. This can be done with <code><a href="https://ggplot2.tidyverse.org/refer
 aesthetic used for the grouping variable, which is by default the
 <code>colour</code>, i.e. the plot is constructed in the following
 way:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">predicted</span>, colour <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="plots-with-default-colors">Plots with Default Colors<a class="anchor" aria-label="anchor" href="#plots-with-default-colors"></a>
 </h3>
 <p>Hence, using <code>colour</code> in <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> changes the
 legend-title:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
@@ -178,7 +176,7 @@ legend-title:</p>
 <em>linetypes</em>, not to different colours. Thus, the legend-title for
 black-and-white plots can be changed using <code>linetype</code> in
 <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
@@ -188,7 +186,7 @@ black-and-white plots can be changed using <code>linetype</code> in
 <p>If the variable on the x-axis is discrete for a black-and-white plot,
 the group-aesthetic is mapped to different <em>shapes</em>, so following
 code must be used to change the legend title:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
@@ -201,7 +199,7 @@ code must be used to change the legend title:</p>
 this is that many users are used to plots that connect the data points
 with lines, which is only possible for continuous x-axes. You can do
 this using the <code>connect_lines</code>-argument:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, connect_lines <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <div class="section level3">
@@ -211,7 +209,7 @@ this using the <code>connect_lines</code>-argument:</p>
 (i.e. <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">ggplot2::scale_x_continuous()</a></code>), you can use
 <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous()</a></code> to modify the x-axis, and change
 breaks, limits or labels.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"four"</span>, <span class="st">"six"</span>, <span class="st">"eight"</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
@@ -220,7 +218,7 @@ breaks, limits or labels.</p>
 <h3 id="continuous-predictors">Continuous Predictors<a class="anchor" aria-label="anchor" href="#continuous-predictors"></a>
 </h3>
 <p>Or for continuous variables:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
@@ -233,7 +231,7 @@ breaks, limits or labels.</p>
 <code>ggplot::scale_y_log10()</code>, if <code>log.y = TRUE</code>), so
 you can control the appearance of the y-axis by putting the arguments
 directly into the call to <code><a href="../reference/plot.html">plot()</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">30</span>, <span class="fl">2</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
@@ -260,7 +258,7 @@ manuall set the colors, linetypes or shapes.</p>
 <h3 id="plots-with-default-colors-1">Plots with Default Colors<a class="anchor" aria-label="anchor" href="#plots-with-default-colors-1"></a>
 </h3>
 <p>For plots using default colors:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span></span></code></pre></div>
@@ -270,7 +268,7 @@ manuall set the colors, linetypes or shapes.</p>
 <h3 id="black-and-white-plots-1">Black-and-White Plots<a class="anchor" aria-label="anchor" href="#black-and-white-plots-1"></a>
 </h3>
 <p>For black-and-white plots:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_linetype_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">17</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
@@ -279,7 +277,7 @@ manuall set the colors, linetypes or shapes.</p>
 <h3 id="black-and-white-plots-with-categorical-predictor-1">Black-and-White Plots with Categorical Predictor<a class="anchor" aria-label="anchor" href="#black-and-white-plots-with-categorical-predictor-1"></a>
 </h3>
 <p>For black-and-white plots with categorical x-axis:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">dat_categorical</span>, colors <span class="op">=</span> <span class="st">"bw"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-1 SD"</span>, <span class="st">"Mean"</span>, <span class="st">"+1 SD"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_plotcustomize_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>

@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.8</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,8 +112,6 @@
 
     
     
-<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 <style type="text/css">.callout-tip {
   border: solid 3px #fbd46d;
   border-radius: 5px;
@@ -190,7 +188,7 @@ Predictions (returned by
 </ul>
 </div>
 <p>Let’s look at a simple example</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -219,7 +217,7 @@ Predictions (returned by
 <p>Contrasts or comparisons - like predictions (see above) - are by
 default on the <em>response</em> scale, i.e. they’re represented as
 difference between probabilities (in percentage points).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
@@ -239,7 +237,7 @@ difference between probabilities (in percentage points).</p>
 can be used to return contrasts or comparisons on a differen scale. For
 example, to transform contrasts to <em>odds ratios</em>, we can use
 <code>scale = "exp"</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"exp"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -253,7 +251,7 @@ example, to transform contrasts to <em>odds ratios</em>, we can use
 <p>Contrasts or comparisons can also be represented on the link-scale,
 in this case as <em>log-odds</em>. To do so, use
 <code>scale = "link"</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">p</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -272,7 +270,7 @@ in this case as <em>log-odds</em>. To do so, use
 estimated, transformed scales (like <code>scale = "exp"</code>) are not
 supported. However, <code>scale = "link"</code> can be used to return
 untransformed contrasts or comparisons on the link-scale.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x2"</span>, scale <span class="op">=</span> <span class="st">"link"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # (Average) Linear trend for x2</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -301,7 +299,7 @@ calculate accurate comparisons or contrasts, since these refer to the
 of the <code>margin</code> option. However, for non-Gaussian models,
 differences between predicted values may differ for the different
 <code>margin</code> options.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># predictions, using mean/mode for non-focal predictors</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="co"># predictions, averaged across non-focal predictors</span></span>
@@ -339,7 +337,7 @@ requires specifying the <code>margin</code> argument when a model and
 <code>terms</code> argument are provided, or the related
 <code>ggeffects</code> object returned by
 <code><a href="../reference/predict_response.html">predict_response()</a></code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># contrast refers to predictions, using mean/mode for non-focal predictors</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"x1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # Pairwise comparisons</span></span>
