@@ -22,7 +22,7 @@ Depends:
     R (>= 3.6)
 Imports:
     graphics,
-    insight (>= 1.0.0),
+    insight (>= 1.0.1),
     datawizard (>= 1.0.0),
     stats,
     utils
