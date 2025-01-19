@@ -1,4 +1,4 @@
-# ggeffects 2.0.1
+# ggeffects 2.1.0
 
 ## Changes
 
