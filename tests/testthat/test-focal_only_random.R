@@ -17,7 +17,7 @@ test_that("ggpredict", {
   )
   d <- datawizard::data_rename(
     d,
-    pattern = c("c161sex", "c160age", "quol_5", "c175empl"),
+    select = c("c161sex", "c160age", "quol_5", "c175empl"),
     replacement = c("gender", "age", "qol", "employed")
   )
   d <- datawizard::data_modify(d, age = factor(age, labels = c("-40", "41-64", "65+")))

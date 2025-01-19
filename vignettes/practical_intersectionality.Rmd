@@ -108,7 +108,7 @@ efc <- efc |>
   ) |>
   # rename variables
   data_rename(
-    pattern = c("c161sex", "c160age", "quol_5", "c175empl"),
+    select = c("c161sex", "c160age", "quol_5", "c175empl"),
     replacement = c("gender", "age", "qol", "employed")
   ) |>
   # age into factor, set levels, and change labels for education

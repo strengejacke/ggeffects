@@ -298,7 +298,7 @@ test_that("test_predictions, works with glmmTMB and w/o vcov", {
   )
   efc <- datawizard::data_rename(
     efc,
-    pattern = c("c161sex", "c160age", "quol_5", "c175empl"),
+    select = c("c161sex", "c160age", "quol_5", "c175empl"),
     replacement = c("gender", "age", "qol", "employed")
   )
   efc <- datawizard::data_modify(efc, age = factor(age, labels = c("-40", "41-64", "65+")))

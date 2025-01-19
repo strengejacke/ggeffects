@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^README\.rmd
+^tests/testthat/_snaps/.
 
 ^.quarto$
 ^revdep$
