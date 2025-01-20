@@ -1,6 +1,5 @@
 test_that("ggeffect works when 0 is in representative values", {
   skip_if_not_installed("effects")
-  library(ggeffects)
   d <- data.frame(
     Group = c(rep(433L, 50), rep(463L, 50)),
     RelativeElapsedHours = c(

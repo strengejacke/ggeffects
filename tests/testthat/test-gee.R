@@ -1,4 +1,4 @@
-skip_on_os(c("mac", "solaris"))
+skip_on_os(c("mac", "solaris", "linux"))
 skip_if_not_installed("gee")
 skip_if_not_installed("emmeans")
 

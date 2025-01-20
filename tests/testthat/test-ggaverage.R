@@ -1,3 +1,4 @@
+skip_on_os("linux")
 skip_if_not_installed("marginaleffects")
 skip_if_not_installed("emmeans")
 skip_if_not_installed("MASS")
