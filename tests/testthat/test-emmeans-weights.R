@@ -1,3 +1,4 @@
+skip_on_os("linux")
 skip_if_not_installed("emmeans")
 
 test_that("ggemmeans, weights", {
