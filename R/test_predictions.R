@@ -596,6 +596,9 @@ test_predictions.default <- function(object,
     df <- .get_df(object)
   }
 
+  # hypothesis arg needs to be a formula for marginaleffects > 0.24.0
+  hypothesis_arg <- stats::as.formula(paste("~", test))
+
   # ===========================================================================
   # the following, very long code block, mainly does two things: first, extract
   # the requested pairwise comparisons or contrasts, either for slopes or for
@@ -646,7 +649,7 @@ test_predictions.default <- function(object,
         variables = focal[1],
         by = focal[2:length(focal)],
         newdata = datagrid,
-        hypothesis = test,
+        hypothesis = hypothesis_arg,
         df = df,
         conf_level = ci_level
       )
@@ -756,7 +759,7 @@ test_predictions.default <- function(object,
       by = by_arg,
       variables = by_variables,
       newdata = datagrid,
-      hypothesis = test,
+      hypothesis = hypothesis_arg,
       df = df,
       conf_level = ci_level
     )
