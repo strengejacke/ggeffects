@@ -8,10 +8,14 @@
   if (include_random) {
     all_args$re.form <- NULL
     # avoid message
-    suppressMessages(suppressWarnings(do.call(get(fun, asNamespace("marginaleffects")), all_args)))
+    out <- suppressMessages(suppressWarnings(do.call(get(fun, asNamespace("marginaleffects")), all_args)))
   } else {
-    do.call(get(fun, asNamespace("marginaleffects")), all_args)
+    out <- do.call(get(fun, asNamespace("marginaleffects")), all_args)
   }
+  # clean column names
+  colnames(out)[tolower(colnames(out)) == "hypothesis"] <- "term"
+  # return
+  out
 }
 
 
