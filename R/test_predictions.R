@@ -599,6 +599,8 @@ test_predictions.default <- function(object,
   # hypothesis arg needs to be a formula for marginaleffects > 0.24.0
   if (is.null(test)) {
     hypothesis_arg <- NULL
+  } else if (.is_custom_hypothesis(test)) {
+    hypothesis_arg <- test
   } else {
     hypothesis_arg <- stats::as.formula(paste("~", test))
   }

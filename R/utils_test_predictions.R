@@ -19,6 +19,15 @@
 }
 
 
+.is_custom_hypothesis <- function(x) {
+  !is.null(x) &&
+    length(x) == 1 &&
+    is.character(x) &&
+    grepl("=", x, fixed = TRUE) &&
+    grepl("\\bb\\d+\\b", x)
+}
+
+
 .validate_by_argument <- function(by, datagrid) {
   # check for valid by-variable
   if (!is.null(by)) {
