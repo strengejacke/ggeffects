@@ -23,7 +23,7 @@ test_that("ggaverage works with condition", {
 
   # test predictions
   out <- test_predictions(out1)
-  expect_equal(out$Contrast[c(1, 3)], -diff(out1$predicted), tolerance = 1e-4)
+  expect_equal(out$Contrast[c(1, 3)], diff(out1$predicted), tolerance = 1e-4)
   expect_equal(out$p.value, c(0.3571, 0.42296, 0.76791), tolerance = 1e-4)
 
   d <- data_grid(moff, "x2", condition = c(offset_1 = 2))
@@ -36,6 +36,6 @@ test_that("ggaverage works with condition", {
 
   # test predictions
   out <- test_predictions(out1)
-  expect_equal(out$Contrast[c(1, 3)], -diff(out1$predicted), tolerance = 1e-4)
+  expect_equal(out$Contrast[c(1, 3)], diff(out1$predicted), tolerance = 1e-4)
   expect_equal(out$p.value, c(0.3571, 0.42296, 0.76791), tolerance = 1e-4)
 })
