@@ -279,7 +279,7 @@
 #' Determining and controlling the false positive rate. Comparative Political
 #' Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 #'
-#' @examplesIf requireNamespace("marginaleffects") && requireNamespace("parameters") && interactive()
+#' @examplesIf all(insight::check_if_installed(c("parameters", "marginaleffects", "modelbased"), quietly = TRUE)) && interactive()
 #' \donttest{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)

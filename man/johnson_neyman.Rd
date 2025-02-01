@@ -3,21 +3,11 @@
 \name{johnson_neyman}
 \alias{johnson_neyman}
 \alias{spotlight_analysis}
-\alias{plot.ggjohnson_neyman}
 \title{Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots}
 \usage{
 johnson_neyman(x, precision = 500, p_adjust = NULL, ...)
 
 spotlight_analysis(x, precision = 500, p_adjust = NULL, ...)
-
-\method{plot}{ggjohnson_neyman}(
-  x,
-  colors = c("#f44336", "#2196F3"),
-  show_association = TRUE,
-  show_rug = FALSE,
-  verbose = TRUE,
-  ...
-)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -101,7 +91,7 @@ adjusted. \code{"esarey"} is slower, but confidence intervals are updated as wel
 }
 
 \examples{
-\dontshow{if (requireNamespace("ggplot2") && requireNamespace("marginaleffects")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(insight::check_if_installed(c("ggplot2", "marginaleffects", "modelbased"), quietly = TRUE))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \dontrun{
 data(efc, package = "ggeffects")
 efc$c172code <- as.factor(efc$c172code)
@@ -111,7 +101,7 @@ pr <- predict_response(m, c("c12hour", "barthtot"))
 johnson_neyman(pr)
 plot(johnson_neyman(pr))
 
-pr <- predict_response(m, c("c12hour", "c172code", "barthtot"))
+pr <- predict_response(m, c("c12hour", "barthtot", "c172code"))
 johnson_neyman(pr)
 plot(johnson_neyman(pr))
 

@@ -2,14 +2,10 @@
 % Please edit documentation in R/format.R, R/print.R
 \name{format.ggeffects}
 \alias{format.ggeffects}
-\alias{format.ggcomparisons}
 \alias{print}
 \alias{print.ggeffects}
 \alias{print_md.ggeffects}
 \alias{print_html.ggeffects}
-\alias{print.ggcomparisons}
-\alias{print_html.ggcomparisons}
-\alias{print_md.ggcomparisons}
 \title{Print and format ggeffects-objects}
 \usage{
 \method{format}{ggeffects}(
@@ -25,8 +21,6 @@
   ...
 )
 
-\method{format}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, combine_levels = FALSE, ...)
-
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 
 \method{print_md}{ggeffects}(x, group_name = TRUE, digits = 2, ...)
@@ -39,19 +33,6 @@
   engine = c("tt", "gt"),
   ...
 )
-
-\method{print}{ggcomparisons}(x, collapse_tables = FALSE, ...)
-
-\method{print_html}{ggcomparisons}(
-  x,
-  collapse_ci = FALSE,
-  collapse_p = FALSE,
-  theme = NULL,
-  engine = c("tt", "gt"),
-  ...
-)
-
-\method{print_md}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, theme = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
@@ -86,6 +67,14 @@ of rows is printed, depending on the number of subgroups.}
 them are also passed down further to \code{\link[insight:format_table]{insight::format_table()}} or
 \code{\link[insight:format_value]{insight::format_value()}}.}
 
+\item{verbose}{Toggle messages.}
+
+\item{theme}{The theme to apply to the table. One of \code{"grid"}, \code{"striped"},
+\code{"bootstrap"}, or \code{"darklines"}.}
+
+\item{engine}{The engine to use for printing. One of \code{"tt"} (default) or \code{"gt"}.
+\code{"tt"} uses the \emph{tinytable} package, \code{"gt"} uses the \emph{gt} package.}
+
 \item{collapse_p}{Logical, if \code{TRUE}, the columns with predicted values and
 p-values are collapsed into one column, where significant p-values are
 indicated as asterisks.}
@@ -95,14 +84,6 @@ of each focal term against the second are combined into one column. This is
 useful when comparing multiple focal terms, e.g. \code{education = low-high} and
 \code{gender = male-female} are combined into \code{first = low-male} and
 \code{second = high-female}.}
-
-\item{verbose}{Toggle messages.}
-
-\item{theme}{The theme to apply to the table. One of \code{"grid"}, \code{"striped"},
-\code{"bootstrap"}, or \code{"darklines"}.}
-
-\item{engine}{The engine to use for printing. One of \code{"tt"} (default) or \code{"gt"}.
-\code{"tt"} uses the \emph{tinytable} package, \code{"gt"} uses the \emph{gt} package.}
 }
 \value{
 \code{format()} return a formatted data frame, \code{print()} prints a
