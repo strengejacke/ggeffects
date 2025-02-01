@@ -63,6 +63,7 @@ Suggests:
     logistf,
     logitr,
     marginaleffects (>= 0.24.0),
+    modelbased,
     MASS,
     Matrix,
     mice,
@@ -108,4 +109,4 @@ Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 License: MIT + file LICENSE
 LazyData: true
-Remotes: vincentarelbundock/marginaleffects
+Remotes: vincentarelbundock/marginaleffects, easystats/modelbased

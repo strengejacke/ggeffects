@@ -22,7 +22,6 @@ hypothesis_test(object, ...)
   p_adjust = NULL,
   df = NULL,
   ci_level = 0.95,
-  collapse_levels = FALSE,
   margin = "mean_reference",
   condition = NULL,
   engine = "marginaleffects",
@@ -186,10 +185,6 @@ the model using \code{\link[insight:get_df]{insight::get_df()}} with \code{type 
 is an object of class \code{ggeffects}, the same \code{ci_level} argument is used as
 for the predictions, i.e. \code{ci_level} can be ignored.}
 
-\item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
-levels are no longer separated by "-", but instead collapsed into a unique
-term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
-
 \item{margin}{Character string, indicates the method how to marginalize over
 non-focal terms. See \code{\link[=predict_response]{predict_response()}} for details. If \code{object} is an
 object of class \code{ggeffects}, the same \code{margin} argument is used as for the
@@ -219,6 +214,10 @@ automatically. If this package is not installed as well, \code{engine = "ggeffec
 is used.}
 
 \item{verbose}{Toggle messages and warnings.}
+
+\item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
+levels are no longer separated by "-", but instead collapsed into a unique
+term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 }
 \value{
 A data frame containing predictions (e.g. for \code{test = NULL}),
