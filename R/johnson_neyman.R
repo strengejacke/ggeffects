@@ -160,90 +160,104 @@ spotlight_analysis <- johnson_neyman
 #' @export
 print.ggjohnson_neyman <- function(x, ...) {
   # extract attributes
+  model_data <- insight::get_data(attributes(x)$model, source = "mf", verbose = FALSE)
   trend <- attributes(x)$trend
-  current_focal <- attributes(x)$by
+  current_focal <- attributes(x)$by[1]
   response <- attributes(x)$response
+  group_variable <- attributes(x)$group
 
-  # iterate all intervals
-  for (row in seq_len(nrow(x))) {
-    # slice data, extract only for specific group
-    d <- x[row, ]
+  if ("Group" %in% colnames(x)) {
+    groups <- split(x, x$Group)
+  } else {
+    groups <- as.list(x)
+  }
 
-    # get bound
-    pos_lower <- d$Start
-    pos_upper <- d$End
+  for (gr in groups) {
+    # add "header" for groups
+    if (group != "jn_no_group") {
+      insight::print_color(sprintf("# Level `%s`\n", group), color = "blue")
+    }
+    # iterate all intervals
+    for (row in seq_len(nrow(gr))) {
+      # slice data, extract only for specific group
+      d <- gr[row, ]
 
-    # check which values are significant for the slope
-    if (is.na(pos_lower) && is.na(pos_upper)) {
-      # is everything non-significant?
-      msg <- sprintf(
-        "There are no clear negative or positive associations between `%s` and `%s` for any value of `%s`.",
-        trend,
-        response,
-        current_focal
-      )
-    } else if (is.na(pos_upper)) {
-      # only one change from significant to non-significant
-      direction <- ifelse(d$Confidence == "Significant", "lower", "higher")
-      msg <- sprintf(
-        "The association between `%s` and `%s` is %s for values of `%s` %s than %s.",
-        trend,
-        response,
-        d$Direction,
-        current_focal,
-        direction,
-        insight::format_value(pos_lower, protect_integers = TRUE)
-      )
+      # get bound
+      pos_lower <- d$Start
+      pos_upper <- d$End
 
-      unclear_direction <- ifelse(d$significant != "yes", "lower", "higher")
-      msg <- paste(msg, sprintf(
-        "There were no clear associations for values of `%s` %s than %s.",
-        current_focal,
-        unclear_direction,
-        insight::format_value(pos_lower, protect_integers = TRUE)
-      ))
-    } else {
-      # J-N interval
-      direction_lower <- ifelse(d$significant == "yes", "lower", "higher")
-      direction_higher <- ifelse(d$significant != "yes", "lower", "higher")
-      association_lower <- ifelse(d$slope_lower > 0, "positive", "negative")
-      association_higher <- ifelse(d$slope_upper > 0, "positive", "negative")
-
-      # check whether significant range is inside or outside of that interval
-      if (direction_lower == "higher") {
-        # positive or negative associations *inside* of an interval
+      # check which values are significant for the slope
+      if (is.na(pos_lower) && is.na(pos_upper)) {
+        # is everything non-significant?
         msg <- sprintf(
-          "The association between `%s` and `%s` is %s for values of `%s` that range from %s to %s.",
+          "There are no clear negative or positive associations between `%s` and `%s` for any value of `%s`.",
           trend,
           response,
-          association_lower,
-          current_focal,
-          insight::format_value(pos_lower, protect_integers = TRUE),
-          insight::format_value(pos_upper, protect_integers = TRUE)
+          current_focal
         )
-        msg <- paste(msg, "Outside of this interval, there were no clear associations.")
-      } else {
-        # positive or negative associations *outside* of an interval
+      } else if (is.na(pos_upper)) {
+        # only one change from significant to non-significant
+        direction <- ifelse(d$Confidence == "Significant", "lower", "higher")
         msg <- sprintf(
-          "The association between `%s` and `%s` is %s for values of `%s` %s than %s and %s for values %s than %s.",
-          colnames(x)[1],
+          "The association between `%s` and `%s` is %s for values of `%s` %s than %s.",
+          trend,
           response,
-          association_lower,
+          d$Direction,
           current_focal,
-          direction_lower,
-          insight::format_value(pos_lower, protect_integers = TRUE),
-          association_higher,
-          direction_higher,
-          insight::format_value(pos_upper, protect_integers = TRUE)
+          direction,
+          insight::format_value(pos_lower, protect_integers = TRUE)
         )
-        msg <- paste(msg, sprintf(
-          "Inside the interval of %s, there were no clear associations.",
-          insight::format_ci(pos_lower, pos_upper, ci = NULL)
-        ))
-      }
-    }
 
-    cat(insight::format_message(msg), "\n", sep = "")
+        unclear_direction <- ifelse(d$significant != "yes", "lower", "higher")
+        msg <- paste(msg, sprintf(
+          "There were no clear associations for values of `%s` %s than %s.",
+          current_focal,
+          unclear_direction,
+          insight::format_value(pos_lower, protect_integers = TRUE)
+        ))
+      } else {
+        # J-N interval
+        direction_lower <- ifelse(d$significant == "yes", "lower", "higher")
+        direction_higher <- ifelse(d$significant != "yes", "lower", "higher")
+        association_lower <- ifelse(d$slope_lower > 0, "positive", "negative")
+        association_higher <- ifelse(d$slope_upper > 0, "positive", "negative")
+
+        # check whether significant range is inside or outside of that interval
+        if (direction_lower == "higher") {
+          # positive or negative associations *inside* of an interval
+          msg <- sprintf(
+            "The association between `%s` and `%s` is %s for values of `%s` that range from %s to %s.",
+            trend,
+            response,
+            association_lower,
+            current_focal,
+            insight::format_value(pos_lower, protect_integers = TRUE),
+            insight::format_value(pos_upper, protect_integers = TRUE)
+          )
+          msg <- paste(msg, "Outside of this interval, there were no clear associations.")
+        } else {
+          # positive or negative associations *outside* of an interval
+          msg <- sprintf(
+            "The association between `%s` and `%s` is %s for values of `%s` %s than %s and %s for values %s than %s.",
+            colnames(x)[1],
+            response,
+            association_lower,
+            current_focal,
+            direction_lower,
+            insight::format_value(pos_lower, protect_integers = TRUE),
+            association_higher,
+            direction_higher,
+            insight::format_value(pos_upper, protect_integers = TRUE)
+          )
+          msg <- paste(msg, sprintf(
+            "Inside the interval of %s, there were no clear associations.",
+            insight::format_ci(pos_lower, pos_upper, ci = NULL)
+          ))
+        }
+      }
+
+      cat(insight::format_message(msg), "\n", sep = "")
+    }
   }
 
   if (!is.null(p_adjust)) {
@@ -271,14 +285,12 @@ print.ggjohnson_neyman <- function(x, ...) {
     out <- do.call(rbind, lapply(parts, .estimate_slope_parts, by = by[1]))
     out <- datawizard::rownames_as_column(out, "Group")
     out$Group <- gsub("\\.\\d+$", "", out$Group)
+    attr(out, "group") <- by[2]
   } else {
     out <- .estimate_slope_parts(out, by)
   }
 
   attributes(out) <- utils::modifyList(attributes(object), attributes(out))
-  class(out) <- c("summary_estimate_slopes", "data.frame")
-  attr(out, "table_title") <- c("Average Marginal Effects", "blue")
-
   out
 }
 
