@@ -24,6 +24,7 @@ hypothesis_test(object, ...)
   ci_level = 0.95,
   margin = "mean_reference",
   condition = NULL,
+  collapse_levels = FALSE,
   engine = "marginaleffects",
   verbose = TRUE,
   ...
@@ -194,6 +195,10 @@ predictions, i.e. \code{margin} can be ignored.}
 should be held constant at specific values, for instance
 \code{condition = c(covariate1 = 20, covariate2 = 5)}.}
 
+\item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
+levels are no longer separated by "-", but instead collapsed into a unique
+term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
+
 \item{engine}{Character string, indicates the package to use for computing
 contrasts and comparisons. Usually, this argument can be ignored, unless you
 want to explicitly use another package than \emph{marginaleffects} to calculate
@@ -214,10 +219,6 @@ automatically. If this package is not installed as well, \code{engine = "ggeffec
 is used.}
 
 \item{verbose}{Toggle messages and warnings.}
-
-\item{collapse_levels}{Logical, if \code{TRUE}, term labels that refer to identical
-levels are no longer separated by "-", but instead collapsed into a unique
-term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 }
 \value{
 A data frame containing predictions (e.g. for \code{test = NULL}),

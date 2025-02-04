@@ -394,6 +394,7 @@ test_predictions.default <- function(object,
                                      ci_level = 0.95,
                                      margin = "mean_reference",
                                      condition = NULL,
+                                     collapse_levels = FALSE,
                                      engine = "marginaleffects",
                                      verbose = TRUE,
                                      ...) {
