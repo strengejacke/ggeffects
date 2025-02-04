@@ -470,7 +470,7 @@ test_predictions.default <- function(object,
     predict = scale,
     ci = ci_level,
     comparison = test,
-    marginalize = marginalize,
+    estimate = marginalize,
     p_adjust = p_adjust,
     equivalence = equivalence,
     ...
