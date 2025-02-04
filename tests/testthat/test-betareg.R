@@ -49,5 +49,5 @@ test_that("ggpredict", {
 
   skip_if_not_installed("marginaleffects")
   out <- test_predictions(p)
-  expect_equal(out$Contrast, -0.00123838580671709, tolerance = 1e-4)
+  expect_equal(out$Difference , -0.00123838580671709, tolerance = 1e-4)
 })
