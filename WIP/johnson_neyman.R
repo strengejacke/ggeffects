@@ -139,14 +139,15 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   # calculate contrasts of slopes
   fun_args <- list(
     model,
-    terms = focal_terms[1],
+    trend = focal_terms[1],
     by = focal_terms[2:length(focal_terms)],
-    test = "comparison"
+    length = precision
   )
-  if (identical(p_adjust, "fdr")) {
-    fun_args$p_adjust <- "fdr"
-  }
-  do.call("test_predictions", c(fun_args, dot_args))
+  # if (identical(p_adjust, "fdr")) {
+  #   fun_args$p_adjust <- "fdr"
+  # }
+  out <- do.call(modelbased::estimate_slopes, c(fun_args, dot_args))
+  .summarize_slopes(out)
 }
 
 
@@ -157,6 +158,96 @@ spotlight_analysis <- johnson_neyman
 
 # helper ----------------------------------------------------------------------
 
+
+.summarize_slopes <- function(object, verbose = TRUE, ...) {
+  out <- as.data.frame(object)
+  by <- attributes(object)$by
+
+  if (verbose && nrow(out) < 50) {
+    insight::format_alert("There might be too few data to accurately determine intervals. Consider setting `length = 100` (or larger) in your call to `estimate_slopes()`.") # nolint
+  }
+
+  # Add "Confidence" col based on the sig index present in the data
+  out$Confidence <- .estimate_slopes_significance(out, ...)
+  out$Direction <- .estimate_slopes_direction(out, ...)
+
+  # if we have more than one variable in `by`, group result table and
+  # add group name as separate column
+  if (length(by) > 1) {
+    parts <- split(out, out[[by[2]]])
+    out <- do.call(rbind, lapply(parts, .estimate_slope_parts, by = by[1]))
+    out <- datawizard::rownames_as_column(out, "Group")
+    out$Group <- gsub("\\.\\d+$", "", out$Group)
+  } else {
+    out <- .estimate_slope_parts(out, by)
+  }
+
+  attributes(out) <- utils::modifyList(attributes(object), attributes(out))
+  class(out) <- c("summary_estimate_slopes", "data.frame")
+  attr(out, "table_title") <- c("Average Marginal Effects", "blue")
+
+  out
+}
+
+
+.estimate_slope_parts <- function(out, by) {
+  # mark all "changes" from negative to positive and vice versa
+  index <- 1
+  out$switch <- index
+  index <- index + 1
+
+  for (i in 2:nrow(out)) {
+    if (out$Direction[i] != out$Direction[i - 1] || out$Confidence[i] != out$Confidence[i - 1]) {
+      out$switch[i:nrow(out)] <- index
+      index <- index + 1
+    }
+  }
+
+  # split into "switches"
+  parts <- split(out, out$switch)
+
+  do.call(rbind, lapply(parts, function(i) {
+    data.frame(
+      Start = i[[by]][1],
+      End  = i[[by]][nrow(i)],
+      Direction = i$Direction[1],
+      Confidence = i$Confidence[1]
+    )
+  }))
+}
+
+
+.estimate_slopes_direction <- function(data, ...) {
+  centrality_columns <- datawizard::extract_column_names(
+    data,
+    c("Coefficient", "Slope", "Median", "Mean", "MAP_Estimate"),
+    verbose = FALSE
+  )
+  ifelse(data[[centrality_columns]] < 0, "negative", "positive")
+}
+
+
+.estimate_slopes_significance <- function(x, confidence = "auto", ...) {
+  insight::check_if_installed("effectsize")
+
+  if (confidence == "auto") {
+    # TODO: make sure all of these work
+    if ("BF" %in% names(x)) confidence <- "BF"
+    if ("p" %in% names(x)) confidence <- "p"
+    if ("pd" %in% names(x)) confidence <- "pd"
+  }
+
+  switch(confidence,
+    p = tools::toTitleCase(effectsize::interpret_p(x$p, ...)),
+    BF = tools::toTitleCase(effectsize::interpret_bf(x$BF, ...)),
+    pd = tools::toTitleCase(effectsize::interpret_pd(x$pd, ...)),
+    {
+      # Based on CI
+      out <- ifelse((x$CI_high < 0 & x$CI_low < 0) | (x$CI_high > 0 & x$CI_low > 0), "Significant", "Uncertain")
+      factor(out, levels = c("Uncertain", "Significant"))
+    }
+  )
+}
 
 
 .fdr_interaction <- function(x, focal_terms, model) {
