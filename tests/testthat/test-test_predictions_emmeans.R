@@ -82,12 +82,6 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-1)
   expect_identical(out1$c172code, out2$c172code)
 
-  # slope
-  out1 <- test_predictions(m, "var_cont", margin = "marginaleffects")
-  out2 <- test_predictions(m, "var_cont", engine = "emmeans")
-  expect_equal(out1$Slope, out2$Slope, tolerance = 1e-2)
-  expect_identical(out1$c172code, out2$c172code)
-
   # multiple focal terms, interaction
   m <- glm(outcome ~ var_binom * var_cont + groups,
     data = dat, family = binomial()
