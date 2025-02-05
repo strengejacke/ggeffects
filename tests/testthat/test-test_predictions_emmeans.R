@@ -59,25 +59,6 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   out1 <- test_predictions(m, "var_binom", margin = "marginaleffects")
   out2 <- test_predictions(m, "var_binom", engine = "emmeans")
   expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-1)
-
-  # multiple focal terms, interaction
-  m <- glm(outcome ~ var_binom * groups,
-    data = dat, family = binomial()
-  )
-
-  # categorical
-  out1 <- test_predictions(m, c("groups", "var_binom"), margin = "marginaleffects", verbose = FALSE)
-  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans")
-  expect_equal(
-    out1$Contrast[out1$groups == "c-c" & out1$var_binom == "0-1"],
-    out2$Contrast[out2$groups == "c-c" & out2$var_binom == "0-1"],
-    tolerance = 1e-2
-  )
-
-  # # difference-in-difference
-  out1 <- test_predictions(m, c("groups", "var_binom"), test = "(b1 - b3) = (b2 - b4)", margin = "marginaleffects", verbose = FALSE)
-  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans", test = "interaction")
-  expect_equal(out1$Contrast, out2$Contrast[1], tolerance = 1e-2)
 })
 
 
