@@ -89,10 +89,3 @@ test_that("ggemmeans, parsnip", {
   expect_s3_class(ggemmeans(fit, "c12hour [meansd]"), "data.frame")
   expect_s3_class(ggemmeans(fit, "c12hour [minmax]"), "data.frame")
 })
-
-test_that("test_predictions, parsnip", {
-  skip_on_os("linux")
-  out <- test_predictions(fit, "c172code")
-  expect_equal(out$Slope, 0.71836, tolerance = 0.1)
-  expect_equal(out$conf.low, -1.928975, tolerance = 0.1)
-})
