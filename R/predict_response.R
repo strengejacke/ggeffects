@@ -129,9 +129,7 @@
 #'   - `"zi_prob"`
 #'
 #'     Returns the predicted zero-inflation probability, i.e. probability of a
-#'     structural or "true" zero (see
-#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html)
-#'     for a short introduction into zero-inflation models).
+#'     structural or "true" zero.
 #'
 #'   - `"simulate"`
 #'
