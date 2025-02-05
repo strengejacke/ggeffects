@@ -11,6 +11,14 @@
 #' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
 #' The tables are not split by further focal terms, but rather are added as
 #' columns. Only works when there is more than one focal term.
+#' @param collapse_p Logical, if `TRUE`, the columns with predicted values and
+#' p-values are collapsed into one column, where significant p-values are
+#' indicated as asterisks.
+#' @param combine_levels Logical, if `TRUE`, the levels of the first comparison
+#' of each focal term against the second are combined into one column. This is
+#' useful when comparing multiple focal terms, e.g. `education = low-high` and
+#' `gender = male-female` are combined into `first = low-male` and
+#' `second = high-female`.
 #'
 #' @rdname print
 #' @export
