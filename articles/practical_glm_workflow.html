@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,7 +106,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Case Study: Simple Workflow Using Logistic Regression</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v2.1.0/vignettes/practical_glm_workflow.Rmd" class="external-link"><code>vignettes/practical_glm_workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/vignettes/practical_glm_workflow.Rmd" class="external-link"><code>vignettes/practical_glm_workflow.Rmd</code></a></small>
       <div class="d-none name"><code>practical_glm_workflow.Rmd</code></div>
     </div>
 
@@ -196,42 +196,46 @@ function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># pairwise comparisons - quite long table</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; Model-based Contrasts Analysis</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; time                |       treatment | Contrast |       95% CI |      p</span></span>
-<span><span class="co">#&gt; ------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; morning-noon        |   coffee-coffee |     0.15 | -0.15,  0.45 | 0.332 </span></span>
-<span><span class="co">#&gt; morning-afternoon   |   coffee-coffee |    -0.25 | -0.54,  0.04 | 0.091 </span></span>
-<span><span class="co">#&gt; morning-morning     |  coffee-control |     0.25 | -0.04,  0.54 | 0.091 </span></span>
-<span><span class="co">#&gt; morning-noon        |  coffee-control |    -0.15 | -0.45,  0.15 | 0.332 </span></span>
-<span><span class="co">#&gt; morning-afternoon   |  coffee-control |     0.00 | -0.31,  0.31 | &gt; .999</span></span>
-<span><span class="co">#&gt; noon-afternoon      |   coffee-coffee |    -0.40 | -0.68, -0.12 | 0.005 </span></span>
-<span><span class="co">#&gt; noon-morning        |  coffee-control |     0.10 | -0.18,  0.38 | 0.488 </span></span>
-<span><span class="co">#&gt; noon-noon           |  coffee-control |    -0.30 | -0.60,  0.00 | 0.047 </span></span>
-<span><span class="co">#&gt; noon-afternoon      |  coffee-control |    -0.15 | -0.45,  0.15 | 0.332 </span></span>
-<span><span class="co">#&gt; afternoon-morning   |  coffee-control |     0.50 |  0.23,  0.77 | &lt; .001</span></span>
-<span><span class="co">#&gt; afternoon-noon      |  coffee-control |     0.10 | -0.18,  0.38 | 0.488 </span></span>
-<span><span class="co">#&gt; afternoon-afternoon |  coffee-control |     0.25 | -0.04,  0.54 | 0.091 </span></span>
-<span><span class="co">#&gt; morning-noon        | control-control |    -0.40 | -0.68, -0.12 | 0.005 </span></span>
-<span><span class="co">#&gt; morning-afternoon   | control-control |    -0.25 | -0.54,  0.04 | 0.091 </span></span>
-<span><span class="co">#&gt; noon-afternoon      | control-control |     0.15 | -0.15,  0.45 | 0.332</span></span>
+<span><span class="co">#&gt; Level1             | Level2            | Difference |   SE |        95% CI |        z |      p</span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; morning, control   | morning, coffee   |      -0.25 | 0.15 | [-0.54, 0.04] |    -1.69 |  0.091</span></span>
+<span><span class="co">#&gt; noon, coffee       | morning, coffee   |      -0.15 | 0.15 | [-0.45, 0.15] |    -0.97 |  0.332</span></span>
+<span><span class="co">#&gt; noon, control      | morning, coffee   |       0.15 | 0.15 | [-0.15, 0.45] |     0.97 |  0.332</span></span>
+<span><span class="co">#&gt; afternoon, coffee  | morning, coffee   |       0.25 | 0.15 | [-0.04, 0.54] |     1.69 |  0.091</span></span>
+<span><span class="co">#&gt; afternoon, control | morning, coffee   |   1.11e-16 | 0.16 | [-0.31, 0.31] | 7.02e-16 | &gt; .999</span></span>
+<span><span class="co">#&gt; noon, coffee       | morning, control  |       0.10 | 0.14 | [-0.18, 0.38] |     0.69 |  0.488</span></span>
+<span><span class="co">#&gt; noon, control      | morning, control  |       0.40 | 0.14 | [ 0.12, 0.68] |     2.78 |  0.005</span></span>
+<span><span class="co">#&gt; afternoon, coffee  | morning, control  |       0.50 | 0.14 | [ 0.23, 0.77] |     3.65 | &lt; .001</span></span>
+<span><span class="co">#&gt; afternoon, control | morning, control  |       0.25 | 0.15 | [-0.04, 0.54] |     1.69 |  0.091</span></span>
+<span><span class="co">#&gt; noon, control      | noon, coffee      |       0.30 | 0.15 | [ 0.00, 0.60] |     1.99 |  0.047</span></span>
+<span><span class="co">#&gt; afternoon, coffee  | noon, coffee      |       0.40 | 0.14 | [ 0.12, 0.68] |     2.78 |  0.005</span></span>
+<span><span class="co">#&gt; afternoon, control | noon, coffee      |       0.15 | 0.15 | [-0.15, 0.45] |     0.97 |  0.332</span></span>
+<span><span class="co">#&gt; afternoon, coffee  | noon, control     |       0.10 | 0.14 | [-0.18, 0.38] |     0.69 |  0.488</span></span>
+<span><span class="co">#&gt; afternoon, control | noon, control     |      -0.15 | 0.15 | [-0.45, 0.15] |    -0.97 |  0.332</span></span>
+<span><span class="co">#&gt; afternoon, control | afternoon, coffee |      -0.25 | 0.15 | [-0.54, 0.04] |    -1.69 |  0.091</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Contrasts are presented as probabilities (in %-points).</span></span></code></pre></div>
+<span><span class="co">#&gt; Variable predicted: alertness</span></span>
+<span><span class="co">#&gt; Predictors contrasted: time, treatment</span></span>
+<span><span class="co">#&gt; Contrasts are on the response-scale.</span></span></code></pre></div>
 <p>In the above output, we see all possible pairwise comparisons of the
 predicted probabilities. The table is quite long, but we can also group
 the comparisons, e.g. by the variable <em>time</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># group comparisons by "time"</span></span>
 <span><span class="fu"><a href="../reference/test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">predictions</span>, by <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # Pairwise comparisons</span></span>
+<span><span class="co">#&gt; Model-based Contrasts Analysis</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; time      |      treatment | Contrast |       95% CI |     p</span></span>
-<span><span class="co">#&gt; ------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; morning   | coffee-control |     0.25 | -0.04,  0.54 | 0.091</span></span>
-<span><span class="co">#&gt; noon      | coffee-control |    -0.30 | -0.60,  0.00 | 0.047</span></span>
-<span><span class="co">#&gt; afternoon | coffee-control |     0.25 | -0.04,  0.54 | 0.091</span></span>
+<span><span class="co">#&gt; Level1  | Level2 | time      | Difference |   SE |        95% CI |     z |     p</span></span>
+<span><span class="co">#&gt; --------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; control | coffee | morning   |      -0.25 | 0.15 | [-0.54, 0.04] | -1.69 | 0.091</span></span>
+<span><span class="co">#&gt; control | coffee | noon      |       0.30 | 0.15 | [ 0.00, 0.60] |  1.99 | 0.047</span></span>
+<span><span class="co">#&gt; control | coffee | afternoon |      -0.25 | 0.15 | [-0.54, 0.04] | -1.69 | 0.091</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Contrasts are presented as probabilities (in %-points).</span></span></code></pre></div>
+<span><span class="co">#&gt; Variable predicted: alertness</span></span>
+<span><span class="co">#&gt; Predictors contrasted: treatment</span></span>
+<span><span class="co">#&gt; Contrasts are on the response-scale.</span></span></code></pre></div>
 <p>The output shows that the differences between the <em>coffee</em> and
 the <em>control</em> group are statistically significant only in the
 noon time.</p>

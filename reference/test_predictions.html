@@ -11,7 +11,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>(Pairwise) comparisons between predictions (marginal effects)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v2.1.0/R/test_predictions.R" class="external-link"><code>R/test_predictions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/test_predictions.R" class="external-link"><code>R/test_predictions.R</code></a></small>
       <div class="d-none name"><code>test_predictions.Rd</code></div>
     </div>
 
@@ -96,9 +96,9 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  margin <span class="op">=</span> <span class="st">"mean_reference"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  engine <span class="op">=</span> <span class="st">"marginaleffects"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -272,12 +272,6 @@ is an object of class <code>ggeffects</code>, the same <code>ci_level</code> arg
 for the predictions, i.e. <code>ci_level</code> can be ignored.</p></dd>
 
 
-<dt id="arg-collapse-levels">collapse_levels<a class="anchor" aria-label="anchor" href="#arg-collapse-levels"></a></dt>
-<dd><p>Logical, if <code>TRUE</code>, term labels that refer to identical
-levels are no longer separated by "-", but instead collapsed into a unique
-term label (e.g., <code>"level a-level a"</code> becomes <code>"level a"</code>). See 'Examples'.</p></dd>
-
-
 <dt id="arg-margin">margin<a class="anchor" aria-label="anchor" href="#arg-margin"></a></dt>
 <dd><p>Character string, indicates the method how to marginalize over
 non-focal terms. See <code><a href="predict_response.html">predict_response()</a></code> for details. If <code>object</code> is an
@@ -289,6 +283,12 @@ predictions, i.e. <code>margin</code> can be ignored.</p></dd>
 <dd><p>Named character vector, which indicates covariates that
 should be held constant at specific values, for instance
 <code>condition = c(covariate1 = 20, covariate2 = 5)</code>.</p></dd>
+
+
+<dt id="arg-collapse-levels">collapse_levels<a class="anchor" aria-label="anchor" href="#arg-collapse-levels"></a></dt>
+<dd><p>Logical, if <code>TRUE</code>, term labels that refer to identical
+levels are no longer separated by "-", but instead collapsed into a unique
+term label (e.g., <code>"level a-level a"</code> becomes <code>"level a"</code>). See 'Examples'.</p></dd>
 
 
 <dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
@@ -479,7 +479,7 @@ has a <code><a href="plot.html">plot()</a></code> method, hence it is possible t
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># requireNamespace("marginaleffects") &amp;&amp; requireNamespace("parameters") &amp;&amp; interactive()</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># all(insight::check_if_installed(c("parameters", "marginaleffects", "modelbased"), quietly = TRUE)) &amp;&amp; interactive()</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span></span>

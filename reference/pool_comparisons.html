@@ -9,7 +9,7 @@ by test_predictions(), in a similar fashion as mice::pool().'><meta property="og
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@ by test_predictions(), in a similar fashion as mice::pool().'><meta property="og
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Pool contrasts and comparisons from <code>test_predictions()</code></h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v2.1.0/R/pool_comparisons.R" class="external-link"><code>R/pool_comparisons.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/pool_comparisons.R" class="external-link"><code>R/pool_comparisons.R</code></a></small>
       <div class="d-none name"><code>pool_comparisons.Rd</code></div>
     </div>
 
@@ -115,13 +115,18 @@ John Wiley and Sons.</p>
 <span class="r-in"><span>  <span class="fu"><a href="test_predictions.html">test_predictions</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"age"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">pool_comparisons</span><span class="op">(</span><span class="va">comparisons</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Pairwise comparisons</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Model-based Contrasts Analysis</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age         | Contrast |       95% CI |      p</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20-39-40-59 |     5.84 |  1.47, 10.22 | &lt; .001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20-39-60-99 |     7.22 |  2.09, 12.34 | &lt; .001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40-59-60-99 |     1.37 | -2.79,  5.53 | 0.404 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Level1 | Level2 | Difference |          95% CI | t(20) |      p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---------------------------------------------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40-59  | 20-39  |      -5.84 | [-10.22, -1.47] | -4.07 | &lt; .001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60-99  | 20-39  |      -7.22 | [-12.34, -2.09] | -4.27 | &lt; .001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60-99  | 40-59  |      -1.37 | [ -5.53,  2.79] | -0.85 |  0.404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Variable predicted: bmi</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Predictors contrasted: age</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Predictors averaged: hyp, chl (2e+02)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -11,7 +11,7 @@ results of the Johnson-Neyman test."><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ results of the Johnson-Neyman test."><meta property="og:image" content="https://
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Spotlight-analysis: Create Johnson-Neyman confidence intervals and plots</h1>
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/v2.1.0/R/johnson_neyman.R" class="external-link"><code>R/johnson_neyman.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/ggeffects/blob/master/R/johnson_neyman.R" class="external-link"><code>R/johnson_neyman.R</code></a></small>
       <div class="d-none name"><code>johnson_neyman.Rd</code></div>
     </div>
 
@@ -82,17 +82,7 @@ results of the Johnson-Neyman test.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">x</span>, precision <span class="op">=</span> <span class="fl">500</span>, p_adjust <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">spotlight_analysis</span><span class="op">(</span><span class="va">x</span>, precision <span class="op">=</span> <span class="fl">500</span>, p_adjust <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'ggjohnson_neyman'</span></span>
-<span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#f44336"</span>, <span class="st">"#2196F3"</span><span class="op">)</span>,</span>
-<span>  show_association <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  show_rug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">spotlight_analysis</span><span class="op">(</span><span class="va">x</span>, precision <span class="op">=</span> <span class="fl">500</span>, p_adjust <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -126,25 +116,6 @@ below.</p></dd>
 <dd><p>Arguments passed down to <code><a href="test_predictions.html">test_predictions()</a></code> (and then probably
 further to <code><a href="https://marginaleffects.com/man/r/slopes.html" class="external-link">marginaleffects::slopes()</a></code>). See <code><a href="test_predictions.html">?test_predictions</a></code> for further
 details.</p></dd>
-
-
-<dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
-<dd><p>Colors used for the plot. Must be a vector with two color
-values. Only used if <code>show_association = TRUE</code>.</p></dd>
-
-
-<dt id="arg-show-association">show_association<a class="anchor" aria-label="anchor" href="#arg-show-association"></a></dt>
-<dd><p>Logical, if <code>TRUE</code>, highlights the range where values
-of the moderator are positively or negtatively associated with the outcome.</p></dd>
-
-
-<dt id="arg-show-rug">show_rug<a class="anchor" aria-label="anchor" href="#arg-show-rug"></a></dt>
-<dd><p>Logical, if <code>TRUE</code>, adds a rug with raw data of the moderator
-variable to the plot. This helps visualizing its distribution.</p></dd>
-
-
-<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>Show/hide printed message for plots.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -214,68 +185,25 @@ doi:10.1509/jmr.12.0420</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span>, package <span class="op">=</span> <span class="st">"ggeffects"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is negative for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` lower than 47. There were no clear associations for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 47.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is positive for values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 48.50. There were no clear associations for</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   values of `barthtot` lower than 48.50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is negative for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` lower than 47. There were no clear associations for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 47.</span>
 <span class="r-plt img"><img src="johnson_neyman-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"barthtot"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 1`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is negative for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` lower than 47. There were no clear associations for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 47.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 2`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is positive for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 33.80. There were no clear associations for</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   values of `barthtot` lower than 33.80.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 3`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> There are no clear negative or positive associations between `c12hour`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   and `neg_c_7` for any value of `barthtot`.</span>
-<span class="r-in"><span><span class="fu"><a href="plot.html">plot</a></span><span class="op">(</span><span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">pr</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 1`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is negative for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` lower than 47. There were no clear associations for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 47.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 2`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is positive for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 33.80. There were no clear associations for</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   values of `barthtot` lower than 33.80.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 3`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> There are no clear negative or positive associations between `c12hour`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   and `neg_c_7` for any value of `barthtot`.</span>
-<span class="r-plt img"><img src="johnson_neyman-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># robust standard errors</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"sandwich"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu">johnson_neyman</span><span class="op">(</span><span class="va">pr</span>, vcov <span class="op">=</span> <span class="fu">sandwich</span><span class="fu">::</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 1`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is negative for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` lower than 42.20. There were no clear associations for</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   values of `barthtot` higher than 42.20.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 2`</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The association between `c12hour` and `neg_c_7` is positive for values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 37.20. There were no clear associations for</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   values of `barthtot` lower than 37.20.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   of `barthtot` higher than 51.70. There were no clear associations for</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   values of `barthtot` lower than 51.70.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Level `c172code = 3`</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> There are no clear negative or positive associations between `c12hour`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   and `neg_c_7` for any value of `barthtot`.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
