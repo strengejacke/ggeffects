@@ -49,8 +49,4 @@ test_that("ggpredict", {
 
   predictions <- predict_response(m_null1, c("gender", "employed", "age"), margin = "empirical")
   expect_silent(test_predictions(predictions))
-  expect_message(
-    test_predictions(m_null1, c("gender", "employed", "age")),
-    regex = "All focal terms are included"
-  )
 })

@@ -39,6 +39,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+ggeffects.Rproj
 .Rproj.user
 inst/doc
 revdep

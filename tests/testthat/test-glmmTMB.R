@@ -146,6 +146,7 @@ test_that("ggpredict, glmmTMB", {
 
 
 test_that("ggpredict and ggaverage, glmmTMB", {
+  data(Salamanders, package = "glmmTMB")
   mx <- glmmTMB::glmmTMB(
     count ~ mined + (1 | site),
     ziformula = ~mined,

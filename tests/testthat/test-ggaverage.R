@@ -22,9 +22,9 @@ test_that("ggaverage works with condition", {
   expect_equal(out1$conf.low, out3$asymp.LCL, tolerance = 1e-4)
 
   # test predictions
-  out <- test_predictions(out1)
-  expect_equal(out$Contrast[c(1, 3)], -diff(out1$predicted), tolerance = 1e-4)
-  expect_equal(out$p.value, c(0.3571, 0.42296, 0.76791), tolerance = 1e-4)
+  out <- test_predictions(moff, c("x2", "offset_1 = 1"))
+  expect_equal(out$Difference[c(1, 3)], diff(out1$predicted), tolerance = 1e-4)
+  expect_equal(out$p, c(0.3571, 0.42296, 0.76791), tolerance = 1e-4)
 
   d <- data_grid(moff, "x2", condition = c(offset_1 = 2))
   out1 <- ggaverage(moff, "x2", condition = c(offset_1 = 2))
@@ -34,8 +34,7 @@ test_that("ggaverage works with condition", {
   expect_equal(out1$conf.low, c(8.70405, 6.39786, 6.97987), tolerance = 1e-4)
   expect_equal(out1$conf.low, out3$asymp.LCL, tolerance = 1e-4)
 
-  # test predictions
-  out <- test_predictions(out1)
-  expect_equal(out$Contrast[c(1, 3)], -diff(out1$predicted), tolerance = 1e-4)
-  expect_equal(out$p.value, c(0.3571, 0.42296, 0.76791), tolerance = 1e-4)
+  out <- test_predictions(moff, c("x2", "offset_1 = 2"))
+  expect_equal(out$Difference[c(1, 3)], diff(out1$predicted), tolerance = 1e-4)
+  expect_equal(out$p, c(0.3571, 0.42296, 0.76791), tolerance = 1e-4)
 })

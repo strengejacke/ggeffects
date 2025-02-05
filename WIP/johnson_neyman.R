@@ -12,6 +12,13 @@
 #' `pretty(..., n = precision)`. Usually, the default value of 500 is sufficient.
 #' Increasing this value will result in a smoother plot and more accurate values
 #' for the interval bounds, but can also slightly increase the computation time.
+#' @param colors Colors used for the plot. Must be a vector with two color
+#' values. Only used if `show_association = TRUE`.
+#' @param show_association Logical, if `TRUE`, highlights the range where values
+#' of the moderator are positively or negtatively associated with the outcome.
+#' @param show_rug Logical, if `TRUE`, adds a rug with raw data of the moderator
+#' variable to the plot. This helps visualizing its distribution.
+#' @param verbose Show/hide printed message for plots.
 #' @param ... Arguments passed down to [`test_predictions()`] (and then probably
 #' further to [`marginaleffects::slopes()`]). See `?test_predictions` for further
 #' details.
@@ -64,9 +71,14 @@
 #' @examplesIf all(insight::check_if_installed(c("ggplot2", "marginaleffects", "modelbased"), quietly = TRUE))
 #' \dontrun{
 #' data(efc, package = "ggeffects")
-#' m <- lm(neg_c_7 ~ c12hour * barthtot, data = efc)
+#' efc$c172code <- as.factor(efc$c172code)
+#' m <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
 #'
 #' pr <- predict_response(m, c("c12hour", "barthtot"))
+#' johnson_neyman(pr)
+#' plot(johnson_neyman(pr))
+#'
+#' pr <- predict_response(m, c("c12hour", "barthtot", "c172code"))
 #' johnson_neyman(pr)
 #' plot(johnson_neyman(pr))
 #'
@@ -135,10 +147,7 @@ johnson_neyman <- function(x, precision = 500, p_adjust = NULL, ...) {
   #   fun_args$p_adjust <- "fdr"
   # }
   out <- do.call(modelbased::estimate_slopes, c(fun_args, dot_args))
-  out <- .summarize_slopes(out)
-  class(out) <- c("ggjohnson_neyman", "data.frame")
-
-  out
+  .summarize_slopes(out)
 }
 
 
@@ -148,103 +157,6 @@ spotlight_analysis <- johnson_neyman
 
 
 # helper ----------------------------------------------------------------------
-
-
-#' @export
-print.ggjohnson_neyman <- function(x, ...) {
-  # extract attributes
-  model_data <- insight::get_data(attributes(x)$model, source = "mf", verbose = FALSE)
-  trend <- attributes(x)$trend
-  current_focal <- attributes(x)$by[1]
-  response <- attributes(x)$response
-  group_variable <- attributes(x)$group
-  p_adjust <- attributes(x)$p_adjust
-
-  if ("Group" %in% colnames(x)) {
-    groups <- split(x, x$Group)
-  } else {
-    groups <- list(x)
-  }
-
-  for (gr in groups) {
-    # add "header" for groups
-    if ("Group" %in% colnames(gr)) {
-      insight::print_color(sprintf("# Level `%s`\n", gr$Group[1]), color = "blue")
-    }
-
-    # find significant rows
-    sig_rows <- which(gr$Confidence == "Significant")
-
-    # get bound
-    pos_lower <- gr$Start[sig_rows]
-    pos_upper <- gr$End[sig_rows]
-
-    # check which values are significant for the slope
-    if (!length(sig_rows)) {
-      # is everything non-significant?
-      msg <- sprintf(
-        "There are no clear negative or positive associations between `%s` and `%s` for any value of `%s`.",
-        trend,
-        response,
-        current_focal
-      )
-    } else if (all(sig_rows == 1) || all(sig_rows == nrow(gr))) {
-      # only one change from significant to non-significant
-      direction <- ifelse(all(sig_rows == nrow(gr)), "higher", "lower")
-      cut_off <- ifelse(all(sig_rows == nrow(gr)), pos_lower, pos_upper)
-
-      msg <- sprintf(
-        "The association between `%s` and `%s` is %s for values of `%s` %s than %s.",
-        trend,
-        response,
-        gr$Direction[sig_rows],
-        current_focal,
-        direction,
-        insight::format_value(cut_off, protect_integers = TRUE)
-      )
-
-      unclear_direction <- ifelse(all(sig_rows == nrow(gr)), "lower", "higher")
-      cut_off <- ifelse(all(sig_rows == nrow(gr)), pos_lower, pos_upper)
-
-      msg <- paste(msg, sprintf(
-        "There were no clear associations for values of `%s` %s than %s.",
-        current_focal,
-        unclear_direction,
-        insight::format_value(cut_off, protect_integers = TRUE)
-      ))
-    } else if (length(sig_rows) == 1) {
-      # positive or negative associations *inside* of an interval
-      msg <- sprintf(
-        "The association between `%s` and `%s` is %s for values of `%s` that range from %s to %s.",
-        trend,
-        response,
-        gr$Direction[sig_rows],
-        current_focal,
-        insight::format_value(pos_lower, protect_integers = TRUE),
-        insight::format_value(pos_upper, protect_integers = TRUE)
-      )
-      msg <- paste(msg, "Outside of this interval, there were no clear associations.")
-    } else {
-      # positive or negative associations *outside* of an interval
-      msg <- sprintf(
-        "The association between `%s` and `%s` is %s for values of `%s` lower than %s and %s for values higher than %s.",
-        colnames(x)[1],
-        response,
-        gr$Direction[sig_rows[1]],
-        current_focal,
-        insight::format_value(pos_upper[1], protect_integers = TRUE),
-        gr$Direction[sig_rows[2]],
-        insight::format_value(pos_lower[2], protect_integers = TRUE)
-      )
-      msg <- paste(msg, sprintf(
-        "Inside the interval of %s, there were no clear associations.",
-        insight::format_ci(pos_upper[1], pos_lower[2], ci = NULL)
-      ))
-    }
-
-    cat(insight::format_message(msg, ...), "\n\n", sep = "")
-  }
-}
 
 
 .summarize_slopes <- function(object, verbose = TRUE, ...) {
@@ -266,12 +178,14 @@ print.ggjohnson_neyman <- function(x, ...) {
     out <- do.call(rbind, lapply(parts, .estimate_slope_parts, by = by[1]))
     out <- datawizard::rownames_as_column(out, "Group")
     out$Group <- gsub("\\.\\d+$", "", out$Group)
-    attr(out, "group") <- by[2]
   } else {
     out <- .estimate_slope_parts(out, by)
   }
 
   attributes(out) <- utils::modifyList(attributes(object), attributes(out))
+  class(out) <- c("summary_estimate_slopes", "data.frame")
+  attr(out, "table_title") <- c("Average Marginal Effects", "blue")
+
   out
 }
 

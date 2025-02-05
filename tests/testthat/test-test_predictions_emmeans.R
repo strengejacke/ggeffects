@@ -17,30 +17,15 @@ test_that("test_predictions, engine emmeans", {
   # categorical
   out1 <- test_predictions(m, "c172code")
   out2 <- test_predictions(m, "c172code", engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_identical(out1$c172code, out2$c172code)
-  expect_equal(attributes(out1)$standard_error, attributes(out2)$standard_error, tolerance = 1e-3)
-
-  # slope
-  out1 <- test_predictions(m, "neg_c_7")
-  out2 <- test_predictions(m, "neg_c_7", engine = "emmeans")
-  expect_equal(out1$Slope, out2$Slope, tolerance = 1e-3)
-  expect_identical(out1$c172code, out2$c172code)
+  expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-3)
 
   # multiple focal terms, interaction
   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex * c172code, data = efc)
 
-  # categorical
-  out1 <- test_predictions(m, c("c172code", "c161sex"))
-  out1 <- datawizard::data_arrange(out1, c("c172code", "c161sex"))
-  out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_identical(out1$c172code, out2$c172code)
-
   # difference-in-difference
   out1 <- test_predictions(m, c("c172code", "c161sex"), test = "(b1 - b2) = (b4 - b5)")
   out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans", test = "interaction")
-  expect_equal(out1$Contrast[1], out2$Contrast[1], tolerance = 1e-3)
+  expect_equal(out1$Difference[1], out2$Contrast[1], tolerance = 1e-3)
   expect_identical(out2$c172code, c("1-2", "1-3", "2-3"))
   expect_identical(out2$c161sex, c("male and female", "male and female", "male and female"))
   expect_identical(attributes(out2)$test, "interaction")
@@ -50,15 +35,9 @@ test_that("test_predictions, engine emmeans", {
 
   # interaction numeric * categorical
   m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
-  out1 <- test_predictions(m, c("neg_c_7", "c161sex"))
+  out1 <- test_predictions(m, "neg_c_7", by = "c161sex")
   out2 <- test_predictions(m, c("neg_c_7", "c161sex"), engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-
-  out1 <- test_predictions(m, c("c161sex", "neg_c_7"))
-  out1 <- datawizard::data_arrange(out1, c("c161sex", "neg_c_7"))
-  out2 <- test_predictions(m, c("c161sex", "neg_c_7"), engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-3)
-  expect_identical(out1$neg_c_7, out2$neg_c_7)
+  expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-3)
 })
 
 
@@ -79,44 +58,7 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   # categorical
   out1 <- test_predictions(m, "var_binom", margin = "marginaleffects")
   out2 <- test_predictions(m, "var_binom", engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-1)
-  expect_identical(out1$c172code, out2$c172code)
-
-  # slope
-  out1 <- test_predictions(m, "var_cont", margin = "marginaleffects")
-  out2 <- test_predictions(m, "var_cont", engine = "emmeans")
-  expect_equal(out1$Slope, out2$Slope, tolerance = 1e-2)
-  expect_identical(out1$c172code, out2$c172code)
-
-  # multiple focal terms, interaction
-  m <- glm(outcome ~ var_binom * var_cont + groups,
-    data = dat, family = binomial()
-  )
-
-  # interaction numeric * categorical
-  out1 <- test_predictions(m, c("var_cont", "var_binom"), margin = "marginaleffects")
-  out2 <- test_predictions(m, c("var_cont", "var_binom"), engine = "emmeans")
-  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-2)
-  expect_identical(out1$c172code, out2$c172code)
-
-  # multiple focal terms, interaction
-  m <- glm(outcome ~ var_binom * groups,
-    data = dat, family = binomial()
-  )
-
-  # categorical
-  out1 <- test_predictions(m, c("groups", "var_binom"), margin = "marginaleffects", verbose = FALSE)
-  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans")
-  expect_equal(
-    out1$Contrast[out1$groups == "c-c" & out1$var_binom == "0-1"],
-    out2$Contrast[out2$groups == "c-c" & out2$var_binom == "0-1"],
-    tolerance = 1e-2
-  )
-
-  # # difference-in-difference
-  out1 <- test_predictions(m, c("groups", "var_binom"), test = "(b1 - b3) = (b2 - b4)", margin = "marginaleffects", verbose = FALSE)
-  out2 <- test_predictions(m, c("groups", "var_binom"), engine = "emmeans", test = "interaction")
-  expect_equal(out1$Contrast, out2$Contrast[1], tolerance = 1e-2)
+  expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-1)
 })
 
 

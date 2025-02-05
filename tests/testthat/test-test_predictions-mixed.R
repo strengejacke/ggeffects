@@ -14,13 +14,13 @@ test_that("test_predictions, mixed models", {
     family = poisson()
   ))
   out <- test_predictions(fit, terms = "e16sex")
-  expect_equal(out$Contrast, -0.04345908, tolerance = 1e-3)
+  expect_equal(out$Difference, 0.06156035, tolerance = 1e-3)
 
   out <- test_predictions(fit, terms = "e16sex", margin = "marginalmeans")
-  expect_equal(out$Contrast, -0.07125496, tolerance = 1e-3)
+  expect_equal(out$Difference, 0.07283665, tolerance = 1e-3)
 
   out <- test_predictions(fit, terms = "e16sex", margin = "empirical")
-  expect_equal(out$Contrast, -0.07659224, tolerance = 1e-3)
+  expect_equal(out$Difference, 0.07659224, tolerance = 1e-3)
 })
 
 test_that("test_predictions, mixed models, print with conditioned values", {
@@ -34,5 +34,4 @@ test_that("test_predictions, mixed models, print with conditioned values", {
     family = poisson()
   ))
   expect_snapshot(print(test_predictions(fit, terms = c("e16sex", "c172code"))))
-  expect_snapshot(print(test_predictions(fit, terms = c("e16sex", "c172code [medium]"))))
 })

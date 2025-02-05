@@ -147,7 +147,7 @@ By default, when all focal terms are categorical, a pairwise comparison is perfo
 test_predictions(model1, "episode") # same as test_predictions(my_predictions)
 ```
 
-For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Contrast[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(my_predictions$predicted[1], 2)`) and `episode = 2` (`r round(my_predictions$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
+For our quantity of interest, the contrast between episode `r ht1$episode[1]`, we see the value `r round(ht1$Difference[1], 2)`, which is exactly the difference between the predicted outcome for `episode = 1` (`r round(my_predictions$predicted[1], 2)`) and `episode = 2` (`r round(my_predictions$predicted[2], 2)`). The related p-value is `r round(ht1$p.value[1], 3)`, indicating that the difference between the predicted values of our outcome at these two levels of the factor _episode_ is indeed statistically significant.
 
 Since the `terms` argument in `test_predictions()` works in the same way as for `predict_response()`, you can directly pass "representative values" via that argument (for details, see [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)). For example, we could also specify the levels of `episode` directly, to simplify the output:
 

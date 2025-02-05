@@ -82,20 +82,6 @@ navbar:
         href: articles/introduction_randomeffects.html
       - text: '(Cluster) Robust standard errors'
         href: articles/practical_robustestimation.html
-  - text: Interpretation
-    menu:
-      - text: 'Contrasts and pairwise comparisons'
-        href: articles/introduction_comparisons_1.html
-      - text: 'Slopes, floodlight and spotlight analysis'
-        href: articles/introduction_comparisons_2.html
-      - text: 'Contrasts and pairwise comparisons for GLM'
-        href: articles/introduction_comparisons_3.html
-      - text: 'Contrasts and pairwise comparisons for Zero-Inflation Models'
-        href: articles/introduction_comparisons_4.html
-      - text: 'Using marginaleffects or emmeans for comparisons'
-        href: articles/introduction_comparisons_5.html
-      - text: 'Adding partial residuals to effects plots'
-        href: articles/introduction_partial_residuals.html
   - text: Plotting and Printing
     menu:
       - text: 'Plotting adjusted predictions'

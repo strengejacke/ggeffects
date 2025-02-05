@@ -3,12 +3,14 @@
     Code
       print(comp)
     Output
-      # Pairwise comparisons
+      Model-based Contrasts Analysis
       
-      height     | Contrast |       95% CI |     p
-      --------------------------------------------
-      <5ft->=5ft |    -0.08 | -0.14, -0.03 | 0.003
-    Message
+      Level1 | Level2 | Difference |   SE |       95% CI |    z |     p
+      -----------------------------------------------------------------
+      >=5ft  | <5ft   |       0.08 | 0.03 | [0.03, 0.14] | 3.01 | 0.003
       
-      Contrasts are presented as probabilities (in %-points).
+      Variable predicted: cbind(grahami, opalinus)
+      Predictors contrasted: height
+      Predictors averaged: grahami (19), opalinus (5.8), diameter, light, time
+      Contrasts are on the response-scale.
 

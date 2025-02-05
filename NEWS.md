@@ -1,3 +1,13 @@
+# ggeffects 2.2.0
+
+## Major changes
+
+* The functions `test_predictions()` and `jonhson_neyman()` have been largely
+  revised, due to breaking changes in the *marginaleffects* package. The two
+  functions will now internally call `modelbased::estimate_contrasts()` and
+  `modelbased::estimate_slopes()`, to reduce maintanance load. Thus, some
+  features have changed or are probably no longer / not yet available.
+
 # ggeffects 2.1.0
 
 ## Changes

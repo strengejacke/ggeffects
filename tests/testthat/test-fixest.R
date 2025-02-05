@@ -35,10 +35,6 @@ test_that("fixest", {
     tolerance = 1e-4
   )
 
-  comp <- test_predictions(pr)
-  expect_equal(comp$Slope, -136389.1, tolerance = 1)
-  expect_error(test_predictions(pr, engine = "ggeffects"))
-
   pr <- ggpredict(m2, "Petal.Length", verbose = FALSE)
   expect_equal(
     pr$predicted,
@@ -56,8 +52,6 @@ test_that("fixest", {
     ignore_attr = TRUE,
     tolerance = 1e-4
   )
-  comp <- test_predictions(pr)
-  expect_equal(comp$Slope, 94.36154, tolerance = 1)
 
   pr <- ggpredict(m2, "Petal.Length", verbose = FALSE, vcov = "iid")
   expect_equal(
