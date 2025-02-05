@@ -29,7 +29,7 @@ pool_comparisons <- function(x, ...) {
   obj_name <- deparse(substitute(x), width.cutoff = 500)
   original_x <- x
 
-  if (!all(vapply(x, inherits, logical(1), "ggcomparisons"))) {
+  if (!all(vapply(x, inherits, logical(1), c("ggcomparisons", "estimate_contrasts")))) {
     insight::format_error(
       "`x` must be a list of `ggcomparisons` objects, as returned by `test_predictions()`."
     )
