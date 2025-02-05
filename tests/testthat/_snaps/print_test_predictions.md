@@ -737,6 +737,53 @@
       Predictors contrasted: f1, f2
       Predictors averaged: Sepal.Width (3.1), Species
 
+---
+
+    Code
+      print(ht)
+    Output
+      Model-based Contrasts Analysis
+      
+      Level1                   | Level2                   | Difference |   SE
+      -----------------------------------------------------------------------
+      and-dash, dash-there     | and-dash, comma, here    |      -0.02 | 0.07
+      no dash, comma, here     | and-dash, comma, here    |       0.15 | 0.09
+      no dash, dash-there      | and-dash, comma, here    |       0.13 | 0.12
+      with, comma, comma, here | and-dash, comma, here    |       0.07 | 0.08
+      with, comma, dash-there  | and-dash, comma, here    |       0.06 | 0.11
+      no dash, comma, here     | and-dash, dash-there     |       0.17 | 0.12
+      no dash, dash-there      | and-dash, dash-there     |       0.15 | 0.09
+      with, comma, comma, here | and-dash, dash-there     |       0.09 | 0.11
+      with, comma, dash-there  | and-dash, dash-there     |       0.07 | 0.08
+      no dash, dash-there      | no dash, comma, here     |      -0.02 | 0.07
+      with, comma, comma, here | no dash, comma, here     |      -0.08 | 0.09
+      with, comma, dash-there  | no dash, comma, here     |      -0.10 | 0.11
+      with, comma, comma, here | no dash, dash-there      |      -0.06 | 0.12
+      with, comma, dash-there  | no dash, dash-there      |      -0.08 | 0.09
+      with, comma, dash-there  | with, comma, comma, here |      -0.02 | 0.07
+      
+      Level1                   |        95% CI | t(143) |     p
+      ---------------------------------------------------------
+      and-dash, dash-there     | [-0.16, 0.12] |  -0.26 | 0.796
+      no dash, comma, here     | [-0.03, 0.33] |   1.66 | 0.099
+      no dash, dash-there      | [-0.10, 0.36] |   1.14 | 0.255
+      with, comma, comma, here | [-0.09, 0.24] |   0.88 | 0.380
+      with, comma, dash-there  | [-0.16, 0.27] |   0.51 | 0.610
+      no dash, comma, here     | [-0.06, 0.40] |   1.46 | 0.147
+      no dash, dash-there      | [-0.03, 0.33] |   1.66 | 0.099
+      with, comma, comma, here | [-0.13, 0.32] |   0.82 | 0.412
+      with, comma, dash-there  | [-0.09, 0.24] |   0.88 | 0.380
+      no dash, dash-there      | [-0.16, 0.12] |  -0.26 | 0.796
+      with, comma, comma, here | [-0.26, 0.10] |  -0.84 | 0.402
+      with, comma, dash-there  | [-0.32, 0.13] |  -0.83 | 0.407
+      with, comma, comma, here | [-0.29, 0.18] |  -0.49 | 0.625
+      with, comma, dash-there  | [-0.26, 0.10] |  -0.84 | 0.402
+      with, comma, dash-there  | [-0.16, 0.12] |  -0.26 | 0.796
+      
+      Variable predicted: Sepal.Length
+      Predictors contrasted: f1, f2
+      Predictors averaged: Sepal.Width (3.1), Species
+
 # print hypothesis_test collapse levels
 
     Code
@@ -797,6 +844,24 @@
       
       Variable predicted: Sepal.Length
       Predictors contrasted: Species
+
+# glmmTMB, orderedbeta
+
+    Code
+      print(test_predictions(m, "gear"))
+    Output
+      Model-based Contrasts Analysis
+      
+      Level1 | Level2 | Difference |   SE |        95% CI |    z |     p
+      ------------------------------------------------------------------
+      4      | 3      |       0.04 | 0.05 | [-0.06, 0.14] | 0.73 | 0.464
+      5      | 3      |       0.06 | 0.08 | [-0.11, 0.22] | 0.69 | 0.488
+      5      | 4      |       0.02 | 0.08 | [-0.15, 0.18] | 0.23 | 0.821
+      
+      Variable predicted: ord
+      Predictors contrasted: gear
+      Predictors averaged: wt (3.2), hp (1.5e+02), cyl (4)
+      Contrasts are on the response-scale.
 
 # print hypothesis_test collapse CI
 
