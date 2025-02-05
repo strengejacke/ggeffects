@@ -2,6 +2,7 @@
 % Please edit documentation in R/format.R, R/print.R
 \name{format.ggeffects}
 \alias{format.ggeffects}
+\alias{format.ggcomparisons}
 \alias{print}
 \alias{print.ggeffects}
 \alias{print_md.ggeffects}
@@ -20,6 +21,8 @@
   n,
   ...
 )
+
+\method{format}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, combine_levels = FALSE, ...)
 
 \method{print}{ggeffects}(x, group_name = TRUE, digits = 2, verbose = TRUE, ...)
 

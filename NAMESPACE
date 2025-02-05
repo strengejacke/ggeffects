@@ -2,6 +2,7 @@
 
 S3method("[",ggeffects)
 S3method(as.data.frame,ggeffects)
+S3method(format,ggcomparisons)
 S3method(format,ggeffects)
 S3method(get_predictions,Gam)
 S3method(get_predictions,MCMCglmm)
