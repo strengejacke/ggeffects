@@ -7,6 +7,9 @@
 \alias{print.ggeffects}
 \alias{print_md.ggeffects}
 \alias{print_html.ggeffects}
+\alias{print.ggcomparisons}
+\alias{print_html.ggcomparisons}
+\alias{print_md.ggcomparisons}
 \title{Print and format ggeffects-objects}
 \usage{
 \method{format}{ggeffects}(
@@ -36,6 +39,19 @@
   engine = c("tt", "gt"),
   ...
 )
+
+\method{print}{ggcomparisons}(x, collapse_tables = FALSE, ...)
+
+\method{print_html}{ggcomparisons}(
+  x,
+  collapse_ci = FALSE,
+  collapse_p = FALSE,
+  theme = NULL,
+  engine = c("tt", "gt"),
+  ...
+)
+
+\method{print_md}{ggcomparisons}(x, collapse_ci = FALSE, collapse_p = FALSE, theme = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{ggeffects}, as returned by the functions
