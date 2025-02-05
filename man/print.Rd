@@ -40,7 +40,7 @@
   ...
 )
 
-\method{print}{ggcomparisons}(x, collapse_tables = FALSE, ...)
+\method{print}{ggcomparisons}(x, collapse_tables = TRUE, ...)
 
 \method{print_html}{ggcomparisons}(
   x,
