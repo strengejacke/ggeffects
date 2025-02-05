@@ -79,9 +79,7 @@ You should use *ggeffects*…
   whether there are statistically significant differences in the
   association of, for instance, different groups or categories of your
   predictors and your outcome (“effects”, or sometimes “marginal
-  effects”). There are several vignettes describing this in detail,
-  starting [with this
-  vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
+  effects”).
 
 - … when you need impressive figures instead of long, confusing tables
   to describe your results. There are several examples in the
@@ -340,37 +338,6 @@ plot(result)
 ```
 
 ![](man/figures/unnamed-chunk-6-1.png)<!-- -->
-
-### Contrasts and pairwise comparisons
-
-Next, an example of an interaction term. We want to know whether the two
-slopes are significantly different from each other.
-
-``` r
-fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex + e42dep, data = efc)
-result <- predict_response(fit, c("barthtot", "c161sex"))
-plot(result)
-```
-
-![](man/figures/unnamed-chunk-7-1.png)<!-- -->
-
-This can be achieved by `test_predictions()`.
-
-``` r
-test_predictions(result)
-#> # (Average) Linear trend for barthtot
-#> 
-#> c161sex     | Contrast |      95% CI |     p
-#> --------------------------------------------
-#> Male-Female |     0.01 | -0.01, 0.03 | 0.466
-```
-
-We can conclude that slopes (or “linear trends”) of `barthtot` for the
-different groups of `c161sex` are not statistically significantly
-different from each other.
-
-More features are explained in detail in the
-[package-vignettes](https://strengejacke.github.io/ggeffects/).
 
 ## Citation
 

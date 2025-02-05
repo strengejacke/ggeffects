@@ -198,26 +198,6 @@ ggplot(result, aes(x = x, y = predicted, colour = group)) +
 plot(result)
 ```
 
-### Contrasts and pairwise comparisons
-
-Next, an example of an interaction term. We want to know whether the two slopes are significantly different from each other.
-
-```{r message=FALSE, warning=FALSE}
-fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex + e42dep, data = efc)
-result <- predict_response(fit, c("barthtot", "c161sex"))
-plot(result)
-```
-
-This can be achieved by `test_predictions()`.
-
-```{r message=FALSE, warning=FALSE}
-test_predictions(result)
-```
-
-We can conclude that slopes (or "linear trends") of `barthtot` for the different groups of `c161sex` are not statistically significantly different from each other.
-
-More features are explained in detail in the [package-vignettes](https://strengejacke.github.io/ggeffects/).
-
 ## Citation
 
 In case you want / have to cite my package, please use `citation('ggeffects')` for citation information:
