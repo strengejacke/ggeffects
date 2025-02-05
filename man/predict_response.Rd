@@ -129,9 +129,7 @@ the \code{terms}-argument (for more details, see \href{https://strengejacke.gith
 \item \code{"zi_prob"}
 
 Returns the predicted zero-inflation probability, i.e. probability of a
-structural or "true" zero (see
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_4.html}{this vignette}
-for a short introduction into zero-inflation models).
+structural or "true" zero.
 \item \code{"simulate"}
 
 Predicted values and confidence resp. prediction intervals are based on

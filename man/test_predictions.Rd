@@ -54,9 +54,6 @@ grid and to \code{\link[marginaleffects:predictions]{marginaleffects::prediction
 For instance, arguments \code{type} or \code{transform} can be used to back-transform
 comparisons and contrasts to different scales. \code{vcov} can be used to
 calculate heteroscedasticity-consistent standard errors for contrasts.
-See examples at the bottom of
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}
-for further details.
 
 To define a heteroscedasticity-consistent variance-covariance matrix, you can
 either use the same arguments as for \code{predict_response()} etc., namely \code{vcov}
@@ -230,14 +227,6 @@ Function to test differences of adjusted predictions for
 statistical significance. This is usually called contrasts or (pairwise)
 comparisons, or "marginal effects". \code{hypothesis_test()} is an alias.
 }
-\section{Introduction into contrasts and pairwise comparisons}{
-
-
-There are many ways to test contrasts or pairwise comparisons. A
-detailed introduction with many (visual) examples is shown in
-\href{https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html}{this vignette}.
-}
-
 \section{Simple workflow for pairwise comparisons}{
 
 

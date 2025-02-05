@@ -153,9 +153,6 @@
 #' For instance, arguments `type` or `transform` can be used to back-transform
 #' comparisons and contrasts to different scales. `vcov` can be used to
 #' calculate heteroscedasticity-consistent standard errors for contrasts.
-#' See examples at the bottom of
-#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html)
-#' for further details.
 #'
 #' To define a heteroscedasticity-consistent variance-covariance matrix, you can
 #' either use the same arguments as for `predict_response()` etc., namely `vcov`
@@ -173,12 +170,6 @@
 #'   equivalence_test() |>
 #'   plot()
 #' ```
-#'
-#' @section Introduction into contrasts and pairwise comparisons:
-#'
-#' There are many ways to test contrasts or pairwise comparisons. A
-#' detailed introduction with many (visual) examples is shown in
-#' [this vignette](https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html).
 #'
 #' @section Simple workflow for pairwise comparisons:
 #'

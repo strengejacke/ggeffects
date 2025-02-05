@@ -167,8 +167,7 @@
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
     error = function(x) x,
-    warning = function(x) NULL,
-    finally = function(x) NULL
+    warning = function(x) x
   )
 }
 
@@ -222,8 +221,7 @@
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
     error = function(x) x,
-    warning = function(x) NULL,
-    finally = function(x) NULL
+    warning = function(x) x
   )
 }
 
@@ -276,8 +274,7 @@
       list(cond = pred.cond.psim, zi = pred.zi.psim)
     },
     error = function(x) x,
-    warning = function(x) NULL,
-    finally = function(x) NULL
+    warning = function(x) x
   )
 }
 

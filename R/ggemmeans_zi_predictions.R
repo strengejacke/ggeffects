@@ -53,10 +53,12 @@
 
   prdat.sim <- .simulate_zi_predictions(model, newdata, nsim, terms, typical, condition)
 
-  if (is.null(prdat.sim)) {
-    insight::format_error(
-      "Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)" # nolint
-    )
+  if (is.null(prdat.sim) || inherits(prdat.sim, c("simpleError", "simpleWarning")) || !length(prdat.sim)) {
+    msg <- "Predicted values could not be computed. Try reducing number of simulation, using argument `nsim` (e.g. `nsim = 100`)." # nolint
+    if (inherits(prdat.sim, c("simpleError", "simpleWarning"))) {
+      msg <- c(msg, "\nFurthermore, following error occured:", prdat.sim$message)
+    }
+    insight::format_error(msg)
   }
 
   # we need two data grids here: one for all combination of levels from the
