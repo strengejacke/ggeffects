@@ -13,6 +13,6 @@ test_that("test_predictions, formula", {
   pr <- predict_response(m, terms = c("time", "treatment"))
   out1 <- test_predictions(pr, test = "consecutive", by = "treatment")
   out2 <- test_predictions(pr, test = difference ~ sequential | treatment)
-  expect_equal(out1$Contrast[1], out2$Contrast[2], tolerance = 1e-4)
-  expect_equal(out1$conf.low[1], out2$conf.low[2], tolerance = 1e-4)
+  expect_equal(out1$Contrast[1], out2$Difference[2], tolerance = 1e-4)
+  expect_equal(out1$conf.low[1], out2$CI_low[2], tolerance = 1e-4)
 })
