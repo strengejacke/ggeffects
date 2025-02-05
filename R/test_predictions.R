@@ -482,13 +482,11 @@ test_predictions.default <- function(object,
     }), use.names = FALSE)
   }
 
-  modelbased::estimate_contrasts(
+  out <- modelbased::estimate_contrasts(
     object,
     contrast = terms,
     by = by,
     predict = dot_args$type,
-    ## TODO: enable this, once the "transform" argument is removed in modelbased
-    # transform = dot_args$transform,
     ci = ci_level,
     comparison = test,
     estimate = marginalize,
@@ -496,6 +494,17 @@ test_predictions.default <- function(object,
     equivalence = equivalence,
     ...
   )
+
+  class(out) <- c(
+    intersect(
+      class(out),
+      c("estimate_contrasts", "see_estimate_contrasts", "estimate_slopes", "see_estimate_slopes")
+    ),
+    "ggcomparisons",
+    "data.frame"
+  )
+
+  out
 }
 
 
