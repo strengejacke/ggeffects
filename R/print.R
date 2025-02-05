@@ -356,12 +356,9 @@ print_html.ggeffects <- function(x,
 }
 
 
-# methods for ggcomparisons --------------------------------------------
-
-
 #' @rdname print
 #' @export
-print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
+print.ggcomparisons <- function(x, collapse_tables = TRUE, ...) {
   # check if default format is "html" or "markdown"
   output_format <- getOption("ggeffects_output_format", "text")
   if (identical(output_format, "html")) {
@@ -454,31 +451,31 @@ print.ggcomparisons <- function(x, collapse_tables = FALSE, ...) {
 
   # what type of estimates do we have?
   type <- switch(estimate_name,
-    Predicted = "Predictions",
-    Contrast = "Contrasts",
-    Slope = "Slopes",
-    "Estimates"
+                 Predicted = "Predictions",
+                 Contrast = "Contrasts",
+                 Slope = "Slopes",
+                 "Estimates"
   )
 
   # tell user about scale of estimate type
   if (verbose && !(is_linear && identical(scale_outcome, "response"))) {
     if (is.null(scale_label)) {
       scale_label <- switch(scale_outcome,
-        response = "response",
-        probs = ,
-        probability = if (type == "Contrasts") {
-          "probability (in %-points)"
-        } else {
-          "probability"
-        },
-        exp = "exponentiated",
-        log = "log",
-        link = "link",
-        oddsratios = "odds ratio",
-        irr = "incident rate ratio",
-        count = ,
-        conditional = "conditional means",
-        "unknown"
+                            response = "response",
+                            probs = ,
+                            probability = if (type == "Contrasts") {
+                              "probability (in %-points)"
+                            } else {
+                              "probability"
+                            },
+                            exp = "exponentiated",
+                            log = "log",
+                            link = "link",
+                            oddsratios = "odds ratio",
+                            irr = "incident rate ratio",
+                            count = ,
+                            conditional = "conditional means",
+                            "unknown"
       )
       msg <- paste0("\n", type, " are presented on the ", scale_label, " scale.")
     } else {
@@ -576,10 +573,10 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, t
   if (verbose) {
     # what type of estimates do we have?
     type <- switch(estimate_name,
-      Predicted = "Predictions",
-      Contrast = "Contrasts",
-      Slope = "Slopes",
-      "Estimates"
+                   Predicted = "Predictions",
+                   Contrast = "Contrasts",
+                   Slope = "Slopes",
+                   "Estimates"
     )
 
     # line separator
@@ -589,15 +586,15 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, t
     if (!(is_linear && identical(scale_outcome, "response"))) {
       if (is.null(scale_label)) {
         scale_label <- switch(scale_outcome,
-          response = "response",
-          probs = ,
-          probability = "probability",
-          exp = "exponentiated",
-          log = "log",
-          link = "link",
-          oddsratios = "odds ratio",
-          irr = "incident rate ratio",
-          "unknown"
+                              response = "response",
+                              probs = ,
+                              probability = "probability",
+                              exp = "exponentiated",
+                              log = "log",
+                              link = "link",
+                              oddsratios = "odds ratio",
+                              irr = "incident rate ratio",
+                              "unknown"
         )
         footer <- paste0(
           footer,

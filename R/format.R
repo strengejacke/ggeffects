@@ -6,6 +6,11 @@
 #' subgroups in the table output.
 #' @param collapse_ci Logical, if `TRUE`, the columns with predicted values and
 #' confidence intervals are collapsed into one column, e.g. `Predicted (95% CI)`.
+#' @param n Number of rows to print per subgroup. If `NULL`, a default number
+#' of rows is printed, depending on the number of subgroups.
+#' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
+#' The tables are not split by further focal terms, but rather are added as
+#' columns. Only works when there is more than one focal term.
 #' @param collapse_p Logical, if `TRUE`, the columns with predicted values and
 #' p-values are collapsed into one column, where significant p-values are
 #' indicated as asterisks.
@@ -14,11 +19,6 @@
 #' useful when comparing multiple focal terms, e.g. `education = low-high` and
 #' `gender = male-female` are combined into `first = low-male` and
 #' `second = high-female`.
-#' @param n Number of rows to print per subgroup. If `NULL`, a default number
-#' of rows is printed, depending on the number of subgroups.
-#' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
-#' The tables are not split by further focal terms, but rather are added as
-#' columns. Only works when there is more than one focal term.
 #'
 #' @rdname print
 #' @export
@@ -209,6 +209,7 @@ format.ggeffects <- function(x,
 }
 
 
+
 #' @rdname print
 #' @export
 format.ggcomparisons <- function(x,
@@ -368,6 +369,7 @@ format.ggcomparisons <- function(x,
   }
   x
 }
+
 
 
 .nrows_to_print <- function(x, n) {

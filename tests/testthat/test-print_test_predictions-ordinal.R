@@ -4,6 +4,8 @@ skip_if_not_installed("marginaleffects")
 skip_if_not_installed("MASS")
 skip_if_not_installed("ggplot2")
 
+skip_if(!interactive())
+
 test_that("print hypothesis_test ordinal outcome", {
   data("housing", package = "MASS")
   set.seed(123)

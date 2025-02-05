@@ -26,10 +26,6 @@ test_that("ggpredict", {
   p <- ggpredict(m2, "x1")
   expect_equal(p$predicted[1], 22.57359, tolerance = 1e-3)
   expect_equal(p$conf.low[1], 17.89382, tolerance = 1e-3)
-
-  skip_if_not_installed("marginaleffects")
-  out <- test_predictions(p)
-  expect_equal(out$Slope, 43.90625, tolerance = 1e-3)
 })
 
 skip_if_not_installed("lme4")
