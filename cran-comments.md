@@ -1,1 +1,1 @@
-Maintainance release.
+This release fixes CRAN check issues.
