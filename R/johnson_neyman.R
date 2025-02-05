@@ -251,10 +251,6 @@ print.ggjohnson_neyman <- function(x, ...) {
 
     cat(insight::format_message(msg, ...), "\n\n", sep = "")
   }
-
-  if (!is.null(p_adjust)) {
-    cat("\n", .format_p_adjust(p_adjust), "\n", sep = "")
-  }
 }
 
 
