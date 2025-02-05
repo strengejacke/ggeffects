@@ -11,7 +11,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,10 +126,7 @@ are taken from the <code>ggeffects</code> object and don't need to be specified.
 grid and to <code><a href="https://marginaleffects.com/man/r/predictions.html" class="external-link">marginaleffects::predictions()</a></code> resp. <code><a href="https://marginaleffects.com/man/r/slopes.html" class="external-link">marginaleffects::slopes()</a></code>.
 For instance, arguments <code>type</code> or <code>transform</code> can be used to back-transform
 comparisons and contrasts to different scales. <code>vcov</code> can be used to
-calculate heteroscedasticity-consistent standard errors for contrasts.
-See examples at the bottom of
-<a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html">this vignette</a>
-for further details.</p>
+calculate heteroscedasticity-consistent standard errors for contrasts.</p>
 <p>To define a heteroscedasticity-consistent variance-covariance matrix, you can
 either use the same arguments as for <code><a href="predict_response.html">predict_response()</a></code> etc., namely <code>vcov</code>
 and <code>vcov_args</code>. These are then transformed into a matrix and passed down to
@@ -312,15 +309,6 @@ is used.</p></dd>
     <p>A data frame containing predictions (e.g. for <code>test = NULL</code>),
 contrasts or pairwise comparisons of adjusted predictions or estimated
 marginal means.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="introduction-into-contrasts-and-pairwise-comparisons">Introduction into contrasts and pairwise comparisons<a class="anchor" aria-label="anchor" href="#introduction-into-contrasts-and-pairwise-comparisons"></a></h2>
-
-
-
-<p>There are many ways to test contrasts or pairwise comparisons. A
-detailed introduction with many (visual) examples is shown in
-<a href="https://strengejacke.github.io/ggeffects/articles/introduction_comparisons_1.html">this vignette</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="simple-workflow-for-pairwise-comparisons">Simple workflow for pairwise comparisons<a class="anchor" aria-label="anchor" href="#simple-workflow-for-pairwise-comparisons"></a></h2>
