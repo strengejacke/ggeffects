@@ -17,13 +17,13 @@ m4 <- lm(Income ~ HSGrad + Murder * Illiteracy,
 
 test_that("ggpredict, johnson_neyman, 2 focal terms, inside interval", {
   pr <- ggpredict(m2, c("neg_c_7", "barthtot"))
-  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100)))
+  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100), line_length = 60))
   expect_identical(
     out,
     c(
-      "The association between `neg_c_7` and `c12hour` is positive for values of",
-      "  `barthtot` that range from 46.46 to 49.49. Outside of this interval, there",
-      "  were no clear associations.",
+      "The association between `neg_c_7` and `c12hour` is positive",
+      "  for values of `barthtot` that range from 46.46 to 49.49.",
+      "  Outside of this interval, there were no clear associations.",
       ""
     )
   )
@@ -31,13 +31,14 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, inside interval", {
 
 test_that("ggpredict, johnson_neyman, 2 focal terms, one direction", {
   pr <- ggpredict(m3, c("c12hour", "barthtot"))
-  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100)))
+  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100), line_length = 60))
   expect_identical(
     out,
     c(
-      "The association between `c12hour` and `neg_c_7` is positive for values of",
-      "  `barthtot` higher than 48.48. There were no clear associations for values",
-      "  of `barthtot` lower than 48.48.",
+      "The association between `c12hour` and `neg_c_7` is positive",
+      "  for values of `barthtot` higher than 48.48. There were no",
+      "  clear associations for values of `barthtot` lower than",
+      "  48.48.",
       ""
     )
   )
@@ -45,13 +46,14 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, one direction", {
 
 test_that("ggpredict, johnson_neyman, 2 focal terms, outside interval", {
   pr <- ggpredict(m4, c("Murder", "Illiteracy"))
-  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100)))
+  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100), line_length = 60))
   expect_identical(
     out,
     c(
-      "The association between `Start` and `Income` is positive for values of",
-      "  `Illiteracy` lower than 0.80 and negative for values higher than 2.59.",
-      "  Inside the interval of [0.80, 2.59], there were no clear associations.",
+      "The association between `Start` and `Income` is positive for",
+      "  values of `Illiteracy` lower than 0.80 and negative for",
+      "  values higher than 2.59. Inside the interval of [0.80,",
+      "  2.59], there were no clear associations.",
       ""
     )
   )
@@ -59,23 +61,25 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, outside interval", {
 
 test_that("ggpredict, johnson_neyman, 3 focal terms", {
   pr <- ggpredict(m1, c("c12hour", "barthtot", "c172code"))
-  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100)))
+  out <- utils::capture.output(print(johnson_neyman(pr, precision = 100), line_length = 60))
   expect_identical(
     out,
     c(
       "# Level `1`",
-      "The association between `c12hour` and `neg_c_7` is negative for values of",
-      "  `barthtot` lower than 46.46. There were no clear associations for values of",
-      "  `barthtot` higher than 46.46.",
+      "The association between `c12hour` and `neg_c_7` is negative",
+      "  for values of `barthtot` lower than 46.46. There were no",
+      "  clear associations for values of `barthtot` higher than",
+      "  46.46.",
       "",
       "# Level `2`",
-      "The association between `c12hour` and `neg_c_7` is positive for values of",
-      "  `barthtot` higher than 34.34. There were no clear associations for values",
-      "  of `barthtot` lower than 34.34.",
+      "The association between `c12hour` and `neg_c_7` is positive",
+      "  for values of `barthtot` higher than 34.34. There were no",
+      "  clear associations for values of `barthtot` lower than",
+      "  34.34.",
       "",
       "# Level `3`",
-      "There are no clear negative or positive associations between `c12hour` and",
-      "  `neg_c_7` for any value of `barthtot`.",
+      "There are no clear negative or positive associations between",
+      "  `c12hour` and `neg_c_7` for any value of `barthtot`.",
       ""
     )
   )

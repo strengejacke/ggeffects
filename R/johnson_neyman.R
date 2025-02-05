@@ -249,7 +249,7 @@ print.ggjohnson_neyman <- function(x, ...) {
       ))
     }
 
-    cat(insight::format_message(msg), "\n\n", sep = "")
+    cat(insight::format_message(msg, ...), "\n\n", sep = "")
   }
 
   if (!is.null(p_adjust)) {
