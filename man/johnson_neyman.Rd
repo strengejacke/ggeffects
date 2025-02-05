@@ -30,17 +30,6 @@ below.}
 \item{...}{Arguments passed down to \code{\link[=test_predictions]{test_predictions()}} (and then probably
 further to \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}). See \code{?test_predictions} for further
 details.}
-
-\item{colors}{Colors used for the plot. Must be a vector with two color
-values. Only used if \code{show_association = TRUE}.}
-
-\item{show_association}{Logical, if \code{TRUE}, highlights the range where values
-of the moderator are positively or negtatively associated with the outcome.}
-
-\item{show_rug}{Logical, if \code{TRUE}, adds a rug with raw data of the moderator
-variable to the plot. This helps visualizing its distribution.}
-
-\item{verbose}{Show/hide printed message for plots.}
 }
 \value{
 A data frame including contrasts of the \code{\link[=test_predictions]{test_predictions()}} for the

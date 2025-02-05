@@ -74,16 +74,6 @@ them are also passed down further to \code{\link[insight:format_table]{insight::
 
 \item{engine}{The engine to use for printing. One of \code{"tt"} (default) or \code{"gt"}.
 \code{"tt"} uses the \emph{tinytable} package, \code{"gt"} uses the \emph{gt} package.}
-
-\item{collapse_p}{Logical, if \code{TRUE}, the columns with predicted values and
-p-values are collapsed into one column, where significant p-values are
-indicated as asterisks.}
-
-\item{combine_levels}{Logical, if \code{TRUE}, the levels of the first comparison
-of each focal term against the second are combined into one column. This is
-useful when comparing multiple focal terms, e.g. \code{education = low-high} and
-\code{gender = male-female} are combined into \code{first = low-male} and
-\code{second = high-female}.}
 }
 \value{
 \code{format()} return a formatted data frame, \code{print()} prints a

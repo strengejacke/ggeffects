@@ -6,14 +6,6 @@
 #' subgroups in the table output.
 #' @param collapse_ci Logical, if `TRUE`, the columns with predicted values and
 #' confidence intervals are collapsed into one column, e.g. `Predicted (95% CI)`.
-#' @param collapse_p Logical, if `TRUE`, the columns with predicted values and
-#' p-values are collapsed into one column, where significant p-values are
-#' indicated as asterisks.
-#' @param combine_levels Logical, if `TRUE`, the levels of the first comparison
-#' of each focal term against the second are combined into one column. This is
-#' useful when comparing multiple focal terms, e.g. `education = low-high` and
-#' `gender = male-female` are combined into `first = low-male` and
-#' `second = high-female`.
 #' @param n Number of rows to print per subgroup. If `NULL`, a default number
 #' of rows is printed, depending on the number of subgroups.
 #' @param collapse_tables Logical, if `TRUE`, all tables are combined into one.
@@ -226,32 +218,6 @@ format.ggeffects <- function(x,
     colnames(x)[ci_column - 1] <- paste0(colnames(x)[ci_column - 1], " (", colnames(x)[ci_column], ")")
     # remove CI column
     x[, ci_column] <- NULL
-  }
-  x
-}
-
-
-.collapse_p <- function(x, collapse_p) {
-  # collapse p?
-  p_column <- which(colnames(x) == "p")
-  if (collapse_p && length(p_column)) {
-    # find CI column - we may insert p-values before that column. If we don't
-    # have CI columns, e.g. because user also used "collapse_ci = TRUE", we
-    # simply put it before estimated values
-    ci_column <- grep("\\d{2}% CI", colnames(x))
-    if (length(ci_column)) {
-      insert_column <- ci_column - 1
-    } else {
-      insert_column <- p_column - 1
-    }
-    # make sure "< .001" is correctly handled
-    x$p[x$p == "< .001"] <- "0.0001"
-    # format p-values, we only want significance stars
-    p_values <- format(insight::format_p(as.numeric(x$p), stars = TRUE, stars_only = TRUE))
-    # paste po-values to predicted values
-    x[, insert_column] <- paste0(x[, insert_column], p_values)
-    # remove p column
-    x[p_column] <- NULL
   }
   x
 }

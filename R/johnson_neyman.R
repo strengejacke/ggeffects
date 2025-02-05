@@ -12,13 +12,6 @@
 #' `pretty(..., n = precision)`. Usually, the default value of 500 is sufficient.
 #' Increasing this value will result in a smoother plot and more accurate values
 #' for the interval bounds, but can also slightly increase the computation time.
-#' @param colors Colors used for the plot. Must be a vector with two color
-#' values. Only used if `show_association = TRUE`.
-#' @param show_association Logical, if `TRUE`, highlights the range where values
-#' of the moderator are positively or negtatively associated with the outcome.
-#' @param show_rug Logical, if `TRUE`, adds a rug with raw data of the moderator
-#' variable to the plot. This helps visualizing its distribution.
-#' @param verbose Show/hide printed message for plots.
 #' @param ... Arguments passed down to [`test_predictions()`] (and then probably
 #' further to [`marginaleffects::slopes()`]). See `?test_predictions` for further
 #' details.
