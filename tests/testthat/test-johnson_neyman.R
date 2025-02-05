@@ -68,7 +68,7 @@ test_that("ggpredict, johnson_neyman, 2 focal terms, outside interval", {
 })
 
 test_that("ggpredict, johnson_neyman, 3 focal terms", {
-  pr <- ggpredict(m1, c("c12hour", "c172code", "barthtot"))
+  pr <- ggpredict(m1, c("c12hour", "barthtot", "c172code"))
   out <- utils::capture.output(print(johnson_neyman(pr, precision = 100)))
   expect_identical(
     out,
