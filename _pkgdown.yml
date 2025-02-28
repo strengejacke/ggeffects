@@ -25,7 +25,6 @@ reference:
 
 - title: "Pairwise Comparisons, Contrasts and Marginal Effects"
   contents:
-  - johnson_neyman
   - test_predictions
   - pool_comparisons
 

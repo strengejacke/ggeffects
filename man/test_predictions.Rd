@@ -17,7 +17,6 @@ hypothesis_test(object, ...)
   by = NULL,
   test = "pairwise",
   test_args = NULL,
-  equivalence = NULL,
   scale = "response",
   p_adjust = NULL,
   df = NULL,
@@ -25,7 +24,7 @@ hypothesis_test(object, ...)
   margin = "mean_reference",
   condition = NULL,
   collapse_levels = FALSE,
-  engine = "marginaleffects",
+  engine = "emmeans",
   verbose = TRUE,
   ...
 )
@@ -34,12 +33,11 @@ hypothesis_test(object, ...)
   object,
   by = NULL,
   test = "pairwise",
-  equivalence = NULL,
   scale = "response",
   p_adjust = NULL,
   df = NULL,
   collapse_levels = FALSE,
-  engine = "marginaleffects",
+  engine = "emmeans",
   verbose = TRUE,
   ...
 )
@@ -50,16 +48,7 @@ hypothesis_test(object, ...)
 are taken from the \code{ggeffects} object and don't need to be specified.}
 
 \item{...}{Arguments passed down to \code{\link[=data_grid]{data_grid()}} when creating the reference
-grid and to \code{\link[marginaleffects:predictions]{marginaleffects::predictions()}} resp. \code{\link[marginaleffects:slopes]{marginaleffects::slopes()}}.
-For instance, arguments \code{type} or \code{transform} can be used to back-transform
-comparisons and contrasts to different scales. \code{vcov} can be used to
-calculate heteroscedasticity-consistent standard errors for contrasts.
-
-To define a heteroscedasticity-consistent variance-covariance matrix, you can
-either use the same arguments as for \code{predict_response()} etc., namely \code{vcov}
-and \code{vcov_args}. These are then transformed into a matrix and passed down to
-the \code{vcov} argument in \strong{marginaleffects}. Or you directly use the \code{vcov}
-argument. See \code{?marginaleffects::slopes} for further details.}
+grid.}
 
 \item{terms}{If \code{object} is an object of class \code{ggeffects}, the same \code{terms}
 argument is used as for the predictions, i.e. \code{terms} can be ignored. Else,
@@ -97,35 +86,9 @@ the \code{test_args} argument.
 \item \code{"polynomial"} to test orthogonal polynomial contrasts, assuming
 equally-spaced factor levels.
 }
-\item String equation:
-
-A character string with a custom hypothesis, e.g. \code{"b2 = b1"}. This would
-test if the second level of a predictor is different from the first level.
-Custom hypotheses are very flexible. It is also possible to test interaction
-contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
-\code{"(b2 - b1) = (b4 - b3)"}. See also section \emph{Introduction into contrasts
-and pairwise comparisons}.
-\item Formula:
-
-A formula, where the left-hand side indicates the type of comparison and
-the right-hand side which pairs to compare. Optionally, grouping variables
-can be specified after a vertical bar. See also 'Examples'.
-\itemize{
-\item For the left-hand side, comparisons can be \code{difference} or \code{ratio}.
-\item For the right-hand side, pairs can be \code{reference}, \code{sequential}, or
-\code{meandev}. For \code{reference}, all factor levels are compared to the
-reference level. \code{sequential} compares consecutive levels of a predictor.
-\code{meandev} compares each factor level against the "average" factor level.
-\item If a variable is specified after \code{|}, comparisons will be grouped by
-that variable.
-}
 \item A data frame with custom contrasts. See 'Examples'.
 \item \code{NULL}, in which case simple contrasts are computed.
-}
-
-Technical details about the packages used as back-end to calculate contrasts
-and pairwise comparisons are provided in the section \emph{Packages used as back-end
-to calculate contrasts and pairwise comparisons} below.}
+}}
 
 \item{test_args}{Optional arguments passed to \code{test}, typically provided as
 named list. Only applies to those options that use the \strong{emmeans} package
@@ -133,17 +96,6 @@ as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed
 \code{emmeans::contrast(interaction = test_args)}. For other \emph{emmeans} options
 (like \code{"contrast"}, \code{"exclude"}, \code{"consecutive"} and so on), \code{test_args} will
 be passed to the \code{option} argument in \code{emmeans::contrast()}.}
-
-\item{equivalence}{ROPE's lower and higher bounds. Should be \code{"default"} or
-a vector of length two (e.g., \code{c(-0.1, 0.1)}). If \code{"default"},
-\code{\link[bayestestR:rope_range]{bayestestR::rope_range()}} is used. Instead of using the \code{equivalence}
-argument, it is also possible to call the \code{equivalence_test()} method
-directly. This requires the \strong{parameters} package to be loaded. When
-using \code{equivalence_test()}, two more columns with information about the
-ROPE coverage and decision on H0 are added. Furthermore, it is possible
-to \code{plot()} the results from \code{equivalence_test()}. See
-\code{\link[bayestestR:equivalence_test]{bayestestR::equivalence_test()}} resp. \code{\link[parameters:equivalence_test.lm]{parameters::equivalence_test.lm()}}
-for details.}
 
 \item{scale}{Character string, indicating the scale on which the contrasts
 or comparisons are represented. Can be one of:
@@ -197,23 +149,14 @@ levels are no longer separated by "-", but instead collapsed into a unique
 term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 
 \item{engine}{Character string, indicates the package to use for computing
-contrasts and comparisons. Usually, this argument can be ignored, unless you
-want to explicitly use another package than \emph{marginaleffects} to calculate
-contrasts and pairwise comparisons. \code{engine} can be either \code{"marginaleffects"}
-(default) or \code{"emmeans"}. The latter is useful when the \strong{marginaleffects}
-package is not available, or when the \strong{emmeans} package is preferred. Note
-that using \strong{emmeans} as back-end is currently not as feature rich as the default
-(\strong{marginaleffects}). Setting \code{engine = "emmeans"} provides some additional
-test options: \code{"interaction"} to calculate interaction contrasts,
-\code{"consecutive"} to calculate contrasts between consecutive levels of a
-predictor, or a data frame with custom contrasts (see also \code{test}). There is
-a third option as well, \code{engine = "ggeffects"}. However, this option offers
-less features as the default engine, \code{"marginaleffects"}. It can be faster in
-some cases, though, and works for comparing predicted random effects in mixed
-models, or predicted probabilities of the zero-inflation component. If the
-\strong{marginaleffects} package is not installed, the \strong{emmeans} package is used
-automatically. If this package is not installed as well, \code{engine = "ggeffects"}
-is used.}
+contrasts and comparisons. Setting \code{engine = "emmeans"} (default) provides
+some additional test options: \code{"interaction"} to calculate interaction
+contrasts, \code{"consecutive"} to calculate contrasts between consecutive levels
+of a predictor, or a data frame with custom contrasts (see also \code{test}). The
+second option, \code{engine = "ggeffects"}. However, this option offers less
+features as the default engine, \code{"emmeans"}. It can be faster in some cases,
+though, and works for comparing predicted random effects in mixed models, or
+predicted probabilities of the zero-inflation component.}
 
 \item{verbose}{Toggle messages and warnings.}
 }
@@ -243,41 +186,6 @@ test_predictions(pr)
 }\if{html}{\out{</div>}}
 
 See also \href{https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html}{this vignette}.
-}
-
-\section{Packages used as back-end to calculate contrasts and pairwise comparisons}{
-
-
-The \code{test} argument is used to define which kind of contrast or comparison
-should be calculated. The default is to use the \strong{marginaleffects} package.
-Here are some technical details about the packages used as back-end. When
-\code{test} is...
-\itemize{
-\item \code{"pairwise"} (default), pairwise comparisons are based on the \strong{marginaleffects}
-package.
-\item \code{"trend"} or \code{"slope"} also uses the \strong{marginaleffects} package.
-\item \code{"contrast"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "eff")}
-is called.
-\item \code{"exclude"} relies on the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "del.eff")}
-is called.
-\item \code{"polynomial"} relies on the \strong{emmeans} package, i.e. \code{emmeans::contrast(method = "poly")}
-is called.
-\item \code{"interaction"} uses the \strong{emmeans} package, i.e. \code{emmeans::contrast(interaction = ...)}
-is called.
-\item \code{"consecutive"} also relies on the \strong{emmeans} package, i.e.
-\code{emmeans::contrast(method = "consec")} is called.
-\item a character string with a custom hypothesis, the \strong{marginaleffects}
-package is used.
-\item a data frame with custom contrasts, \strong{emmeans} is used again.
-\item for formulas, the \strong{marginaleffects} package is used.
-\item \code{NULL} calls functions from the \strong{marginaleffects} package with
-\code{hypothesis = NULL}.
-\item If all focal terms are only present as random effects in a mixed model,
-or if predicted probabilities for the zero-inflation component of a model
-should be tested, functions from the \strong{ggeffects} package are used. There
-is an example for pairwise comparisons of random effects in
-\href{https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html}{this vignette}.
-}
 }
 
 \section{P-value adjustment for multiple comparisons}{
@@ -364,7 +272,7 @@ Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
-\dontshow{if (all(insight::check_if_installed(c("parameters", "marginaleffects", "modelbased"), quietly = TRUE)) && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(insight::check_if_installed(c("parameters", "emmeans"), quietly = TRUE)) && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)
@@ -389,13 +297,6 @@ test_predictions(m, c("c161sex", "c172code"), test = NULL)
 # interaction - pairwise comparisons by groups
 test_predictions(m, c("c161sex", "c172code"))
 
-# equivalence testing
-test_predictions(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
-
-# equivalence testing, using the parameters package
-pr <- predict_response(m, c("c161sex", "c172code"))
-parameters::equivalence_test(pr)
-
 # interaction - collapse unique levels
 test_predictions(m, c("c161sex", "c172code"), collapse_levels = TRUE)
 
@@ -404,9 +305,6 @@ test_predictions(m, c("c161sex", "c172code"), p_adjust = "tukey")
 
 # not all comparisons, only by specific group levels
 test_predictions(m, "c172code", by = "c161sex")
-
-# specific comparisons
-test_predictions(m, c("c161sex", "c172code"), test = "b2 = b1")
 
 # interaction - slope by groups
 m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
@@ -439,20 +337,6 @@ wakeup_time <- data.frame(
   "start vs end of day" = c(-1, 0, 1)
 )
 test_predictions(m, "time", by = "coffee", test = wakeup_time)
-
-# Example: marginal effects -----------------------------
-# -------------------------------------------------------
-data(iris)
-m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
-
-# we now want the marginal effects for "Species". We can calculate
-# the marginal effect using the "marginaleffects" package
-marginaleffects::avg_slopes(m, variables = "Species")
-
-# finally, test_predictions() returns the same. while the previous results
-# report the marginal effect compared to the reference level "setosa",
-# test_predictions() returns the marginal effects for all pairwise comparisons
-test_predictions(m, "Species")
 }
 \dontshow{\}) # examplesIf}
 }

@@ -1,7 +1,6 @@
 .test_predictions_ggeffects <- function(object,
                                         by = NULL,
                                         test = "pairwise",
-                                        equivalence = NULL,
                                         scale = "response",
                                         p_adjust = NULL,
                                         df = NULL,
@@ -10,9 +9,6 @@
                                         verbose = TRUE,
                                         ...) {
   # sanity check for certain arguments that are not (yet) supported
-  if (!is.null(equivalence)) {
-    insight::format_error("Equivalence testing is currently not supported for `engine = \"ggeffects\"`.")
-  }
   if (!is.null(scale) && scale != "response") {
     insight::format_error("Only `scale = \"response\"` is supported for `engine = \"ggeffects\"`.")
   }

@@ -28,35 +28,9 @@
 #'   - `"polynomial"` to test orthogonal polynomial contrasts, assuming
 #'     equally-spaced factor levels.
 #'
-#' * String equation:
-#'
-#'   A character string with a custom hypothesis, e.g. `"b2 = b1"`. This would
-#'   test if the second level of a predictor is different from the first level.
-#'   Custom hypotheses are very flexible. It is also possible to test interaction
-#'   contrasts (difference-in-difference contrasts) with custom hypotheses, e.g.
-#'   `"(b2 - b1) = (b4 - b3)"`. See also section _Introduction into contrasts
-#'   and pairwise comparisons_.
-#'
-#' * Formula:
-#'
-#'   A formula, where the left-hand side indicates the type of comparison and
-#'   the right-hand side which pairs to compare. Optionally, grouping variables
-#'   can be specified after a vertical bar. See also 'Examples'.
-#'   - For the left-hand side, comparisons can be `difference` or `ratio`.
-#'   - For the right-hand side, pairs can be `reference`, `sequential`, or
-#'     `meandev`. For `reference`, all factor levels are compared to the
-#'     reference level. `sequential` compares consecutive levels of a predictor.
-#'     `meandev` compares each factor level against the "average" factor level.
-#'   - If a variable is specified after `|`, comparisons will be grouped by
-#'     that variable.
-#'
 #' * A data frame with custom contrasts. See 'Examples'.
 #'
 #' * `NULL`, in which case simple contrasts are computed.
-#'
-#' Technical details about the packages used as back-end to calculate contrasts
-#' and pairwise comparisons are provided in the section _Packages used as back-end
-#' to calculate contrasts and pairwise comparisons_ below.
 #' @param test_args Optional arguments passed to `test`, typically provided as
 #' named list. Only applies to those options that use the **emmeans** package
 #' as backend, e.g. if `test = "interaction"`, `test_args` will be passed to
@@ -100,16 +74,6 @@
 #' **Note:** If the `scale` argument is not supported by the provided `object`,
 #' it is automatically changed to a supported scale-type (a message is printed
 #' when `verbose = TRUE`).
-#' @param equivalence ROPE's lower and higher bounds. Should be `"default"` or
-#' a vector of length two (e.g., `c(-0.1, 0.1)`). If `"default"`,
-#' [`bayestestR::rope_range()`] is used. Instead of using the `equivalence`
-#' argument, it is also possible to call the `equivalence_test()` method
-#' directly. This requires the **parameters** package to be loaded. When
-#' using `equivalence_test()`, two more columns with information about the
-#' ROPE coverage and decision on H0 are added. Furthermore, it is possible
-#' to `plot()` the results from `equivalence_test()`. See
-#' [`bayestestR::equivalence_test()`] resp. [`parameters::equivalence_test.lm()`]
-#' for details.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #' adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
 #' for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
@@ -127,38 +91,20 @@
 #' levels are no longer separated by "-", but instead collapsed into a unique
 #' term label (e.g., `"level a-level a"` becomes `"level a"`). See 'Examples'.
 #' @param engine Character string, indicates the package to use for computing
-#' contrasts and comparisons. Usually, this argument can be ignored, unless you
-#' want to explicitly use another package than *marginaleffects* to calculate
-#' contrasts and pairwise comparisons. `engine` can be either `"marginaleffects"`
-#' (default) or `"emmeans"`. The latter is useful when the **marginaleffects**
-#' package is not available, or when the **emmeans** package is preferred. Note
-#' that using **emmeans** as back-end is currently not as feature rich as the default
-#' (**marginaleffects**). Setting `engine = "emmeans"` provides some additional
-#' test options: `"interaction"` to calculate interaction contrasts,
-#' `"consecutive"` to calculate contrasts between consecutive levels of a
-#' predictor, or a data frame with custom contrasts (see also `test`). There is
-#' a third option as well, `engine = "ggeffects"`. However, this option offers
-#' less features as the default engine, `"marginaleffects"`. It can be faster in
-#' some cases, though, and works for comparing predicted random effects in mixed
-#' models, or predicted probabilities of the zero-inflation component. If the
-#' **marginaleffects** package is not installed, the **emmeans** package is used
-#' automatically. If this package is not installed as well, `engine = "ggeffects"`
-#' is used.
+#' contrasts and comparisons. Setting `engine = "emmeans"` (default) provides
+#' some additional test options: `"interaction"` to calculate interaction
+#' contrasts, `"consecutive"` to calculate contrasts between consecutive levels
+#' of a predictor, or a data frame with custom contrasts (see also `test`). The
+#' second option, `engine = "ggeffects"`. However, this option offers less
+#' features as the default engine, `"emmeans"`. It can be faster in some cases,
+#' though, and works for comparing predicted random effects in mixed models, or
+#' predicted probabilities of the zero-inflation component.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values, for instance
 #' `condition = c(covariate1 = 20, covariate2 = 5)`.
 #' @param verbose Toggle messages and warnings.
 #' @param ... Arguments passed down to [`data_grid()`] when creating the reference
-#' grid and to [`marginaleffects::predictions()`] resp. [`marginaleffects::slopes()`].
-#' For instance, arguments `type` or `transform` can be used to back-transform
-#' comparisons and contrasts to different scales. `vcov` can be used to
-#' calculate heteroscedasticity-consistent standard errors for contrasts.
-#'
-#' To define a heteroscedasticity-consistent variance-covariance matrix, you can
-#' either use the same arguments as for `predict_response()` etc., namely `vcov`
-#' and `vcov_args`. These are then transformed into a matrix and passed down to
-#' the `vcov` argument in **marginaleffects**. Or you directly use the `vcov`
-#' argument. See `?marginaleffects::slopes` for further details.
+#' grid.
 #'
 #' @seealso There is also an `equivalence_test()` method in the **parameters**
 #' package ([`parameters::equivalence_test.lm()`]), which can be used to
@@ -185,37 +131,6 @@
 #' test_predictions(pr)
 #' ```
 #' See also [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html).
-#'
-#' @section Packages used as back-end to calculate contrasts and pairwise comparisons:
-#'
-#' The `test` argument is used to define which kind of contrast or comparison
-#' should be calculated. The default is to use the **marginaleffects** package.
-#' Here are some technical details about the packages used as back-end. When
-#' `test` is...
-#'   - `"pairwise"` (default), pairwise comparisons are based on the **marginaleffects**
-#'     package.
-#'   - `"trend"` or `"slope"` also uses the **marginaleffects** package.
-#'   - `"contrast"` uses the **emmeans** package, i.e. `emmeans::contrast(method = "eff")`
-#'     is called.
-#'   - `"exclude"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "del.eff")`
-#'     is called.
-#'   - `"polynomial"` relies on the **emmeans** package, i.e. `emmeans::contrast(method = "poly")`
-#'     is called.
-#'   - `"interaction"` uses the **emmeans** package, i.e. `emmeans::contrast(interaction = ...)`
-#'     is called.
-#'   - `"consecutive"` also relies on the **emmeans** package, i.e.
-#'     `emmeans::contrast(method = "consec")` is called.
-#'   - a character string with a custom hypothesis, the **marginaleffects**
-#'     package is used.
-#'   - a data frame with custom contrasts, **emmeans** is used again.
-#'   - for formulas, the **marginaleffects** package is used.
-#'   - `NULL` calls functions from the **marginaleffects** package with
-#'     `hypothesis = NULL`.
-#'   - If all focal terms are only present as random effects in a mixed model,
-#'     or if predicted probabilities for the zero-inflation component of a model
-#'     should be tested, functions from the **ggeffects** package are used. There
-#'     is an example for pairwise comparisons of random effects in
-#'     [this vignette](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html).
 #'
 #' @section P-value adjustment for multiple comparisons:
 #'
@@ -270,7 +185,7 @@
 #' Determining and controlling the false positive rate. Comparative Political
 #' Studies, 1–33. Advance online publication. doi: 10.1177/0010414017730080
 #'
-#' @examplesIf all(insight::check_if_installed(c("parameters", "marginaleffects", "modelbased"), quietly = TRUE)) && interactive()
+#' @examplesIf all(insight::check_if_installed(c("parameters", "emmeans"), quietly = TRUE)) && interactive()
 #' \donttest{
 #' data(efc)
 #' efc$c172code <- as.factor(efc$c172code)
@@ -295,13 +210,6 @@
 #' # interaction - pairwise comparisons by groups
 #' test_predictions(m, c("c161sex", "c172code"))
 #'
-#' # equivalence testing
-#' test_predictions(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
-#'
-#' # equivalence testing, using the parameters package
-#' pr <- predict_response(m, c("c161sex", "c172code"))
-#' parameters::equivalence_test(pr)
-#'
 #' # interaction - collapse unique levels
 #' test_predictions(m, c("c161sex", "c172code"), collapse_levels = TRUE)
 #'
@@ -310,9 +218,6 @@
 #'
 #' # not all comparisons, only by specific group levels
 #' test_predictions(m, "c172code", by = "c161sex")
-#'
-#' # specific comparisons
-#' test_predictions(m, c("c161sex", "c172code"), test = "b2 = b1")
 #'
 #' # interaction - slope by groups
 #' m <- lm(barthtot ~ c12hour + neg_c_7 * c172code + c161sex, data = efc)
@@ -345,20 +250,6 @@
 #'   "start vs end of day" = c(-1, 0, 1)
 #' )
 #' test_predictions(m, "time", by = "coffee", test = wakeup_time)
-#'
-#' # Example: marginal effects -----------------------------
-#' # -------------------------------------------------------
-#' data(iris)
-#' m <- lm(Petal.Width ~ Petal.Length + Species, data = iris)
-#'
-#' # we now want the marginal effects for "Species". We can calculate
-#' # the marginal effect using the "marginaleffects" package
-#' marginaleffects::avg_slopes(m, variables = "Species")
-#'
-#' # finally, test_predictions() returns the same. while the previous results
-#' # report the marginal effect compared to the reference level "setosa",
-#' # test_predictions() returns the marginal effects for all pairwise comparisons
-#' test_predictions(m, "Species")
 #' }
 #' @export
 test_predictions <- function(object, ...) {
@@ -378,7 +269,6 @@ test_predictions.default <- function(object,
                                      by = NULL,
                                      test = "pairwise",
                                      test_args = NULL,
-                                     equivalence = NULL,
                                      scale = "response",
                                      p_adjust = NULL,
                                      df = NULL,
@@ -386,7 +276,7 @@ test_predictions.default <- function(object,
                                      margin = "mean_reference",
                                      condition = NULL,
                                      collapse_levels = FALSE,
-                                     engine = "marginaleffects",
+                                     engine = "emmeans",
                                      verbose = TRUE,
                                      ...) {
   # margin-argument -----------------------------------------------------------
@@ -426,76 +316,21 @@ test_predictions.default <- function(object,
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
   # ---------------------------------------------------------------------------
-  if (engine == "emmeans") {
-    # warn about non-supported arguments
-    if (!is.null(equivalence) && verbose) {
-      insight::format_alert("Argument `equivalence` is not supported when `engine = \"emmeans\"`.")
-    }
-    return(.test_predictions_emmeans(
-      object,
-      terms = terms,
-      by = by,
-      test = test,
-      test_args = test_args,
-      scale = scale,
-      p_adjust = p_adjust,
-      df = df,
-      ci_level = ci_level,
-      collapse_levels = collapse_levels,
-      margin = margin,
-      verbose = verbose,
-      ...
-    ))
-  }
-
-  marginalize <- switch(margin,
-    mean_reference = ,
-    mean_mode = "specific",
-    marginalmeans = "average",
-    "population"
-  )
-
-  # check if we have representative values in brackets
-  representative_values <- .get_representative_values(
-    terms,
-    insight::get_data(object, source = "mf", verbose = FALSE)
-  )
-
-  # convert terms argument
-  if (!is.null(representative_values)) {
-    terms <- unlist(lapply(names(representative_values), function(i) {
-      value <- representative_values[[i]]
-      # for non numeric, surround with quotes
-      if (anyNA(suppressWarnings(as.numeric(value)))) {
-        value <- paste0("'", value, "'")
-      }
-      paste0(i, "=c(", paste(value, collapse = ","), ")")
-    }), use.names = FALSE)
-  }
-
-  out <- modelbased::estimate_contrasts(
+  .test_predictions_emmeans(
     object,
-    contrast = terms,
+    terms = terms,
     by = by,
-    predict = dot_args$type,
-    ci = ci_level,
-    comparison = test,
-    estimate = marginalize,
+    test = test,
+    test_args = test_args,
+    scale = scale,
     p_adjust = p_adjust,
-    equivalence = equivalence,
+    df = df,
+    ci_level = ci_level,
+    collapse_levels = collapse_levels,
+    margin = margin,
+    verbose = verbose,
     ...
   )
-
-  class(out) <- c(
-    intersect(
-      class(out),
-      c("estimate_contrasts", "see_estimate_contrasts", "estimate_slopes", "see_estimate_slopes")
-    ),
-    "ggcomparisons",
-    "data.frame"
-  )
-
-  out
 }
 
 
@@ -504,12 +339,11 @@ test_predictions.default <- function(object,
 test_predictions.ggeffects <- function(object,
                                        by = NULL,
                                        test = "pairwise",
-                                       equivalence = NULL,
                                        scale = "response",
                                        p_adjust = NULL,
                                        df = NULL,
                                        collapse_levels = FALSE,
-                                       engine = "marginaleffects",
+                                       engine = "emmeans",
                                        verbose = TRUE,
                                        ...) {
   # check for installed packages ----------------------------------------------
@@ -521,7 +355,8 @@ test_predictions.ggeffects <- function(object,
   # validate "engine" argument
   engine <- insight::validate_argument(engine, c("marginaleffects", "emmeans", "ggeffects"))
 
-  if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
+  if (engine == "marginaleffects") { # nolint
+    insight::format_warning("Engine \"marginaleffects\" is no longer supported. The {marginaleffects} package underwent large revisions, which would have required rewriting major code parts in {ggeffects}. Instead, we implemented full support for estimating slopes, marginal effects, contrasts and pairwise comparisons in the {modelbased} package. Please use `modelbased::estimate_contrasts()` now.") # nolint
     engine <- "emmeans"
   }
   # if we don't have the package installed, we switch to emmeans
@@ -570,7 +405,6 @@ test_predictions.ggeffects <- function(object,
       object,
       by = by,
       test = test,
-      equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,
       df = attributes(object)$df,
@@ -603,7 +437,6 @@ test_predictions.ggeffects <- function(object,
     terms = focal,
     by = by,
     test = test,
-    equivalence = equivalence,
     scale = scale,
     p_adjust = p_adjust,
     df = df,
@@ -661,14 +494,18 @@ test_predictions.ggeffects <- function(object,
   if (.is_emmeans_contrast(test)) {
     engine <- "emmeans"
   }
-  if (!insight::check_if_installed("marginaleffects", quietly = TRUE) && engine == "marginaleffects") { # nolint
+
+  # tell user about deprecation
+  if (engine == "marginaleffects") { # nolint
+    insight::format_warning("Engine \"marginaleffects\" is no longer supported. The {marginaleffects} package underwent large revisions, which would have required rewriting major code parts in {ggeffects}. Instead, we implemented full support for estimating slopes, marginal effects, contrasts and pairwise comparisons in the {modelbased} package. Please use `modelbased::estimate_contrasts()` now.") # nolint
     engine <- "emmeans"
   }
+
   # if we don't have the package installed, we switch to emmeans
   if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
     # if we even don't have emmeans, we throw an error
     insight::format_error(
-      "The `marginaleffects` and `emmeans` packages are required for this function. Please install them from CRAN by running `install.packages(c(\"emmeans\", \"marginaleffects\"))`." # nolint
+      "The {emmeans} package is required for this function. Please install it from CRAN by running `install.packages(\"emmeans\")`." # nolint
     )
   }
 
