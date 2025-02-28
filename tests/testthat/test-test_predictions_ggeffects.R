@@ -86,10 +86,6 @@ test_that("test_predictions, engine ggeffects, linear models", {
 
   # errors
   expect_error(
-    test_predictions(pr, engine = "ggeffects", equivalence = c(-1, 1)),
-    regex = "Equivalence testing is currently"
-  )
-  expect_error(
     test_predictions(pr, engine = "ggeffects", scale = "link"),
     regex = "Only `scale = \"response\"`"
   )
