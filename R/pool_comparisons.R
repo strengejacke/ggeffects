@@ -63,7 +63,7 @@ pool_comparisons <- function(x, ...) {
     pooled_comparisons[[estimate_name]][i] <- mean(pooled_comp, na.rm = TRUE)
 
     # pooled standard error
-    pooled_se <- unlist(lapply(original_x, function(j) j$standard.error[i]), use.names = FALSE)
+    pooled_se <- unlist(lapply(original_x, function(j) attributes(j)$standard_error[i]), use.names = FALSE)
     ubar <- mean(pooled_se^2, na.rm = TRUE)
     tmp <- ubar + (1 + 1 / len) * stats::var(pooled_comp)
     pooled_comparisons$standard.error[i] <- sqrt(tmp)
