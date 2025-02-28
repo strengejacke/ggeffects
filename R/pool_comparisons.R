@@ -37,13 +37,13 @@ pool_comparisons <- function(x, ...) {
 
   # we need to check if all objects are comparible. We check whether columns
   # and values of focal terms are identical across all objects.
-  estimate_name <- attributes(x[[1]])$coef_name
+  estimate_name <- attributes(x[[1]])$estimate_name
 
     # preparation ----
 
   len <- length(x)
-  ci <- attributes(x[[1]])$ci
-  dof <- insight::get_df(attributes(x[[1]])$model, type = "wald", verbose = FALSE)
+  ci <- attributes(x[[1]])$ci_level
+  dof <- attributes(x[[1]])$df
 
   if (is.null(dof)) {
     dof <- Inf
