@@ -33,7 +33,6 @@ hypothesis_test(object, ...)
   object,
   by = NULL,
   test = "pairwise",
-  equivalence = NULL,
   scale = "response",
   p_adjust = NULL,
   df = NULL,
@@ -297,13 +296,6 @@ test_predictions(m, c("c161sex", "c172code"), test = NULL)
 
 # interaction - pairwise comparisons by groups
 test_predictions(m, c("c161sex", "c172code"))
-
-# equivalence testing
-test_predictions(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
-
-# equivalence testing, using the parameters package
-pr <- predict_response(m, c("c161sex", "c172code"))
-parameters::equivalence_test(pr)
 
 # interaction - collapse unique levels
 test_predictions(m, c("c161sex", "c172code"), collapse_levels = TRUE)

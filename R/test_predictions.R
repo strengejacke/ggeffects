@@ -210,13 +210,6 @@
 #' # interaction - pairwise comparisons by groups
 #' test_predictions(m, c("c161sex", "c172code"))
 #'
-#' # equivalence testing
-#' test_predictions(m, c("c161sex", "c172code"), equivalence = c(-2.96, 2.96))
-#'
-#' # equivalence testing, using the parameters package
-#' pr <- predict_response(m, c("c161sex", "c172code"))
-#' parameters::equivalence_test(pr)
-#'
 #' # interaction - collapse unique levels
 #' test_predictions(m, c("c161sex", "c172code"), collapse_levels = TRUE)
 #'
@@ -346,7 +339,6 @@ test_predictions.default <- function(object,
 test_predictions.ggeffects <- function(object,
                                        by = NULL,
                                        test = "pairwise",
-                                       equivalence = NULL,
                                        scale = "response",
                                        p_adjust = NULL,
                                        df = NULL,
@@ -413,7 +405,6 @@ test_predictions.ggeffects <- function(object,
       object,
       by = by,
       test = test,
-      equivalence = equivalence,
       scale = scale,
       p_adjust = p_adjust,
       df = attributes(object)$df,
@@ -446,7 +437,6 @@ test_predictions.ggeffects <- function(object,
     terms = focal,
     by = by,
     test = test,
-    equivalence = equivalence,
     scale = scale,
     p_adjust = p_adjust,
     df = df,
