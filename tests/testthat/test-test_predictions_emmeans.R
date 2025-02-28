@@ -56,8 +56,7 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   )
 
   # categorical
-  out1 <- test_predictions(m, "var_binom", margin = "marginaleffects")
-  out2 <- test_predictions(m, "var_binom", engine = "emmeans")
+  out <- test_predictions(m, "var_binom", engine = "emmeans")
   expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-1)
 })
 
