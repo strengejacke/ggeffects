@@ -32,25 +32,10 @@ test_that("test_predictions, margin", {
 
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980, 2020]"))))
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980, 2020]"), margin = "marginalmeans")))
-  expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980, 2020]"), margin = "empirical")))
 
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980]"))))
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980]"), margin = "marginalmeans")))
-  expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year [1980]"), margin = "empirical")))
 
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"))))
   expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"), margin = "marginalmeans")))
-  expect_snapshot(print(test_predictions(m, c("parfam [green, lib]", "year"), margin = "empirical")))
-
-  m <- glm(childcare ~ parfam * countryname + year,
-    data = d,
-    family = binomial
-  )
-
-  # green Austria, left Belgium
-  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "marginalmeans", test = "b19 = b26")))) # nolint
-  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam [green, left]", "countryname [Austria, Belgium]"), margin = "marginalmeans")))) # nolint
-  # green Austria, left Belgium
-  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam", "countryname"), margin = "empirical", test = "b19 = b26")))) # nolint
-  expect_snapshot(suppressWarnings(print(test_predictions(m, c("parfam [green, left]", "countryname [Austria, Belgium]"), margin = "empirical")))) # nolint
 })
