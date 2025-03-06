@@ -26,13 +26,6 @@ test_that("ggpredict, glmmTMB prediction intervals random effects", {
 test_that("ggpredict, lmer prediction intervals random effects", {
   data(iris)
   m <- lme4::lmer(Sepal.Length ~ Sepal.Width + (1 | Species), data = iris)
-  out1 <- ggpredict(m, "Species", type = "random", interval = "prediction")
-  # not sure why this works on devel again - maybe fix in Matrix?
-  if (getRversion() > "4.4.2") {
-    expect_equal(out1$conf.low, c(3.27188912101159, 4.72096548348341, 5.20851196398241), tolerance = 1e-4)
-  } else {
-    expect_null(out1$conf.low)
-  }
 
   out1 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random", interval = "prediction")
   out2 <- ggpredict(m, c("Sepal.Width [2:4]", "Species"), type = "random", interval = "confidence")

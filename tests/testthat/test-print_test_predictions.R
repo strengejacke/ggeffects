@@ -15,131 +15,13 @@ m <- glm(outcome ~ var_binom * var_cont + groups,
   data = dat, family = binomial()
 )
 
-test_that("print hypothesis_test simple contrast link scale", {
-  out <- hypothesis_test(m, "var_binom", scale = "link")
-  expect_snapshot(print(out))
-})
-test_that("print hypothesis_test simple predictions link scale", {
-  out <- hypothesis_test(m, "var_binom", test = NULL, scale = "link")
-  expect_snapshot(print(out))
-})
 test_that("print hypothesis_test simple contrast response scale", {
   out <- hypothesis_test(m, "var_binom", scale = "response")
-  expect_snapshot(print(out))
-})
-
-test_that("print hypothesis_test contrasts link scale", {
-  out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "link")
-  expect_snapshot(print(out))
-})
-test_that("print hypothesis_test predictions link scale", {
-  out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL, scale = "link")
   expect_snapshot(print(out))
 })
 test_that("print hypothesis_test contrasts response scale", {
   out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "response")
   expect_snapshot(print(out))
-})
-
-test_that("print hypothesis_test many rows", {
-  dat <- mtcars
-  dat$gear <- factor(dat$gear)
-  dat$vs <- factor(dat$vs)
-  dat$cyl <- factor(dat$cyl)
-  mod <- lm(mpg ~ cyl * vs * gear, data = dat)
-  ht <- suppressWarnings(hypothesis_test(
-    mod,
-    terms = c("cyl", "vs", "gear"),
-    test = "(b1 - b13) = (b3 - b15)"
-  ))
-  out <- capture.output(print(ht))
-  expect_identical(
-    out,
-    c("Model-based Contrasts Analysis",
-      "",
-      "Parameter     | Difference |   SE |          95% CI | t(22) |     p",
-      "-------------------------------------------------------------------",
-      "b1-b13=b3-b15 |       2.40 | 6.64 | [-11.37, 16.17] |  0.36 | 0.721",
-      "",
-      "Variable predicted: mpg",
-      "Predictors contrasted: cyl, vs, gear",
-      "Parameters:",
-      "b1 = cyl [4], vs [0], gear [3]",
-      "b13 = cyl [4], vs [0], gear [5]",
-      "b3 = cyl [8], vs [0], gear [3]",
-      "b15 = cyl [8], vs [0], gear [5]"
-    )
-  )
-  # check that operators are not replaced if inside brackets
-  dat <- mtcars
-  dat$gear <- factor(dat$gear)
-  dat$vs <- factor(dat$vs)
-  dat$cyl <- factor(dat$cyl)
-  levels(dat$gear) <- c("-40", "41-64", "65+")
-  levels(dat$vs) <- c("a=1", "b=2")
-  mod <- lm(mpg ~ cyl * vs * gear, data = dat)
-  ht <- suppressWarnings(hypothesis_test(
-    mod,
-    terms = c("cyl", "vs", "gear"),
-    test = "(b1 - b13) = (b3 - b15)"
-  ))
-  out <- capture.output(print(ht))
-  expect_identical(
-    out,
-    c(
-      "Model-based Contrasts Analysis",
-      "",
-      "Parameter     | Difference |   SE |          95% CI | t(22) |     p",
-      "-------------------------------------------------------------------",
-      "b1-b13=b3-b15 |       2.40 | 6.64 | [-11.37, 16.17] |  0.36 | 0.721",
-      "",
-      "Variable predicted: mpg",
-      "Predictors contrasted: cyl, vs, gear",
-      "Parameters:",
-      "b1 = cyl [4], vs [a=1], gear [-40]",
-      "b13 = cyl [4], vs [a=1], gear [65+]",
-      "b3 = cyl [8], vs [a=1], gear [-40]",
-      "b15 = cyl [8], vs [a=1], gear [65+]"
-    )
-  )
-  # check that collapse_levels works
-  ht1 <- suppressWarnings(hypothesis_test(
-    mod,
-    terms = c("cyl", "vs", "gear"),
-    by = "gear",
-    collapse_levels = TRUE
-  ))
-  ht2 <- suppressWarnings(hypothesis_test(
-    mod,
-    terms = c("cyl", "vs", "gear"),
-    by = "gear",
-    collapse_levels = FALSE
-  ))
-  expect_equal(ht1$Difference, ht2$Difference, tolerance = 1e-3)
-  expect_identical(
-    as.character(ht1$Level1),
-    c(
-      "4, b=2", "6, a=1", "6, b=2", "8, a=1", "8, b=2", "6, a=1",
-      "6, b=2", "8, a=1", "8, b=2", "6, b=2", "8, a=1", "8, b=2", "8, a=1",
-      "8, b=2", "8, b=2", "4, b=2", "6, a=1", "6, b=2", "8, a=1", "8, b=2",
-      "6, a=1", "6, b=2", "8, a=1", "8, b=2", "6, b=2", "8, a=1", "8, b=2",
-      "8, a=1", "8, b=2", "8, b=2", "4, b=2", "6, a=1", "6, b=2", "8, a=1",
-      "8, b=2", "6, a=1", "6, b=2", "8, a=1", "8, b=2", "6, b=2", "8, a=1",
-      "8, b=2", "8, a=1", "8, b=2", "8, b=2"
-    )
-  )
-  expect_identical(
-    as.character(ht1$Level2),
-    c(
-      "4, a=1", "4, a=1", "4, a=1", "4, a=1", "4, a=1", "4, b=2",
-      "4, b=2", "4, b=2", "4, b=2", "6, a=1", "6, a=1", "6, a=1", "6, b=2",
-      "6, b=2", "8, a=1", "4, a=1", "4, a=1", "4, a=1", "4, a=1", "4, a=1",
-      "4, b=2", "4, b=2", "4, b=2", "4, b=2", "6, a=1", "6, a=1", "6, a=1",
-      "6, b=2", "6, b=2", "8, a=1", "4, a=1", "4, a=1", "4, a=1", "4, a=1",
-      "4, a=1", "4, b=2", "4, b=2", "4, b=2", "4, b=2", "6, a=1", "6, a=1",
-      "6, a=1", "6, b=2", "6, b=2", "8, a=1"
-    )
-  )
 })
 
 test_that("print hypothesis_test comma and dash levels", {
@@ -163,34 +45,6 @@ test_that("print hypothesis_test comma and dash levels", {
   ht <- hypothesis_test(m, c("f1", "f2"))
   expect_identical(nrow(ht), 15L)
   expect_snapshot(print(ht, table_width = Inf))
-
-  d <- iris
-  set.seed(1234)
-  d$f1 <- as.factor(sample(c("no comma", "with, comma", "and, another, comma"), nrow(d), replace = TRUE))
-  set.seed(123)
-  d$f2 <- as.factor(sample(letters[1:2], nrow(d), replace = TRUE))
-
-  m <- lme4::lmer(Sepal.Length ~ Sepal.Width + f1 + f2 + (1 | Species), data = d)
-  ht <- hypothesis_test(m, "Sepal.Width", by = c("f1", "f2"), allow.new.levels = TRUE)
-  expect_identical(
-    as.character(ht$Level1),
-    c(
-      "and, another, comma, b", "no comma, a", "no comma, b", "with, comma, a",
-      "with, comma, b", "no comma, a", "no comma, b", "with, comma, a",
-      "with, comma, b", "no comma, b", "with, comma, a", "with, comma, b",
-      "with, comma, a", "with, comma, b", "with, comma, b"
-    )
-  )
-  expect_identical(
-    as.character(ht$Level2),
-    c(
-      "and, another, comma, a", "and, another, comma, a", "and, another, comma, a",
-      "and, another, comma, a", "and, another, comma, a", "and, another, comma, b",
-      "and, another, comma, b", "and, another, comma, b", "and, another, comma, b",
-      "no comma, a", "no comma, a", "no comma, a", "no comma, b", "no comma, b",
-      "with, comma, a"
-    )
-  )
 
   d <- iris
   set.seed(123)

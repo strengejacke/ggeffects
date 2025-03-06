@@ -37,13 +37,13 @@ pool_comparisons <- function(x, ...) {
 
   # we need to check if all objects are comparible. We check whether columns
   # and values of focal terms are identical across all objects.
-  estimate_name <- attributes(x[[1]])$coef_name
+  estimate_name <- attributes(x[[1]])$estimate_name
 
     # preparation ----
 
   len <- length(x)
-  ci <- attributes(x[[1]])$ci
-  dof <- insight::get_df(attributes(x[[1]])$model, type = "wald", verbose = FALSE)
+  ci <- attributes(x[[1]])$ci_level
+  dof <- attributes(x[[1]])$df
 
   if (is.null(dof)) {
     dof <- Inf
@@ -52,7 +52,7 @@ pool_comparisons <- function(x, ...) {
   # pool predictions -----
 
   pooled_comparisons <- original_x[[1]]
-  pooled_comparisons$SE <- NA
+  pooled_comparisons$standard.error <- NA
   n_rows <- nrow(original_x[[1]])
 
   for (i in 1:n_rows) {
@@ -63,29 +63,29 @@ pool_comparisons <- function(x, ...) {
     pooled_comparisons[[estimate_name]][i] <- mean(pooled_comp, na.rm = TRUE)
 
     # pooled standard error
-    pooled_se <- unlist(lapply(original_x, function(j) j$SE[i]), use.names = FALSE)
+    pooled_se <- unlist(lapply(original_x, function(j) attributes(j)$standard_error[i]), use.names = FALSE)
     ubar <- mean(pooled_se^2, na.rm = TRUE)
     tmp <- ubar + (1 + 1 / len) * stats::var(pooled_comp)
-    pooled_comparisons$SE[i] <- sqrt(tmp)
+    pooled_comparisons$standard.error[i] <- sqrt(tmp)
   }
 
   # pooled degrees of freedom for t-statistics
   pooled_df <- .barnad_rubin(
     m = nrow(pooled_comparisons),
     b = stats::var(pooled_comparisons[[estimate_name]]),
-    t = pooled_comparisons$SE^2,
+    t = pooled_comparisons$standard.error^2,
     dfcom = dof
   )
 
   # confidence intervals ----
   alpha <- (1 + ci) / 2
   fac <- stats::qt(alpha, df = dof)
-  pooled_comparisons$CI_low <- pooled_comparisons[[estimate_name]] - fac * pooled_comparisons$SE
-  pooled_comparisons$CI_high <- pooled_comparisons[[estimate_name]] + fac * pooled_comparisons$SE
+  pooled_comparisons$conf.low <- pooled_comparisons[[estimate_name]] - fac * pooled_comparisons$standard.error
+  pooled_comparisons$conf.high <- pooled_comparisons[[estimate_name]] + fac * pooled_comparisons$standard.error
 
   attributes(pooled_comparisons) <- utils::modifyList(attributes(original_x[[1]]), attributes(pooled_comparisons))
-  attr(pooled_comparisons, "standard_error") <- pooled_comparisons$SE
-  pooled_comparisons$SE <- NULL
+  attr(pooled_comparisons, "standard_error") <- pooled_comparisons$standard.error
+  pooled_comparisons$standard.error <- NULL
 
   pooled_comparisons
 }

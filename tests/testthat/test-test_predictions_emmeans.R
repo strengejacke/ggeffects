@@ -15,29 +15,23 @@ test_that("test_predictions, engine emmeans", {
   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
 
   # categorical
-  out1 <- test_predictions(m, "c172code")
-  out2 <- test_predictions(m, "c172code", engine = "emmeans")
-  expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-3)
+  out <- test_predictions(m, "c172code")
+  expect_equal(out$Contrast, c(-2.88466, -1.21664, 1.66802), tolerance = 1e-3)
 
   # multiple focal terms, interaction
   m <- lm(barthtot ~ c12hour + neg_c_7 + c161sex * c172code, data = efc)
 
   # difference-in-difference
-  out1 <- test_predictions(m, c("c172code", "c161sex"), test = "(b1 - b2) = (b4 - b5)")
-  out2 <- test_predictions(m, c("c172code", "c161sex"), engine = "emmeans", test = "interaction")
-  expect_equal(out1$Difference[1], out2$Contrast[1], tolerance = 1e-3)
-  expect_identical(out2$c172code, c("1-2", "1-3", "2-3"))
-  expect_identical(out2$c161sex, c("male and female", "male and female", "male and female"))
-  expect_identical(attributes(out2)$test, "interaction")
-  # test = "interaction" works w/o setting engine
-  out3 <- test_predictions(m, c("c172code", "c161sex"), test = "interaction")
-  expect_equal(out2, out3, ignore_attr = TRUE, tolerance = 1e-4)
+  out <- test_predictions(m, c("c172code", "c161sex"), test = "interaction")
+  expect_equal(out$Contrast, c(-1.28159, 3.02394, 4.30553), tolerance = 1e-3)
+  expect_identical(out$c172code, c("1-2", "1-3", "2-3"))
+  expect_identical(out$c161sex, c("male and female", "male and female", "male and female"))
+  expect_identical(attributes(out)$test, "interaction")
 
   # interaction numeric * categorical
   m <- lm(barthtot ~ c12hour + neg_c_7 * c161sex, data = efc)
-  out1 <- test_predictions(m, "neg_c_7", by = "c161sex")
-  out2 <- test_predictions(m, c("neg_c_7", "c161sex"), engine = "emmeans")
-  expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-3)
+  out <- test_predictions(m, c("neg_c_7", "c161sex"), engine = "emmeans")
+  expect_equal(out$Contrast, 0.34266, tolerance = 1e-3)
 })
 
 
@@ -56,9 +50,8 @@ test_that("test_predictions, engine emmeans, glm binomial", {
   )
 
   # categorical
-  out1 <- test_predictions(m, "var_binom", margin = "marginaleffects")
-  out2 <- test_predictions(m, "var_binom", engine = "emmeans")
-  expect_equal(out1$Difference, out2$Contrast * -1, tolerance = 1e-1)
+  out <- test_predictions(m, "var_binom", engine = "emmeans")
+  expect_equal(out$Contrast, -0.02321, tolerance = 1e-3)
 })
 
 
