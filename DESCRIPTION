@@ -64,7 +64,7 @@ Suggests:
     logistf,
     logitr,
     marginaleffects (>= 0.25.0),
-    modelbased (>= 0.9.0),
+    modelbased (>= 0.10.0),
     MASS,
     Matrix,
     mice,

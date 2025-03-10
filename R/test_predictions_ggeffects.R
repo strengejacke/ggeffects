@@ -1,18 +1,12 @@
 .test_predictions_ggeffects <- function(object,
                                         by = NULL,
                                         test = "pairwise",
-                                        scale = "response",
                                         p_adjust = NULL,
                                         df = NULL,
                                         ci_level = 0.95,
                                         collapse_levels = FALSE,
                                         verbose = TRUE,
                                         ...) {
-  # sanity check for certain arguments that are not (yet) supported
-  if (!is.null(scale) && scale != "response") {
-    insight::format_error("Only `scale = \"response\"` is supported for `engine = \"ggeffects\"`.")
-  }
-
   # check test-argument
   if (is.null(test) || test %in% c("trend", "slope")) {
     test <- "contrast"

@@ -1,3 +1,7 @@
+# ggeffects 2.3.0
+
+
+
 # ggeffects 2.2.0
 
 ## Major changes
