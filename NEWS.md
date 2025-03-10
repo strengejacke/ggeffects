@@ -1,6 +1,14 @@
 # ggeffects 2.3.0
 
-
+* `engine = "marginaleffects"` was removed from `test_predictions()`. Full
+  support for the {marginaleffects} package is now available in the {modelbased}
+  package from the easystats-projects. Consequently, the `johnson_neyman()`
+  function was also removed. This decision was mainly to reduce maintainance
+  burden. For marginal means, contrasts and comparisons, as well as marginal
+  effects (slopes), the ggeffects package will be superseded by the modelbased
+  package. For predictions, simulated responses, or emmeans-support, support
+  in ggeffects will be continued in the future, however, almost all functionality
+  is or will be available in the modelbased package, too.
 
 # ggeffects 2.2.0
 
