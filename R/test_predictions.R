@@ -278,17 +278,6 @@ test_predictions.default <- function(object,
     ci_level <- 0.95
   }
 
-  # dot-arguments -------------------------------------------------------------
-  # evaluate dots - remove conflicting additional arguments. We have our own
-  # "scale" argument that modulates the "type" and "transform" arguments
-  # in "marginaleffects"
-  # ---------------------------------------------------------------------------
-  dot_args <- .tp_validate_dot_args(
-    dot_args = list(...),
-    object = object,
-    verbose = verbose
-  )
-
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
   # ---------------------------------------------------------------------------
@@ -509,29 +498,4 @@ test_predictions.ggeffects <- function(object,
   }
 
   object
-}
-
-
-.tp_validate_dot_args <- function(dot_args, object, verbose) {
-  # default scale is response scale without any transformation
-  dot_args$transform <- NULL
-  dot_args$type <- "response"
-
-  # make sure we have a valid type-argument...
-  dot_args$type <- .sanitize_type_argument(object, dot_args$type, verbose = verbose)
-
-  # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
-  # from ggpredict, like "vcov" etc. - then remove vcov-arguments
-  if (!is.null(dot_args$vcov)) {
-    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov, dot_args$vcov_args)
-    # remove non supported args
-    dot_args$vcov_args <- NULL
-  }
-
-  # new policy for glmmTMB models
-  if (inherits(object, "glmmTMB") && is.null(dot_args$vcov)) {
-    dot_args$vcov <- TRUE
-  }
-
-  dot_args
 }
