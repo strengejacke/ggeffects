@@ -276,7 +276,7 @@ test_predictions.default <- function(object,
                                      margin = "mean_reference",
                                      condition = NULL,
                                      collapse_levels = FALSE,
-                                     engine = "emmeans",
+                                     engine = "marginaleffects",
                                      verbose = TRUE,
                                      ...) {
   # margin-argument -----------------------------------------------------------
@@ -316,21 +316,79 @@ test_predictions.default <- function(object,
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
   # ---------------------------------------------------------------------------
-  .test_predictions_emmeans(
+  if (engine == "emmeans") {
+    return(.test_predictions_emmeans(
+      object,
+      terms = terms,
+      by = by,
+      test = test,
+      test_args = test_args,
+      scale = scale,
+      p_adjust = p_adjust,
+      df = df,
+      ci_level = ci_level,
+      collapse_levels = collapse_levels,
+      margin = margin,
+      verbose = verbose,
+      ...
+    ))
+  }
+
+  marginalize <- switch(
+    margin,
+    mean_reference = ,
+    mean_mode = "specific",
+    marginalmeans = "average",
+    "population"
+  )
+
+  # check if we have representative values in brackets
+  representative_values <- .get_representative_values(
+    terms,
+    insight::get_data(object, source = "mf", verbose = FALSE)
+  )
+
+  # convert terms argument
+  if (!is.null(representative_values)) {
+    terms <- unlist(
+      lapply(names(representative_values), function(i) {
+        value <- representative_values[[i]]
+        # for non numeric, surround with quotes
+        if (anyNA(suppressWarnings(as.numeric(value)))) {
+          value <- paste0("'", value, "'")
+        }
+        paste0(i, "=c(", paste(value, collapse = ","), ")")
+      }),
+      use.names = FALSE
+    )
+  }
+
+  out <- modelbased::estimate_contrasts(
     object,
-    terms = terms,
+    contrast = terms,
     by = by,
-    test = test,
-    test_args = test_args,
-    scale = scale,
-    p_adjust = p_adjust,
-    df = df,
-    ci_level = ci_level,
-    collapse_levels = collapse_levels,
-    margin = margin,
-    verbose = verbose,
+    predict = dot_args$type,
+    ci = ci_level,
+    comparison = test,
+    estimate = marginalize,
     ...
   )
+
+  class(out) <- c(
+    intersect(
+      class(out),
+      c(
+        "estimate_contrasts",
+        "see_estimate_contrasts",
+        "estimate_slopes",
+        "see_estimate_slopes"
+      )
+    ),
+    "ggcomparisons",
+    "data.frame"
+  )
+
+  out
 }
 
 
@@ -343,7 +401,7 @@ test_predictions.ggeffects <- function(object,
                                        p_adjust = NULL,
                                        df = NULL,
                                        collapse_levels = FALSE,
-                                       engine = "emmeans",
+                                       engine = "marginaleffects",
                                        verbose = TRUE,
                                        ...) {
   # check for installed packages ----------------------------------------------
