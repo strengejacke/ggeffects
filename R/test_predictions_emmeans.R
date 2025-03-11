@@ -94,7 +94,7 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-      emm <- emmeans::emtrends(object, spec = focal, var = focal, regrid = "response")
+      emm <- emmeans::emtrends(object, spec = focal, var = focal, by = by, regrid = "response")
       .comparisons <- emmeans::test(emm)
       out <- as.data.frame(emm)
       # save p-values, these get lost after call to "confint()"
@@ -272,6 +272,7 @@
   attr(out, "datagrid") <- datagrid
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
+  attr(out, "coef_name") <- estimate_name
   attr(out, "verbose") <- verbose
   attr(out, "engine") <- "emmeans"
   attr(out, "scale") <- "response"
