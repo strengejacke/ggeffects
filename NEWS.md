@@ -1,3 +1,7 @@
+# ggeffects 2.2.1
+
+* Fixed CRAN check issues.
+
 # ggeffects 2.2.0
 
 ## Major changes
