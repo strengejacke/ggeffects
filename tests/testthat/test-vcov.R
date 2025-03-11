@@ -111,3 +111,41 @@ test_that("ggaverage, CI based on robust SE", {
   out <- ggaverage(fit, terms = "Species", vcov = "HC1")
   expect_equal(out$conf.low, c(4.90749, 5.79174, 6.41028), tolerance = 1e-4)
 })
+
+test_that("ggaverage, hypothesis test, robust SE", {
+  data(iris)
+  fit <- lm(Sepal.Length ~ Species, data = iris)
+  # no robust vcov
+  pr <- predict_response(fit, terms = "Species", margin = "average")
+  out1 <- hypothesis_test(pr)
+  out2 <- hypothesis_test(fit, "Species")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+  # passing via dots works
+  out3 <- hypothesis_test(pr, vcov = vcov(fit))
+  expect_equal(out1$conf.low, out3$conf.low, tolerance = 1e-4)
+  out_later <- hypothesis_test(pr, vcov = "HC1")
+  # robust vcov
+  pr <- predict_response(fit, terms = "Species", vcov = "HC1", margin = "average")
+  out1 <- hypothesis_test(pr)
+  out2 <- hypothesis_test(fit, "Species", vcov = "HC1")
+  expect_equal(out1$Contrast, out2$Contrast, tolerance = 1e-4)
+  expect_equal(out1$conf.low, out2$conf.low, tolerance = 1e-4)
+  expect_equal(out1$conf.low, out_later$conf.low, tolerance = 1e-4)
+
+  ## TODO: re-implement once this is stable in modelbased
+
+  # johnson-neymann
+  # data(efc, package = "ggeffects")
+  # efc$c172code <- as.factor(efc$c172code)
+  # fit <- lm(neg_c_7 ~ c12hour * barthtot * c172code, data = efc)
+  # pr <- predict_response(fit, c("c12hour", "barthtot"), margin = "average")
+  # out1 <- johnson_neyman(pr)
+  # expect_equal(attributes(out1)$intervals$pos_lower, 47, tolerance = 1e-3)
+  # # robust vcov
+  # pr <- predict_response(fit, c("c12hour", "barthtot"), vcov = "HC1", margin = "average")
+  # out2 <- johnson_neyman(pr)
+  # out3 <- johnson_neyman(pr, vcov = "HC1")
+  # expect_equal(attributes(out2)$intervals$pos_lower, 44.6, tolerance = 1e-3)
+  # expect_equal(attributes(out2)$intervals$pos_lower, attributes(out3)$intervals$pos_lower, tolerance = 1e-3)
+})
