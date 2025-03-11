@@ -1,3 +1,7 @@
+# ggeffects 2.2.1
+
+* Fix check issues.
+
 # ggeffects 2.2.0
 
 ## Major changes
