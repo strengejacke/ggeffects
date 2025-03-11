@@ -16,11 +16,11 @@ m <- glm(outcome ~ var_binom * var_cont + groups,
 )
 
 test_that("print hypothesis_test simple contrast response scale", {
-  out <- hypothesis_test(m, "var_binom", scale = "response")
+  out <- hypothesis_test(m, "var_binom")
   expect_snapshot(print(out))
 })
 test_that("print hypothesis_test contrasts response scale", {
-  out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "response")
+  out <- hypothesis_test(m, c("var_binom", "var_cont"))
   expect_snapshot(print(out))
 })
 
@@ -108,33 +108,3 @@ withr::with_environment(
     expect_snapshot(print(out, collapse_ci = TRUE))
   })
 )
-
-
-## TODO: these currently don't work, as they conflict with the depracted
-## "transform" argument in modelbased. Once that argument is removed,
-## this can be re-enabled.
-
-# test_that("print hypothesis_test simple contrast exp scale", {
-#   out <- hypothesis_test(m, "var_binom", scale = "exp")
-#   expect_snapshot(print(out))
-# })
-# test_that("print hypothesis_test simple contrast odds ratio scale", {
-#   out <- hypothesis_test(m, "var_binom", scale = "oddsratios")
-#   expect_snapshot(print(out))
-# })
-# test_that("print hypothesis_test simple predictions exp scale", {
-#   out <- hypothesis_test(m, "var_binom", test = NULL, scale = "exp")
-#   expect_snapshot(print(out))
-# })
-# test_that("print hypothesis_test simple predictions odds ratio scale", {
-#   out <- hypothesis_test(m, "var_binom", test = NULL, scale = "oddsratios")
-#   expect_snapshot(print(out))
-# })
-# test_that("print hypothesis_test contrasts exp scale", {
-#   out <- hypothesis_test(m, c("var_binom", "var_cont"), scale = "exp")
-#   expect_snapshot(print(out))
-# })
-# test_that("print hypothesis_test predictions exp scale", {
-#   out <- hypothesis_test(m, c("var_binom", "var_cont"), test = NULL, scale = "exp")
-#   expect_snapshot(print(out))
-# })
