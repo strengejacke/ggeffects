@@ -83,12 +83,6 @@ test_that("test_predictions, engine ggeffects, linear models", {
     c(3.46306, 3.26221, 3.89597),
     tolerance = 1e-3
   )
-
-  # errors
-  expect_error(
-    test_predictions(pr, engine = "ggeffects", scale = "link"),
-    regex = "Only `scale = \"response\"`"
-  )
 })
 
 

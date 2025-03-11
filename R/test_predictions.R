@@ -54,26 +54,6 @@
 #' non-focal terms. See [`predict_response()`] for details. If `object` is an
 #' object of class `ggeffects`, the same `margin` argument is used as for the
 #' predictions, i.e. `margin` can be ignored.
-#' @param scale Character string, indicating the scale on which the contrasts
-#' or comparisons are represented. Can be one of:
-#'
-#' - `"response"` (default), which would return contrasts on the response
-#'   scale (e.g. for logistic regression, as probabilities);
-#' - `"link"` to return contrasts on scale of the linear predictors
-#'   (e.g. for logistic regression, as log-odds);
-#' - `"probability"` (or `"probs"`) returns contrasts on the probability scale,
-#'   which is required for some model classes, like `MASS::polr()`;
-#' - `"oddsratios"` to return contrasts on the odds ratio scale (only applies
-#'   to logistic regression models);
-#' - `"irr"` to return contrasts on the odds ratio scale (only applies to
-#'   count models);
-#' - or a transformation function like `"exp"` or `"log"`, to return transformed
-#'   (exponentiated respectively logarithmic) contrasts; note that these
-#'   transformations are applied to the _response scale_.
-#'
-#' **Note:** If the `scale` argument is not supported by the provided `object`,
-#' it is automatically changed to a supported scale-type (a message is printed
-#' when `verbose = TRUE`).
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
 #' adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
 #' for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
@@ -269,7 +249,6 @@ test_predictions.default <- function(object,
                                      by = NULL,
                                      test = "pairwise",
                                      test_args = NULL,
-                                     scale = "response",
                                      p_adjust = NULL,
                                      df = NULL,
                                      ci_level = 0.95,
@@ -298,20 +277,6 @@ test_predictions.default <- function(object,
   if (is.na(ci_level)) {
     ci_level <- 0.95
   }
-  miss_scale <- missing(scale)
-
-  # dot-arguments -------------------------------------------------------------
-  # evaluate dots - remove conflicting additional arguments. We have our own
-  # "scale" argument that modulates the "type" and "transform" arguments
-  # in "marginaleffects"
-  # ---------------------------------------------------------------------------
-  dot_args <- .tp_validate_dot_args(
-    dot_args = list(...),
-    scale = scale,
-    object = object,
-    miss_scale = miss_scale,
-    verbose = verbose
-  )
 
   # engine --------------------------------------------------------------------
   # here we switch to emmeans, if "engine" is set to "emmeans"
@@ -322,7 +287,6 @@ test_predictions.default <- function(object,
     by = by,
     test = test,
     test_args = test_args,
-    scale = scale,
     p_adjust = p_adjust,
     df = df,
     ci_level = ci_level,
@@ -339,7 +303,6 @@ test_predictions.default <- function(object,
 test_predictions.ggeffects <- function(object,
                                        by = NULL,
                                        test = "pairwise",
-                                       scale = "response",
                                        p_adjust = NULL,
                                        df = NULL,
                                        collapse_levels = FALSE,
@@ -405,7 +368,6 @@ test_predictions.ggeffects <- function(object,
       object,
       by = by,
       test = test,
-      scale = scale,
       p_adjust = p_adjust,
       df = attributes(object)$df,
       ci_level = ci_level,
@@ -420,12 +382,6 @@ test_predictions.ggeffects <- function(object,
   # information about margin
   margin <- attributes(object)$margin
 
-  # check prediction type for zero-inflated models - we can change scale here,
-  # if it's still the default
-  if (is_zero_inflated && scale == "response") {
-    scale <- .get_zi_prediction_type(model, type)
-  }
-
   dot_args <- list(...)
   # set default for marginaleffects, we pass this via dots
   if (!is.null(vcov_matrix) && is.null(dot_args$vcov)) {
@@ -437,7 +393,6 @@ test_predictions.ggeffects <- function(object,
     terms = focal,
     by = by,
     test = test,
-    scale = scale,
     p_adjust = p_adjust,
     df = df,
     ci_level = ci_level,
@@ -543,44 +498,4 @@ test_predictions.ggeffects <- function(object,
   }
 
   object
-}
-
-
-.tp_validate_dot_args <- function(dot_args, scale, object, miss_scale, verbose) {
-  # default scale is response scale without any transformation
-  dot_args$transform <- NULL
-  dot_args$type <- "response"
-  if (scale == "link") {
-    dot_args$type <- "link"
-  } else if (scale %in% c("probability", "probs")) {
-    dot_args$type <- "probs"
-  } else if (scale == "exp") {
-    dot_args$transform <- "exp"
-  } else if (scale == "log") {
-    dot_args$transform <- "ln"
-  } else if (scale %in% c("irr", "oddsratios")) {
-    dot_args$type <- "link"
-    dot_args$transform <- "exp"
-  } else {
-    # unknown type - might be supported by marginal effects
-    dot_args$type <- scale
-  }
-
-  # make sure we have a valid type-argument...
-  dot_args$type <- .sanitize_type_argument(object, dot_args$type, verbose = ifelse(miss_scale, FALSE, verbose))
-
-  # make sure we have a valid vcov-argument when user supplies "standard" vcov-arguments
-  # from ggpredict, like "vcov" etc. - then remove vcov-arguments
-  if (!is.null(dot_args$vcov)) {
-    dot_args$vcov <- .get_variance_covariance_matrix(object, dot_args$vcov, dot_args$vcov_args)
-    # remove non supported args
-    dot_args$vcov_args <- NULL
-  }
-
-  # new policy for glmmTMB models
-  if (inherits(object, "glmmTMB") && is.null(dot_args$vcov)) {
-    dot_args$vcov <- TRUE
-  }
-
-  dot_args
 }

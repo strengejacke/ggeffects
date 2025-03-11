@@ -1,34 +1,3 @@
-.sanitize_type_argument <- function(model, type = NULL, verbose = TRUE) {
-  # do nothing here...
-  if (is.null(type) || is.null(model)) {
-    return(NULL)
-  }
-
-  # do nothing for unrecognized model classes
-  model_class <- class(model)[1]
-  if (!model_class %in% .typedic$class) {
-    return(type)
-  }
-
-  # if "type" is no valid type, return most common valid type
-  valid_types <- .typedic$type[.typedic$class == model_class]
-  if (!type %in% valid_types) {
-    if (verbose) {
-      insight::format_alert(
-        paste0(
-          "\"", type, "\" is no valid option for the `scale` argument.",
-          " Changing to the supported \"", valid_types[1], "\"-type now."
-        )
-      )
-    }
-    return(valid_types[1])
-  }
-
-  # we have a valid type here
-  return(type)
-}
-
-
 # all valid "type" arguments for each model class.
 # Run "marginaleffects:::type_dictionary_build()" to update this list
 .typedic <- data.frame(

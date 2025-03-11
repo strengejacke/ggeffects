@@ -17,7 +17,6 @@ hypothesis_test(object, ...)
   by = NULL,
   test = "pairwise",
   test_args = NULL,
-  scale = "response",
   p_adjust = NULL,
   df = NULL,
   ci_level = 0.95,
@@ -33,7 +32,6 @@ hypothesis_test(object, ...)
   object,
   by = NULL,
   test = "pairwise",
-  scale = "response",
   p_adjust = NULL,
   df = NULL,
   collapse_levels = FALSE,
@@ -96,28 +94,6 @@ as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed
 \code{emmeans::contrast(interaction = test_args)}. For other \emph{emmeans} options
 (like \code{"contrast"}, \code{"exclude"}, \code{"consecutive"} and so on), \code{test_args} will
 be passed to the \code{option} argument in \code{emmeans::contrast()}.}
-
-\item{scale}{Character string, indicating the scale on which the contrasts
-or comparisons are represented. Can be one of:
-\itemize{
-\item \code{"response"} (default), which would return contrasts on the response
-scale (e.g. for logistic regression, as probabilities);
-\item \code{"link"} to return contrasts on scale of the linear predictors
-(e.g. for logistic regression, as log-odds);
-\item \code{"probability"} (or \code{"probs"}) returns contrasts on the probability scale,
-which is required for some model classes, like \code{MASS::polr()};
-\item \code{"oddsratios"} to return contrasts on the odds ratio scale (only applies
-to logistic regression models);
-\item \code{"irr"} to return contrasts on the odds ratio scale (only applies to
-count models);
-\item or a transformation function like \code{"exp"} or \code{"log"}, to return transformed
-(exponentiated respectively logarithmic) contrasts; note that these
-transformations are applied to the \emph{response scale}.
-}
-
-\strong{Note:} If the \code{scale} argument is not supported by the provided \code{object},
-it is automatically changed to a supported scale-type (a message is printed
-when \code{verbose = TRUE}).}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
 adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}}

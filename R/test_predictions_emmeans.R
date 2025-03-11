@@ -3,7 +3,6 @@
                                       by = NULL,
                                       test = "pairwise",
                                       test_args = NULL,
-                                      scale = "response",
                                       p_adjust = NULL,
                                       df = NULL,
                                       ci_level = 0.95,
@@ -16,13 +15,6 @@
   # model information
   minfo <- insight::model_info(object, verbose = FALSE)
   model_data <- insight::get_data(object, verbose = FALSE)
-
-  ## TODO: add further scale options later?
-
-  # for now, only response scale
-  if (!identical(scale, "response")) {
-    insight::format_error("Only `scale = \"response\"` is currently supported.")
-  }
 
   custom_contrasts <- NULL
 
@@ -102,7 +94,7 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-      emm <- emmeans::emtrends(object, spec = focal, var = focal, regrid = "response")
+      emm <- emmeans::emtrends(object, spec = focal, var = focal, by = by, regrid = "response")
       .comparisons <- emmeans::test(emm)
       out <- as.data.frame(emm)
       # save p-values, these get lost after call to "confint()"
@@ -280,10 +272,11 @@
   attr(out, "datagrid") <- datagrid
   attr(out, "linear_model") <- minfo$is_linear
   attr(out, "estimate_name") <- estimate_name
+  attr(out, "coef_name") <- estimate_name
   attr(out, "verbose") <- verbose
   attr(out, "engine") <- "emmeans"
-  attr(out, "scale") <- scale
-  attr(out, "scale_label") <- .scale_label(minfo, scale)
+  attr(out, "scale") <- "response"
+  attr(out, "scale_label") <- .scale_label(minfo, "response")
   attr(out, "standard_error") <- out$std.error
   attr(out, "link_inverse") <- .link_inverse(object, ...)
   attr(out, "link_function") <- insight::link_function(object)
