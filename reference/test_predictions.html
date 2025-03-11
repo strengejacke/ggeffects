@@ -11,7 +11,7 @@ comparisons, or "marginal effects". hypothesis_test() is an alias.'><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.2.0.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.2.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +82,6 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
 <span>  test_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  scale <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
@@ -99,7 +98,6 @@ comparisons, or "marginal effects". <code>hypothesis_test()</code> is an alias.<
 <span>  <span class="va">object</span>,</span>
 <span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  test <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
-<span>  scale <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  p_adjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  collapse_levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -173,26 +171,6 @@ as backend, e.g. if <code>test = "interaction"</code>, <code>test_args</code> wi
 <code>emmeans::contrast(interaction = test_args)</code>. For other <em>emmeans</em> options
 (like <code>"contrast"</code>, <code>"exclude"</code>, <code>"consecutive"</code> and so on), <code>test_args</code> will
 be passed to the <code>option</code> argument in <code><a href="https://rvlenth.github.io/emmeans/reference/contrast.html" class="external-link">emmeans::contrast()</a></code>.</p></dd>
-
-
-<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
-<dd><p>Character string, indicating the scale on which the contrasts
-or comparisons are represented. Can be one of:</p><ul><li><p><code>"response"</code> (default), which would return contrasts on the response
-scale (e.g. for logistic regression, as probabilities);</p></li>
-<li><p><code>"link"</code> to return contrasts on scale of the linear predictors
-(e.g. for logistic regression, as log-odds);</p></li>
-<li><p><code>"probability"</code> (or <code>"probs"</code>) returns contrasts on the probability scale,
-which is required for some model classes, like <code><a href="https://rdrr.io/pkg/MASS/man/polr.html" class="external-link">MASS::polr()</a></code>;</p></li>
-<li><p><code>"oddsratios"</code> to return contrasts on the odds ratio scale (only applies
-to logistic regression models);</p></li>
-<li><p><code>"irr"</code> to return contrasts on the odds ratio scale (only applies to
-count models);</p></li>
-<li><p>or a transformation function like <code>"exp"</code> or <code>"log"</code>, to return transformed
-(exponentiated respectively logarithmic) contrasts; note that these
-transformations are applied to the <em>response scale</em>.</p></li>
-</ul><p><strong>Note:</strong> If the <code>scale</code> argument is not supported by the provided <code>object</code>,
-it is automatically changed to a supported scale-type (a message is printed
-when <code>verbose = TRUE</code>).</p></dd>
 
 
 <dt id="arg-p-adjust">p_adjust<a class="anchor" aria-label="anchor" href="#arg-p-adjust"></a></dt>
