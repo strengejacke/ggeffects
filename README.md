@@ -10,6 +10,41 @@ Lüdecke D (2018). *ggeffects: Tidy Data Frames of Marginal Effects from
 Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 [10.21105/joss.00772](https://doi.org/10.21105/joss.00772)
 
+## Maintenance mode
+
+*Package ggeffects is in maintenance mode and will be superseded by the
+[**modelbased-package**](https://easystats.github.io/modelbased/) from
+the [easystats-project](https://easystats.github.io/easystats/).*
+
+The main reason is to reduce double maintenance burden for me. We have
+largely revised the **modelbased** package, adding many new features,
+revising the plotting capabilities, and last not least we added full
+support for the **marginaleffects** package as (defaul) backend for
+estimating marginal means, effects and contrasts.
+
+***ggeffects**, which has a pretty stable `predict_response()` function
+to calculate adjusted predictions for many, many models, and which has
+very matured plotting capabilities, lately got a `test_prediction()`
+function to calculate contrasts and pairwise comparisons, too, also
+built on top of **marginaleffects**. Effectively, there are now two
+packages I’m involved with very similar tasks and functionality.
+However, **marginaleffects** is undergoing substantial changes right
+now, meaning I had to re-write a lot of code in `test_predictions()` to
+make it work again (`test_predictions()` is still available, relying on
+the **emmeans** package, and hence no longer that feature-rich as it was
+before). Therefore, I decided to remove all functionality that relied on
+**marginaleffects**, and focussing on **modelbased** instead.*
+
+***modelbased** is easier to maintain, because it was written lateley,
+with more package development experience on our side. Furthermore, it
+has a clear and intuitive user interface and is pretty stable and
+finished right now. It also offers some features that **ggeffects** has
+not included, like estimating marginal effects (and not only adjusted
+predictions or marginal means). Thus, future development of new features
+will happen in **modelbased**. **ggeffects** will still be maintained,
+i.e. bugs will be fixed if possible, and maybe smaller new features will
+be added.*
+
 ## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
 After fitting a model, it is useful generate model-based estimates
