@@ -12,15 +12,15 @@ Regression Models.* Journal of Open Source Software, 3(26), 772. doi:
 
 ## Maintenance mode
 
-*Package ggeffects is in maintenance mode and will be superseded by the
-[**modelbased-package**](https://easystats.github.io/modelbased/) from
-the [easystats-project](https://easystats.github.io/easystats/).*
+*Package **ggeffects** is in maintenance mode and will be superseded by
+the [**modelbased-package**](https://easystats.github.io/modelbased/)
+from the [easystats-project](https://easystats.github.io/easystats/).*
 
-The main reason is to reduce double maintenance burden for me. We have
+*The main reason is to reduce double maintenance burden for me. We have
 largely revised the **modelbased** package, adding many new features,
 revising the plotting capabilities, and last not least we added full
 support for the **marginaleffects** package as (defaul) backend for
-estimating marginal means, effects and contrasts.
+estimating marginal means, effects and contrasts.*
 
 ***ggeffects**, which has a pretty stable `predict_response()` function
 to calculate adjusted predictions for many, many models, and which has
@@ -33,7 +33,8 @@ now, meaning I had to re-write a lot of code in `test_predictions()` to
 make it work again (`test_predictions()` is still available, relying on
 the **emmeans** package, and hence no longer that feature-rich as it was
 before). Therefore, I decided to remove all functionality that relied on
-**marginaleffects**, and focussing on **modelbased** instead.*
+**marginaleffects**, and focussing on **modelbased** instead, to reduce
+maintenance burden for me.*
 
 ***modelbased** is easier to maintain, because it was written lateley,
 with more package development experience on our side. Furthermore, it
@@ -44,6 +45,15 @@ predictions or marginal means). Thus, future development of new features
 will happen in **modelbased**. **ggeffects** will still be maintained,
 i.e. bugs will be fixed if possible, and maybe smaller new features will
 be added.*
+
+*Your code using functions like `predict_response()`, `ggpredict()` or
+`plot()` will still work, will still work in the future and there will
+be no limitations regarding functionality for those functions! If you
+only used these functions, there is no reason to worry or to change
+anything! However, to leverage the full power of predictions, including
+contrasts and pairwise comparisons or calculating marginal effects, the
+recommendation is to switch to
+[**modelbased-package**](https://easystats.github.io/modelbased/)!*
 
 ## Why do we need (marginal/conditional) effects or (adjusted) predicted values?
 
