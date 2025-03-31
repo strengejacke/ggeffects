@@ -1,0 +1,130 @@
+<<echo=FALSE, results="hide", message=FALSE, warning=FALSE>>=
+# Chargement des packages nécessaires
+library(ggeffects)
+library(survey)
+library(testthat)
+@
+
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings} % Pour un meilleur formatage du code
+\usepackage{geometry} % Ajuster les marges
+\geometry{margin=1in} % Réduction des marges globales
+
+\title{Gestion des valeurs manquantes dans \texttt{predict\_response} avec \texttt{svyglm}}
+\author{KOUASSI KONAN LEGER \& HUANG Ting}
+\date{\today}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\section{Introduction}
+Lors du calcul des prédictions avec un modèle \texttt{svyglm}, un problème survient lorsque l'argument \texttt{newdata} contient des valeurs manquantes. Si \texttt{newdata} inclut des valeurs manquantes dans les variables explicatives, les pondérations associées (\texttt{weights}) sont mal appliquées, entraînant des résultats incorrects.
+
+Dans les versions antérieures du package \texttt{marginaleffects} (ex. \texttt{0.15.1}), ce comportement entraînait une erreur explicite, empêchant ainsi les utilisateurs d'obtenir des résultats biaisés. Cependant, dans les versions récentes, aucune erreur n'était levée, ce qui pouvait entraîner des interprétations incorrectes.
+
+\section{Modifications}
+Nous avons modifié la fonction \texttt{predict\_response\_c} pour :
+\begin{itemize}
+    \item Supprimer les observations avec des valeurs manquantes (par défaut \texttt{na.action = "omit"}).
+    \item Proposer une imputation par la moyenne (\texttt{na.action = "mean\_impute"}).
+    \item Générer une erreur si \texttt{na.action = "fail"}.
+\end{itemize}
+
+\section{Code mis à jour}
+Voici la version révisée de la fonction :
+
+\lstset{breaklines=true, basicstyle=\ttfamily\footnotesize, frame=single} % Activation du retour à la ligne, réduction de la taille du texte et ajout d'un cadre
+\begin{lstlisting}[language=R]
+predict_response_c <- function(model, terms, margin = "mean_reference",
+                              ci_level = 0.95, type = "fixed", condition = NULL,
+                              interval = "confidence", back_transform = TRUE,
+                              vcov = NULL, vcov_args = NULL, weights = NULL,
+                              bias_correction = FALSE, verbose = TRUE, na.rm = FALSE,
+                              na.action = "omit", ...) {
+  margin <- getOption("ggeffects_margin", margin)
+  margin <- insight::validate_argument(argument = margin,
+                                       options = c("mean_reference", "mean_mode",
+                                                   "marginalmeans", "empirical",
+                                                   "counterfactual", "full_data",
+                                                   "average", "marginaleffects"))
+  model_name <- insight::safe_deparse(substitute(model))
+  type <- insight::validate_argument(type, c("fixed", "random", "response", "link"))
+  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
+
+  dots <- list(...)
+  newdata <- dots$newdata
+  if (!is.null(newdata)) {
+    predictor_names <- insight::find_predictors(model)$conditional
+    required_vars <- c(predictor_names, weights)
+    newdata <- newdata[, required_vars, drop = FALSE]
+    missing_mask <- !complete.cases(newdata)
+
+    if (any(missing_mask)) {
+      if (na.action == "omit") {
+        message(sprintf("⚠️ Attention : %d lignes dans `newdata` valeurs                manquantes supprimées.",sum(missing_mask)))
+        newdata <- newdata[!missing_mask, , drop = FALSE]
+      } else if (na.action == "fail") {
+        stop("Erreur : `newdata` contient des valeurs manquantes. Veuillez les traiter avant de continuer.")
+      } else if (na.action == "mean_impute") {
+        for (var in required_vars) {
+          if (is.numeric(newdata[[var]])) {
+            newdata[[var]][is.na(newdata[[var]])] <- mean(newdata[[var]], na.rm = TRUE)
+          }
+        }
+        message("⚠️ Attention : Imputation par la moyenne appliquée aux valeurs manquantes.")
+      }
+    }
+  }
+  dots$newdata <- newdata
+  out <- ggpredict(model, terms = terms, ci_level = ci_level, type = type,
+                   condition = condition, back_transform = back_transform,
+                   vcov = vcov, vcov_args = vcov_args, interval = interval,
+                   bias_correction = bias_correction, verbose = verbose, ...)
+
+  attr(out, "model.name") <- model_name
+  out
+}
+\end{lstlisting}
+
+\section{Validation et Tests}
+Des tests unitaires ont été ajoutés pour valider ces modifications :
+
+\begin{lstlisting}[language=R]
+if (!requireNamespace("testthat", quietly = TRUE)) {
+  install.packages("testthat")
+}
+library(testthat)
+
+# Vérification de la gestion des valeurs manquantes
+test_that("Gestion des valeurs manquantes", {
+  model <- svyglm(api00 ~ ell + acs.core + awards, design = dstrat)
+
+  expect_message(
+    predict_response_c(model, "awards", margin = "empirical",
+                       newdata = dstrat$variables, weights = "pw"),
+    "lignes dans `newdata` contenant des valeurs manquantes ont été supprimées"
+  )
+
+  expect_error(
+    predict_response_c(model, "awards", margin = "empirical",
+                       newdata = dstrat$variables, weights = "pw", na.action = "fail"),
+    "Erreur : `newdata` contient des valeurs manquantes"
+  )
+
+  expect_message(
+    predict_response_c(model, "awards", margin = "empirical",
+                       newdata = dstrat$variables, weights = "pw", na.action = "mean_impute"),
+    "Imputation par la moyenne appliquée aux valeurs manquantes"
+  )
+})
+\end{lstlisting}
+
+\section{Conclusion}
+Grâce à cette correction, les utilisateurs peuvent désormais contrôler la gestion des valeurs manquantes dans \texttt{newdata}, évitant ainsi les erreurs silencieuses et garantissant des résultats plus fiables.
+
+\end{document}
