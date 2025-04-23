@@ -55,12 +55,10 @@
 #' object of class `ggeffects`, the same `margin` argument is used as for the
 #' predictions, i.e. `margin` can be ignored.
 #' @param p_adjust Character vector, if not `NULL`, indicates the method to
-#' adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`]
-#' for details. Further possible adjustment methods are `"tukey"` or `"sidak"`,
-#' and for `johnson_neyman()`, `"fdr"` (or `"bh"`) and `"esarey"` (or its
-#' short-cut `"es"`) are available options. Some caution is necessary when
-#' adjusting p-value for multiple comparisons. See also section _P-value adjustment_
-#' below.
+#' adjust p-values. See [`stats::p.adjust()`] or [`stats::p.adjust.methods`] for
+#' details. Further possible adjustment methods are `"tukey"` or `"sidak"`. Some
+#' caution is necessary when adjusting p-value for multiple comparisons. See
+#' also section _P-value adjustment_ below.
 #' @param df Degrees of freedom that will be used to compute the p-values and
 #' confidence intervals. If `NULL`, degrees of freedom will be extracted from
 #' the model using [`insight::get_df()`] with `type = "wald"`.
@@ -125,36 +123,7 @@
 #' in `terms`. Thus, the latter two methods may be useful for certain tests
 #' only, in particular pairwise comparisons.
 #'
-#' For `johnson_neyman()`, the only available adjustment methods are `"fdr"`
-#' (or `"bh"`) (_Benjamini & Hochberg (1995)_) and `"esarey"` (or `"es"`)
-#' (_Esarey and Sumner 2017_). These usually return similar results. The major
-#' difference is that `"fdr"` can be slightly faster and more stable in edge
-#' cases, however, confidence intervals are not updated. Only the p-values are
-#' adjusted. `"esarey"` is slower, but confidence intervals are updated as well.
-#'
 #' @inheritSection print Global Options to Customize Tables when Printing
-#'
-#' @section Global options to choose package for calculating comparisons:
-#'
-#' `ggeffects_test_engine` can be used as option to either use the **marginaleffects**
-#' package for computing contrasts and comparisons (default), or the **emmeans**
-#' package (e.g. `options(ggeffects_test_engine = "emmeans")`). The latter is
-#' useful when the **marginaleffects** package is not available, or when the
-#' **emmeans** package is preferred. You can also provide the engine directly, e.g.
-#' `test_predictions(..., engine = "emmeans")`. Note that using **emmeans** as
-#' backend is currently not as feature rich as the default (**marginaleffects**).
-#'
-#' If `engine = "emmeans"`, the `test` argument can also be `"interaction"`
-#' to calculate interaction contrasts (difference-in-difference contrasts),
-#' `"consecutive"` to calculate contrasts between consecutive levels of a predictor,
-#' or a data frame with custom contrasts. If `test` is one of the latter options,
-#' and `engine` is not specified, the `engine` is automatically set to `"emmeans"`.
-#' Additionally, the `test_args` argument can be used to specify further options
-#' for those contrasts. See 'Examples' and documentation of `test_args`.
-#'
-#' If the **marginaleffects** package is not installed, the **emmeans** package is
-#' used automatically. If this package is not installed as well,
-#' `engine = "ggeffects"` is used.
 #'
 #' @return A data frame containing predictions (e.g. for `test = NULL`),
 #' contrasts or pairwise comparisons of adjusted predictions or estimated
@@ -255,18 +224,12 @@ test_predictions.default <- function(object,
                                      margin = "mean_reference",
                                      condition = NULL,
                                      collapse_levels = FALSE,
-                                     engine = "emmeans",
                                      verbose = TRUE,
                                      ...) {
   # margin-argument -----------------------------------------------------------
   # harmonize the "margin" argument
   # ---------------------------------------------------------------------------
   margin <- .tp_validate_margin(margin)
-
-  # check engine and check for installed packages -----------------------------
-  # check if we have the appropriate package version installed
-  # ---------------------------------------------------------------------------
-  engine <- .tp_validate_engine(engine, test)
 
   # object-argument -----------------------------------------------------------
   # validate the "object" argument
@@ -315,13 +278,10 @@ test_predictions.ggeffects <- function(object,
 
   # default for "engine" argument?
   engine <- getOption("ggeffects_test_engine", engine)
-  # validate "engine" argument
-  engine <- insight::validate_argument(engine, c("marginaleffects", "emmeans", "ggeffects"))
 
-  if (engine == "marginaleffects") { # nolint
-    insight::format_warning("Engine \"marginaleffects\" is no longer supported. The {marginaleffects} package underwent large revisions, which would have required rewriting major code parts in {ggeffects}. Instead, we implemented full support for estimating slopes, marginal effects, contrasts and pairwise comparisons in the {modelbased} package. Please use `modelbased::estimate_contrasts()` now.") # nolint
-    engine <- "emmeans"
-  }
+  # validate "engine" argument
+  engine <- insight::validate_argument(engine, c("emmeans", "ggeffects"))
+
   # if we don't have the package installed, we switch to emmeans
   if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
     engine <- "ggeffects"
@@ -427,44 +387,6 @@ test_predictions.ggeffects <- function(object,
     marginalmeans = "marginalmeans",
     "empirical"
   )
-}
-
-
-.tp_validate_engine <- function(engine, test) {
-  # default for "engine" argument?
-  engine <- getOption("ggeffects_test_engine", engine)
-  # validate "engine" argument
-  engine <- .safe(match.arg(engine, c("marginaleffects", "emmeans")))
-
-  # throw error if invalid engine
-  if (is.null(engine)) {
-    insight::format_error(
-      "Argument `engine` must be either \"marginaleffects\" or \"emmeans\". If you want to use `engine = \"ggeffects\"`, you need to provide the `ggeffects` object directly, e.g.:", # nolint
-      paste0("\n  ", insight::color_text("pr <- predict_response(model, ...)", "cyan")),
-      insight::color_text("test_predictions(pr, engine = \"ggeffects\")", "cyan")
-    )
-  }
-
-  # for test = "interaction" or "consecutive", we need to call emmeans!
-  if (.is_emmeans_contrast(test)) {
-    engine <- "emmeans"
-  }
-
-  # tell user about deprecation
-  if (engine == "marginaleffects") { # nolint
-    insight::format_warning("Engine \"marginaleffects\" is no longer supported. The {marginaleffects} package underwent large revisions, which would have required rewriting major code parts in {ggeffects}. Instead, we implemented full support for estimating slopes, marginal effects, contrasts and pairwise comparisons in the {modelbased} package. Please use `modelbased::estimate_contrasts()` now.") # nolint
-    engine <- "emmeans"
-  }
-
-  # if we don't have the package installed, we switch to emmeans
-  if (!insight::check_if_installed("emmeans", quietly = TRUE) && engine == "emmeans") {
-    # if we even don't have emmeans, we throw an error
-    insight::format_error(
-      "The {emmeans} package is required for this function. Please install it from CRAN by running `install.packages(\"emmeans\")`." # nolint
-    )
-  }
-
-  engine
 }
 
 
