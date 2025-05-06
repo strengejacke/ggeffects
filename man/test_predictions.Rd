@@ -23,7 +23,6 @@ hypothesis_test(object, ...)
   margin = "mean_reference",
   condition = NULL,
   collapse_levels = FALSE,
-  engine = "emmeans",
   verbose = TRUE,
   ...
 )
@@ -96,12 +95,10 @@ as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed
 be passed to the \code{option} argument in \code{emmeans::contrast()}.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}}
-for details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"},
-and for \code{johnson_neyman()}, \code{"fdr"} (or \code{"bh"}) and \code{"esarey"} (or its
-short-cut \code{"es"}) are available options. Some caution is necessary when
-adjusting p-value for multiple comparisons. See also section \emph{P-value adjustment}
-below.}
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}} for
+details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"}. Some
+caution is necessary when adjusting p-value for multiple comparisons. See
+also section \emph{P-value adjustment} below.}
 
 \item{df}{Degrees of freedom that will be used to compute the p-values and
 confidence intervals. If \code{NULL}, degrees of freedom will be extracted from
@@ -124,6 +121,8 @@ should be held constant at specific values, for instance
 levels are no longer separated by "-", but instead collapsed into a unique
 term label (e.g., \code{"level a-level a"} becomes \code{"level a"}). See 'Examples'.}
 
+\item{verbose}{Toggle messages and warnings.}
+
 \item{engine}{Character string, indicates the package to use for computing
 contrasts and comparisons. Setting \code{engine = "emmeans"} (default) provides
 some additional test options: \code{"interaction"} to calculate interaction
@@ -133,8 +132,6 @@ second option, \code{engine = "ggeffects"}. However, this option offers less
 features as the default engine, \code{"emmeans"}. It can be faster in some cases,
 though, and works for comparing predicted random effects in mixed models, or
 predicted probabilities of the zero-inflation component.}
-
-\item{verbose}{Toggle messages and warnings.}
 }
 \value{
 A data frame containing predictions (e.g. for \code{test = NULL}),
@@ -177,37 +174,6 @@ returned. For methods \code{"tukey"} or \code{"sidak"}, a rank adjustment is don
 based on the number of combinations of levels from the focal predictors
 in \code{terms}. Thus, the latter two methods may be useful for certain tests
 only, in particular pairwise comparisons.
-
-For \code{johnson_neyman()}, the only available adjustment methods are \code{"fdr"}
-(or \code{"bh"}) (\emph{Benjamini & Hochberg (1995)}) and \code{"esarey"} (or \code{"es"})
-(\emph{Esarey and Sumner 2017}). These usually return similar results. The major
-difference is that \code{"fdr"} can be slightly faster and more stable in edge
-cases, however, confidence intervals are not updated. Only the p-values are
-adjusted. \code{"esarey"} is slower, but confidence intervals are updated as well.
-}
-
-\section{Global options to choose package for calculating comparisons}{
-
-
-\code{ggeffects_test_engine} can be used as option to either use the \strong{marginaleffects}
-package for computing contrasts and comparisons (default), or the \strong{emmeans}
-package (e.g. \code{options(ggeffects_test_engine = "emmeans")}). The latter is
-useful when the \strong{marginaleffects} package is not available, or when the
-\strong{emmeans} package is preferred. You can also provide the engine directly, e.g.
-\code{test_predictions(..., engine = "emmeans")}. Note that using \strong{emmeans} as
-backend is currently not as feature rich as the default (\strong{marginaleffects}).
-
-If \code{engine = "emmeans"}, the \code{test} argument can also be \code{"interaction"}
-to calculate interaction contrasts (difference-in-difference contrasts),
-\code{"consecutive"} to calculate contrasts between consecutive levels of a predictor,
-or a data frame with custom contrasts. If \code{test} is one of the latter options,
-and \code{engine} is not specified, the \code{engine} is automatically set to \code{"emmeans"}.
-Additionally, the \code{test_args} argument can be used to specify further options
-for those contrasts. See 'Examples' and documentation of \code{test_args}.
-
-If the \strong{marginaleffects} package is not installed, the \strong{emmeans} package is
-used automatically. If this package is not installed as well,
-\code{engine = "ggeffects"} is used.
 }
 
 \section{Global Options to Customize Tables when Printing}{
