@@ -15,6 +15,10 @@
 #'   `facet`, and defaults to `FALSE` if `x` has no such column. Set
 #'   `facets = TRUE` to wrap the plot into facets even for grouping variables
 #'   (see 'Examples'). `grid` is an alias for `facets`.
+#' @param facet_labels Character vector of labels that will be used as heading
+#'   for facets. Can also be used for models with multiple response levels
+#'   (e.g. models with ordinal or multinomial outcomes), to re-label the response
+#'   levels when these are displayed as facets.
 #' @param n_rows Number of rows to align plots. By default, all plots are aligned
 #'   in one row. For facets, or multiple panels, plots can also be aligned in
 #'   multiiple rows, to avoid that plots are too small.
@@ -179,6 +183,7 @@ plot.ggeffects <- function(x,
                            connect_lines = FALSE,
                            facets,
                            grid,
+                           facet_labels = NULL,
                            one_plot = TRUE,
                            n_rows = NULL,
                            verbose = TRUE,
@@ -327,6 +332,20 @@ plot.ggeffects <- function(x,
     show_ci <- FALSE
   }
 
+  # set user-defined labels for facets
+  if (has_facets && !is.null(facet_labels)) {
+    # sanity check - does number of labels match rows in x?
+    if (nrow(x) %% length(facet_labels) == 0) {
+      new_values <- rep_len(factor(facet_labels, levels = facet_labels), nrow(x))
+      if (facet_polr) {
+        x$response.level <- new_values
+      } else {
+        x$facet <- new_values
+      }
+    } else if (verbose) {
+      insight::format_warning("Number of labels for facets provided in `facet_labels` does not match number of facets in the grid.")
+    }
+  }
 
   # if we have a numeric variable as facet, also add variable name for more
   # intuitive labelling
@@ -337,7 +356,7 @@ plot.ggeffects <- function(x,
       .factor_to_numeric(x$facet)
     )
   }
-  if (has_panel && (is.numeric(x$has_panel) || isTRUE(attr(x, "numeric.panel", exact = TRUE)))) {
+  if (has_panel && (is.numeric(x$panel) || isTRUE(attr(x, "numeric.panel", exact = TRUE)))) {
     x$panel <- sprintf(
       "%s = %g",
       attr(x, "terms", exact = TRUE)[4],

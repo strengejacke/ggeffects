@@ -36,6 +36,7 @@
   connect_lines = FALSE,
   facets,
   grid,
+  facet_labels = NULL,
   one_plot = TRUE,
   n_rows = NULL,
   verbose = TRUE,
@@ -153,6 +154,11 @@ of same groups will be connected with a line.}
 \code{facet}, and defaults to \code{FALSE} if \code{x} has no such column. Set
 \code{facets = TRUE} to wrap the plot into facets even for grouping variables
 (see 'Examples'). \code{grid} is an alias for \code{facets}.}
+
+\item{facet_labels}{Character vector of labels that will be used as heading
+for facets. Can also be used for models with multiple response levels
+(e.g. models with ordinal or multinomial outcomes), to re-label the response
+levels when these are displayed as facets.}
 
 \item{one_plot}{Logical, if \code{TRUE} and \code{x} has a \code{grid} column (i.e. when
 five \code{terms} were used), a single, integrated plot is produced.}
