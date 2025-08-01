@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -539,7 +539,7 @@ by using the <code>engine</code> argument.</p>
 
       function styleCell_rrapy1m2305li10rw6b1(i, j, css_id) {
           var table = document.getElementById("tinytable_rrapy1m2305li10rw6b1");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
               cell.classList.add(css_id);
@@ -547,55 +547,45 @@ by using the <code>engine</code> argument.</p>
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function insertSpanRow_pd4bgcwwchv4awz6mnx7(i, colspan, content) {
-        var table = document.getElementById('tinytable_rrapy1m2305li10rw6b1');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
       function spanCell_rrapy1m2305li10rw6b1(i, j, rowspan, colspan) {
         var table = document.getElementById("tinytable_rrapy1m2305li10rw6b1");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
         for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
             }
           }
         }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
       }
       // tinytable span after
-window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7(10, 3, 'hours_per_week: high<br/>c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7(7, 3, 'hours_per_week: high<br/>c161sex: Male') });
-window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7(4, 3, 'hours_per_week: low<br/>c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7(1, 3, 'hours_per_week: low<br/>c161sex: Male') });
+      window.addEventListener('load', function () { spanCell_rrapy1m2305li10rw6b1(13, 0, 1, 3) })
+      window.addEventListener('load', function () { spanCell_rrapy1m2305li10rw6b1(9, 0, 1, 3) })
+      window.addEventListener('load', function () { spanCell_rrapy1m2305li10rw6b1(5, 0, 1, 3) })
+      window.addEventListener('load', function () { spanCell_rrapy1m2305li10rw6b1(1, 0, 1, 3) })
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 16, j: 1 }, { i: 16, j: 2 },  ], css_id: 'tinytable_css_ijtdx5ntl7d2hervnp7p',}, 
-          { positions: [ { i: 16, j: 0 },  ], css_id: 'tinytable_css_16hpwp18wfmevjq0o9ux',}, 
-          { positions: [ { i: 2, j: 0 }, { i: 4, j: 0 }, { i: 6, j: 0 }, { i: 3, j: 0 }, { i: 8, j: 0 }, { i: 10, j: 0 }, { i: 7, j: 0 }, { i: 12, j: 0 }, { i: 14, j: 0 }, { i: 11, j: 0 }, { i: 15, j: 0 },  ], css_id: 'tinytable_css_9n8o98iosemua6rb2f7b',}, 
-          { positions: [ { i: 1, j: 1 }, { i: 9, j: 1 }, { i: 1, j: 0 }, { i: 9, j: 2 }, { i: 5, j: 1 }, { i: 1, j: 2 }, { i: 5, j: 0 }, { i: 13, j: 2 }, { i: 9, j: 0 }, { i: 13, j: 0 }, { i: 13, j: 1 }, { i: 5, j: 2 },  ], css_id: 'tinytable_css_qbaehks92zd14h3igmus',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_8oyhm3xhtibg9ckz0265',}, 
+          { positions: [ { i: '16', j: 0 }, { i: '16', j: 1 }, { i: '16', j: 2 },  ], css_id: 'tinytable_css_fzwsoxmcup2gwkhqnxj4',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '9', j: 0 }, { i: '9', j: 1 }, { i: '5', j: 0 }, { i: '1', j: 1 }, { i: '13', j: 0 }, { i: '1', j: 2 }, { i: '13', j: 1 }, { i: '9', j: 2 }, { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '13', j: 2 },  ], css_id: 'tinytable_css_ijtdx5ntl7d2hervnp7p',}, 
+          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_16hpwp18wfmevjq0o9ux',}, 
           ];
 
           // Loop over the arrays to style the cells
@@ -607,82 +597,100 @@ window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7
       });
     </script><style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ijtdx5ntl7d2hervnp7p, .table th.tinytable_css_ijtdx5ntl7d2hervnp7p { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_16hpwp18wfmevjq0o9ux, .table th.tinytable_css_16hpwp18wfmevjq0o9ux { padding-left: 2em; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_9n8o98iosemua6rb2f7b, .table th.tinytable_css_9n8o98iosemua6rb2f7b { padding-left: 2em; }
-      .table td.tinytable_css_qbaehks92zd14h3igmus, .table th.tinytable_css_qbaehks92zd14h3igmus { font-style: italic; }
-      .table td.tinytable_css_8oyhm3xhtibg9ckz0265, .table th.tinytable_css_8oyhm3xhtibg9ckz0265 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_fzwsoxmcup2gwkhqnxj4, .table th.tinytable_css_fzwsoxmcup2gwkhqnxj4 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_ijtdx5ntl7d2hervnp7p, .table th.tinytable_css_ijtdx5ntl7d2hervnp7p { font-style: italic; }
+      .table td.tinytable_css_16hpwp18wfmevjq0o9ux, .table th.tinytable_css_16hpwp18wfmevjq0o9ux { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
       <table class="table table table-borderless" id="tinytable_rrapy1m2305li10rw6b1" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
-<th scope="col">c172code</th>
-                <th scope="col">Predicted</th>
-                <th scope="col">95% CI</th>
+<th scope="col" data-row="0" data-col="0">c172code</th>
+                <th scope="col" data-row="0" data-col="1">Predicted</th>
+                <th scope="col" data-row="0" data-col="2">95% CI</th>
               </tr>
 </thead>
 <tbody>
 <tr>
-<td>low level of education</td>
-                  <td>91.34</td>
-                  <td>81.71, 100.97</td>
+<td data-row="1" data-col="0">hours_per_week: low<br>c161sex: Male</td>
+                  <td data-row="1" data-col="1"></td>
+                  <td data-row="1" data-col="2"></td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td>97.34</td>
-                  <td>91.56, 103.13</td>
+<td data-row="2" data-col="0">low level of education</td>
+                  <td data-row="2" data-col="1">91.34</td>
+                  <td data-row="2" data-col="2">81.71, 100.97</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td>97.91</td>
-                  <td>89.59, 106.24</td>
+<td data-row="3" data-col="0">intermediate level of education</td>
+                  <td data-row="3" data-col="1">97.34</td>
+                  <td data-row="3" data-col="2">91.56, 103.13</td>
                 </tr>
 <tr>
-<td>low level of education</td>
-                  <td>93.71</td>
-                  <td>87.29, 100.12</td>
+<td data-row="4" data-col="0">high level of education</td>
+                  <td data-row="4" data-col="1">97.91</td>
+                  <td data-row="4" data-col="2">89.59, 106.24</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td>95.52</td>
-                  <td>90.80, 100.25</td>
+<td data-row="5" data-col="0">hours_per_week: low<br>c161sex: Female</td>
+                  <td data-row="5" data-col="1"></td>
+                  <td data-row="5" data-col="2"></td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td>96.54</td>
-                  <td>90.00, 103.08</td>
+<td data-row="6" data-col="0">low level of education</td>
+                  <td data-row="6" data-col="1">93.71</td>
+                  <td data-row="6" data-col="2">87.29, 100.12</td>
                 </tr>
 <tr>
-<td>low level of education</td>
-                  <td>87.36</td>
-                  <td>79.19,  95.52</td>
+<td data-row="7" data-col="0">intermediate level of education</td>
+                  <td data-row="7" data-col="1">95.52</td>
+                  <td data-row="7" data-col="2">90.80, 100.25</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td>85.42</td>
-                  <td>78.59,  92.25</td>
+<td data-row="8" data-col="0">high level of education</td>
+                  <td data-row="8" data-col="1">96.54</td>
+                  <td data-row="8" data-col="2">90.00, 103.08</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td>81.65</td>
-                  <td>72.77,  90.54</td>
+<td data-row="9" data-col="0">hours_per_week: high<br>c161sex: Male</td>
+                  <td data-row="9" data-col="1"></td>
+                  <td data-row="9" data-col="2"></td>
                 </tr>
 <tr>
-<td>low level of education</td>
-                  <td>85.13</td>
-                  <td>79.12,  91.14</td>
+<td data-row="10" data-col="0">low level of education</td>
+                  <td data-row="10" data-col="1">87.36</td>
+                  <td data-row="10" data-col="2">79.19,  95.52</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td>87.05</td>
-                  <td>81.70,  92.40</td>
+<td data-row="11" data-col="0">intermediate level of education</td>
+                  <td data-row="11" data-col="1">85.42</td>
+                  <td data-row="11" data-col="2">78.59,  92.25</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td>85.39</td>
-                  <td>78.86,  91.92</td>
+<td data-row="12" data-col="0">high level of education</td>
+                  <td data-row="12" data-col="1">81.65</td>
+                  <td data-row="12" data-col="2">72.77,  90.54</td>
+                </tr>
+<tr>
+<td data-row="13" data-col="0">hours_per_week: high<br>c161sex: Female</td>
+                  <td data-row="13" data-col="1"></td>
+                  <td data-row="13" data-col="2"></td>
+                </tr>
+<tr>
+<td data-row="14" data-col="0">low level of education</td>
+                  <td data-row="14" data-col="1">85.13</td>
+                  <td data-row="14" data-col="2">79.12,  91.14</td>
+                </tr>
+<tr>
+<td data-row="15" data-col="0">intermediate level of education</td>
+                  <td data-row="15" data-col="1">87.05</td>
+                  <td data-row="15" data-col="2">81.70,  92.40</td>
+                </tr>
+<tr>
+<td data-row="16" data-col="0">high level of education</td>
+                  <td data-row="16" data-col="1">85.39</td>
+                  <td data-row="16" data-col="2">78.86,  91.92</td>
                 </tr>
 </tbody>
 </table>
@@ -696,9 +704,9 @@ window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7
 
     <script>
 
-      function styleCell_7avfax9a7hlg4e4rbosr(i, j, css_id) {
-          var table = document.getElementById("tinytable_7avfax9a7hlg4e4rbosr");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+      function styleCell_gwhmvmap65knyb99qx6c(i, j, css_id) {
+          var table = document.getElementById("tinytable_gwhmvmap65knyb99qx6c");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
               cell.classList.add(css_id);
@@ -706,145 +714,137 @@ window.addEventListener('load', function () { insertSpanRow_pd4bgcwwchv4awz6mnx7
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_7avfax9a7hlg4e4rbosr');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_7avfax9a7hlg4e4rbosr(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_7avfax9a7hlg4e4rbosr");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
+      function spanCell_gwhmvmap65knyb99qx6c(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_gwhmvmap65knyb99qx6c");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
         for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
             }
           }
         }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
       }
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 12, j: 0 }, { i: 12, j: 1 }, { i: 12, j: 2 }, { i: 12, j: 3 },  ], css_id: 'tinytable_css_rp18b5x1wg0rwyfubc70',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 }, { i: 0, j: 3 },  ], css_id: 'tinytable_css_gwhmvmap65knyb99qx6c',}, 
+          { positions: [ { i: '12', j: 0 }, { i: '12', j: 1 }, { i: '12', j: 2 }, { i: '12', j: 3 },  ], css_id: 'tinytable_css_jyhdexk56yzyz96aco8g',}, 
+          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 },  ], css_id: 'tinytable_css_rp18b5x1wg0rwyfubc70',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_7avfax9a7hlg4e4rbosr(cell.i, cell.j, group.css_id);
+                  styleCell_gwhmvmap65knyb99qx6c(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><style>
       /* tinytable css entries after */
-      .table td.tinytable_css_rp18b5x1wg0rwyfubc70, .table th.tinytable_css_rp18b5x1wg0rwyfubc70 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_gwhmvmap65knyb99qx6c, .table th.tinytable_css_gwhmvmap65knyb99qx6c { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_jyhdexk56yzyz96aco8g, .table th.tinytable_css_jyhdexk56yzyz96aco8g { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_rp18b5x1wg0rwyfubc70, .table th.tinytable_css_rp18b5x1wg0rwyfubc70 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <table class="table table table-borderless" id="tinytable_7avfax9a7hlg4e4rbosr" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_gwhmvmap65knyb99qx6c" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
-<th scope="col">c172code</th>
-                <th scope="col">hours_per_week</th>
-                <th scope="col">c161sex</th>
-                <th scope="col">Predicted (95% CI)</th>
+<th scope="col" data-row="0" data-col="0">c172code</th>
+                <th scope="col" data-row="0" data-col="1">hours_per_week</th>
+                <th scope="col" data-row="0" data-col="2">c161sex</th>
+                <th scope="col" data-row="0" data-col="3">Predicted (95% CI)</th>
               </tr>
 </thead>
 <tbody>
 <tr>
-<td>low level of education</td>
-                  <td>low</td>
-                  <td>Male</td>
-                  <td>91.34 (81.71, 100.97)</td>
+<td data-row="1" data-col="0">low level of education</td>
+                  <td data-row="1" data-col="1">low</td>
+                  <td data-row="1" data-col="2">Male</td>
+                  <td data-row="1" data-col="3">91.34 (81.71, 100.97)</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>97.34 (91.56, 103.13)</td>
+<td data-row="2" data-col="0">intermediate level of education</td>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2"></td>
+                  <td data-row="2" data-col="3">97.34 (91.56, 103.13)</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>97.91 (89.59, 106.24)</td>
+<td data-row="3" data-col="0">high level of education</td>
+                  <td data-row="3" data-col="1"></td>
+                  <td data-row="3" data-col="2"></td>
+                  <td data-row="3" data-col="3">97.91 (89.59, 106.24)</td>
                 </tr>
 <tr>
-<td>low level of education</td>
-                  <td></td>
-                  <td>Female</td>
-                  <td>93.71 (87.29, 100.12)</td>
+<td data-row="4" data-col="0">low level of education</td>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">Female</td>
+                  <td data-row="4" data-col="3">93.71 (87.29, 100.12)</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>95.52 (90.80, 100.25)</td>
+<td data-row="5" data-col="0">intermediate level of education</td>
+                  <td data-row="5" data-col="1"></td>
+                  <td data-row="5" data-col="2"></td>
+                  <td data-row="5" data-col="3">95.52 (90.80, 100.25)</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>96.54 (90.00, 103.08)</td>
+<td data-row="6" data-col="0">high level of education</td>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2"></td>
+                  <td data-row="6" data-col="3">96.54 (90.00, 103.08)</td>
                 </tr>
 <tr>
-<td>low level of education</td>
-                  <td>high</td>
-                  <td>Male</td>
-                  <td>87.36 (79.19,  95.52)</td>
+<td data-row="7" data-col="0">low level of education</td>
+                  <td data-row="7" data-col="1">high</td>
+                  <td data-row="7" data-col="2">Male</td>
+                  <td data-row="7" data-col="3">87.36 (79.19,  95.52)</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>85.42 (78.59,  92.25)</td>
+<td data-row="8" data-col="0">intermediate level of education</td>
+                  <td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2"></td>
+                  <td data-row="8" data-col="3">85.42 (78.59,  92.25)</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>81.65 (72.77,  90.54)</td>
+<td data-row="9" data-col="0">high level of education</td>
+                  <td data-row="9" data-col="1"></td>
+                  <td data-row="9" data-col="2"></td>
+                  <td data-row="9" data-col="3">81.65 (72.77,  90.54)</td>
                 </tr>
 <tr>
-<td>low level of education</td>
-                  <td></td>
-                  <td>Female</td>
-                  <td>85.13 (79.12,  91.14)</td>
+<td data-row="10" data-col="0">low level of education</td>
+                  <td data-row="10" data-col="1"></td>
+                  <td data-row="10" data-col="2">Female</td>
+                  <td data-row="10" data-col="3">85.13 (79.12,  91.14)</td>
                 </tr>
 <tr>
-<td>intermediate level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>87.05 (81.70,  92.40)</td>
+<td data-row="11" data-col="0">intermediate level of education</td>
+                  <td data-row="11" data-col="1"></td>
+                  <td data-row="11" data-col="2"></td>
+                  <td data-row="11" data-col="3">87.05 (81.70,  92.40)</td>
                 </tr>
 <tr>
-<td>high level of education</td>
-                  <td></td>
-                  <td></td>
-                  <td>85.39 (78.86,  91.92)</td>
+<td data-row="12" data-col="0">high level of education</td>
+                  <td data-row="12" data-col="1"></td>
+                  <td data-row="12" data-col="2"></td>
+                  <td data-row="12" data-col="3">85.39 (78.86,  91.92)</td>
                 </tr>
 </tbody>
 </table>
@@ -868,9 +868,9 @@ argument, which must be one of <code>"default"</code>,
 
     <script>
 
-      function styleCell_avlpyuvwvoji80fl9572(i, j, css_id) {
-          var table = document.getElementById("tinytable_avlpyuvwvoji80fl9572");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+      function styleCell_4olspg8l5gya08tpxs7f(i, j, css_id) {
+          var table = document.getElementById("tinytable_4olspg8l5gya08tpxs7f");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
               cell.classList.add(css_id);
@@ -878,101 +878,99 @@ argument, which must be one of <code>"default"</code>,
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function insertSpanRow_4olspg8l5gya08tpxs7f(i, colspan, content) {
-        var table = document.getElementById('tinytable_avlpyuvwvoji80fl9572');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_avlpyuvwvoji80fl9572(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_avlpyuvwvoji80fl9572");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
+      function spanCell_4olspg8l5gya08tpxs7f(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_4olspg8l5gya08tpxs7f");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
         for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
             }
           }
         }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
       }
       // tinytable span after
-window.addEventListener('load', function () { insertSpanRow_4olspg8l5gya08tpxs7f(3, 3, 'c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_4olspg8l5gya08tpxs7f(1, 3, 'c161sex: Male') });
+      window.addEventListener('load', function () { spanCell_4olspg8l5gya08tpxs7f(4, 0, 1, 3) })
+      window.addEventListener('load', function () { spanCell_4olspg8l5gya08tpxs7f(1, 0, 1, 3) })
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 6, j: 1 }, { i: 6, j: 2 },  ], css_id: 'tinytable_css_hqj4w0ioy0lc1w6vygmi',}, 
-          { positions: [ { i: 6, j: 0 },  ], css_id: 'tinytable_css_9svyad9jn7scmwhdtt7i',}, 
-          { positions: [ { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 5, j: 0 },  ], css_id: 'tinytable_css_j6k6qk1n4y3wmwlmimxg',}, 
-          { positions: [ { i: 1, j: 0 }, { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 1, j: 1 }, { i: 4, j: 2 }, { i: 1, j: 2 },  ], css_id: 'tinytable_css_h34t7stsbnbucz7eq866',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_zqv0x2gd4b69pzpxj7ro',}, 
+          { positions: [ { i: '6', j: 0 }, { i: '6', j: 1 }, { i: '6', j: 2 },  ], css_id: 'tinytable_css_hqj4w0ioy0lc1w6vygmi',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '4', j: 0 }, { i: '1', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '4', j: 2 },  ], css_id: 'tinytable_css_9svyad9jn7scmwhdtt7i',}, 
+          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_j6k6qk1n4y3wmwlmimxg',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_avlpyuvwvoji80fl9572(cell.i, cell.j, group.css_id);
+                  styleCell_4olspg8l5gya08tpxs7f(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><style>
       /* tinytable css entries after */
       .table td.tinytable_css_hqj4w0ioy0lc1w6vygmi, .table th.tinytable_css_hqj4w0ioy0lc1w6vygmi { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_9svyad9jn7scmwhdtt7i, .table th.tinytable_css_9svyad9jn7scmwhdtt7i { padding-left: 2em; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_j6k6qk1n4y3wmwlmimxg, .table th.tinytable_css_j6k6qk1n4y3wmwlmimxg { padding-left: 2em; }
-      .table td.tinytable_css_h34t7stsbnbucz7eq866, .table th.tinytable_css_h34t7stsbnbucz7eq866 { font-style: italic; }
-      .table td.tinytable_css_zqv0x2gd4b69pzpxj7ro, .table th.tinytable_css_zqv0x2gd4b69pzpxj7ro { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_9svyad9jn7scmwhdtt7i, .table th.tinytable_css_9svyad9jn7scmwhdtt7i { font-style: italic; }
+      .table td.tinytable_css_j6k6qk1n4y3wmwlmimxg, .table th.tinytable_css_j6k6qk1n4y3wmwlmimxg { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <table class="table table" id="tinytable_avlpyuvwvoji80fl9572" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_4olspg8l5gya08tpxs7f" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
-<th scope="col">hours_per_week</th>
-                <th scope="col">Predicted</th>
-                <th scope="col">95% CI</th>
+<th scope="col" data-row="0" data-col="0">hours_per_week</th>
+                <th scope="col" data-row="0" data-col="1">Predicted</th>
+                <th scope="col" data-row="0" data-col="2">95% CI</th>
               </tr>
 </thead>
 <tfoot><tr><td colspan="3"><div style="font-size: 0.9em; color: #666666">Adjusted for: e42dep = independent</div></td></tr></tfoot>
 <tbody>
 <tr>
-<td>low</td>
-                  <td>97.06</td>
-                  <td>91.93, 102.19</td>
+<td data-row="1" data-col="0">c161sex: Male</td>
+                  <td data-row="1" data-col="1"></td>
+                  <td data-row="1" data-col="2"></td>
                 </tr>
 <tr>
-<td>high</td>
-                  <td>85.04</td>
-                  <td>79.39,  90.68</td>
+<td data-row="2" data-col="0">low</td>
+                  <td data-row="2" data-col="1">97.06</td>
+                  <td data-row="2" data-col="2">91.93, 102.19</td>
                 </tr>
 <tr>
-<td>low</td>
-                  <td>95.59</td>
-                  <td>91.21,  99.97</td>
+<td data-row="3" data-col="0">high</td>
+                  <td data-row="3" data-col="1">85.04</td>
+                  <td data-row="3" data-col="2">79.39,  90.68</td>
                 </tr>
 <tr>
-<td>high</td>
-                  <td>86.55</td>
-                  <td>81.65,  91.46</td>
+<td data-row="4" data-col="0">c161sex: Female</td>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2"></td>
+                </tr>
+<tr>
+<td data-row="5" data-col="0">low</td>
+                  <td data-row="5" data-col="1">95.59</td>
+                  <td data-row="5" data-col="2">91.21,  99.97</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="0">high</td>
+                  <td data-row="6" data-col="1">86.55</td>
+                  <td data-row="6" data-col="2">81.65,  91.46</td>
                 </tr>
 </tbody>
 </table>
@@ -988,7 +986,7 @@ window.addEventListener('load', function () { insertSpanRow_4olspg8l5gya08tpxs7f
 
       function styleCell_89eecxpavj13sbxk9hgi(i, j, css_id) {
           var table = document.getElementById("tinytable_89eecxpavj13sbxk9hgi");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
               cell.classList.add(css_id);
@@ -996,56 +994,43 @@ window.addEventListener('load', function () { insertSpanRow_4olspg8l5gya08tpxs7f
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function insertSpanRow_nlop84sllwu67riupt9a(i, colspan, content) {
-        var table = document.getElementById('tinytable_89eecxpavj13sbxk9hgi');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
       function spanCell_89eecxpavj13sbxk9hgi(i, j, rowspan, colspan) {
         var table = document.getElementById("tinytable_89eecxpavj13sbxk9hgi");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
         for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
             }
           }
         }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
       }
       // tinytable span after
-window.addEventListener('load', function () { insertSpanRow_nlop84sllwu67riupt9a(3, 3, 'c161sex: Female') });
-window.addEventListener('load', function () { insertSpanRow_nlop84sllwu67riupt9a(1, 3, 'c161sex: Male') });
+      window.addEventListener('load', function () { spanCell_89eecxpavj13sbxk9hgi(4, 0, 1, 3) })
+      window.addEventListener('load', function () { spanCell_89eecxpavj13sbxk9hgi(1, 0, 1, 3) })
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 6, j: 1 }, { i: 6, j: 2 },  ], css_id: 'tinytable_css_1yo572qvocsjdmqew5ab',}, 
-          { positions: [ { i: 5, j: 1 }, { i: 3, j: 1 }, { i: 3, j: 2 }, { i: 5, j: 2 },  ], css_id: 'tinytable_css_ibl5diu3n6bbzoshnbue',}, 
-          { positions: [ { i: 6, j: 0 },  ], css_id: 'tinytable_css_ws8dilfgz1c09znmem2b',}, 
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_9ksz09od3p848lv7afn0',}, 
-          { positions: [ { i: 3, j: 0 }, { i: 5, j: 0 },  ], css_id: 'tinytable_css_5qtlhlag21urewyc2eop',}, 
-          { positions: [ { i: 2, j: 0 },  ], css_id: 'tinytable_css_xw7gp3psf6zhmmp7w13w',}, 
-          { positions: [ { i: 1, j: 2 }, { i: 1, j: 1 }, { i: 1, j: 0 },  ], css_id: 'tinytable_css_0osc88ap3nbm6a4m4aw4',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 2 }, { i: 0, j: 1 },  ], css_id: 'tinytable_css_n30w3ey1d5a61rptry8g',}, 
+          { positions: [ { i: '6', j: 0 }, { i: '6', j: 1 }, { i: '6', j: 2 },  ], css_id: 'tinytable_css_5qtlhlag21urewyc2eop',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '4', j: 0 }, { i: '1', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '4', j: 2 },  ], css_id: 'tinytable_css_xw7gp3psf6zhmmp7w13w',}, 
+          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_0osc88ap3nbm6a4m4aw4',}, 
           ];
 
           // Loop over the arrays to style the cells
@@ -1057,46 +1042,51 @@ window.addEventListener('load', function () { insertSpanRow_nlop84sllwu67riupt9a
       });
     </script><style>
       /* tinytable css entries after */
-      .table td.tinytable_css_1yo572qvocsjdmqew5ab, .table th.tinytable_css_1yo572qvocsjdmqew5ab { border-bottom: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_ibl5diu3n6bbzoshnbue, .table th.tinytable_css_ibl5diu3n6bbzoshnbue { background-color: #ededed; }
-      .table td.tinytable_css_ws8dilfgz1c09znmem2b, .table th.tinytable_css_ws8dilfgz1c09znmem2b { padding-left: 2em; border-bottom: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_9ksz09od3p848lv7afn0, .table th.tinytable_css_9ksz09od3p848lv7afn0 { font-style: italic; }
-      .table td.tinytable_css_5qtlhlag21urewyc2eop, .table th.tinytable_css_5qtlhlag21urewyc2eop { padding-left: 2em; background-color: #ededed; }
-      .table td.tinytable_css_xw7gp3psf6zhmmp7w13w, .table th.tinytable_css_xw7gp3psf6zhmmp7w13w { padding-left: 2em; }
-      .table td.tinytable_css_0osc88ap3nbm6a4m4aw4, .table th.tinytable_css_0osc88ap3nbm6a4m4aw4 { font-style: italic; background-color: #ededed; }
-      .table td.tinytable_css_n30w3ey1d5a61rptry8g, .table th.tinytable_css_n30w3ey1d5a61rptry8g { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_5qtlhlag21urewyc2eop, .table th.tinytable_css_5qtlhlag21urewyc2eop { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_xw7gp3psf6zhmmp7w13w, .table th.tinytable_css_xw7gp3psf6zhmmp7w13w { font-style: italic; }
+      .table td.tinytable_css_0osc88ap3nbm6a4m4aw4, .table th.tinytable_css_0osc88ap3nbm6a4m4aw4 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <table class="table table table-striped" id="tinytable_89eecxpavj13sbxk9hgi" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_89eecxpavj13sbxk9hgi" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
-<th scope="col">hours_per_week</th>
-                <th scope="col">Predicted</th>
-                <th scope="col">95% CI</th>
+<th scope="col" data-row="0" data-col="0">hours_per_week</th>
+                <th scope="col" data-row="0" data-col="1">Predicted</th>
+                <th scope="col" data-row="0" data-col="2">95% CI</th>
               </tr>
 </thead>
 <tfoot><tr><td colspan="3"><div style="font-size: 0.9em; color: #666666">Adjusted for: e42dep = independent</div></td></tr></tfoot>
 <tbody>
 <tr>
-<td>low</td>
-                  <td>97.06</td>
-                  <td>91.93, 102.19</td>
+<td data-row="1" data-col="0">c161sex: Male</td>
+                  <td data-row="1" data-col="1"></td>
+                  <td data-row="1" data-col="2"></td>
                 </tr>
 <tr>
-<td>high</td>
-                  <td>85.04</td>
-                  <td>79.39,  90.68</td>
+<td data-row="2" data-col="0">low</td>
+                  <td data-row="2" data-col="1">97.06</td>
+                  <td data-row="2" data-col="2">91.93, 102.19</td>
                 </tr>
 <tr>
-<td>low</td>
-                  <td>95.59</td>
-                  <td>91.21,  99.97</td>
+<td data-row="3" data-col="0">high</td>
+                  <td data-row="3" data-col="1">85.04</td>
+                  <td data-row="3" data-col="2">79.39,  90.68</td>
                 </tr>
 <tr>
-<td>high</td>
-                  <td>86.55</td>
-                  <td>81.65,  91.46</td>
+<td data-row="4" data-col="0">c161sex: Female</td>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2"></td>
+                </tr>
+<tr>
+<td data-row="5" data-col="0">low</td>
+                  <td data-row="5" data-col="1">95.59</td>
+                  <td data-row="5" data-col="2">91.21,  99.97</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="0">high</td>
+                  <td data-row="6" data-col="1">86.55</td>
+                  <td data-row="6" data-col="2">81.65,  91.46</td>
                 </tr>
 </tbody>
 </table>
@@ -1113,9 +1103,9 @@ can adjust the table width, or use custom border colors etc.</p>
 
     <script>
 
-      function styleCell_m9x1vbskbyduda1j88j3(i, j, css_id) {
-          var table = document.getElementById("tinytable_m9x1vbskbyduda1j88j3");
-          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+      function styleCell_ibl5diu3n6bbzoshnbue(i, j, css_id) {
+          var table = document.getElementById("tinytable_ibl5diu3n6bbzoshnbue");
+          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
               cell.classList.add(css_id);
@@ -1123,93 +1113,85 @@ can adjust the table width, or use custom border colors etc.</p>
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_m9x1vbskbyduda1j88j3');
-        var newRow = table.insertRow(i);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
-      }
-      function spanCell_m9x1vbskbyduda1j88j3(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_m9x1vbskbyduda1j88j3");
-        const targetRow = table.rows[i];
-        const targetCell = targetRow.cells[j];
+      function spanCell_ibl5diu3n6bbzoshnbue(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ibl5diu3n6bbzoshnbue");
+        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+        if (!targetCell) {
+          console.warn(`Cell at (${i}, ${j}) not found.`);
+        }
+
+        // Get all cells that need to be removed
+        const cellsToRemove = [];
         for (let r = 0; r < rowspan; r++) {
-          // Only start deleting cells to the right for the first row (r == 0)
-          if (r === 0) {
-            // Delete cells to the right of the target cell in the first row
-            for (let c = colspan - 1; c > 0; c--) {
-              if (table.rows[i + r].cells[j + c]) {
-                table.rows[i + r].deleteCell(j + c);
-              }
-            }
-          }
-          // For rows below the first, delete starting from the target column
-          if (r > 0) {
-            for (let c = colspan - 1; c >= 0; c--) {
-              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
-                table.rows[i + r].deleteCell(j);
-              }
+          for (let c = 0; c < colspan; c++) {
+            if (r === 0 && c === 0) continue; // Skip the target cell
+            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
+            if (cell) {
+              cellsToRemove.push(cell);
             }
           }
         }
-        // Set rowspan and colspan of the target cell
-        targetCell.rowSpan = rowspan;
-        targetCell.colSpan = colspan;
+
+        // Remove all cells
+        cellsToRemove.forEach(cell => cell.remove());
+
+        // Set rowspan and colspan of the target cell if it exists
+        if (targetCell) {
+          targetCell.rowSpan = rowspan;
+          targetCell.colSpan = colspan;
+        }
       }
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: 4, j: 0 }, { i: 4, j: 1 }, { i: 4, j: 2 },  ], css_id: 'tinytable_css_t558ozvqptep6lc6tiz6',}, 
-          { positions: [ { i: 0, j: 0 }, { i: 0, j: 1 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_f7ykmkvqptisjfqu3ey3',}, 
+          { positions: [ { i: '4', j: 0 }, { i: '4', j: 1 }, { i: '4', j: 2 },  ], css_id: 'tinytable_css_5nqymmkzjzaaos7evzn1',}, 
+          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_1yo572qvocsjdmqew5ab',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_m9x1vbskbyduda1j88j3(cell.i, cell.j, group.css_id);
+                  styleCell_ibl5diu3n6bbzoshnbue(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><style>
       /* tinytable css entries after */
-      .table td.tinytable_css_t558ozvqptep6lc6tiz6, .table th.tinytable_css_t558ozvqptep6lc6tiz6 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_f7ykmkvqptisjfqu3ey3, .table th.tinytable_css_f7ykmkvqptisjfqu3ey3 { border-top: solid red 0.1em; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_5nqymmkzjzaaos7evzn1, .table th.tinytable_css_5nqymmkzjzaaos7evzn1 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_1yo572qvocsjdmqew5ab, .table th.tinytable_css_1yo572qvocsjdmqew5ab { border-top: solid #FF0000 0.1em; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
 <div class="container">
-      <table class="table table table-borderless" id="tinytable_m9x1vbskbyduda1j88j3" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table table-borderless" id="tinytable_ibl5diu3n6bbzoshnbue" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead>
 <caption>Predicted values of Total score BARTHEL INDEX</caption>
               <tr>
-<th scope="col">hours_per_week</th>
-                <th scope="col">c161sex</th>
-                <th scope="col">Predicted (95% CI)</th>
+<th scope="col" data-row="0" data-col="0">hours_per_week</th>
+                <th scope="col" data-row="0" data-col="1">c161sex</th>
+                <th scope="col" data-row="0" data-col="2">Predicted (95% CI)</th>
               </tr>
 </thead>
 <tfoot><tr><td colspan="3"><div style="font-size: 0.9em; color: #666666">Adjusted for: e42dep = independent</div></td></tr></tfoot>
 <tbody>
 <tr>
-<td>low</td>
-                  <td>Male</td>
-                  <td>97.06 (91.93, 102.19)</td>
+<td data-row="1" data-col="0">low</td>
+                  <td data-row="1" data-col="1">Male</td>
+                  <td data-row="1" data-col="2">97.06 (91.93, 102.19)</td>
                 </tr>
 <tr>
-<td>high</td>
-                  <td></td>
-                  <td>85.04 (79.39,  90.68)</td>
+<td data-row="2" data-col="0">high</td>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">85.04 (79.39,  90.68)</td>
                 </tr>
 <tr>
-<td>low</td>
-                  <td>Female</td>
-                  <td>95.59 (91.21,  99.97)</td>
+<td data-row="3" data-col="0">low</td>
+                  <td data-row="3" data-col="1">Female</td>
+                  <td data-row="3" data-col="2">95.59 (91.21,  99.97)</td>
                 </tr>
 <tr>
-<td>high</td>
-                  <td></td>
-                  <td>86.55 (81.65,  91.46)</td>
+<td data-row="4" data-col="0">high</td>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">86.55 (81.65,  91.46)</td>
                 </tr>
 </tbody>
 </table>
@@ -1226,23 +1208,23 @@ using the <code>engine</code> argument.</p>
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">hours_per_week</span> <span class="op">*</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">fit</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hours_per_week"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/insight/reference/display.html" class="external-link">print_html</a></span><span class="op">(</span><span class="va">out</span>, engine <span class="op">=</span> <span class="st">"gt"</span><span class="op">)</span></span></code></pre></div>
-<div id="xeibkbeuxl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xeibkbeuxl table {
+<div id="wutpwntgaa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wutpwntgaa table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xeibkbeuxl thead, #xeibkbeuxl tbody, #xeibkbeuxl tfoot, #xeibkbeuxl tr, #xeibkbeuxl td, #xeibkbeuxl th {
+#wutpwntgaa thead, #wutpwntgaa tbody, #wutpwntgaa tfoot, #wutpwntgaa tr, #wutpwntgaa td, #wutpwntgaa th {
   border-style: none;
 }
 
-#xeibkbeuxl p {
+#wutpwntgaa p {
   margin: 0;
   padding: 0;
 }
 
-#xeibkbeuxl .gt_table {
+#wutpwntgaa .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1268,12 +1250,12 @@ using the <code>engine</code> argument.</p>
   border-left-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_caption {
+#wutpwntgaa .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xeibkbeuxl .gt_title {
+#wutpwntgaa .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1285,7 +1267,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-width: 0;
 }
 
-#xeibkbeuxl .gt_subtitle {
+#wutpwntgaa .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1297,7 +1279,7 @@ using the <code>engine</code> argument.</p>
   border-top-width: 0;
 }
 
-#xeibkbeuxl .gt_heading {
+#wutpwntgaa .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1309,13 +1291,13 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_bottom_border {
+#wutpwntgaa .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_col_headings {
+#wutpwntgaa .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1330,7 +1312,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_col_heading {
+#wutpwntgaa .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1350,7 +1332,7 @@ using the <code>engine</code> argument.</p>
   overflow-x: hidden;
 }
 
-#xeibkbeuxl .gt_column_spanner_outer {
+#wutpwntgaa .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1362,15 +1344,15 @@ using the <code>engine</code> argument.</p>
   padding-right: 4px;
 }
 
-#xeibkbeuxl .gt_column_spanner_outer:first-child {
+#wutpwntgaa .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xeibkbeuxl .gt_column_spanner_outer:last-child {
+#wutpwntgaa .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xeibkbeuxl .gt_column_spanner {
+#wutpwntgaa .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1382,11 +1364,11 @@ using the <code>engine</code> argument.</p>
   width: 100%;
 }
 
-#xeibkbeuxl .gt_spanner_row {
+#wutpwntgaa .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xeibkbeuxl .gt_group_heading {
+#wutpwntgaa .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1412,7 +1394,7 @@ using the <code>engine</code> argument.</p>
   text-align: left;
 }
 
-#xeibkbeuxl .gt_empty_group_heading {
+#wutpwntgaa .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1427,15 +1409,15 @@ using the <code>engine</code> argument.</p>
   vertical-align: middle;
 }
 
-#xeibkbeuxl .gt_from_md > :first-child {
+#wutpwntgaa .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xeibkbeuxl .gt_from_md > :last-child {
+#wutpwntgaa .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xeibkbeuxl .gt_row {
+#wutpwntgaa .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1454,7 +1436,7 @@ using the <code>engine</code> argument.</p>
   overflow-x: hidden;
 }
 
-#xeibkbeuxl .gt_stub {
+#wutpwntgaa .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1467,7 +1449,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#xeibkbeuxl .gt_stub_row_group {
+#wutpwntgaa .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1481,15 +1463,15 @@ using the <code>engine</code> argument.</p>
   vertical-align: top;
 }
 
-#xeibkbeuxl .gt_row_group_first td {
+#wutpwntgaa .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xeibkbeuxl .gt_row_group_first th {
+#wutpwntgaa .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xeibkbeuxl .gt_summary_row {
+#wutpwntgaa .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1499,16 +1481,16 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#xeibkbeuxl .gt_first_summary_row {
+#wutpwntgaa .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_first_summary_row.thick {
+#wutpwntgaa .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xeibkbeuxl .gt_last_summary_row {
+#wutpwntgaa .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1518,7 +1500,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_grand_summary_row {
+#wutpwntgaa .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1528,7 +1510,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#xeibkbeuxl .gt_first_grand_summary_row {
+#wutpwntgaa .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1538,7 +1520,7 @@ using the <code>engine</code> argument.</p>
   border-top-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_last_grand_summary_row_top {
+#wutpwntgaa .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1548,11 +1530,11 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_striped {
+#wutpwntgaa .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xeibkbeuxl .gt_table_body {
+#wutpwntgaa .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1561,7 +1543,7 @@ using the <code>engine</code> argument.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_footnotes {
+#wutpwntgaa .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1575,7 +1557,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_footnote {
+#wutpwntgaa .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1584,7 +1566,7 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#xeibkbeuxl .gt_sourcenotes {
+#wutpwntgaa .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1598,7 +1580,7 @@ using the <code>engine</code> argument.</p>
   border-right-color: #D3D3D3;
 }
 
-#xeibkbeuxl .gt_sourcenote {
+#wutpwntgaa .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1606,72 +1588,72 @@ using the <code>engine</code> argument.</p>
   padding-right: 5px;
 }
 
-#xeibkbeuxl .gt_left {
+#wutpwntgaa .gt_left {
   text-align: left;
 }
 
-#xeibkbeuxl .gt_center {
+#wutpwntgaa .gt_center {
   text-align: center;
 }
 
-#xeibkbeuxl .gt_right {
+#wutpwntgaa .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xeibkbeuxl .gt_font_normal {
+#wutpwntgaa .gt_font_normal {
   font-weight: normal;
 }
 
-#xeibkbeuxl .gt_font_bold {
+#wutpwntgaa .gt_font_bold {
   font-weight: bold;
 }
 
-#xeibkbeuxl .gt_font_italic {
+#wutpwntgaa .gt_font_italic {
   font-style: italic;
 }
 
-#xeibkbeuxl .gt_super {
+#wutpwntgaa .gt_super {
   font-size: 65%;
 }
 
-#xeibkbeuxl .gt_footnote_marks {
+#wutpwntgaa .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xeibkbeuxl .gt_asterisk {
+#wutpwntgaa .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xeibkbeuxl .gt_indent_1 {
+#wutpwntgaa .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xeibkbeuxl .gt_indent_2 {
+#wutpwntgaa .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xeibkbeuxl .gt_indent_3 {
+#wutpwntgaa .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xeibkbeuxl .gt_indent_4 {
+#wutpwntgaa .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xeibkbeuxl .gt_indent_5 {
+#wutpwntgaa .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xeibkbeuxl .katex-display {
+#wutpwntgaa .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xeibkbeuxl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wutpwntgaa div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

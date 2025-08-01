@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.3.0" id="ggeffects-230">ggeffects 2.3.0<a class="anchor" aria-label="anchor" href="#ggeffects-230"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.3.0" id="ggeffects-230">ggeffects 2.3.0<a class="anchor" aria-label="anchor" href="#ggeffects-230"></a></h2><p class="text-muted">CRAN release: 2025-06-13</p>
 <ul><li>
 <code>engine = "marginaleffects"</code> was removed from <code><a href="../reference/test_predictions.html">test_predictions()</a></code>. Full support for the {marginaleffects} package is now available in the {modelbased} package from the easystats-projects. Consequently, the <code>johnson_neyman()</code> function was also removed. This decision was mainly to reduce maintainance burden. For marginal means, contrasts and comparisons, as well as marginal effects (slopes), the ggeffects package will be superseded by the modelbased package. For predictions, simulated responses, or emmeans-support, support in ggeffects will be continued in the future, however, almost all functionality is or will be available in the modelbased package, too.</li>
 </ul></div>
