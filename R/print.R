@@ -299,10 +299,6 @@ print_html.ggeffects <- function(x,
     out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
     out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
   }
-  # apply theme, if any
-  if (identical(output, "html")) {
-    out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
-  }
   # workaround, to make sure HTML is default output
   out@output <- output
   out
@@ -676,10 +672,6 @@ print_md.ggcomparisons <- function(x, collapse_ci = FALSE, collapse_p = FALSE, t
     if (!is.null(row_header_labels)) {
       out <- tinytable::group_tt(out, i = row_header_labels, indent = 2)
       out <- tinytable::style_tt(out, i = row_header_pos, italic = TRUE)
-    }
-    # apply theme, if any
-    if (identical(output, "html")) {
-      out <- insight::apply_table_theme(out, x, theme = theme, sub_header_positions = row_header_pos)
     }
     # workaround, to make sure HTML is default output
     out@output <- output
