@@ -1,3 +1,7 @@
+# ggeffects (devel)
+
+* `plot()` gains a `facet_labels` argument, to label facet columns in plots.
+
 # ggeffects 2.3.0
 
 * `engine = "marginaleffects"` was removed from `test_predictions()`. Full
