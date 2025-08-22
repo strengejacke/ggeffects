@@ -1,3 +1,7 @@
+# ggeffects 2.3.1
+
+* Fixed issues related to latest _insight_ update.
+
 # ggeffects 2.3.0
 
 * `engine = "marginaleffects"` was removed from `test_predictions()`. Full
