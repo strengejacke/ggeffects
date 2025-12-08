@@ -25,7 +25,8 @@ Imports:
     insight (>= 1.3.0),
     datawizard (>= 1.2.0),
     stats,
-    utils
+    utils, 
+    reformulas
 Suggests:
     AER,
     afex,

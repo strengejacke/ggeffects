@@ -118,7 +118,6 @@
                                           terms = NULL,
                                           typical = NULL,
                                           condition = NULL) {
-  insight::check_if_installed("lme4")
 
   # Since the zero inflation and the conditional model are working in "opposite
   # directions", confidence intervals can not be derived directly  from the
@@ -128,8 +127,8 @@
 
   tryCatch(
     {
-      condformula <- lme4::nobars(stats::formula(model)[-2])
-      ziformula <- lme4::nobars(stats::formula(model$modelInfo$allForm$ziformula))
+      condformula <- reformulas::nobars(stats::formula(model)[-2])
+      ziformula <- reformulas::nobars(stats::formula(model$modelInfo$allForm$ziformula))
 
       # if formula has a polynomial term, and this term is one that is held
       # constant, model.matrix() with "newdata" will throw an error - so we
