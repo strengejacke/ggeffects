@@ -139,7 +139,7 @@ plot.</p>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>quietly margins, <span class="fu">at</span>(<span class="at">var2 =</span> (<span class="sc">-</span><span class="dv">8</span>(<span class="fl">0.5</span>)<span class="dv">28</span>) <span class="at">var1 =</span> (<span class="dv">0</span> <span class="dv">1</span>))</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>marginsplot</span></code></pre></div>
 <p>The resulting image looks like this.</p>
-<p><img src="vignette-stata-1.png" width="100%"></p>
+<p><img src="vignette-stata-1.png" class="r-plt" width="100%"></p>
 </div>
 <div class="section level4">
 <h4 id="the-ggeffects-plot">The ggeffects plot<a class="anchor" aria-label="anchor" href="#the-ggeffects-plot"></a>
@@ -148,7 +148,7 @@ plot.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/ggeffects/">ggeffects</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var2"</span>, <span class="st">"var1"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="technical_stata_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p><img src="technical_stata_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="672"></p>
 <p>As we can see, the confidence intervals in the Stata plot are outside
 the plausible range of <code>[0, 1]</code>, which means that the
 predicted uncertainty from the Stata output has a probability higher
@@ -187,7 +187,7 @@ the linear predictor and then back-transform.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer>

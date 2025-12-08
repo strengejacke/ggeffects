@@ -1,0 +1,46 @@
+# Documentation of the ggeffects package
+
+The documentation of the *ggeffects* package, including many examples,
+is [available online](https://strengejacke.github.io/ggeffects/). Here
+you can find the content of the available documents. Click on a link to
+visit the related website.
+
+## General introductions into the *ggeffects* package
+
+- [Adjusted Predictions of Regression
+  Models](https://strengejacke.github.io/ggeffects/articles/ggeffects.html)
+- [Adjusted Predictions at Specific
+  Values](https://strengejacke.github.io/ggeffects/articles/introduction_effectsatvalues.html)
+- [Adjusted Predictions for Random Effects
+  Models](https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html)
+- [(Cluster) Robust Standard
+  Errors](https://strengejacke.github.io/ggeffects/articles/practical_robustestimation.html)
+
+## Creating and customizing plots and tables
+
+- [Plotting Adjusted
+  Predictions](https://strengejacke.github.io/ggeffects/articles/introduction_plotmethod.html)
+- [Customize Plot
+  Appearance](https://strengejacke.github.io/ggeffects/articles/introduction_plotcustomize.html)
+- [Customize Table
+  Appearance](https://strengejacke.github.io/ggeffects/articles/introduction_print.html)
+
+## Case Studies
+
+- [Simple Workflow using Logistic
+  Regression](https://strengejacke.github.io/ggeffects/articles/practical_glm_workflow.html)
+- [Logistic Mixed Effects Model with Interaction
+  Term](https://strengejacke.github.io/ggeffects/articles/practical_logisticmixedmodel.html)
+- [Intersectionality Analysis using the MAIHDA
+  Framework](https://strengejacke.github.io/ggeffects/articles/practical_intersectionality.html)
+- [Comparison of ggeffects and
+  marginaleffects](https://strengejacke.github.io/ggeffects/articles/practical_marginaleffects_pkg.html)
+
+## Technical details
+
+- [Adding own class-methods to
+  ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_get_predictions.html)
+- [Difference between Marginalization
+  Methods](https://strengejacke.github.io/ggeffects/articles/technical_differencepredictemmeans.html)
+- [Different Output between Stata and
+  ggeffects](https://strengejacke.github.io/ggeffects/articles/technical_stata.html)

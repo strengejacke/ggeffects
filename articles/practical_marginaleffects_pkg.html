@@ -164,7 +164,7 @@ level of the random effects are included.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Predicted weight"</span>, x <span class="op">=</span> <span class="st">"Time"</span>, title <span class="op">=</span> <span class="st">"Quadratic growth model"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" width="672"></p>
 <p><em>ggeffects</em> handles unit-level predictions slightly different
 (see <a href="https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html">this
 vignette</a>) - each unit-level is considered as own “group”, thus the
@@ -187,7 +187,7 @@ amount of color values and hide the legend.</p>
 <span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"grey30"</span>, <span class="fl">50</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p3</span> <span class="op">+</span> <span class="va">p4</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="unit-level-predictions-stratified-by-diet">Unit-level predictions stratified by <code>Diet</code><a class="anchor" aria-label="anchor" href="#unit-level-predictions-stratified-by-diet"></a>
@@ -201,7 +201,7 @@ study. Unit-level predictions are stratified by <code>Diet</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Predicted Weight"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Diet</span>, labeller <span class="op">=</span> <span class="va">label_both</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="672"></p>
 <p><em>ggeffects</em> by default creates a (theoretical) reference grid
 for all possible combinations in the data. That’s why the following plot
 looks different than the one above. We see predictions for <em>all</em>
@@ -209,7 +209,7 @@ unit-levels in each panel of <code>Diet</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Chick"</span>, <span class="st">"Diet"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"grey30"</span>, <span class="fl">50</span><span class="op">)</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="672"></p>
 <p>To limit the plot to the unit-levels that are actually present in the
 data, we need to set <code>limit_range = TRUE</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -221,7 +221,7 @@ data, we need to set <code>limit_range = TRUE</code>.</p>
 <span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  limit_range <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="population-level-predictions">Population-level predictions<a class="anchor" aria-label="anchor" href="#population-level-predictions"></a>
@@ -243,7 +243,7 @@ data, we need to set <code>limit_range = TRUE</code>.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Diet</span>, labeller <span class="op">=</span> <span class="va">label_both</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Population-level trajectories"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="672"></p>
 <p>This plot is rather simple to reproduce with <em>ggeffects</em>. We
 don’t need to specify the <code>type</code> argument, since
 <code>type = "fixed"</code> is the default and returns population-level
@@ -251,7 +251,7 @@ predictions.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">model2</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Time"</span>, <span class="st">"Diet"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">pr</span>, grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="practical_marginaleffects_pkg_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -265,7 +265,7 @@ predictions.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer>

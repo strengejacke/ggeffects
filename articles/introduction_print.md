@@ -1,0 +1,684 @@
+# Introduction: Customizing Table Output
+
+## Printing Tables to the Console
+
+This vignettes shows how to customize the tables that are printed to the
+console. Most of the options can be controlled via the
+[`format()`](https://rdrr.io/r/base/format.html) method, which is
+documented in detail
+[here](https://strengejacke.github.io/ggeffects/reference/print.html).
+
+## ![](../reference/figures/summary.png) Summary of most important points:
+
+- By default, results are printed as nicely formatted tables to the R
+  console. If there's more than one focal term, a separate table is
+  printed for each level or value of the second (or third) focal
+  predictor.
+- It is possible to customize the table output to get more compact
+  tables. For example, `collapse_tables = TRUE` will return a single
+  table with new columns for the values of other focal terms (instead of
+  displaying them as table captions).
+- [`print_html()`](https://easystats.github.io/insight/reference/display.html)
+  and
+  [`print_md()`](https://easystats.github.io/insight/reference/display.html)
+  can be used to change the output format to HTML or markdown,
+  respectively. This is useful inside Rmarkdown documents or to copy and
+  paste HTML tables into a Word processor.
+- Preferred settings for printing tables can set as default via
+  [`options()`](https://rdrr.io/r/base/options.html) .
+
+### Simple Tables
+
+First, we start with the default print method, which prints a simple
+table with the predicted values and confidence intervals. Printing is
+done automatically, so we don’t need to explicitly call
+[`print()`](https://strengejacke.github.io/ggeffects/reference/print.md).
+The example shown here uses the `efc` dataset from a study about the
+situation and support of family caregivers of older relatives.
+
+The outcome we predict is the score of the Barthel-Index, `barthtot`,
+which is a measure of the ability to perform activities of daily living.
+The Barthel-Index ranges from 0 to 100, with higher values indicating
+better functioning.
+
+``` r
+
+library(ggeffects)
+data(efc, package = "ggeffects")
+efc <- datawizard::to_factor(efc, c("c172code", "c161sex", "e42dep"))
+fit <- lm(barthtot ~ c161sex + c172code + e42dep + c160age, data = efc)
+
+# predicted values of Barthel-Index by educational level
+out <- predict_response(fit, "c172code")
+# we don't want to include the information about at which values
+# non-focal terms were held constant - so we remove this attribute
+attributes(out)$constant.values <- NULL
+
+out
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     93.21 | 87.72,  98.71
+#> intermediate level of education |     94.69 | 89.66,  99.71
+#> high level of education         |     94.37 | 88.70, 100.04
+```
+
+We see the focal term in the first column, followed by the column with
+predicted values, and the confidence intervals for the predictions in
+the rightmost column.
+
+Note that this is the printed output, not the underlying data frame
+returned by
+[`predict_response()`](https://strengejacke.github.io/ggeffects/reference/predict_response.md).
+The data frame returned by
+[`predict_response()`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)
+contains the predicted values and confidence intervals in separate
+columns, and can be used for further analyses. Use
+[`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) to look
+at the complete information. This data frame may also contain further
+columns if more than one focal term is used.
+
+``` r
+
+as.data.frame(predict_response(fit, "c172code"))
+#>                                 x predicted std.error conf.low conf.high group
+#> 1          low level of education  93.21421  2.801569 87.71505  98.71337     1
+#> 2 intermediate level of education  94.68719  2.561423 89.65941  99.71497     1
+#> 3         high level of education  94.37114  2.886906 88.70447 100.03781     1
+```
+
+Note that the columns have standardized name, for example the column
+name of the (main) focal term is always `x`. You can use the names of
+the focal terms as column names with `terms_to_colnames = TRUE`.
+
+``` r
+
+as.data.frame(
+  predict_response(fit, "c172code"),
+  terms_to_colnames = TRUE
+)
+#>                          c172code predicted std.error conf.low conf.high group
+#> 1          low level of education  93.21421  2.801569 87.71505  98.71337     1
+#> 2 intermediate level of education  94.68719  2.561423 89.65941  99.71497     1
+#> 3         high level of education  94.37114  2.886906 88.70447 100.03781     1
+```
+
+### Customizing the Confidence Intervals Column
+
+[`print()`](https://strengejacke.github.io/ggeffects/reference/print.md)
+internally calls
+[`insight::format_table()`](https://easystats.github.io/insight/reference/format_table.html)
+and
+[`insight::export_table()`](https://easystats.github.io/insight/reference/export_table.html),
+so it is possible to pass some arguments to those functions via the
+[`print()`](https://strengejacke.github.io/ggeffects/reference/print.md)
+method. For example, we can control whether confidence intervals should
+be enclosed by parentheses or brackets using the `ci_brackets` argument.
+
+``` r
+
+# using brackets around confidence intervals
+print(out, ci_brackets = c("[", "]"))
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code                        | Predicted |          95% CI
+#> -------------------------------------------------------------
+#> low level of education          |     93.21 | [87.72,  98.71]
+#> intermediate level of education |     94.69 | [89.66,  99.71]
+#> high level of education         |     94.37 | [88.70, 100.04]
+```
+
+### Putting Confidence Intervals next to the Predicted Values
+
+If you prefer to have the confidence intervals next to the predicted
+values, use `collapse_ci = TRUE`. By default, confidence intervals are
+enclosed into parentheses, for better readability. This can be changed
+with `ci_brackets`. The column name (in the output) is adjusted
+accordingly.
+
+``` r
+
+# confidence intervals next to predicted values
+print(out, collapse_ci = TRUE)
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code                        |    Predicted (95% CI)
+#> -------------------------------------------------------
+#> low level of education          | 93.21 (87.72,  98.71)
+#> intermediate level of education | 94.69 (89.66,  99.71)
+#> high level of education         | 94.37 (88.70, 100.04)
+
+# using brackets around confidence intervals
+print(out, collapse_ci = TRUE, ci_brackets = c("[", "]"))
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code                        |    Predicted (95% CI)
+#> -------------------------------------------------------
+#> low level of education          | 93.21 [87.72,  98.71]
+#> intermediate level of education | 94.69 [89.66,  99.71]
+#> high level of education         | 94.37 [88.70, 100.04]
+```
+
+### Make use of Labelled Data
+
+If you have [*labelled
+data*](https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html),
+you can include value and variable labels in the output. For example,
+using `variable_labels = TRUE` will include the variable labels as
+column headers. However, this can result in quite long column headers.
+
+``` r
+
+# include variable labels
+print(out, variable_labels = TRUE)
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> carer's level of education      | Predicted values of Total score BARTHEL INDEX |        95% CI
+#> -----------------------------------------------------------------------------------------------
+#> low level of education          |                                         93.21 | 87.72,  98.71
+#> intermediate level of education |                                         94.69 | 89.66,  99.71
+#> high level of education         |                                         94.37 | 88.70, 100.04
+```
+
+Value labels can be included using `value_labels = TRUE`. In the first
+example, we used
+[`datawizard::to_factor()`](https://easystats.github.io/datawizard/reference/to_factor.html)
+to convert some variables to factors. This function also uses value
+labels as factor levels, that’s why we see the value labels in the
+output, see the difference here:
+
+``` r
+
+data(efc, package = "ggeffects")
+
+table(efc$c172code)
+#> 
+#>   1   2   3 
+#> 180 506 156
+
+table(datawizard::to_factor(efc$c172code))
+#> 
+#>          low level of education intermediate level of education         high level of education 
+#>                             180                             506                             156
+```
+
+By default, the actual values are shown in the output, not their value
+labels (unless, as shown above, you convert to factor and assign value
+labels as factor levels).
+
+``` r
+
+data(efc, package = "ggeffects")
+fit <- lm(barthtot ~ c161sex + c172code + e42dep + c160age, data = efc)
+
+# predicted values of Barthel-Index by educational level
+out <- predict_response(fit, "c172code")
+attributes(out)$constant.values <- NULL
+
+out
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code | Predicted |       95% CI
+#> -----------------------------------
+#>        1 |     63.53 | 61.05, 66.01
+#>        2 |     64.60 | 63.26, 65.94
+#>        3 |     65.66 | 63.08, 68.24
+```
+
+However, if you want to include value labels in the output, use
+`value_labels = TRUE`. This will replace the actual values with their
+value labels. Note that this only works if the values are labelled,
+otherwise the actual values are shown. Beside the value labels, the
+related value is prefixed in brackets.
+
+``` r
+
+print(out, value_labels = TRUE)
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#>                            c172code | Predicted |       95% CI
+#> --------------------------------------------------------------
+#>          [1] low level of education |     63.53 | 61.05, 66.01
+#> [2] intermediate level of education |     64.60 | 63.26, 65.94
+#>         [3] high level of education |     65.66 | 63.08, 68.24
+```
+
+### More than one Focal Term - Multiple Tables
+
+Next, we use a model with a two-way interaction. That means that the
+predicted values for our (main) focal term *educational level*
+(`c172code`) differ, depending on the values of our second focal term,
+in our example `hours_per_week` (the hours of care provided per week,
+either `"low"` or `"high"`).
+
+Whenever you have more than one focal term, the output is split into
+multiple tables. The first table shows the predicted values for the
+first focal term, while the second table shows the predicted values for
+the second focal term and so on. The values of the second focal term are
+used as headings for the tables.
+
+``` r
+
+data(efc, package = "ggeffects")
+efc <- datawizard::to_factor(efc, c("c172code", "c161sex", "e42dep"))
+# for sake of demonstration, we create a new variable, dichotomized
+efc$hours_per_week <- factor(datawizard::categorize(efc$c12hour), labels = c("low", "high"))
+fit <- lm(barthtot ~ hours_per_week * c172code + c161sex + e42dep, data = efc)
+
+# predicted values of Barthel-Index by educational level and hours per week
+out <- predict_response(fit, c("c172code", "hours_per_week"))
+# we don't want to include the information about at which values
+# non-focal terms were held constant - so we remove this attribute
+attributes(out)$constant.values <- NULL
+
+out
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> hours_per_week: low
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     93.22 | 86.89,  99.55
+#> intermediate level of education |     96.07 | 91.15, 101.00
+#> high level of education         |     97.11 | 90.86, 103.36
+#> 
+#> hours_per_week: high
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     85.73 | 79.67,  91.79
+#> intermediate level of education |     86.85 | 81.16,  92.53
+#> high level of education         |     84.50 | 78.07,  90.93
+```
+
+If you prefer to have one table only, use `collapse_tables = TRUE`. This
+will merge the tables into one, and the values of the second focal term
+are included as additional column.
+
+``` r
+
+print(out, collapse_tables = TRUE)
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code                        | hours_per_week | Predicted |        95% CI
+#> ----------------------------------------------------------------------------
+#> low level of education          |            low |     93.22 | 86.89,  99.55
+#> intermediate level of education |                |     96.07 | 91.15, 101.00
+#> high level of education         |                |     97.11 | 90.86, 103.36
+#> low level of education          |           high |     85.73 | 79.67,  91.79
+#> intermediate level of education |                |     86.85 | 81.16,  92.53
+#> high level of education         |                |     84.50 | 78.07,  90.93
+```
+
+If you have three focal terms, e.g. because you have a
+three-way-interaction, the tables are split at each combination of the
+values or levels of the second and third focal terms. You now get a
+heading with two rows, the first row shows the values of the second
+focal term, the second row shows the values of the third focal term.
+
+``` r
+
+fit <- lm(barthtot ~ hours_per_week * c172code * c161sex + e42dep, data = efc)
+out <- predict_response(fit, c("c172code", "hours_per_week", "c161sex"))
+attributes(out)$constant.values <- NULL
+out
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> hours_per_week: low
+#> c161sex: Male
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     91.34 | 81.71, 100.97
+#> intermediate level of education |     97.34 | 91.56, 103.13
+#> high level of education         |     97.91 | 89.59, 106.24
+#> 
+#> hours_per_week: low
+#> c161sex: Female
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     93.71 | 87.29, 100.12
+#> intermediate level of education |     95.52 | 90.80, 100.25
+#> high level of education         |     96.54 | 90.00, 103.08
+#> 
+#> hours_per_week: high
+#> c161sex: Male
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     87.36 | 79.19,  95.52
+#> intermediate level of education |     85.42 | 78.59,  92.25
+#> high level of education         |     81.65 | 72.77,  90.54
+#> 
+#> hours_per_week: high
+#> c161sex: Female
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     85.13 | 79.12,  91.14
+#> intermediate level of education |     87.05 | 81.70,  92.40
+#> high level of education         |     85.39 | 78.86,  91.92
+```
+
+Again, you can collapse all tables into one table.
+
+``` r
+
+print(out, collapse_tables = TRUE, collapse_ci = TRUE)
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> c172code                        | hours_per_week | c161sex |    Predicted (95% CI)
+#> ----------------------------------------------------------------------------------
+#> low level of education          |            low |    Male | 91.34 (81.71, 100.97)
+#> intermediate level of education |                |         | 97.34 (91.56, 103.13)
+#> high level of education         |                |         | 97.91 (89.59, 106.24)
+#> low level of education          |                |  Female | 93.71 (87.29, 100.12)
+#> intermediate level of education |                |         | 95.52 (90.80, 100.25)
+#> high level of education         |                |         | 96.54 (90.00, 103.08)
+#> low level of education          |           high |    Male | 87.36 (79.19,  95.52)
+#> intermediate level of education |                |         | 85.42 (78.59,  92.25)
+#> high level of education         |                |         | 81.65 (72.77,  90.54)
+#> low level of education          |                |  Female | 85.13 (79.12,  91.14)
+#> intermediate level of education |                |         | 87.05 (81.70,  92.40)
+#> high level of education         |                |         | 85.39 (78.86,  91.92)
+```
+
+You can also shorten the subheadings of tables with
+`group_name = FALSE`. This will remove the name of the second and third
+focal term from the subheading, and only the values of the focal terms
+are shown. Then, the subheadings are shorter and thus automatically
+displayed in one row.
+
+``` r
+
+print(out, group_name = FALSE)
+#> # Predicted values of Total score BARTHEL INDEX
+#> 
+#> low, Male
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     91.34 | 81.71, 100.97
+#> intermediate level of education |     97.34 | 91.56, 103.13
+#> high level of education         |     97.91 | 89.59, 106.24
+#> 
+#> low, Female
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     93.71 | 87.29, 100.12
+#> intermediate level of education |     95.52 | 90.80, 100.25
+#> high level of education         |     96.54 | 90.00, 103.08
+#> 
+#> high, Male
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     87.36 | 79.19,  95.52
+#> intermediate level of education |     85.42 | 78.59,  92.25
+#> high level of education         |     81.65 | 72.77,  90.54
+#> 
+#> high, Female
+#> 
+#> c172code                        | Predicted |        95% CI
+#> -----------------------------------------------------------
+#> low level of education          |     85.13 | 79.12,  91.14
+#> intermediate level of education |     87.05 | 81.70,  92.40
+#> high level of education         |     85.39 | 78.86,  91.92
+```
+
+### Printing HTML Tables
+
+For all the above examples, tables in HTML format can be created, simply
+by calling
+[`print_html()`](https://easystats.github.io/insight/reference/display.html).
+This will create a HTML table, which can be used in R Markdown
+documents, for example, or in Shiny apps, or can be displayed in the
+viewer pane of your IDE. You can then simply copy and paste that table
+into a word processor.
+
+#### Using the {tinytable} Package
+
+To produce HTML tables, you need to install the {tinytable} or {gt}
+package first. By default, {tinytable} is used, but you can switch to
+{gt} by setting `options(ggeffects_html_engine = "gt")`, or by using the
+`engine` argument.
+
+``` r
+
+# for example:
+print_html(out)
+```
+
+[TABLE]
+
+Predicted values of Total score BARTHEL INDEX
+{#tinytable_6v58l9vxglu05x0o7wvi .table .tinytable
+style="width: auto; margin-left: auto; margin-right: auto;"
+quarto-disable-processing="true"}
+
+``` r
+
+
+# or:
+print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
+```
+
+| c172code | hours_per_week | c161sex | Predicted (95% CI) |
+|----|----|----|----|
+| low level of education | low | Male | 91.34 (81.71, 100.97) |
+| intermediate level of education |  |  | 97.34 (91.56, 103.13) |
+| high level of education |  |  | 97.91 (89.59, 106.24) |
+| low level of education |  | Female | 93.71 (87.29, 100.12) |
+| intermediate level of education |  |  | 95.52 (90.80, 100.25) |
+| high level of education |  |  | 96.54 (90.00, 103.08) |
+| low level of education | high | Male | 87.36 (79.19, 95.52) |
+| intermediate level of education |  |  | 85.42 (78.59, 92.25) |
+| high level of education |  |  | 81.65 (72.77, 90.54) |
+| low level of education |  | Female | 85.13 (79.12, 91.14) |
+| intermediate level of education |  |  | 87.05 (81.70, 92.40) |
+| high level of education |  |  | 85.39 (78.86, 91.92) |
+
+Predicted values of Total score BARTHEL INDEX
+{#tinytable_9n8o98iosemua6rb2f7b .table .tinytable
+style="width: auto; margin-left: auto; margin-right: auto;"
+quarto-disable-processing="true"}
+
+The above shown tables have no theme applied (i.e. `theme = NULL`),
+however, there are some pre-defined table themes (only when using
+{tinytable}) to change the table appearance, too. These can be applied
+using the `theme` argument, which must be one of `"default"`,
+`"grid"`,`"striped"`, `"bootstrap"`, or `"darklines"`.
+
+``` r
+
+# for the sake of demonstratiion, we want fewer focal terms
+fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
+out <- predict_response(fit, c("hours_per_week", "c161sex"))
+
+# "bootstrap" theme
+print_html(out, theme = "bootstrap")
+```
+
+[TABLE]
+
+Predicted values of Total score BARTHEL INDEX
+{#tinytable_bmj3iklkidrjok56654b .table .tinytable
+style="width: auto; margin-left: auto; margin-right: auto;"
+quarto-disable-processing="true"}
+
+``` r
+
+
+# "striped" theme, from tinytables
+print_html(out, theme = "striped")
+```
+
+[TABLE]
+
+Predicted values of Total score BARTHEL INDEX
+{#tinytable_9dc94va645er44c0k8p3 .table .tinytable
+style="width: auto; margin-left: auto; margin-right: auto;"
+quarto-disable-processing="true"}
+
+Since
+[`print_html()`](https://easystats.github.io/insight/reference/display.html)
+returns a `tinytable` object, you can pass the returned object into the
+functions of the {tinytable} package, to further customize the table.
+For example, you can adjust the table width, or use custom border colors
+etc.
+
+``` r
+
+tt_out <- print_html(out, collapse_tables = TRUE, collapse_ci = TRUE)
+tinytable::style_tt(tt_out, i = 0, line = "t", line_color = "red")
+```
+
+[TABLE]
+
+Predicted values of Total score BARTHEL INDEX
+{#tinytable_j6k6qk1n4y3wmwlmimxg .table .tinytable
+style="width: auto; margin-left: auto; margin-right: auto;"
+quarto-disable-processing="true"}
+
+#### Using the {gt} Package
+
+If you prefer to use the {gt} package, you can switch to this package by
+setting `options(ggeffects_html_engine = "gt")`, or by using the
+`engine` argument.
+
+``` r
+
+fit <- lm(barthtot ~ hours_per_week * c161sex + e42dep, data = efc)
+out <- predict_response(fit, c("hours_per_week", "c161sex"))
+print_html(out, engine = "gt")
+```
+
+[TABLE]
+
+In the above example,
+[`print_html()`](https://easystats.github.io/insight/reference/display.html)
+returns a `gt` object, which can be further customized as well.
+
+### Customizing Output of `test_predictions()`
+
+The tables from
+[`test_predictions()`](https://strengejacke.github.io/ggeffects/reference/test_predictions.md)
+(or its alias
+[`hypothesis_test()`](https://strengejacke.github.io/ggeffects/reference/test_predictions.md))
+can be customized in a similar fashion. Major difference is that this
+function usually includes p-values, and there is an additional argument
+`collapse_p` to collapse the columns with contrasts and p-values into
+one column.
+
+Let’s simulate some data and fit a model with an interaction term.
+
+``` r
+
+set.seed(123)
+n <- 200
+d <- data.frame(
+  outcome = rnorm(n),
+  grp = as.factor(sample(c("treatment", "control"), n, TRUE)),
+  episode = as.factor(sample.int(3, n, TRUE)),
+  sex = as.factor(sample(c("female", "male"), n, TRUE, prob = c(0.4, 0.6)))
+)
+model <- lm(outcome ~ grp * episode, data = d)
+out <- test_predictions(model, c("episode [1,2]", "grp"))
+```
+
+The default output shows the contrasts (or estimates of pairwise
+comparisons), confidence intervals and p-values in separate columns.
+
+``` r
+
+out
+#> # Pairwise comparisons
+#> 
+#> episode |                 grp | Contrast |       95% CI |     p
+#> ---------------------------------------------------------------
+#> 1-1     |   control-treatment |     0.42 | -0.04,  0.88 | 0.074
+#> 1-2     |     control-control |    -0.20 | -0.63,  0.23 | 0.350
+#> 1-2     |   control-treatment |    -0.15 | -0.61,  0.32 | 0.529
+#> 1-2     | treatment-treatment |    -0.57 | -1.06, -0.07 | 0.026
+#> 2-1     |   control-treatment |     0.62 |  0.16,  1.09 | 0.009
+#> 2-2     |   control-treatment |     0.06 | -0.41,  0.52 | 0.816
+```
+
+Here are the different combinations to collapse multiple columns into
+one. The p-values and/or confidence intervals are then combined with the
+contrasts.
+
+``` r
+
+# collapse confidence intervals
+print(out, collapse_ci = TRUE)
+#> # Pairwise comparisons
+#> 
+#> episode |                 grp |    Contrast (95% CI) |     p
+#> ------------------------------------------------------------
+#> 1-1     |   control-treatment |  0.42 (-0.04,  0.88) | 0.074
+#> 1-2     |     control-control | -0.20 (-0.63,  0.23) | 0.350
+#> 1-2     |   control-treatment | -0.15 (-0.61,  0.32) | 0.529
+#> 1-2     | treatment-treatment | -0.57 (-1.06, -0.07) | 0.026
+#> 2-1     |   control-treatment |  0.62  (0.16,  1.09) | 0.009
+#> 2-2     |   control-treatment |  0.06 (-0.41,  0.52) | 0.816
+
+# collapse p-values
+print(out, collapse_p = TRUE)
+#> # Pairwise comparisons
+#> 
+#> episode |                 grp | Contrast |       95% CI
+#> -------------------------------------------------------
+#> 1-1     |   control-treatment |   0.42   | -0.04,  0.88
+#> 1-2     |     control-control |  -0.20   | -0.63,  0.23
+#> 1-2     |   control-treatment |  -0.15   | -0.61,  0.32
+#> 1-2     | treatment-treatment |  -0.57*  | -1.06, -0.07
+#> 2-1     |   control-treatment |   0.62** |  0.16,  1.09
+#> 2-2     |   control-treatment |   0.06   | -0.41,  0.52
+
+# collapse both, confidence intervals and p-values
+print(out, collapse_ci = TRUE, collapse_p = TRUE)
+#> # Pairwise comparisons
+#> 
+#> episode |                 grp |      Contrast (95% CI)
+#> ------------------------------------------------------
+#> 1-1     |   control-treatment |  0.42   (-0.04,  0.88)
+#> 1-2     |     control-control | -0.20   (-0.63,  0.23)
+#> 1-2     |   control-treatment | -0.15   (-0.61,  0.32)
+#> 1-2     | treatment-treatment | -0.57*  (-1.06, -0.07)
+#> 2-1     |   control-treatment |  0.62**  (0.16,  1.09)
+#> 2-2     |   control-treatment |  0.06   (-0.41,  0.52)
+```
+
+### Defining a Default Style
+
+Once you have found your preferred setting, you can define a default
+style for all tables by defining global options, i.e. use
+`options(<option_name>, <value>)`. The following options are available:
+
+- `ggeffects_ci_brackets`: Define a character vector of length two,
+  indicating the opening and closing parentheses that encompass the
+  confidence intervals values,
+  e.g. `options(ggeffects_ci_brackets = c("[", "]"))`.
+
+- `ggeffects_collapse_ci`: Logical, if `TRUE`, the columns with
+  predicted values and confidence intervals are collapsed into one
+  column, e.g. `options(ggeffects_collapse_ci = TRUE)`.
+
+- `ggeffects_collapse_p`: Logical, if `TRUE`, the columns with predicted
+  values (or contrasts) and p-values are collapsed into one column,
+  e.g. `options(ggeffects_collapse_p = TRUE)`. Note that p-values are
+  replaced by asterisk-symbols (stars) or empty strings when
+  `ggeffects_collapse_p = TRUE`, depending on the significance level.
+
+- `ggeffects_collapse_tables`: Logical, if `TRUE`, multiple tables for
+  subgroups are combined into one table. Only works when there is more
+  than one focal term, e.g. `options(ggeffects_collapse_tables = TRUE)`.
+
+- `ggeffects_html_engine`: String, either `"gt"` or `"tt"`. Defines the
+  default engine to use for printing HTML tables. If `"tt"`, the
+  *tinytable* package is used, if `"gt"`, the *gt* package is used,
+  e.g. `options(ggeffects_html_engine = "gt")`.

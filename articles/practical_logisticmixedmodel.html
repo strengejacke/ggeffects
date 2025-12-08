@@ -156,8 +156,8 @@ group-specific.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; var_binom | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ----------------------------------</span></span>
-<span><span class="co">#&gt; 0         |      0.37 | 0.25, 0.51</span></span>
-<span><span class="co">#&gt; 1         |      0.38 | 0.18, 0.62</span></span>
+<span><span class="co">#&gt; 0         |      0.37 | 0.34, 0.40</span></span>
+<span><span class="co">#&gt; 1         |      0.38 | 0.32, 0.44</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * var_cont = -0.00</span></span>
@@ -169,14 +169,14 @@ group-specific.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; var_cont | Predicted |     95% CI</span></span>
 <span><span class="co">#&gt; ---------------------------------</span></span>
-<span><span class="co">#&gt;    -2.50 |      0.34 | 0.13, 0.63</span></span>
-<span><span class="co">#&gt;    -2.00 |      0.34 | 0.16, 0.59</span></span>
-<span><span class="co">#&gt;    -1.00 |      0.36 | 0.21, 0.53</span></span>
-<span><span class="co">#&gt;     0.00 |      0.37 | 0.25, 0.51</span></span>
-<span><span class="co">#&gt;     0.50 |      0.38 | 0.25, 0.52</span></span>
-<span><span class="co">#&gt;     1.00 |      0.38 | 0.24, 0.55</span></span>
-<span><span class="co">#&gt;     2.00 |      0.40 | 0.20, 0.64</span></span>
-<span><span class="co">#&gt;     3.50 |      0.42 | 0.13, 0.77</span></span>
+<span><span class="co">#&gt;    -2.50 |      0.34 | 0.28, 0.40</span></span>
+<span><span class="co">#&gt;    -2.00 |      0.34 | 0.29, 0.40</span></span>
+<span><span class="co">#&gt;    -1.00 |      0.36 | 0.32, 0.39</span></span>
+<span><span class="co">#&gt;     0.00 |      0.37 | 0.34, 0.40</span></span>
+<span><span class="co">#&gt;     0.50 |      0.38 | 0.34, 0.41</span></span>
+<span><span class="co">#&gt;     1.00 |      0.38 | 0.34, 0.42</span></span>
+<span><span class="co">#&gt;     2.00 |      0.40 | 0.34, 0.45</span></span>
+<span><span class="co">#&gt;     3.50 |      0.42 | 0.33, 0.51</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * var_binom = 0</span></span>
@@ -189,11 +189,11 @@ the pipe.</p>
 <code class="sourceCode R"><span><span class="co"># save adjusted predictions in an object and plot</span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_binom"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot using the pipe</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m1</span>, <span class="st">"var_cont"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-4-2.png" width="672"></p>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-4-2.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="logistic-mixed-effects-model-with-interaction-term">Logistic Mixed Effects Model with Interaction Term<a class="anchor" aria-label="anchor" href="#logistic-mixed-effects-model-with-interaction-term"></a>
@@ -222,10 +222,13 @@ specific values</a>).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data were 'prettified'. Consider using `terms="var_cont [all]"` to get smooth plots.</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="672"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_binom"</span>, <span class="st">"var_cont"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_binom"</span>, <span class="st">"var_cont"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Ignoring unknown labels:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">linetype</span> : <span style="color: #0000BB;">"var_cont"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">shape</span> : <span style="color: #0000BB;">"var_cont"</span></span></span></code></pre></div>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-6-2.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="logistic-mixed-effects-model-with-quadratic-interaction-term">Logistic Mixed Effects Model with quadratic Interaction Term<a class="anchor" aria-label="anchor" href="#logistic-mixed-effects-model-with-quadratic-interaction-term"></a>
@@ -245,7 +248,7 @@ terms, which had no polynomial term included.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Model contains splines or polynomial terms. Consider using `terms="var_cont [all]"` to get smooth plots. See also package-vignette 'Adjusted Predictions at Specific Values'.</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="672"></p>
 <p>As you can see, <em>ggeffects</em> also returned a message indicated
 that the plot may not look very smooth due to the involvement of
 polynomial or spline terms:</p>
@@ -260,7 +263,7 @@ you are sure that this will not happen, add the <code>[all]</code>-tag
 to the <code>terms</code>-argument, as described in the message:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="672"></p>
 <p>The above plot produces much smoother curves.</p>
 </div>
 <div class="section level2">
@@ -292,7 +295,7 @@ interactions are plotted simply by speficying all terms in question in
 the <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var_cont [all]"</span>, <span class="st">"var_cont2"</span>, <span class="st">"var_binom"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
+<p><img src="practical_logisticmixedmodel_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -305,7 +308,7 @@ the <code>terms</code>-argument.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer>
