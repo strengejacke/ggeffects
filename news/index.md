@@ -1,5 +1,9 @@
 # Changelog
 
+## ggeffects 2.3.2
+
+- Fixed issues related to latest *glmmTMB* update.
+
 ## ggeffects 2.3.1
 
 CRAN release: 2025-08-20
