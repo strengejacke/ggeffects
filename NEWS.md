@@ -1,3 +1,7 @@
+# ggeffects 2.3.2
+
+* Fixed issues related to latest _glmmTMB_ update.
+
 # ggeffects 2.3.1
 
 * Fixed issues related to latest _insight_ update.
