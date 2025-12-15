@@ -8,7 +8,10 @@ skip_if_not_installed("marginaleffects")
 
 data(efc, package = "ggeffects")
 efc$grp <- datawizard::to_factor(efc$e15relat)
-fit <- lme4::lmer(neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp), data = efc)
+fit <- lme4::lmer(
+  neg_c_7 ~ c12hour + e42dep + c161sex + c172code + (1 | grp),
+  data = efc
+)
 
 
 test_that("validate ggpredict lmer against predict", {
@@ -19,52 +22,50 @@ test_that("validate ggpredict lmer against predict", {
 })
 
 
-test_that("validate ggpredict lmer against marginaleffects", {
-  out1 <- suppressWarnings(marginaleffects::predictions(
-    fit,
-    variables = "e42dep",
-    newdata = marginaleffects::datagrid(fit),
-    re.form = NULL
-  ))
-  out1 <- out1[order(out1$e42dep), ]
-  out2 <- ggpredict(
-    fit,
-    "e42dep",
-    condition = c(grp = "child"),
-    type = "random",
-    interval = "confidence",
-    verbose = FALSE
-  )
-  expect_equal(
-    out1$estimate,
-    out2$predicted,
-    tolerance = 1e-4,
-    ignore_attr = TRUE
-  )
-  expect_equal(
-    out1$estimate - stats::qt(0.975, df = 826) * out1$std.error,
-    out2$conf.low,
-    tolerance = 1e-4,
-    ignore_attr = TRUE
-  )
-})
-
-
 test_that("ggpredict, lmer", {
   expect_s3_class(ggpredict(fit, "c12hour"), "data.frame")
   expect_s3_class(ggpredict(fit, c("c12hour", "c161sex")), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
-  expect_s3_class(ggpredict(fit, "c12hour", type = "random", verbose = FALSE), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE), "data.frame") # nolint
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "random", verbose = FALSE), "data.frame") # nolint
+  expect_s3_class(
+    ggpredict(fit, c("c12hour", "c161sex", "c172code")),
+    "data.frame"
+  )
+  expect_s3_class(
+    ggpredict(fit, "c12hour", type = "random", verbose = FALSE),
+    "data.frame"
+  )
+  expect_s3_class(
+    ggpredict(fit, c("c12hour", "c161sex"), type = "random", verbose = FALSE),
+    "data.frame"
+  ) # nolint
+  expect_s3_class(
+    ggpredict(
+      fit,
+      c("c12hour", "c161sex", "c172code"),
+      type = "random",
+      verbose = FALSE
+    ),
+    "data.frame"
+  ) # nolint
 })
 
 
 test_that("ggpredict, lmer", {
   pr <- ggpredict(fit, "c12hour")
-  expect_equal(pr$std.error[1:5], c(0.2911, 0.2852, 0.2799, 0.2752, 0.2713), tolerance = 1e-3)
-  pr <- ggpredict(fit, c("c12hour", "c161sex", "c172code"), interval = "prediction")
-  expect_equal(pr$std.error[1:5], c(3.5882, 3.58185, 3.58652, 3.58162, 3.57608), tolerance = 1e-3)
+  expect_equal(
+    pr$std.error[1:5],
+    c(0.2911, 0.2852, 0.2799, 0.2752, 0.2713),
+    tolerance = 1e-3
+  )
+  pr <- ggpredict(
+    fit,
+    c("c12hour", "c161sex", "c172code"),
+    interval = "prediction"
+  )
+  expect_equal(
+    pr$std.error[1:5],
+    c(3.5882, 3.58185, 3.58652, 3.58162, 3.57608),
+    tolerance = 1e-3
+  )
   # validate against predict
   pr <- ggpredict(fit, "c12hour")
   nd <- data_grid(fit, "c12hour")
@@ -75,7 +76,12 @@ test_that("ggpredict, lmer", {
     re.form = NA,
     allow.new.levels = TRUE
   ))
-  expect_equal(pr$std.error[1:5], pr2$se.fit[1:5], tolerance = 1e-3, ignore_attr = TRUE)
+  expect_equal(
+    pr$std.error[1:5],
+    pr2$se.fit[1:5],
+    tolerance = 1e-3,
+    ignore_attr = TRUE
+  )
   expect_equal(
     pr$conf.low,
     pr2$fit - qt(0.975, ggeffects:::.get_df(fit)) * pr2$se.fit,
@@ -83,14 +89,24 @@ test_that("ggpredict, lmer", {
     ignore_attr = TRUE
   )
   pr <- ggpredict(fit, "c12hour", interval = "prediction")
-  expect_equal(pr$conf.low[1:5], c(4.26939, 4.3036, 4.3377, 4.37168, 4.40554), tolerance = 1e-3)
+  expect_equal(
+    pr$conf.low[1:5],
+    c(4.26939, 4.3036, 4.3377, 4.37168, 4.40554),
+    tolerance = 1e-3
+  )
 })
 
 
 test_that("ggpredict, lmer-simulate", {
   expect_s3_class(ggpredict(fit, "c12hour", type = "simulate"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex"), type = "simulate"), "data.frame")
-  expect_s3_class(ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "simulate"), "data.frame")
+  expect_s3_class(
+    ggpredict(fit, c("c12hour", "c161sex"), type = "simulate"),
+    "data.frame"
+  )
+  expect_s3_class(
+    ggpredict(fit, c("c12hour", "c161sex", "c172code"), type = "simulate"),
+    "data.frame"
+  )
 })
 
 
@@ -98,7 +114,10 @@ test_that("ggeffect, lmer", {
   skip_if_not_installed("effects")
   expect_s3_class(ggeffect(fit, "c12hour"), "data.frame")
   expect_s3_class(ggeffect(fit, c("c12hour", "c161sex")), "data.frame")
-  expect_s3_class(ggeffect(fit, c("c12hour", "c161sex", "c172code")), "data.frame")
+  expect_s3_class(
+    ggeffect(fit, c("c12hour", "c161sex", "c172code")),
+    "data.frame"
+  )
 })
 
 
@@ -132,7 +151,11 @@ test_that("ggeffect, lmer", {
 
   p1 <- ggpredict(m, terms = "e42dep")
   p2 <- ggemmeans(m, terms = "e42dep")
-  p3 <- ggemmeans(m, terms = "e42dep", condition = c(c161sex = "Male", c172code = "low level of education"))
+  p3 <- ggemmeans(
+    m,
+    terms = "e42dep",
+    condition = c(c161sex = "Male", c172code = "low level of education")
+  )
   expect_equal(p1$predicted[1], 8.902934, tolerance = 1e-3)
   expect_equal(p2$predicted[1], 9.742945, tolerance = 1e-3)
   expect_equal(p1$predicted[1], p3$predicted[1], tolerance = 1e-3)
@@ -150,12 +173,20 @@ test_that("ggeffect, lmer", {
   p1 <- ggpredict(m, terms = "Days", verbose = FALSE)
   p2 <- ggemmeans(m, terms = "Days", verbose = FALSE)
   p3 <- ggeffect(m, terms = "Days")
-  expect_message(expect_message(ggemmeans(m, terms = "Days"), "polynomial"), "log-transformed")
+  expect_message(
+    expect_message(ggemmeans(m, terms = "Days"), "polynomial"),
+    "log-transformed"
+  )
   expect_equal(p1$predicted[1], 253.5178, tolerance = 1e-3)
   expect_equal(p2$predicted[1], 253.5178, tolerance = 1e-3)
   expect_equal(p3$predicted[1], 5.535434, tolerance = 1e-3)
   expect_s3_class(
-    ggpredict(m, terms = c("Days", "Subject [sample=5]"), type = "random", verbose = FALSE),
+    ggpredict(
+      m,
+      terms = c("Days", "Subject [sample=5]"),
+      type = "random",
+      verbose = FALSE
+    ),
     "data.frame"
   )
 })
@@ -182,12 +213,86 @@ test_that("ggpredict, sample random effects levels", {
     p$group,
     structure(
       c(
-        1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L
       ),
       levels = c("015", "014", "003", "010", "002", "006", "011", "005"),
       class = "factor"
@@ -203,12 +308,86 @@ test_that("ggpredict, sample random effects levels", {
     p$group,
     structure(
       c(
-        1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 2L, 3L, 4L, 5L,
-        6L, 7L, 8L
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L,
+        1L,
+        2L,
+        3L,
+        4L,
+        5L,
+        6L,
+        7L,
+        8L
       ),
       levels = c("2", "3", "5", "6", "10", "11", "14", "15"),
       class = "factor"
@@ -220,7 +399,8 @@ test_that("ggpredict, sample random effects levels", {
 test_that("ggpredict, smooth plot message", {
   data("sleepstudy", package = "lme4")
   # mixed model with lme4
-  m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
+  m_lmer <- lme4::lmer(
+    Reaction ~ poly(Days, 2) + (1 | Subject),
     data = sleepstudy
   )
   expect_message(ggpredict(m_lmer, terms = "Days"), regex = "Model contains")

@@ -18,6 +18,7 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<rect x='0.00' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 </g>
 <defs>
   <clipPath id='cpMzAuODN8NjI5LjI0fDIyLjc4fDU0NS4xMQ=='>
@@ -87,8 +88,8 @@
 <polyline points='595.56,329.53 595.56,329.53 ' style='stroke-width: 1.49; stroke: #984EA3; stroke-linecap: butt;' />
 <line x1='30.83' y1='406.78' x2='629.24' y2='406.78' style='stroke-width: 1.07; stroke: #000000; stroke-opacity: 0.30; stroke-dasharray: 1.42,4.27; stroke-linecap: butt;' />
 <line x1='30.83' y1='216.07' x2='629.24' y2='216.07' style='stroke-width: 1.07; stroke: #000000; stroke-opacity: 0.30; stroke-dasharray: 1.42,4.27; stroke-linecap: butt;' />
-<text x='58.03' y='378.44' text-anchor='middle' style='font-size: 11.04px; fill: #000000; fill-opacity: 0.60; font-family: sans;' textLength='62.40px' lengthAdjust='spacingAndGlyphs'>Low|Medium</text>
-<text x='58.03' y='187.73' text-anchor='middle' style='font-size: 11.04px; fill: #000000; fill-opacity: 0.60; font-family: sans;' textLength='64.85px' lengthAdjust='spacingAndGlyphs'>Medium|High</text>
+<text x='58.03' y='378.43' text-anchor='middle' style='font-size: 11.00px; fill: #000000; fill-opacity: 0.60; font-family: sans;' textLength='62.17px' lengthAdjust='spacingAndGlyphs'>Low|Medium</text>
+<text x='58.03' y='187.71' text-anchor='middle' style='font-size: 11.00px; fill: #000000; fill-opacity: 0.60; font-family: sans;' textLength='64.61px' lengthAdjust='spacingAndGlyphs'>Medium|High</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <polyline points='30.83,545.11 30.83,22.78 ' style='stroke-width: 1.07; stroke: #CCCCCC; stroke-linecap: butt;' />
