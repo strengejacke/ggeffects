@@ -214,7 +214,7 @@ Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
-\dontshow{if (all(insight::check_if_installed(c("parameters", "emmeans"), quietly = TRUE)) && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(insight::check_if_installed(c("parameters", "emmeans"), quietly = TRUE)) && interactive()) withAutoprint(\{ # examplesIf}
 \donttest{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)

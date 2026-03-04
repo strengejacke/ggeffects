@@ -152,7 +152,7 @@ Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
-\dontshow{if (requireNamespace("datawizard", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("datawizard", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 data(efc, package = "ggeffects")
 fit <- lm(barthtot ~ c12hour + e42dep, data = efc)
 
