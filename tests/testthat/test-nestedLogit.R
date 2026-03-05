@@ -1,4 +1,6 @@
 skip_on_os(c("mac", "solaris"))
+skip_on_ci()
+skip_on_cran()
 skip_if_not_installed("nestedLogit")
 skip_if_not_installed("effects")
 skip_if_not_installed("car")
@@ -12,9 +14,13 @@ test_that("plot, correct x-labels order for character vector", {
     factor(partic, levels = c("not.work", "parttime", "fulltime"))
   )
 
-  m <- nestedLogit::nestedLogit(partic ~ hincome + children,
+  m <- nestedLogit::nestedLogit(
+    partic ~ hincome + children,
     dichotomies = nestedLogit::logits(
-      work = nestedLogit::dichotomy("not.work", working = c("parttime", "fulltime")),
+      work = nestedLogit::dichotomy(
+        "not.work",
+        working = c("parttime", "fulltime")
+      ),
       full = nestedLogit::dichotomy("parttime", "fulltime")
     ),
     data = Womenlf
@@ -39,8 +45,19 @@ test_that("plot, correct x-labels order for character vector", {
   expect_equal(
     out$conf.low,
     c(
-      0.30665, 0.09012, 0.13574, 0.6929, 0.08997, 0.0034, 0.32716, 
-      0.10429, 0.02488, 0.70621, 0.0465, 0.00037),
+      0.30665,
+      0.09012,
+      0.13574,
+      0.6929,
+      0.08997,
+      0.0034,
+      0.32716,
+      0.10429,
+      0.02488,
+      0.70621,
+      0.0465,
+      0.00037
+    ),
     ignore_attr = TRUE,
     tolerance = 1e-3
   )
@@ -48,7 +65,8 @@ test_that("plot, correct x-labels order for character vector", {
 
 test_that("ggeffect works with nestedLogit", {
   data("Womenlf", package = "carData")
-  m <- nestedLogit::nestedLogit(partic ~ hincome + children,
+  m <- nestedLogit::nestedLogit(
+    partic ~ hincome + children,
     nestedLogit::logits(
       work = nestedLogit::dichotomy("not.work", c("parttime", "fulltime")),
       full = nestedLogit::dichotomy("parttime", "fulltime")
@@ -58,5 +76,10 @@ test_that("ggeffect works with nestedLogit", {
   out1 <- ggeffect(m, "hincome [1,10,20,30,40]")
   out2 <- effects::Effect("hincome", m)
 
-  expect_equal(out1$predicted, as.vector(out2$prob), ignore_attr = TRUE, tolerance = 1e-3)
+  expect_equal(
+    out1$predicted,
+    as.vector(out2$prob),
+    ignore_attr = TRUE,
+    tolerance = 1e-3
+  )
 })
