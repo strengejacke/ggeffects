@@ -1,4 +1,4 @@
-###petit script du code qu'on s'attend à voir fonctionner 
+#### petit script du code qu'on s'attend à voir fonctionner 
 
 library(metafor)
 library(ggeffects)
@@ -29,7 +29,7 @@ modele_rma <- rma(yi, vi, mods = ~ alloc, data = data_effets)
 #Error in `$<-.data.frame`(`*tmp*`, "predicted", value = c(-0.965774034173421,  : 
 #replacement has 13 rows, data has 3
 
-### code fonctionnel de ChatGPT 
+#### code fonctionnel de ChatGPT 
 
 library(metafor)
 library(ggeffects)
@@ -87,7 +87,7 @@ registerS3method("get_predictions", "rma.uni", get_predictions.rma,
                  envir = asNamespace("ggeffects"))
 
 
-# maintenant on a plus d'erreur sur le script qu'on a utilisé plus haut : (voir ci-dessous)
+#### maintenant on a plus d'erreur sur le script qu'on a utilisé plus haut pour un facteur : (voir ci-dessous) 
 
 data <- dat.bcg
 data$alloc <- factor(data$alloc)
@@ -103,3 +103,18 @@ modele_rma <- rma(yi, vi, mods = ~ alloc, data = data_effets)
 
 ggeffects::ggpredict(modele_rma, terms = "alloc")
 
+#### on peut essayer avec une variable quantitative maintenant : 
+
+# Calcul des tailles d'effet yi et vi
+data_effets_quanti <- escalc(
+  measure = "RR",
+  ai = tpos, bi = tneg,
+  ci = cpos, di = cneg,
+  data = data
+)
+
+# modèle avec variable quantitative
+modele_rma_q <- rma(yi, vi, mods = ~ ablat, data = data_effets_quanti)
+
+# ce qu'on aimerait voir fonctionner
+ggeffects::ggpredict(modele_rma_q, terms = "ablat")
