@@ -65,7 +65,14 @@
   focal_numeric <- vapply(model_data[focal], is.numeric, TRUE)
   focal_other <- !focal_numeric
 
-  counterfactuals <- NULL
+  if (identical(margin, "empirical")) {
+    counterfactuals <- setdiff(focal[focal_other], focal)
+    if (!length(counterfactuals)) {
+      counterfactuals <- NULL
+    }
+  } else {
+    counterfactuals <- NULL
+  }
 
   # extract degrees of freedom
   if (is.null(df)) {
