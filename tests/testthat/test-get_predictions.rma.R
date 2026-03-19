@@ -4,7 +4,7 @@ library(metafor)
 library(ggeffects)
 library(ggplot2)
 
-source("get_predictions_rma.R")
+source("R/get_predictions_rma.R")
 
 data <- dat.bcg
 data$alloc <- factor(data$alloc)
@@ -78,3 +78,4 @@ ggplot(pred_alloc, aes(x = x, y = predicted)) +
   geom_point() +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.1) +
   labs(x = "alloc", y = "prediction")
+
