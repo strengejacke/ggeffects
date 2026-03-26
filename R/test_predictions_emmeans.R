@@ -11,10 +11,12 @@
                                       verbose = TRUE,
                                       ...) {
   insight::check_if_installed(c("emmeans", "datawizard"))
-
+ 
   # model information
   minfo <- insight::model_info(object, verbose = FALSE)
-  model_data <- insight::get_data(object, verbose = FALSE)
+  # Correction issue #668 : utiliser le model frame pour éviter le décalage
+  # de dimensions causé par les NA supprimés avant le fit
+  model_data <- insight::get_data(object, source = "mf", verbose = FALSE)
 
   custom_contrasts <- NULL
 

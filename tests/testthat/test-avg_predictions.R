@@ -84,3 +84,20 @@ withr::with_environment(
     expect_error(predict_response(model, focal, margin = "average", type = "probs"))
   })
 )
+
+test_that("test_predictions avec margin='average' ne crashe pas avec des NA", {
+  skip_if_not_installed("emmeans")
+  skip_if_not_installed("palmerpenguins")
+  
+  data("penguins", package = "palmerpenguins")
+  penguins_clean <- na.omit(penguins)
+  m1 <- lm(body_mass_g ~ flipper_length_mm + sex + species,
+           data = penguins_clean)
+  
+  # ne doit pas renvoyer "logical subscript too long" 
+  expect_no_error(
+    test_predictions(m1, terms = "species",
+                     margin = "average",
+                     test = "pairwise")
+  )
+})
