@@ -134,10 +134,35 @@
         pairwise = "pairwise"
       )
       .comparisons <- emmeans::contrast(emm, method = contrast_method, adjust = p_adjust)
+      
+      # ------ chnagements Houda 
+      # ancien bloc : -------------------
+      
+      
       # save p-values, these get lost after call to "confint()"
       p_values <- as.data.frame(.comparisons)$p.value
       # nice data frame, including confidence intervals
       out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+      
+
+      # ------------------------
+      
+      
+      # extraire les résultats de base
+      tmp <- as.data.frame(.comparisons)
+      
+      # intervalles de confiance
+      ci <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+      
+      # sécuriser : garder uniquement les lignes communes
+      n <- min(nrow(tmp), nrow(ci))
+      
+      out <- ci[seq_len(n), , drop = FALSE]
+      p_values <- tmp$p.value[seq_len(n)]
+      
+      
+      # -----------------------------
+
       # rename
       colnames(out)[1] <- focal[2]
       out[[1]] <- gsub(" - ", "-", out[[1]], fixed = TRUE)
@@ -186,10 +211,32 @@
       }
     )
     estimate_name <- "Contrast"
+    
+    # ------- Changements Houda - Bloc 2
+    
     # save p-values, these get lost after call to "confint()"
-    p_values <- as.data.frame(.comparisons)$p.value
+    #p_values <- as.data.frame(.comparisons)$p.value
     # nice data frame, including confidence intervals
-    out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    #out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    
+    # --------------------------------------
+    
+    
+    # extraire les résultats de base
+    tmp <- as.data.frame(.comparisons)
+    
+    # intervalles de confiance
+    ci <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    
+    # sécuriser l'alignement des tailles
+    n <- min(nrow(tmp), nrow(ci))
+    
+    out <- ci[seq_len(n), , drop = FALSE]
+    p_values <- tmp$p.value[seq_len(n)]
+    
+    
+    # ---------------------------------------
+    
 
     # rename columns
     out <- .rename_emmeans_columns(out)
