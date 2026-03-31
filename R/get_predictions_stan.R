@@ -46,6 +46,58 @@ get_predictions.stanreg <- function(model,
     }
   }
 
+  # Fix: re-inject autocorrelation variables (ar/ma/arma terms) into data_grid
+  # brms requires time and grouping variables from ar() to be present in newdata
+  if (inherits(model, "brmsfit")) {
+    model_terms <- insight::find_terms(model, flatten = FALSE, verbose = FALSE)
+    all_terms_vec <- c(model_terms$conditional, model_terms$autocor)
+    autocor_terms <- grep("^ar\\(|^ma\\(|^arma\\(|^cosy\\(|^car\\(|^unstr\\(",
+                          all_terms_vec, value = TRUE)
+
+    if (length(autocor_terms)) {
+      # extract time= and gr= variable names
+      matches <- regmatches(
+        autocor_terms,
+        gregexpr("(?:time|gr)\\s*=\\s*(\\w+)", autocor_terms, perl = TRUE)
+      )
+      autocor_vars <- gsub("(?:time|gr)\\s*=\\s*", "", unlist(matches), perl = TRUE)
+
+      # get original data to reconstruct valid time/group values
+      original_data <- insight::get_data(model, source = "frame", verbose = FALSE)
+
+      # extract time and group variable names specifically
+      time_var <- regmatches(
+        autocor_terms,
+        regexpr("(?:time)\\s*=\\s*(\\w+)", autocor_terms, perl = TRUE)
+      )
+      time_var <- gsub("time\\s*=\\s*", "", time_var, perl = TRUE)
+
+      gr_var <- regmatches(
+        autocor_terms,
+        regexpr("(?:gr)\\s*=\\s*(\\w+)", autocor_terms, perl = TRUE)
+      )
+      gr_var <- gsub("gr\\s*=\\s*", "", gr_var, perl = TRUE)
+
+      if (length(time_var) && length(gr_var) && nchar(time_var) && nchar(gr_var)) {
+        n_rows <- nrow(data_grid)
+        # use first group level, with unique consecutive time points
+        first_group <- levels(original_data[[gr_var]])[1]
+        time_values <- seq_len(n_rows)  # unique time points, one per row
+
+        data_grid[[gr_var]] <- first_group
+        data_grid[[time_var]] <- time_values
+      } else {
+        # fallback: just inject with typical values if we can't parse
+        for (v in autocor_vars) {
+          if (!v %in% colnames(data_grid) && v %in% colnames(original_data)) {
+            data_grid[[v]] <- .typical_value(original_data[[v]], fun = "mean")
+          }
+        }
+      }
+    }
+  }
+
+
 
   # compute posterior predictions
   if (identical(interval, "prediction")) {

@@ -283,6 +283,29 @@
   # keep those, which we did not process yet
   model_predictors <- model_predictors[!(model_predictors %in% names(focal_terms))]
 
+  # === FIX : exclure les variables des termes autocorrélés (ar, cor_ar, etc.) ===
+  if (inherits(model, "brmsfit")) {
+    autocor_vars <- tryCatch({
+      model_terms <- insight::find_terms(model, flatten = FALSE, verbose = FALSE)
+      # ar() est dans $conditional, pas $autocor
+      all_terms_vec <- c(model_terms$conditional, model_terms$autocor)
+      autocor_terms <- grep("^ar\\(|^ma\\(|^arma\\(|^cosy\\(|^unstr\\(|^car\\(",
+                            all_terms_vec, value = TRUE)
+      if (length(autocor_terms)) {
+        # extraire time= et gr= valeurs
+        matches <- regmatches(
+          autocor_terms,
+          gregexpr("(?:time|gr)\\s*=\\s*(\\w+)", autocor_terms, perl = TRUE)
+        )
+        gsub("(?:time|gr)\\s*=\\s*", "", unlist(matches), perl = TRUE)
+      } else {
+        character(0)
+      }
+    }, error = function(e) character(0))
+
+    model_predictors <- model_predictors[!model_predictors %in% autocor_vars]
+  }
+
   # any weights?
   w <- insight::get_weights(model)
   if (is.null(w) || all(w == 1)) {
