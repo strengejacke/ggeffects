@@ -239,13 +239,15 @@
   weights = NULL,
   ...
 ) {
-  tmp <- suppressMessages(emmeans::emmeans(
+  dots <- list(...)
+  emmeans_args <- list(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
     mode = pmode,
-    weights = weights
-  ))
+    weights = weights,
+    data = model_data
+  )
 
   dots[names(emmeans_args)] <- NULL
   emmeans_args <- insight::compact_list(c(emmeans_args, dots))
