@@ -243,7 +243,7 @@
     at = data_grid,
     mode = pmode,
     weights = weights
-  )
+  ))
 
   dots[names(emmeans_args)] <- NULL
   emmeans_args <- insight::compact_list(c(emmeans_args, dots))
