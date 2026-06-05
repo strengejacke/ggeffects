@@ -1,19 +1,21 @@
 #' @rdname ggpredict
 #' @export
-ggemmeans <- function(model,
-                      terms,
-                      ci_level = 0.95,
-                      type = "fixed",
-                      typical = "mean",
-                      condition = NULL,
-                      interval = "confidence",
-                      back_transform = TRUE,
-                      vcov = NULL,
-                      vcov_args = NULL,
-                      bias_correction = FALSE,
-                      weights = NULL,
-                      verbose = TRUE,
-                      ...) {
+ggemmeans <- function(
+  model,
+  terms,
+  ci_level = 0.95,
+  type = "fixed",
+  typical = "mean",
+  condition = NULL,
+  interval = "confidence",
+  back_transform = TRUE,
+  vcov = NULL,
+  vcov_args = NULL,
+  bias_correction = FALSE,
+  weights = NULL,
+  verbose = TRUE,
+  ...
+) {
   insight::check_if_installed("emmeans")
   additional_dot_args <- list(...)
 
@@ -30,7 +32,10 @@ ggemmeans <- function(model,
   insight::formula_ok(model, verbose = verbose)
 
   # check arguments
-  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(
+    interval,
+    c("confidence", "prediction")
+  )
   model_name <- deparse(substitute(model))
   type <- .validate_type_argument(model, type, emmeans_call = TRUE)
 
@@ -63,13 +68,16 @@ ggemmeans <- function(model,
 
   if (inherits(model, "MixMod") && type == "zi_prob") {
     insight::format_error(sprintf(
-      "This prediction-type is currently not available for models of class '%s'.", class(model)[1]
+      "This prediction-type is currently not available for models of class '%s'.",
+      class(model)[1]
     ))
   }
 
   # for gamm/gamm4 objects, we have a list with two items, mer and gam
   # extract just the mer-part then
-  if (is.gamm(model) || is.gamm4(model)) model <- model$gam
+  if (is.gamm(model) || is.gamm4(model)) {
+    model <- model$gam
+  }
 
   # check model family, do we have count model?
   model_info <- .get_model_info(model)
@@ -82,15 +90,25 @@ ggemmeans <- function(model,
   cleaned_terms <- .clean_terms(terms)
 
   data_grid <- .data_grid(
-    model = model, model_frame = model_frame, terms = terms, typical = typical,
-    condition = condition, emmeans_only = TRUE, show_pretty_message = verbose,
+    model = model,
+    model_frame = model_frame,
+    terms = terms,
+    typical = typical,
+    condition = condition,
+    emmeans_only = TRUE,
+    show_pretty_message = verbose,
     verbose = verbose
   )
 
-
   # for zero-inflated mixed models, we need some extra handling
 
-  if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, c("glmmTMB", "MixMod")) && type == "zero_inflated") { # nolint
+  if (
+    !is.null(model_info) &&
+      model_info$is_zero_inflated &&
+      inherits(model, c("glmmTMB", "MixMod")) &&
+      type == "zero_inflated"
+  ) {
+    # nolint
 
     # here we go with simulating confidence intervals. ----------
     # point estimates are not simulated                ----------
@@ -126,7 +144,13 @@ ggemmeans <- function(model,
       type = type
     )
     pmode <- "response"
-  } else if (!is.null(model_info) && model_info$is_zero_inflated && inherits(model, "glmmTMB") && type == "zi_prob") { # nolint
+  } else if (
+    !is.null(model_info) &&
+      model_info$is_zero_inflated &&
+      inherits(model, "glmmTMB") &&
+      type == "zi_prob"
+  ) {
+    # nolint
 
     # here we go zero-inflation probabilities. ----------
     # ---------------------------------------------------
@@ -159,7 +183,12 @@ ggemmeans <- function(model,
     # ------------------------------------------------------
 
     # special handling for rqs
-    if (inherits(model, "rqs") && !is.null(model$tau) && length(model$tau) > 1 && !"tau" %in% cleaned_terms) {
+    if (
+      inherits(model, "rqs") &&
+        !is.null(model$tau) &&
+        length(model$tau) > 1 &&
+        !"tau" %in% cleaned_terms
+    ) {
       cleaned_terms <- c(cleaned_terms, "tau")
     }
 
@@ -195,17 +224,35 @@ ggemmeans <- function(model,
     return(NULL)
   }
 
-  attr(prediction_data, "continuous.group") <- attr(data_grid, "continuous.group")
+  attr(prediction_data, "continuous.group") <- attr(
+    data_grid,
+    "continuous.group"
+  )
 
-  if (!is.null(model_info) &&
-    (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial) &&
-    colnames(prediction_data)[1] != "x") {
+  if (
+    !is.null(model_info) &&
+      (model_info$is_ordinal ||
+        model_info$is_categorical ||
+        model_info$is_multinomial) &&
+      colnames(prediction_data)[1] != "x"
+  ) {
     colnames(prediction_data)[1] <- "response.level"
   }
 
   # apply link inverse function
-  linv <- .link_inverse(model, bias_correction = bias_correction, residual_variance = residual_variance, ...)
-  if (!is.null(linv) && (inherits(model, c("lrm", "orm")) || pmode == "link" || (inherits(model, "MixMod") && type != "zero_inflated"))) { # nolint
+  linv <- .link_inverse(
+    model,
+    bias_correction = bias_correction,
+    residual_variance = residual_variance,
+    ...
+  )
+  if (
+    !is.null(linv) &&
+      (inherits(model, c("lrm", "orm")) ||
+        pmode == "link" ||
+        (inherits(model, "MixMod") && type != "zero_inflated"))
+  ) {
+    # nolint
     prediction_data$predicted <- linv(prediction_data$predicted)
     prediction_data$conf.low <- linv(prediction_data$conf.low)
     prediction_data$conf.high <- linv(prediction_data$conf.high)
@@ -227,7 +274,11 @@ ggemmeans <- function(model,
     original_terms = terms,
     model_info = model_info,
     type = type,
-    prediction.interval = attr(prediction_data, "prediction.interval", exact = TRUE),
+    prediction.interval = attr(
+      prediction_data,
+      "prediction.interval",
+      exact = TRUE
+    ),
     at_list = data_grid,
     condition = condition,
     ci_level = ci_level,
@@ -244,7 +295,9 @@ ggemmeans <- function(model,
 .get_prediction_mode_argument <- function(model, model_info, type) {
   if (inherits(model, "betareg")) {
     "response"
-  } else if (inherits(model, c("polr", "clm", "clmm", "clm2", "rms", "lrm", "orm"))) {
+  } else if (
+    inherits(model, c("polr", "clm", "clmm", "clm2", "rms", "lrm", "orm"))
+  ) {
     "prob"
   } else if (inherits(model, "lmerMod")) {
     "asymptotic"
@@ -254,13 +307,27 @@ ggemmeans <- function(model,
     "auto"
   } else if (inherits(model, "MCMCglmm") && isTRUE(model_info$is_multinomial)) {
     "response"
-  } else if (!is.null(model_info) && (model_info$is_ordinal || model_info$is_categorical || model_info$is_multinomial)) { # nolint
+  } else if (
+    !is.null(model_info) &&
+      (model_info$is_ordinal ||
+        model_info$is_categorical ||
+        model_info$is_multinomial)
+  ) {
+    # nolint
     "prob"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random") && inherits(model, "glmmTMB")) {
+  } else if (
+    isTRUE(model_info$is_zero_inflated) &&
+      type %in% c("fixed", "random") &&
+      inherits(model, "glmmTMB")
+  ) {
     "link"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("zero_inflated", "re.zi")) {
+  } else if (
+    isTRUE(model_info$is_zero_inflated) && type %in% c("zero_inflated", "re.zi")
+  ) {
     "response"
-  } else if (isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random")) {
+  } else if (
+    isTRUE(model_info$is_zero_inflated) && type %in% c("fixed", "random")
+  ) {
     "count"
   } else if (isTRUE(model_info$is_zero_inflated) && type == "zi_prob") {
     "prob0"
