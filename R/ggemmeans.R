@@ -340,8 +340,7 @@ ggemmeans <- function(
   ) {
     "link"
   } else if (
-    isTRUE(model_info$is_zero_inflated) &&
-      type %in% c("zero_inflated", "re.zi")
+    isTRUE(model_info$is_zero_inflated) && type %in% c("zero_inflated", "re.zi")
   ) {
     "response"
   } else if (

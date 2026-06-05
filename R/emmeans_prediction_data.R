@@ -74,7 +74,6 @@
       data_grid,
       cleaned_terms,
       ci_level,
-      pmode,
       interval = interval,
       model_data = model_data,
       weights = weights,
@@ -233,15 +232,12 @@
   data_grid,
   cleaned_terms,
   ci_level,
-  pmode,
   interval = NULL,
   model_data = NULL,
   weights = NULL,
   ...
 ) {
-  dots <- list(...)
-  # setup arguments
-  emmeans_args <- list(
+  tmp <- suppressMessages(emmeans::emmeans(
     model,
     specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
     at = data_grid,
