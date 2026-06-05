@@ -211,6 +211,7 @@ ggemmeans <- function(
       model_info = model_info,
       interval = interval,
       vcov_info = list(vcov = vcov, vcov_args = vcov_args),
+      model_data = model_frame,
       bias_correction = bias_correction,
       residual_variance = residual_variance,
       weights = weights,
