@@ -2,6 +2,8 @@
 
 ## ggeffects 2.3.2
 
+CRAN release: 2025-12-16
+
 - Fixed issues related to latest *glmmTMB* update.
 
 ## ggeffects 2.3.1
@@ -900,7 +902,7 @@ CRAN release: 2023-04-02
   [`hypothesis_test()`](https://strengejacke.github.io/ggeffects/reference/test_predictions.md)
   are now passed to the functions in *marginaleffects*, thereby allowing
   to use further options in functions
-  [`marginaleffects::predictions()`](https://marginaleffects.com/man/r/predictions.html),
+  [`marginaleffects::predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html),
   like `transform` etc.
 
 ### Bug fixes

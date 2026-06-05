@@ -179,7 +179,7 @@ predict_response(
 Another option is to use `predict_response(margin = "empirical")` to
 compute “counterfactual” adjusted predictions. This function is a
 wrapper for the
-[`avg_predictions()`](https://marginaleffects.com/man/r/predictions.html)-method
+[`avg_predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html)-method
 from the **marginaleffects**-package. The major difference to
 `margin = "marginalmeans"` is that estimated marginal means, as computed
 by `"marginalmeans"`, are a special case of predictions, made on a

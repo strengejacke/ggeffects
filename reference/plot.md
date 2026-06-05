@@ -279,8 +279,8 @@ There are pre-defined colour palettes in this package. Use
 
 For **generalized linear models** (glms), residualized scores are
 computed as `inv.link(link(Y) + r)` where `Y` are the predicted values
-on the response scale, and `r` are the *working* residuals.  
-  
+on the response scale, and `r` are the *working* residuals.\
+\
 For (generalized) linear **mixed models**, the random effect are also
 partialled out.
 

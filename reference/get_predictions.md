@@ -123,7 +123,7 @@ These function, in turn, call
 [`predict()`](https://rdrr.io/r/stats/predict.html),
 [`emmeans::emmeans()`](https://rvlenth.github.io/emmeans/reference/emmeans.html)
 or
-[`marginaleffects::avg_predictions()`](https://marginaleffects.com/man/r/predictions.html).
+[`marginaleffects::avg_predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html).
 Following needs to be done to add support for new model classes:
 
 - **emmeans**: if your model is supported by emmeans, it is

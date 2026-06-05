@@ -44,7 +44,7 @@ now.
   [`emmeans::emmeans()`](https://rvlenth.github.io/emmeans/reference/emmeans.html)
 
 - `ggaverage()` calls
-  [`marginaleffects::avg_predictions()`](https://marginaleffects.com/man/r/predictions.html)
+  [`marginaleffects::avg_predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html)
 
 - `ggeffect()` calls
   [`effects::Effect()`](https://rdrr.io/pkg/effects/man/effect.html)

@@ -374,7 +374,7 @@ predict_response(
   and thereby to
   [`emmeans::emmeans()`](https://rvlenth.github.io/emmeans/reference/emmeans.html);
   if `margin = "empirical"`, further arguments are passed down to
-  [`marginaleffects::avg_predictions()`](https://marginaleffects.com/man/r/predictions.html).
+  [`marginaleffects::avg_predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html).
   If `type = "simulate"`, `...` may also be used to set the number of
   simulation, e.g. `nsim = 500`. When calling
   [`ggeffect()`](https://strengejacke.github.io/ggeffects/reference/ggpredict.md),
