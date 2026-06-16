@@ -633,6 +633,7 @@ predict_response <- function(model,
                              weights = NULL,
                              bias_correction = FALSE,
                              verbose = TRUE,
+                             na.action = "omit", # Default action
                              ...) {
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
@@ -659,6 +660,36 @@ predict_response <- function(model,
 
   # make sure we have valid values
   interval <- insight::validate_argument(interval, c("confidence", "prediction"))
+
+  # Capture additional arguments
+  dots <- list(...)
+  newdata <- dots$newdata
+
+  # Check and handle missing values
+  if (!is.null(newdata)) {
+    predictor_names <- insight::find_predictors(model)$conditional
+    required_vars <- c(predictor_names, weights)
+    newdata <- newdata[, required_vars, drop = FALSE]
+    missing_mask <- !complete.cases(newdata)
+
+    if (any(missing_mask)) {
+      if (na.action == "omit") {
+        message(sprintf("⚠️ Warning: %d rows of `newdata` containing missing values have been removed.", sum(missing_mask)))
+        newdata <- newdata[!missing_mask, , drop = FALSE]
+      } else if (na.action == "fail") {
+        stop("Error: `newdata` contains missing values. Please handle them before proceeding.")
+      } else if (na.action == "mean_impute") {
+        for (var in required_vars) {
+          if (is.numeric(newdata[[var]])) {
+            newdata[[var]][is.na(newdata[[var]])] <- mean(newdata[[var]], na.rm = TRUE)
+          }
+        }
+        message("⚠️ Warning: Mean imputation performed for missing values.")
+      }
+    }
+  }
+
+  dots$newdata <- newdata  # Add newdata to dots
 
   out <- switch(margin,
     mean_reference = ggpredict(
