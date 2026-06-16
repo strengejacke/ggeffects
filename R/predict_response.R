@@ -244,6 +244,9 @@
 #' passed down to `marginaleffects::avg_predictions()`. If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
 #' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
+#' When `model` is of class `nestedLogit`, argument `submodel` can be used to
+#' either return fitted probabilities (default), or predictions for each logit
+#' model separately (`submodel = "dichotomies"`).
 #'
 #' @section Supported Models:
 #'
@@ -620,28 +623,36 @@
 #' )
 #' predict_response(fit, terms = "e17age")
 #' @export
-predict_response <- function(model,
-                             terms,
-                             margin = "mean_reference",
-                             ci_level = 0.95,
-                             type = "fixed",
-                             condition = NULL,
-                             interval = "confidence",
-                             back_transform = TRUE,
-                             vcov = NULL,
-                             vcov_args = NULL,
-                             weights = NULL,
-                             bias_correction = FALSE,
-                             verbose = TRUE,
-                             ...) {
+predict_response <- function(
+  model,
+  terms,
+  margin = "mean_reference",
+  ci_level = 0.95,
+  type = "fixed",
+  condition = NULL,
+  interval = "confidence",
+  back_transform = TRUE,
+  vcov = NULL,
+  vcov_args = NULL,
+  weights = NULL,
+  bias_correction = FALSE,
+  verbose = TRUE,
+  ...
+) {
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
   # validate "margin" argument
   margin <- insight::validate_argument(
     argument = margin,
     options = c(
-      "mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data", "average", "marginaleffects"
+      "mean_reference",
+      "mean_mode",
+      "marginalmeans",
+      "empirical",
+      "counterfactual",
+      "full_data",
+      "average",
+      "marginaleffects"
     )
   )
 
@@ -653,14 +664,19 @@ predict_response <- function(model,
     model,
     type,
     # check for aliases for "empirical" margin
-    marginaleffects = margin %in% c("empirical", "counterfactual", "average", "marginaleffects"),
+    marginaleffects = margin %in%
+      c("empirical", "counterfactual", "average", "marginaleffects"),
     emmeans_call = margin == "marginalmeans"
   )
 
   # make sure we have valid values
-  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(
+    interval,
+    c("confidence", "prediction")
+  )
 
-  out <- switch(margin,
+  out <- switch(
+    margin,
     mean_reference = ggpredict(
       model,
       terms = terms,

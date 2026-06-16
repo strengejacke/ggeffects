@@ -22,7 +22,7 @@ by \code{\link[=test_predictions]{test_predictions()}}, in a similar fashion as 
 Averaging of parameters follows Rubin's rules (\emph{Rubin, 1987, p. 76}).
 }
 \examples{
-\dontshow{if (require("mice")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require("mice")) withAutoprint(\{ # examplesIf}
 data("nhanes2", package = "mice")
 imp <- mice::mice(nhanes2, printFlag = FALSE)
 comparisons <- lapply(1:5, function(i) {

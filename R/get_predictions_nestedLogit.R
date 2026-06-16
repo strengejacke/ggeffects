@@ -1,19 +1,22 @@
 #' @export
-get_predictions.nestedLogit <- function(model,
-                                        data_grid = NULL,
-                                        terms = NULL,
-                                        ci_level = 0.95,
-                                        type = NULL,
-                                        typical = NULL,
-                                        vcov = NULL,
-                                        vcov_args = NULL,
-                                        condition = NULL,
-                                        interval = "confidence",
-                                        bias_correction = FALSE,
-                                        link_inverse = insight::link_inverse(model),
-                                        model_info = NULL,
-                                        verbose = TRUE,
-                                        ...) {
+get_predictions.nestedLogit <- function(
+  model,
+  data_grid = NULL,
+  terms = NULL,
+  ci_level = 0.95,
+  type = NULL,
+  typical = NULL,
+  vcov = NULL,
+  vcov_args = NULL,
+  condition = NULL,
+  interval = "confidence",
+  bias_correction = FALSE,
+  link_inverse = insight::link_inverse(model),
+  model_info = NULL,
+  submodel = "nested",
+  verbose = TRUE,
+  ...
+) {
   # compute ci, two-ways
   if (!is.null(ci_level) && !is.na(ci_level)) {
     ci <- (1 + ci_level) / 2
@@ -21,18 +24,25 @@ get_predictions.nestedLogit <- function(model,
     ci <- 0.975
   }
 
+  submodel <- insight::validate_argument(submodel, c("nested", "dichotomies"))
+
   predictions <- as.data.frame(stats::predict(
-    model,
+    object = model,
     newdata = data_grid,
+    model = submodel,
     ...
-  ), newdata = data_grid)
+  ))
 
   colnames(predictions)[colnames(predictions) == "response"] <- "response.level"
   colnames(predictions)[colnames(predictions) == "logit"] <- "predicted"
 
   # CI
-  predictions$conf.low <- link_inverse(predictions$predicted - stats::qnorm(ci) * predictions$se.logit)
-  predictions$conf.high <- link_inverse(predictions$predicted + stats::qnorm(ci) * predictions$se.logit)
+  predictions$conf.low <- link_inverse(
+    predictions$predicted - stats::qnorm(ci) * predictions$se.logit
+  )
+  predictions$conf.high <- link_inverse(
+    predictions$predicted + stats::qnorm(ci) * predictions$se.logit
+  )
   predictions$predicted <- link_inverse(predictions$predicted)
 
   # remove SE

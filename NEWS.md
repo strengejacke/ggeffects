@@ -1,3 +1,9 @@
+# ggeffects 2.3.3
+
+* Support predictions for the separate logit-models from models of class
+  `nestedLogit`. This can be achieved with the `submodel` argument, e.g.
+  `predict_response(model, submodel = "dichotomies")`.
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.

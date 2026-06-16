@@ -247,7 +247,10 @@ are passed down to \code{ggpredict()} (further down to \code{predict()}); for
 thereby to \code{emmeans::emmeans()}; if \code{margin = "empirical"}, further arguments are
 passed down to \code{marginaleffects::avg_predictions()}. If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
-When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.}
+When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.
+When \code{model} is of class \code{nestedLogit}, argument \code{submodel} can be used to
+either return fitted probabilities (default), or predictions for each logit
+model separately (\code{submodel = "dichotomies"}).}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:
@@ -553,7 +556,7 @@ full averaged coefficients.
 }
 
 \examples{
-\dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) withAutoprint(\{ # examplesIf}
 library(sjlabelled)
 data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)

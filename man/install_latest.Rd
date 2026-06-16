@@ -32,7 +32,7 @@ either the development version (from R-universe/GitHub) or the current
 version from CRAN.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 # install latest development-version of ggeffects from the
 # r-universe repository
 install_latest()
