@@ -12,6 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{insight}{\code{\link[insight:display]{print_html}}, \code{\link[insight:display]{print_md}}}
+  \item{insight}{\code{\link[insight:print_html]{print_html()}}, \code{\link[insight:print_md]{print_md()}}}
 }}
 

@@ -95,7 +95,7 @@ as backend, e.g. if \code{test = "interaction"}, \code{test_args} will be passed
 be passed to the \code{option} argument in \code{emmeans::contrast()}.}
 
 \item{p_adjust}{Character vector, if not \code{NULL}, indicates the method to
-adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust]{stats::p.adjust.methods}} for
+adjust p-values. See \code{\link[stats:p.adjust]{stats::p.adjust()}} or \code{\link[stats:p.adjust.methods]{stats::p.adjust.methods}} for
 details. Further possible adjustment methods are \code{"tukey"} or \code{"sidak"}. Some
 caution is necessary when adjusting p-value for multiple comparisons. See
 also section \emph{P-value adjustment} below.}
@@ -214,7 +214,7 @@ Use \verb{options(<option_name> = NULL)} to remove the option.
 }
 
 \examples{
-\dontshow{if (all(insight::check_if_installed(c("parameters", "emmeans"), quietly = TRUE)) && interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(insight::check_if_installed(c("parameters", "emmeans"), quietly = TRUE)) && interactive()) withAutoprint(\{ # examplesIf}
 \donttest{
 data(efc)
 efc$c172code <- as.factor(efc$c172code)

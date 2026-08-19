@@ -232,7 +232,7 @@ so the result on the original data scale is biased due to \emph{Jensen's
 inequality}. That means, when \code{type = "fixed"} (the default) and population
 level predictions are returned, it is recommended to set \code{bias_correction = TRUE}.
 To apply bias-correction, a valid value of sigma is required, which is
-extracted by default using \code{\link[insight:get_variance]{insight::get_variance_residual()}}. Optionally,
+extracted by default using \code{\link[insight:get_variance_residual]{insight::get_variance_residual()}}. Optionally,
 to provide own estimates of uncertainty, use the \code{sigma} argument. Note that
 \code{bias_correction} currently only applies to mixed models, where there are
 additive random components involved and where that bias-adjustment can be
@@ -313,6 +313,13 @@ as a "wrapper" around these functions is the preferred way to calculate marginal
 means and adjusted predictions now.
 }
 \note{
+\strong{Maintenance Mode}
+
+Package \strong{ggeffects} is in maintenance mode and will be superseded by the
+\href{https://easystats.github.io/modelbased/}{\strong{modelbased-package}} from the
+\href{https://easystats.github.io/easystats/}{easystats-project}. See the
+\href{https://strengejacke.github.io/ggeffects/}{readme-page} for more details.
+
 \strong{Printing Results}
 
 The \code{print()} method gives a clean output (especially for predictions by
@@ -553,7 +560,7 @@ full averaged coefficients.
 }
 
 \examples{
-\dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("sjlabelled") && requireNamespace("ggplot2")) withAutoprint(\{ # examplesIf}
 library(sjlabelled)
 data(efc)
 fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)

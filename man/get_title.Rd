@@ -46,7 +46,7 @@ in the returned data frame. This is especially helpful for labelled data
 titles.
 }
 \examples{
-\dontshow{if (require("datawizard", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require("datawizard", quietly = TRUE) && require("ggplot2", quietly = TRUE) && require("effects", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggeffects)
 library(ggplot2)
 data(efc, package = "ggeffects")
