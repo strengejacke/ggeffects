@@ -1,4 +1,3 @@
 # License
 
-    YEAR: 2023
-    COPYRIGHT HOLDER: ggeffects authors
+YEAR: 2023 COPYRIGHT HOLDER: ggeffects authors

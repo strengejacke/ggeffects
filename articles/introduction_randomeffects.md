@@ -74,66 +74,7 @@ observations, the conditional and marginal predictions are often similar
 However, in unbalanced data, the conditional and marginal predicted
 values can largely differ.
 
-``` r
-
-library(ggeffects)
-library(lme4)
-data(sleepstudy)
-
-# balanced data set
-m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
-
-# conditional predictions
-predict_response(m, "Days [1,5,9]")
-#> # Predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    1 |    261.87 | 248.48, 275.27
-#>    5 |    303.74 | 284.83, 322.65
-#>    9 |    345.61 | 316.74, 374.48
-#> 
-#> Adjusted for:
-#> * Subject = 0 (population-level)
-
-# average marginal predictions
-predict_response(m, "Days [1,5,9]", margin = "empirical")
-#> # Average predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    1 |    261.87 | 248.48, 275.27
-#>    5 |    303.74 | 284.83, 322.65
-#>    9 |    345.61 | 316.74, 374.48
-
-# create imbalanced data set
-set.seed(123)
-strapped <- sleepstudy[sample.int(nrow(sleepstudy), nrow(sleepstudy), replace = TRUE), ]
-m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = strapped)
-
-# conditional predictions
-predict_response(m, "Days [1,5,9]")
-#> # Predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    1 |    261.49 | 246.57, 276.40
-#>    5 |    302.13 | 281.30, 322.97
-#>    9 |    342.78 | 311.19, 374.37
-#> 
-#> Adjusted for:
-#> * Subject = 0 (population-level)
-
-# average marginal predictions
-predict_response(m, "Days [1,5,9]", margin = "empirical")
-#> # Average predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    1 |    259.04 | 244.13, 273.95
-#>    5 |    300.01 | 279.17, 320.84
-#>    9 |    340.97 | 309.37, 372.56
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggeffects`](https://strengejacke.github.io/ggeffects/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`lme4`](https://github.com/lme4/lme4/)`)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``sleepstudy``)`` `` ``# balanced data set`` ``m`` ``<-`` `[`lmer`](https://rdrr.io/pkg/lme4/man/lmer.html)`(``Reaction`` ``~`` ``Days`` ``+`` ``(``1`` ``+`` ``Days`` ``|`` ``Subject``)``, data ``=`` ``sleepstudy``)`` `` ``# conditional predictions`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"Days [1,5,9]"``)`` ``#> # Predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 1 | 261.87 | 248.48, 275.27`` ``#> 5 | 303.74 | 284.83, 322.65`` ``#> 9 | 345.61 | 316.74, 374.48`` ``#> `` ``#> Adjusted for:`` ``#> * Subject = 0 (population-level)`` `` ``# average marginal predictions`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"Days [1,5,9]"``, margin ``=`` ``"empirical"``)`` ``#> # Average predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 1 | 261.87 | 248.48, 275.27`` ``#> 5 | 303.74 | 284.83, 322.65`` ``#> 9 | 345.61 | 316.74, 374.48`` `` ``# create imbalanced data set`` `[`set.seed`](https://rdrr.io/r/base/Random.html)`(``123``)`` ``strapped`` ``<-`` ``sleepstudy``[`[`sample.int`](https://rdrr.io/r/base/sample.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``sleepstudy``)``, `[`nrow`](https://rdrr.io/r/base/nrow.html)`(``sleepstudy``)``, replace ``=`` ``TRUE``)``, ``]`` ``m`` ``<-`` `[`lmer`](https://rdrr.io/pkg/lme4/man/lmer.html)`(``Reaction`` ``~`` ``Days`` ``+`` ``(``1`` ``+`` ``Days`` ``|`` ``Subject``)``, data ``=`` ``strapped``)`` `` ``# conditional predictions`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"Days [1,5,9]"``)`` ``#> # Predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 1 | 261.49 | 246.57, 276.40`` ``#> 5 | 302.13 | 281.30, 322.97`` ``#> 9 | 342.78 | 311.19, 374.37`` ``#> `` ``#> Adjusted for:`` ``#> * Subject = 0 (population-level)`` `` ``# average marginal predictions`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"Days [1,5,9]"``, margin ``=`` ``"empirical"``)`` ``#> # Average predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 1 | 259.04 | 244.13, 273.95`` ``#> 5 | 300.01 | 279.17, 320.84`` ``#> 9 | 340.97 | 309.37, 372.56`
 
 #### Population-level predictions and the `REML` argument
 
@@ -145,44 +86,7 @@ or `"mean_mode"`) may differ…
 - depending on the setting of the `REML` argument during model fitting;
 - and depending on whether factors are included in the model or not.
 
-``` r
-
-library(glmmTMB)
-set.seed(123)
-sleepstudy$x <- as.factor(sample(1:3, nrow(sleepstudy), replace = TRUE))
-# REML is FALSE
-m1 <- glmmTMB(Reaction ~ Days + x + (1 + Days | Subject), data = sleepstudy, REML = FALSE)
-# REML is TRUE
-m2 <- glmmTMB(Reaction ~ Days + x + (1 + Days | Subject), data = sleepstudy, REML = TRUE)
-
-# predictions when REML is FALSE
-predict_response(m1, "Days [1:3]")
-#> # Predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    1 |    260.22 | 245.82, 274.63
-#>    2 |    270.69 | 255.77, 285.61
-#>    3 |    281.16 | 265.19, 297.12
-#> 
-#> Adjusted for:
-#> *       x = 1
-#> * Subject = NA (population-level)
-
-# predictions when REML is TRUE
-predict_response(m2, "Days [1:3]")
-#> # Predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    1 |    254.63 | 246.25, 263.02
-#>    2 |    265.07 | 257.33, 272.81
-#>    3 |    275.50 | 268.22, 282.78
-#> 
-#> Adjusted for:
-#> *       x = 1
-#> * Subject = NA (population-level)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`glmmTMB`](https://github.com/glmmTMB/glmmTMB)`)`` `[`set.seed`](https://rdrr.io/r/base/Random.html)`(``123``)`` ``sleepstudy``$``x`` ``<-`` `[`as.factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(``1``:``3``, `[`nrow`](https://rdrr.io/r/base/nrow.html)`(``sleepstudy``)``, replace ``=`` ``TRUE``)``)`` ``# REML is FALSE`` ``m1`` ``<-`` `[`glmmTMB`](https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html)`(``Reaction`` ``~`` ``Days`` ``+`` ``x`` ``+`` ``(``1`` ``+`` ``Days`` ``|`` ``Subject``)``, data ``=`` ``sleepstudy``, REML ``=`` ``FALSE``)`` ``# REML is TRUE`` ``m2`` ``<-`` `[`glmmTMB`](https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html)`(``Reaction`` ``~`` ``Days`` ``+`` ``x`` ``+`` ``(``1`` ``+`` ``Days`` ``|`` ``Subject``)``, data ``=`` ``sleepstudy``, REML ``=`` ``TRUE``)`` `` ``# predictions when REML is FALSE`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m1``, ``"Days [1:3]"``)`` ``#> # Predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 1 | 260.22 | 245.82, 274.63`` ``#> 2 | 270.69 | 255.77, 285.61`` ``#> 3 | 281.16 | 265.19, 297.12`` ``#> `` ``#> Adjusted for:`` ``#> * x = 1`` ``#> * Subject = NA (population-level)`` `` ``# predictions when REML is TRUE`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m2``, ``"Days [1:3]"``)`` ``#> # Predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 1 | 254.63 | 246.25, 263.02`` ``#> 2 | 265.07 | 257.33, 272.81`` ``#> 3 | 275.50 | 268.22, 282.78`` ``#> `` ``#> Adjusted for:`` ``#> * x = 1`` ``#> * Subject = NA (population-level)`
 
 ### Population-level predictions for zero-inflated mixed models
 
@@ -221,41 +125,13 @@ First, we show examples for conditional predictions, which is the
 default marginalization method in
 [`predict_response()`](https://strengejacke.github.io/ggeffects/reference/predict_response.md).
 
-``` r
-
-library(glmmTMB)
-data(Salamanders)
-m <- glmmTMB(
-  count ~ spp + mined + (1 | site),
-  ziformula = ~ spp + mined,
-  family = poisson(),
-  data = Salamanders
-)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`glmmTMB`](https://github.com/glmmTMB/glmmTMB)`)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``Salamanders``)`` ``m`` ``<-`` `[`glmmTMB`](https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html)`(`` `` ``count`` ``~`` ``spp`` ``+`` ``mined`` ``+`` ``(``1`` ``|`` ``site``)``,`` `` ziformula ``=`` ``~`` ``spp`` ``+`` ``mined``,`` `` family ``=`` `[`poisson`](https://rdrr.io/r/stats/family.html)`(``)``,`` `` data ``=`` ``Salamanders`` ``)`
 
 Similar to mixed models without zero-inflation component,
 `type = "fixed"` returns predictions on the population-level, but for
 the conditional (“count”) model only.
 
-``` r
-
-predict_response(m, "spp")
-#> # Predicted (conditional) counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      0.73 | 0.42, 1.28
-#> PR    |      0.42 | 0.20, 0.87
-#> DM    |      0.94 | 0.56, 1.58
-#> EC-A  |      0.60 | 0.33, 1.10
-#> EC-L  |      1.42 | 0.85, 2.37
-#> DES-L |      1.34 | 0.79, 2.26
-#> DF    |      0.78 | 0.46, 1.31
-#> 
-#> Adjusted for:
-#> * mined = yes
-#> *  site = NA (population-level)
-```
+[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``)`` ``#> # Predicted (conditional) counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 0.73 | 0.42, 1.28`` ``#> PR | 0.42 | 0.20, 0.87`` ``#> DM | 0.94 | 0.56, 1.58`` ``#> EC-A | 0.60 | 0.33, 1.10`` ``#> EC-L | 1.42 | 0.85, 2.37`` ``#> DES-L | 1.34 | 0.79, 2.26`` ``#> DF | 0.78 | 0.46, 1.31`` ``#> `` ``#> Adjusted for:`` ``#> * mined = yes`` ``#> * site = NA (population-level)`
 
 #### Conditional predictions for the full model
 
@@ -272,25 +148,7 @@ confidence intervals for `type = "zero_inflated"` are based on quantiles
 of simulated draws from a multivariate normal distribution (see also
 *Brooks et al. 2017, pp.391-392* for details).
 
-``` r
-
-predict_response(m, "spp", type = "zero_inflated")
-#> # Expected counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      0.20 | 0.02, 0.38
-#> PR    |      0.03 | 0.00, 0.06
-#> DM    |      0.32 | 0.08, 0.56
-#> EC-A  |      0.07 | 0.00, 0.13
-#> EC-L  |      0.42 | 0.12, 0.73
-#> DES-L |      0.49 | 0.13, 0.85
-#> DF    |      0.30 | 0.09, 0.51
-#> 
-#> Adjusted for:
-#> * mined = yes
-#> *  site = NA (population-level)
-```
+[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``, type ``=`` ``"zero_inflated"``)`` ``#> # Expected counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 0.20 | 0.02, 0.38`` ``#> PR | 0.03 | 0.00, 0.06`` ``#> DM | 0.32 | 0.08, 0.56`` ``#> EC-A | 0.07 | 0.00, 0.13`` ``#> EC-L | 0.42 | 0.12, 0.73`` ``#> DES-L | 0.49 | 0.13, 0.85`` ``#> DF | 0.30 | 0.09, 0.51`` ``#> `` ``#> Adjusted for:`` ``#> * mined = yes`` ``#> * site = NA (population-level)`
 
 #### Marginal predictions for the full model (simulated draws)
 
@@ -306,21 +164,7 @@ effects groups and non-focal terms. To achieve this, use
 `type = "simulate"`. Note that this prediction-type usually returns
 larger intervals, because it accounts for *all* model uncertainties.
 
-``` r
-
-predict_response(m, "spp", type = "simulate")
-#> # Expected counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      1.10 | 0.00, 4.31
-#> PR    |      0.30 | 0.00, 2.23
-#> DM    |      1.54 | 0.00, 5.49
-#> EC-A  |      0.55 | 0.00, 3.11
-#> EC-L  |      2.20 | 0.00, 7.35
-#> DES-L |      2.26 | 0.00, 7.14
-#> DF    |      1.35 | 0.00, 4.72
-```
+[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``, type ``=`` ``"simulate"``)`` ``#> # Expected counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 1.10 | 0.00, 4.31`` ``#> PR | 0.30 | 0.00, 2.23`` ``#> DM | 1.54 | 0.00, 5.49`` ``#> EC-A | 0.55 | 0.00, 3.11`` ``#> EC-L | 2.20 | 0.00, 7.35`` ``#> DES-L | 2.26 | 0.00, 7.14`` ``#> DF | 1.35 | 0.00, 4.72`
 
 #### Marginal predictions for the full model (average predictions)
 
@@ -333,21 +177,7 @@ terms. The next example shows the average marginal predicted values of
 `spp` on the response across all `site`s, taking the zero-inflation
 component into account (i.e. `type = "zero_inflated"`).
 
-``` r
-
-predict_response(m, "spp", type = "zero_inflated", margin = "empirical")
-#> # Average expected counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      1.08 | 0.76, 1.41
-#> PR    |      0.30 | 0.13, 0.46
-#> DM    |      1.52 | 1.11, 1.94
-#> EC-A  |      0.54 | 0.31, 0.78
-#> EC-L  |      2.17 | 1.60, 2.74
-#> DES-L |      2.24 | 1.69, 2.79
-#> DF    |      1.32 | 0.96, 1.68
-```
+[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``, type ``=`` ``"zero_inflated"``, margin ``=`` ``"empirical"``)`` ``#> # Average expected counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 1.08 | 0.76, 1.41`` ``#> PR | 0.30 | 0.13, 0.46`` ``#> DM | 1.52 | 1.11, 1.94`` ``#> EC-A | 0.54 | 0.31, 0.78`` ``#> EC-L | 2.17 | 1.60, 2.74`` ``#> DES-L | 2.24 | 1.69, 2.79`` ``#> DF | 1.32 | 0.96, 1.68`
 
 ### Bias-correction for non-Gaussian models
 
@@ -366,65 +196,7 @@ uncertainty, e.g. based on
 using the `sigma` argument. *ggeffects* will warn users once per session
 whenever bias-correction can be appropriate.
 
-``` r
-
-# no bias-correction
-predict_response(m, "spp")
-#> You are calculating adjusted predictions on the population-level (i.e. `type = "fixed"`) for a *generalized* linear mixed model.
-#>   This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias.
-#>   See also the documentation of the `bias_correction` argument.
-#> # Predicted (conditional) counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      0.73 | 0.42, 1.28
-#> PR    |      0.42 | 0.20, 0.87
-#> DM    |      0.94 | 0.56, 1.58
-#> EC-A  |      0.60 | 0.33, 1.10
-#> EC-L  |      1.42 | 0.85, 2.37
-#> DES-L |      1.34 | 0.79, 2.26
-#> DF    |      0.78 | 0.46, 1.31
-#> 
-#> Adjusted for:
-#> * mined = yes
-#> *  site = NA (population-level)
-
-# bias-correction
-predict_response(m, "spp", bias_correction = TRUE)
-#> # Predicted (conditional) counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      0.97 | 0.55, 1.69
-#> PR    |      0.55 | 0.27, 1.15
-#> DM    |      1.24 | 0.73, 2.09
-#> EC-A  |      0.79 | 0.43, 1.45
-#> EC-L  |      1.87 | 1.12, 3.12
-#> DES-L |      1.76 | 1.04, 2.98
-#> DF    |      1.02 | 0.60, 1.74
-#> 
-#> Adjusted for:
-#> * mined = yes
-#> *  site = NA (population-level)
-
-# bias-correction, using user-defined sigma-value
-predict_response(m, "spp", bias_correction = TRUE, sigma = insight::get_sigma(m))
-#> # Predicted (conditional) counts of count
-#> 
-#> spp   | Predicted |     95% CI
-#> ------------------------------
-#> GP    |      1.10 | 0.63, 1.92
-#> PR    |      0.63 | 0.30, 1.30
-#> DM    |      1.41 | 0.83, 2.38
-#> EC-A  |      0.90 | 0.49, 1.65
-#> EC-L  |      2.13 | 1.27, 3.55
-#> DES-L |      2.01 | 1.19, 3.39
-#> DF    |      1.16 | 0.69, 1.97
-#> 
-#> Adjusted for:
-#> * mined = yes
-#> *  site = NA (population-level)
-```
+`# no bias-correction`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``)`` ``` #> You are calculating adjusted predictions on the population-level (i.e. `type = "fixed"`) for a *generalized* linear mixed model. ``` ``` #> This may produce biased estimates due to Jensen's inequality. Consider setting `bias_correction = TRUE` to correct for this bias. ``` ``` #> See also the documentation of the `bias_correction` argument. ``` ``#> # Predicted (conditional) counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 0.73 | 0.42, 1.28`` ``#> PR | 0.42 | 0.20, 0.87`` ``#> DM | 0.94 | 0.56, 1.58`` ``#> EC-A | 0.60 | 0.33, 1.10`` ``#> EC-L | 1.42 | 0.85, 2.37`` ``#> DES-L | 1.34 | 0.79, 2.26`` ``#> DF | 0.78 | 0.46, 1.31`` ``#> `` ``#> Adjusted for:`` ``#> * mined = yes`` ``#> * site = NA (population-level)`` `` ``# bias-correction`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``, bias_correction ``=`` ``TRUE``)`` ``#> # Predicted (conditional) counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 0.97 | 0.55, 1.69`` ``#> PR | 0.55 | 0.27, 1.15`` ``#> DM | 1.24 | 0.73, 2.09`` ``#> EC-A | 0.79 | 0.43, 1.45`` ``#> EC-L | 1.87 | 1.12, 3.12`` ``#> DES-L | 1.76 | 1.04, 2.98`` ``#> DF | 1.02 | 0.60, 1.74`` ``#> `` ``#> Adjusted for:`` ``#> * mined = yes`` ``#> * site = NA (population-level)`` `` ``# bias-correction, using user-defined sigma-value`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, ``"spp"``, bias_correction ``=`` ``TRUE``, sigma ``=`` ``insight``::`[`get_sigma`](https://easystats.github.io/insight/reference/get_sigma.html)`(``m``)``)`` ``#> # Predicted (conditional) counts of count`` ``#> `` ``#> spp | Predicted | 95% CI`` ``#> ------------------------------`` ``#> GP | 1.10 | 0.63, 1.92`` ``#> PR | 0.63 | 0.30, 1.30`` ``#> DM | 1.41 | 0.83, 2.38`` ``#> EC-A | 0.90 | 0.49, 1.65`` ``#> EC-L | 2.13 | 1.27, 3.55`` ``#> DES-L | 2.01 | 1.19, 3.39`` ``#> DF | 1.16 | 0.69, 1.97`` ``#> `` ``#> Adjusted for:`` ``#> * mined = yes`` ``#> * site = NA (population-level)`
 
 ### Unit-level predictions (predictions for each level of random effects)
 
@@ -437,15 +209,7 @@ effects term to the `terms`-argument, and set `type = "random"`. For
 In the following example, we fit a linear mixed model and first simply
 plot the adjusted predictions at the population-level.
 
-``` r
-
-library(sjlabelled)
-data(efc)
-efc$e15relat <- as_label(efc$e15relat)
-m <- lmer(neg_c_7 ~ c12hour + c160age + c161sex + (1 | e15relat), data = efc)
-me <- predict_response(m, terms = "c12hour")
-plot(me)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`sjlabelled`](https://strengejacke.github.io/sjlabelled/)`)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``efc``)`` ``efc``$``e15relat`` ``<-`` `[`as_label`](https://strengejacke.github.io/sjlabelled/reference/as_label.html)`(``efc``$``e15relat``)`` ``m`` ``<-`` `[`lmer`](https://rdrr.io/pkg/lme4/man/lmer.html)`(``neg_c_7`` ``~`` ``c12hour`` ``+`` ``c160age`` ``+`` ``c161sex`` ``+`` ``(``1`` ``|`` ``e15relat``)``, data ``=`` ``efc``)`` ``me`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` ``"c12hour"``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-12-1.png)
 
@@ -454,11 +218,7 @@ add the related random effects term to the `terms`-argument. In this
 case, predictions are calculated for each level of the specified random
 effects term.
 
-``` r
-
-me <- predict_response(m, terms = c("c12hour", "e15relat"), type = "random")
-plot(me, show_ci = FALSE)
-```
+`me`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"e15relat"``)``, type ``=`` ``"random"``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``, show_ci ``=`` ``FALSE``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-13-1.png)
 
@@ -466,11 +226,7 @@ Since average marginal predictions already consider random effects by
 averaging over the groups, the `type`-argument is not needed when
 `margin = "empirical"` is set.
 
-``` r
-
-me <- predict_response(m, terms = c("c12hour", "e15relat"), margin = "empirical")
-plot(me, show_ci = FALSE)
-```
+`me`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"e15relat"``)``, margin ``=`` ``"empirical"``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``, show_ci ``=`` ``FALSE``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-14-1.png)
 
@@ -478,11 +234,7 @@ Adjusted predictions can also be calculated for specific unit-levels
 only. Add the related values into brackets after the variable name in
 the `terms`-argument.
 
-``` r
-
-me <- predict_response(m, terms = c("c12hour", "e15relat [child,sibling]"), type = "random")
-plot(me, show_ci = FALSE)
-```
+`me`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"e15relat [child,sibling]"``)``, type ``=`` ``"random"``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``, show_ci ``=`` ``FALSE``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-15-1.png)
 
@@ -491,15 +243,7 @@ values of two other terms (`c161sex`, `c160age`) for specific
 unit-levels of random effects (`e15relat`), so we have four variables in
 the `terms`-argument.
 
-``` r
-
-me <- predict_response(
-  m,
-  terms = c("c12hour", "c161sex", "c160age", "e15relat [child,sibling]"),
-  type = "random"
-)
-plot(me)
-```
+`me`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(`` `` ``m``,`` `` terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"c161sex"``, ``"c160age"``, ``"e15relat [child,sibling]"``)``,`` `` type ``=`` ``"random"`` ``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-16-1.png)
 
@@ -508,23 +252,14 @@ sample of all possible levels and plot the adjusted predictions for this
 subsample of unit-levels. To do this, use
 `term = "<groupfactor> [sample=n]"`.
 
-``` r
-
-set.seed(123)
-m <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
-me <- predict_response(m, terms = c("Days", "Subject [sample=7]"), type = "random")
-plot(me)
-```
+[`set.seed`](https://rdrr.io/r/base/Random.html)`(``123``)`` ``m`` ``<-`` `[`lmer`](https://rdrr.io/pkg/lme4/man/lmer.html)`(``Reaction`` ``~`` ``Days`` ``+`` ``(``1`` ``+`` ``Days`` ``|`` ``Subject``)``, data ``=`` ``sleepstudy``)`` ``me`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Days"``, ``"Subject [sample=7]"``)``, type ``=`` ``"random"``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-17-1.png)
 
 You can also add the observed data points for each group using
 `show_data = TRUE`.
 
-``` r
-
-plot(me, show_data = TRUE, show_ci = FALSE)
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``me``, show_data ``=`` ``TRUE``, show_ci ``=`` ``FALSE``)`
 
 ![](introduction_randomeffects_files/figure-html/unnamed-chunk-18-1.png)
 
@@ -551,53 +286,7 @@ which returns `NULL` for `gam`s with random effects defined via
 `s(..., bs = "re")`. However, predictions are still correct, when
 population-level predictions are requested. Here’s an example:
 
-``` r
-
-data("sleepstudy", package = "lme4")
-# mixed model with lme4
-m_lmer <- lme4::lmer(Reaction ~ poly(Days, 2) + (1 | Subject),
-  data = sleepstudy
-)
-# equivalent model, random effects are defined via s(..., bs = "re")
-m_gam <- mgcv::gam(Reaction ~ poly(Days, 2) + s(Subject, bs = "re"),
-  family = gaussian(), data = sleepstudy, method = "ML"
-)
-
-# predictions are identical
-predict_response(m_gam, terms = "Days", exclude = "s(Subject)", newdata.guaranteed = TRUE)
-#> # Predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    0 |    255.45 | 235.12, 275.78
-#>    1 |    263.22 | 244.71, 281.73
-#>    2 |    271.67 | 253.70, 289.63
-#>    3 |    280.78 | 262.75, 298.82
-#>    5 |    301.05 | 282.84, 319.25
-#>    6 |    312.19 | 294.15, 330.22
-#>    7 |    324.00 | 306.03, 341.97
-#>    9 |    349.65 | 329.33, 369.98
-#> 
-#> Adjusted for:
-#> * Subject = 308
-
-predict_response(m_lmer, terms = "Days")
-#> # Predicted values of Reaction
-#> 
-#> Days | Predicted |         95% CI
-#> ---------------------------------
-#>    0 |    255.45 | 234.79, 276.10
-#>    1 |    263.22 | 244.35, 282.09
-#>    2 |    271.67 | 253.33, 290.00
-#>    3 |    280.78 | 262.38, 299.19
-#>    5 |    301.05 | 282.48, 319.61
-#>    6 |    312.19 | 293.78, 330.59
-#>    7 |    324.00 | 305.66, 342.34
-#>    9 |    349.65 | 329.00, 370.31
-#> 
-#> Adjusted for:
-#> * Subject = 0 (population-level)
-```
+[`data`](https://rdrr.io/r/utils/data.html)`(``"sleepstudy"``, package ``=`` ``"lme4"``)`` ``# mixed model with lme4`` ``m_lmer`` ``<-`` ``lme4``::`[`lmer`](https://rdrr.io/pkg/lme4/man/lmer.html)`(``Reaction`` ``~`` `[`poly`](https://rdrr.io/r/stats/poly.html)`(``Days``, ``2``)`` ``+`` ``(``1`` ``|`` ``Subject``)``,`` `` data ``=`` ``sleepstudy`` ``)`` ``# equivalent model, random effects are defined via s(..., bs = "re")`` ``m_gam`` ``<-`` ``mgcv``::`[`gam`](https://rdrr.io/pkg/mgcv/man/gam.html)`(``Reaction`` ``~`` `[`poly`](https://rdrr.io/r/stats/poly.html)`(``Days``, ``2``)`` ``+`` ``s``(``Subject``, bs ``=`` ``"re"``)``,`` `` family ``=`` `[`gaussian`](https://rdrr.io/r/stats/family.html)`(``)``, data ``=`` ``sleepstudy``, method ``=`` ``"ML"`` ``)`` `` ``# predictions are identical`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m_gam``, terms ``=`` ``"Days"``, exclude ``=`` ``"s(Subject)"``, newdata.guaranteed ``=`` ``TRUE``)`` ``#> # Predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 0 | 255.45 | 235.12, 275.78`` ``#> 1 | 263.22 | 244.71, 281.73`` ``#> 2 | 271.67 | 253.70, 289.63`` ``#> 3 | 280.78 | 262.75, 298.82`` ``#> 5 | 301.05 | 282.84, 319.25`` ``#> 6 | 312.19 | 294.15, 330.22`` ``#> 7 | 324.00 | 306.03, 341.97`` ``#> 9 | 349.65 | 329.33, 369.98`` ``#> `` ``#> Adjusted for:`` ``#> * Subject = 308`` `` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m_lmer``, terms ``=`` ``"Days"``)`` ``#> # Predicted values of Reaction`` ``#> `` ``#> Days | Predicted | 95% CI`` ``#> ---------------------------------`` ``#> 0 | 255.45 | 234.79, 276.10`` ``#> 1 | 263.22 | 244.35, 282.09`` ``#> 2 | 271.67 | 253.33, 290.00`` ``#> 3 | 280.78 | 262.38, 299.19`` ``#> 5 | 301.05 | 282.48, 319.61`` ``#> 6 | 312.19 | 293.78, 330.59`` ``#> 7 | 324.00 | 305.66, 342.34`` ``#> 9 | 349.65 | 329.00, 370.31`` ``#> `` ``#> Adjusted for:`` ``#> * Subject = 0 (population-level)`
 
 ## References
 

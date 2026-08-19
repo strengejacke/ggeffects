@@ -10,22 +10,7 @@ predictions are identical, but the confidence intervals differ.
 Here is an explanation, why there is a difference. First, we fit a
 logistic regression model.
 
-``` r
-
-set.seed(5)
-
-data <- data.frame(
-  outcome = rbinom(100, 1, 0.5),
-  var1 = rbinom(100, 1, 0.1),
-  var2 = rnorm(100, 10, 7)
-)
-
-m <- glm(
-  outcome ~ var1 * var2,
-  data = data,
-  family = binomial(link = "logit")
-)
-```
+[`set.seed`](https://rdrr.io/r/base/Random.html)`(``5``)`` `` ``data`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` outcome ``=`` `[`rbinom`](https://rdrr.io/r/stats/Binomial.html)`(``100``, ``1``, ``0.5``)``,`` `` var1 ``=`` `[`rbinom`](https://rdrr.io/r/stats/Binomial.html)`(``100``, ``1``, ``0.1``)``,`` `` var2 ``=`` `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``100``, ``10``, ``7``)`` ``)`` `` ``m`` ``<-`` `[`glm`](https://rdrr.io/r/stats/glm.html)`(`` `` ``outcome`` ``~`` ``var1`` ``*`` ``var2``,`` `` data ``=`` ``data``,`` `` family ``=`` `[`binomial`](https://rdrr.io/r/stats/family.html)`(``link ``=`` ``"logit"``)`` ``)`
 
 ### Example with graphical output
 
@@ -48,11 +33,7 @@ The resulting image looks like this.
 
 When we use *ggeffects*, the plot slighlty differs.
 
-``` r
-
-library(ggeffects)
-predict_response(m, c("var2", "var1")) |> plot()
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggeffects`](https://strengejacke.github.io/ggeffects/)`)`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, `[`c`](https://rdrr.io/r/base/c.html)`(``"var2"``, ``"var1"``)``)`` ``|>`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``)`
 
 ![](technical_stata_files/figure-html/unnamed-chunk-4-1.png)
 

@@ -307,45 +307,11 @@ specified in `terms`.
 
 ### Adjusted predictions for one focal predictor
 
-``` r
-
-library(ggeffects)
-library(splines)
-library(datawizard)
-data(efc, package = "ggeffects")
-efc <- to_factor(efc, c("c161sex", "e42dep"))
-fit <- lm(barthtot ~ c12hour + bs(neg_c_7) * c161sex + e42dep, data = efc)
-
-predict_response(fit, terms = "c12hour")
-#> # Predicted values of barthtot
-#> 
-#> c12hour | Predicted |       95% CI
-#> ----------------------------------
-#>       4 |     89.91 | 84.18, 95.63
-#>      12 |     89.34 | 83.62, 95.06
-#>      22 |     88.63 | 82.90, 94.36
-#>      36 |     87.64 | 81.88, 93.40
-#>      49 |     86.72 | 80.90, 92.53
-#>      70 |     85.23 | 79.30, 91.16
-#>     100 |     83.10 | 76.92, 89.29
-#>     168 |     78.28 | 71.24, 85.33
-#> 
-#> Adjusted for:
-#> * neg_c_7 =       11.83
-#> * c161sex =        Male
-#> *  e42dep = independent
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggeffects`](https://strengejacke.github.io/ggeffects/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(``splines``)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`datawizard`](https://easystats.github.io/datawizard/)`)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``efc``, package ``=`` ``"ggeffects"``)`` ``efc`` ``<-`` `[`to_factor`](https://easystats.github.io/datawizard/reference/to_factor.html)`(``efc``, `[`c`](https://rdrr.io/r/base/c.html)`(``"c161sex"``, ``"e42dep"``)``)`` ``fit`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``barthtot`` ``~`` ``c12hour`` ``+`` `[`bs`](https://rdrr.io/r/splines/bs.html)`(``neg_c_7``)`` ``*`` ``c161sex`` ``+`` ``e42dep``, data ``=`` ``efc``)`` `` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` ``"c12hour"``)`` ``#> # Predicted values of barthtot`` ``#> `` ``#> c12hour | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 4 | 89.91 | 84.18, 95.63`` ``#> 12 | 89.34 | 83.62, 95.06`` ``#> 22 | 88.63 | 82.90, 94.36`` ``#> 36 | 87.64 | 81.88, 93.40`` ``#> 49 | 86.72 | 80.90, 92.53`` ``#> 70 | 85.23 | 79.30, 91.16`` ``#> 100 | 83.10 | 76.92, 89.29`` ``#> 168 | 78.28 | 71.24, 85.33`` ``#> `` ``#> Adjusted for:`` ``#> * neg_c_7 = 11.83`` ``#> * c161sex = Male`` ``#> * e42dep = independent`
 
 A possible call to ggplot could look like this:
 
-``` r
-
-library(ggplot2)
-mydf <- predict_response(fit, terms = "c12hour")
-ggplot(mydf, aes(x, predicted)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.1)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggplot2`](https://ggplot2.tidyverse.org)`)`` ``mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` ``"c12hour"``)`` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``)``)`` ``+`` `` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`` ``+`` `` `[`geom_ribbon`](https://ggplot2.tidyverse.org/reference/geom_ribbon.html)`(`[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``ymin ``=`` ``conf.low``, ymax ``=`` ``conf.high``)``, alpha ``=`` ``0.1``)`
 
 ![](reference/figures/unnamed-chunk-3-1.png)
 
@@ -354,11 +320,7 @@ However, there is also a
 This method uses convenient defaults, to easily create the most suitable
 plot for the predictions.
 
-``` r
-
-mydf <- predict_response(fit, terms = "c12hour")
-plot(mydf)
-```
+`mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` ``"c12hour"``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``mydf``)`
 
 ![](reference/figures/unnamed-chunk-4-1.png)
 
@@ -366,65 +328,14 @@ plot(mydf)
 
 With three variables, predictions can be grouped and faceted.
 
-``` r
-
-result <- predict_response(fit, terms = c("neg_c_7", "c161sex", "e42dep"))
-# we want a more compact table, thus we use `print()` explicitly
-print(result, collapse_table = TRUE, collapse_ci = TRUE)
-#> # Predicted values of barthtot
-#> 
-#> neg_c_7 | c161sex |               e42dep |     Predicted (95% CI)
-#> -----------------------------------------------------------------
-#>       7 |    Male |          independent |  93.73 (87.01, 100.44)
-#>      12 |         |                      |  86.89 (81.09,  92.70)
-#>      17 |         |                      |  80.62 (73.69,  87.54)
-#>      28 |         |                      | 148.54 (85.66, 211.42)
-#>       7 |         |   slightly dependent |  87.41 (81.27,  93.56)
-#>      12 |         |                      |  80.58 (76.32,  84.84)
-#>      17 |         |                      |  74.31 (68.46,  80.15)
-#>      28 |         |                      | 142.23 (79.71, 204.75)
-#>       7 |         | moderately dependent |  78.29 (72.08,  84.49)
-#>      12 |         |                      |  71.46 (67.64,  75.27)
-#>      17 |         |                      |  65.18 (59.75,  70.60)
-#>      28 |         |                      | 133.10 (70.44, 195.76)
-#>       7 |         |   severely dependent |  41.93 (35.66,  48.21)
-#>      12 |         |                      |  35.10 (30.98,  39.22)
-#>      17 |         |                      |  28.82 (23.41,  34.24)
-#>      28 |         |                      |  96.75 (34.08, 159.41)
-#>       7 |  Female |          independent |  98.04 (93.06, 103.02)
-#>      12 |         |                      |  86.61 (81.85,  91.37)
-#>      17 |         |                      |  82.58 (77.33,  87.82)
-#>      28 |         |                      |  81.57 (64.41,  98.73)
-#>       7 |         |   slightly dependent |  91.73 (87.89,  95.57)
-#>      12 |         |                      |  80.30 (77.43,  83.17)
-#>      17 |         |                      |  76.26 (72.57,  79.96)
-#>      28 |         |                      |  75.26 (58.64,  91.87)
-#>       7 |         | moderately dependent |  82.60 (78.62,  86.59)
-#>      12 |         |                      |  71.17 (68.79,  73.56)
-#>      17 |         |                      |  67.14 (63.95,  70.33)
-#>      28 |         |                      |  66.13 (49.52,  82.74)
-#>       7 |         |   severely dependent |  46.25 (41.93,  50.57)
-#>      12 |         |                      |  34.82 (32.27,  37.37)
-#>      17 |         |                      |  30.78 (27.67,  33.90)
-#>      28 |         |                      |  29.78 (13.33,  46.23)
-#> 
-#> Adjusted for:
-#> * c12hour = 42.10
-
-ggplot(result, aes(x = x, y = predicted, colour = group)) +
-  geom_line() +
-  facet_wrap(~facet)
-```
+`result`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"neg_c_7"``, ``"c161sex"``, ``"e42dep"``)``)`` ``` # we want a more compact table, thus we use `print()` explicitly ``` `[`print`](https://strengejacke.github.io/ggeffects/reference/print.md)`(``result``, collapse_table ``=`` ``TRUE``, collapse_ci ``=`` ``TRUE``)`` ``#> # Predicted values of barthtot`` ``#> `` ``#> neg_c_7 | c161sex | e42dep | Predicted (95% CI)`` ``#> -----------------------------------------------------------------`` ``#> 7 | Male | independent | 93.73 (87.01, 100.44)`` ``#> 12 | | | 86.89 (81.09, 92.70)`` ``#> 17 | | | 80.62 (73.69, 87.54)`` ``#> 28 | | | 148.54 (85.66, 211.42)`` ``#> 7 | | slightly dependent | 87.41 (81.27, 93.56)`` ``#> 12 | | | 80.58 (76.32, 84.84)`` ``#> 17 | | | 74.31 (68.46, 80.15)`` ``#> 28 | | | 142.23 (79.71, 204.75)`` ``#> 7 | | moderately dependent | 78.29 (72.08, 84.49)`` ``#> 12 | | | 71.46 (67.64, 75.27)`` ``#> 17 | | | 65.18 (59.75, 70.60)`` ``#> 28 | | | 133.10 (70.44, 195.76)`` ``#> 7 | | severely dependent | 41.93 (35.66, 48.21)`` ``#> 12 | | | 35.10 (30.98, 39.22)`` ``#> 17 | | | 28.82 (23.41, 34.24)`` ``#> 28 | | | 96.75 (34.08, 159.41)`` ``#> 7 | Female | independent | 98.04 (93.06, 103.02)`` ``#> 12 | | | 86.61 (81.85, 91.37)`` ``#> 17 | | | 82.58 (77.33, 87.82)`` ``#> 28 | | | 81.57 (64.41, 98.73)`` ``#> 7 | | slightly dependent | 91.73 (87.89, 95.57)`` ``#> 12 | | | 80.30 (77.43, 83.17)`` ``#> 17 | | | 76.26 (72.57, 79.96)`` ``#> 28 | | | 75.26 (58.64, 91.87)`` ``#> 7 | | moderately dependent | 82.60 (78.62, 86.59)`` ``#> 12 | | | 71.17 (68.79, 73.56)`` ``#> 17 | | | 67.14 (63.95, 70.33)`` ``#> 28 | | | 66.13 (49.52, 82.74)`` ``#> 7 | | severely dependent | 46.25 (41.93, 50.57)`` ``#> 12 | | | 34.82 (32.27, 37.37)`` ``#> 17 | | | 30.78 (27.67, 33.90)`` ``#> 28 | | | 29.78 (13.33, 46.23)`` ``#> `` ``#> Adjusted for:`` ``#> * c12hour = 42.10`` `` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``result``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x ``=`` ``x``, y ``=`` ``predicted``, colour ``=`` ``group``)``)`` ``+`` `` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`` ``+`` `` `[`facet_wrap`](https://ggplot2.tidyverse.org/reference/facet_wrap.html)`(``~``facet``)`
 
 ![](reference/figures/unnamed-chunk-5-1.png)
 
 [`plot()`](https://strengejacke.github.io/ggeffects/reference/plot.md)
 works for this case, as well:
 
-``` r
-
-plot(result)
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``result``)`
 
 ![](reference/figures/unnamed-chunk-6-1.png)
 

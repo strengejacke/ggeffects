@@ -12,23 +12,7 @@ ggplot2-package to do this:
 
 Let’s start with a default-plot:
 
-``` r
-
-library(ggeffects)
-library(ggplot2)
-
-data(mtcars)
-m <- lm(mpg ~ gear + as.factor(cyl) + wt, data = mtcars)
-
-# continuous x-axis
-dat <- predict_response(m, terms = c("gear", "wt"))
-
-# discrete x-axis
-dat_categorical <- predict_response(m, terms = c("cyl", "wt"))
-
-# default plot
-plot(dat)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggeffects`](https://strengejacke.github.io/ggeffects/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`ggplot2`](https://ggplot2.tidyverse.org)`)`` `` `[`data`](https://rdrr.io/r/utils/data.html)`(``mtcars``)`` ``m`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``gear`` ``+`` `[`as.factor`](https://rdrr.io/r/base/factor.html)`(``cyl``)`` ``+`` ``wt``, data ``=`` ``mtcars``)`` `` ``# continuous x-axis`` ``dat`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"gear"``, ``"wt"``)``)`` `` ``# discrete x-axis`` ``dat_categorical`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"cyl"``, ``"wt"``)``)`` `` ``# default plot`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-1-1.png)
 
@@ -38,15 +22,7 @@ The simplest thing is to change the titles from the plot, x- and y-axis.
 This can be done with
 [`ggplot2::labs()`](https://ggplot2.tidyverse.org/reference/labs.html):
 
-``` r
-
-plot(dat) +
-  labs(
-    x = "Number of forward gears",
-    y = "Miles/(US) gallon",
-    title = "Predicted mean miles per gallon"
-  )
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``)`` ``+`` `` `[`labs`](https://ggplot2.tidyverse.org/reference/labs.html)`(`` `` x ``=`` ``"Number of forward gears"``,`` `` y ``=`` ``"Miles/(US) gallon"``,`` `` title ``=`` ``"Predicted mean miles per gallon"`` `` ``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-2-1.png)
 
@@ -58,10 +34,7 @@ The legend in ggplot-objects refers to the aesthetic used for the
 grouping variable, which is by default the `colour`, i.e. the plot is
 constructed in the following way:
 
-``` r
-
-ggplot(data, aes(x = x, y = predicted, colour = group))
-```
+[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``data``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x ``=`` ``x``, y ``=`` ``predicted``, colour ``=`` ``group``)``)`
 
 ### Plots with Default Colors
 
@@ -69,10 +42,7 @@ Hence, using `colour` in
 [`labs()`](https://ggplot2.tidyverse.org/reference/labs.html) changes
 the legend-title:
 
-``` r
-
-plot(dat) + labs(colour = "Weight (1000 lbs)")
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``)`` ``+`` `[`labs`](https://ggplot2.tidyverse.org/reference/labs.html)`(``colour ``=`` ``"Weight (1000 lbs)"``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-4-1.png)
 
@@ -83,10 +53,7 @@ For black-and-white plots, the group-aesthetic is mapped to different
 black-and-white plots can be changed using `linetype` in
 [`labs()`](https://ggplot2.tidyverse.org/reference/labs.html):
 
-``` r
-
-plot(dat, colors = "bw") + labs(linetype = "Weight (1000 lbs)")
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``, colors ``=`` ``"bw"``)`` ``+`` `[`labs`](https://ggplot2.tidyverse.org/reference/labs.html)`(``linetype ``=`` ``"Weight (1000 lbs)"``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-5-1.png)
 
@@ -96,10 +63,7 @@ If the variable on the x-axis is discrete for a black-and-white plot,
 the group-aesthetic is mapped to different *shapes*, so following code
 must be used to change the legend title:
 
-``` r
-
-plot(dat_categorical, colors = "bw") + labs(shape = "Weight (1000 lbs)")
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat_categorical``, colors ``=`` ``"bw"``)`` ``+`` `[`labs`](https://ggplot2.tidyverse.org/reference/labs.html)`(``shape ``=`` ``"Weight (1000 lbs)"``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-6-1.png)
 
@@ -112,10 +76,7 @@ for this is that many users are used to plots that connect the data
 points with lines, which is only possible for continuous x-axes. You can
 do this using the `connect_lines`-argument:
 
-``` r
-
-plot(dat_categorical, connect_lines = TRUE)
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat_categorical``, connect_lines ``=`` ``TRUE``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-7-1.png)
 
@@ -127,11 +88,7 @@ you can use
 [`scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 to modify the x-axis, and change breaks, limits or labels.
 
-``` r
-
-plot(dat_categorical) +
-  scale_x_continuous(labels = c("four", "six", "eight"), breaks = c(4, 6, 8))
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat_categorical``)`` ``+`` `` `[`scale_x_continuous`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)`(``labels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"four"``, ``"six"``, ``"eight"``)``, breaks ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``4``, ``6``, ``8``)``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-8-1.png)
 
@@ -139,10 +96,7 @@ plot(dat_categorical) +
 
 Or for continuous variables:
 
-``` r
-
-plot(dat) + scale_x_continuous(breaks = 3:5, limits = c(2, 6))
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``)`` ``+`` `[`scale_x_continuous`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)`(``breaks ``=`` ``3``:``5``, limits ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``2``, ``6``)``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-9-1.png)
 
@@ -154,10 +108,7 @@ the appearance of the y-axis by putting the arguments directly into the
 call to
 [`plot()`](https://strengejacke.github.io/ggeffects/reference/plot.md):
 
-``` r
-
-plot(dat_categorical, breaks = seq(12, 30, 2), limits = c(12, 30))
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat_categorical``, breaks ``=`` `[`seq`](https://rdrr.io/r/base/seq.html)`(``12``, ``30``, ``2``)``, limits ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``12``, ``30``)``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-10-1.png)
 
@@ -182,12 +133,7 @@ linetypes or shapes.
 
 For plots using default colors:
 
-``` r
-
-plot(dat) +
-  scale_colour_brewer(palette = "Set1", labels = c("-1 SD", "Mean", "+1 SD")) +
-  scale_fill_brewer(palette = "Set1")
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``)`` ``+`` `` `[`scale_colour_brewer`](https://ggplot2.tidyverse.org/reference/scale_brewer.html)`(``palette ``=`` ``"Set1"``, labels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"-1 SD"``, ``"Mean"``, ``"+1 SD"``)``)`` ``+`` `` `[`scale_fill_brewer`](https://ggplot2.tidyverse.org/reference/scale_brewer.html)`(``palette ``=`` ``"Set1"``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-11-1.png)
 
@@ -195,11 +141,7 @@ plot(dat) +
 
 For black-and-white plots:
 
-``` r
-
-plot(dat, colors = "bw") +
-  scale_linetype_manual(values = 15:17, labels = c("-1 SD", "Mean", "+1 SD"))
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat``, colors ``=`` ``"bw"``)`` ``+`` `` `[`scale_linetype_manual`](https://ggplot2.tidyverse.org/reference/scale_manual.html)`(``values ``=`` ``15``:``17``, labels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"-1 SD"``, ``"Mean"``, ``"+1 SD"``)``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-12-1.png)
 
@@ -207,10 +149,6 @@ plot(dat, colors = "bw") +
 
 For black-and-white plots with categorical x-axis:
 
-``` r
-
-plot(dat_categorical, colors = "bw") +
-  scale_shape_manual(values = 1:3, labels = c("-1 SD", "Mean", "+1 SD"))
-```
+[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``dat_categorical``, colors ``=`` ``"bw"``)`` ``+`` `` `[`scale_shape_manual`](https://ggplot2.tidyverse.org/reference/scale_manual.html)`(``values ``=`` ``1``:``3``, labels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"-1 SD"``, ``"Mean"``, ``"+1 SD"``)``)`
 
 ![](introduction_plotcustomize_files/figure-html/unnamed-chunk-13-1.png)

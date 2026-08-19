@@ -199,31 +199,7 @@ second argument. Use the raw name of the variable for the
 `terms`-argument only - you don’t need to write things like
 `poly(term, 3)` or `I(term^2)` for the `terms`-argument.
 
-``` r
-
-library(ggeffects)
-data(efc, package = "ggeffects")
-fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
-
-predict_response(fit, terms = "c12hour")
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> c12hour | Predicted |       95% CI
-#> ----------------------------------
-#>       0 |     75.44 | 73.25, 77.63
-#>      20 |     70.38 | 68.56, 72.19
-#>      45 |     64.05 | 62.39, 65.70
-#>      65 |     58.98 | 57.15, 60.80
-#>      85 |     53.91 | 51.71, 56.12
-#>     105 |     48.85 | 46.14, 51.55
-#>     125 |     43.78 | 40.51, 47.05
-#>     170 |     32.38 | 27.73, 37.04
-#> 
-#> Adjusted for:
-#> *  neg_c_7 = 11.84
-#> *  c161sex =  1.76
-#> * c172code =  1.97
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggeffects`](https://strengejacke.github.io/ggeffects/)`)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``efc``, package ``=`` ``"ggeffects"``)`` ``fit`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``barthtot`` ``~`` ``c12hour`` ``+`` ``neg_c_7`` ``+`` ``c161sex`` ``+`` ``c172code``, data ``=`` ``efc``)`` `` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` ``"c12hour"``)`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> c12hour | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 0 | 75.44 | 73.25, 77.63`` ``#> 20 | 70.38 | 68.56, 72.19`` ``#> 45 | 64.05 | 62.39, 65.70`` ``#> 65 | 58.98 | 57.15, 60.80`` ``#> 85 | 53.91 | 51.71, 56.12`` ``#> 105 | 48.85 | 46.14, 51.55`` ``#> 125 | 43.78 | 40.51, 47.05`` ``#> 170 | 32.38 | 27.73, 37.04`` ``#> `` ``#> Adjusted for:`` ``#> * neg_c_7 = 11.84`` ``#> * c161sex = 1.76`` ``#> * c172code = 1.97`
 
 As you can see,
 [`predict_response()`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)
@@ -244,14 +220,7 @@ levels of other terms (see below).
 The output shows the predicted values for the response at each value
 from the term *c12hour*. The data is already in shape for ggplot:
 
-``` r
-
-library(ggplot2)
-theme_set(theme_bw())
-
-mydf <- predict_response(fit, terms = "c12hour")
-ggplot(mydf, aes(x, predicted)) + geom_line()
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`ggplot2`](https://ggplot2.tidyverse.org)`)`` `[`theme_set`](https://ggplot2.tidyverse.org/reference/get_theme.html)`(`[`theme_bw`](https://ggplot2.tidyverse.org/reference/ggtheme.html)`(``)``)`` `` ``mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` ``"c12hour"``)`` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``)``)`` ``+`` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-4-1.png)
 
@@ -261,57 +230,12 @@ The `terms` argument accepts up to four model terms, where the second to
 fourth terms indicate grouping levels. This allows predictions for the
 term in question at different levels or values for other focal terms:
 
-``` r
-
-predict_response(fit, terms = c("c12hour", "c172code"))
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> c172code: low level of education
-#> 
-#> c12hour | Predicted |       95% CI
-#> ----------------------------------
-#>       0 |     74.75 | 71.26, 78.23
-#>      30 |     67.15 | 64.03, 70.26
-#>      55 |     60.81 | 57.77, 63.86
-#>      85 |     53.22 | 49.95, 56.48
-#>     115 |     45.62 | 41.86, 49.37
-#>     170 |     31.69 | 26.59, 36.78
-#> 
-#> c172code: intermediate level of education
-#> 
-#> c12hour | Predicted |       95% CI
-#> ----------------------------------
-#>       0 |     75.46 | 73.28, 77.65
-#>      30 |     67.87 | 66.16, 69.57
-#>      55 |     61.53 | 59.82, 63.25
-#>      85 |     53.93 | 51.72, 56.14
-#>     115 |     46.34 | 43.35, 49.32
-#>     170 |     32.40 | 27.74, 37.07
-#> 
-#> c172code: high level of education
-#> 
-#> c12hour | Predicted |       95% CI
-#> ----------------------------------
-#>       0 |     76.18 | 72.81, 79.55
-#>      30 |     68.58 | 65.41, 71.76
-#>      55 |     62.25 | 59.00, 65.50
-#>      85 |     54.65 | 51.03, 58.27
-#>     115 |     47.05 | 42.85, 51.26
-#>     170 |     33.12 | 27.50, 38.74
-#> 
-#> Adjusted for:
-#> * neg_c_7 = 11.84
-#> * c161sex =  1.76
-```
+[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"c172code"``)``)`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> c172code: low level of education`` ``#> `` ``#> c12hour | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 0 | 74.75 | 71.26, 78.23`` ``#> 30 | 67.15 | 64.03, 70.26`` ``#> 55 | 60.81 | 57.77, 63.86`` ``#> 85 | 53.22 | 49.95, 56.48`` ``#> 115 | 45.62 | 41.86, 49.37`` ``#> 170 | 31.69 | 26.59, 36.78`` ``#> `` ``#> c172code: intermediate level of education`` ``#> `` ``#> c12hour | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 0 | 75.46 | 73.28, 77.65`` ``#> 30 | 67.87 | 66.16, 69.57`` ``#> 55 | 61.53 | 59.82, 63.25`` ``#> 85 | 53.93 | 51.72, 56.14`` ``#> 115 | 46.34 | 43.35, 49.32`` ``#> 170 | 32.40 | 27.74, 37.07`` ``#> `` ``#> c172code: high level of education`` ``#> `` ``#> c12hour | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 0 | 76.18 | 72.81, 79.55`` ``#> 30 | 68.58 | 65.41, 71.76`` ``#> 55 | 62.25 | 59.00, 65.50`` ``#> 85 | 54.65 | 51.03, 58.27`` ``#> 115 | 47.05 | 42.85, 51.26`` ``#> 170 | 33.12 | 27.50, 38.74`` ``#> `` ``#> Adjusted for:`` ``#> * neg_c_7 = 11.84`` ``#> * c161sex = 1.76`
 
 Creating a ggplot is pretty straightforward: the `colour` aesthetics is
 mapped with the `group` column:
 
-``` r
-
-mydf <- predict_response(fit, terms = c("c12hour", "c172code"))
-ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
-```
+`mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"c172code"``)``)`` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``, colour ``=`` ``group``)``)`` ``+`` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-6-1.png)
 
@@ -319,46 +243,7 @@ Another focal term would stratify the result and will create another
 column named `facet`, which - as the name implies - might be used to
 create a facted plot:
 
-``` r
-
-mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex"))
-# print a more compact table
-print(mydf, collapse_tables = TRUE)
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> c12hour |                        c172code |    c161sex | Predicted |       95% CI
-#> ---------------------------------------------------------------------------------
-#>       0 |          low level of education |   [1] Male |     73.95 | 69.35, 78.56
-#>      45 |                                 |            |     62.56 | 58.22, 66.89
-#>      85 |                                 |            |     52.42 | 47.89, 56.96
-#>     170 |                                 |            |     30.89 | 24.84, 36.95
-#>       0 |                                 | [2] Female |     75.00 | 71.40, 78.59
-#>      45 |                                 |            |     63.60 | 60.45, 66.74
-#>      85 |                                 |            |     53.46 | 50.12, 56.80
-#>     170 |                                 |            |     31.93 | 26.82, 37.05
-#>       0 | intermediate level of education |   [1] Male |     74.67 | 71.05, 78.29
-#>      45 |                                 |            |     63.27 | 59.88, 66.67
-#>      85 |                                 |            |     53.14 | 49.39, 56.89
-#>     170 |                                 |            |     31.61 | 25.97, 37.25
-#>       0 |                                 | [2] Female |     75.71 | 73.31, 78.12
-#>      45 |                                 |            |     64.32 | 62.41, 66.22
-#>      85 |                                 |            |     54.18 | 51.81, 56.56
-#>     170 |                                 |            |     32.65 | 27.94, 37.37
-#>       0 |         high level of education |   [1] Male |     75.39 | 71.03, 79.75
-#>      45 |                                 |            |     63.99 | 59.72, 68.26
-#>      85 |                                 |            |     53.86 | 49.22, 58.50
-#>     170 |                                 |            |     32.33 | 25.94, 38.72
-#>       0 |                                 | [2] Female |     76.43 | 72.88, 79.98
-#>      45 |                                 |            |     65.03 | 61.67, 68.39
-#>      85 |                                 |            |     54.90 | 51.15, 58.65
-#>     170 |                                 |            |     33.37 | 27.69, 39.05
-#> 
-#> Adjusted for:
-#> * neg_c_7 = 11.84
-ggplot(mydf, aes(x, predicted, colour = group)) +
-  geom_line() +
-  facet_wrap(~facet)
-```
+`mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"c172code"``, ``"c161sex"``)``)`` ``# print a more compact table`` `[`print`](https://strengejacke.github.io/ggeffects/reference/print.md)`(``mydf``, collapse_tables ``=`` ``TRUE``)`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> c12hour | c172code | c161sex | Predicted | 95% CI`` ``#> ---------------------------------------------------------------------------------`` ``#> 0 | low level of education | [1] Male | 73.95 | 69.35, 78.56`` ``#> 45 | | | 62.56 | 58.22, 66.89`` ``#> 85 | | | 52.42 | 47.89, 56.96`` ``#> 170 | | | 30.89 | 24.84, 36.95`` ``#> 0 | | [2] Female | 75.00 | 71.40, 78.59`` ``#> 45 | | | 63.60 | 60.45, 66.74`` ``#> 85 | | | 53.46 | 50.12, 56.80`` ``#> 170 | | | 31.93 | 26.82, 37.05`` ``#> 0 | intermediate level of education | [1] Male | 74.67 | 71.05, 78.29`` ``#> 45 | | | 63.27 | 59.88, 66.67`` ``#> 85 | | | 53.14 | 49.39, 56.89`` ``#> 170 | | | 31.61 | 25.97, 37.25`` ``#> 0 | | [2] Female | 75.71 | 73.31, 78.12`` ``#> 45 | | | 64.32 | 62.41, 66.22`` ``#> 85 | | | 54.18 | 51.81, 56.56`` ``#> 170 | | | 32.65 | 27.94, 37.37`` ``#> 0 | high level of education | [1] Male | 75.39 | 71.03, 79.75`` ``#> 45 | | | 63.99 | 59.72, 68.26`` ``#> 85 | | | 53.86 | 49.22, 58.50`` ``#> 170 | | | 32.33 | 25.94, 38.72`` ``#> 0 | | [2] Female | 76.43 | 72.88, 79.98`` ``#> 45 | | | 65.03 | 61.67, 68.39`` ``#> 85 | | | 54.90 | 51.15, 58.65`` ``#> 170 | | | 33.37 | 27.69, 39.05`` ``#> `` ``#> Adjusted for:`` ``#> * neg_c_7 = 11.84`` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``, colour ``=`` ``group``)``)`` ``+`` `` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`` ``+`` `` `[`facet_wrap`](https://ggplot2.tidyverse.org/reference/facet_wrap.html)`(``~``facet``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-7-1.png)
 
@@ -369,11 +254,7 @@ value in `panel`). **ggeffects** takes care of this when you use
 and automatically creates an integrated plot with all panels in one
 figure.
 
-``` r
-
-mydf <- predict_response(fit, terms = c("c12hour", "c172code", "c161sex", "neg_c_7"))
-plot(mydf) + theme(legend.position = "bottom")
-```
+`mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"c172code"``, ``"c161sex"``, ``"neg_c_7"``)``)`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``mydf``)`` ``+`` `[`theme`](https://ggplot2.tidyverse.org/reference/theme.html)`(``legend.position ``=`` ``"bottom"``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-8-1.png)
 
@@ -385,80 +266,7 @@ which can be plotted manually (or using the
 [`plot()`](https://strengejacke.github.io/ggeffects/reference/plot.md)
 function).
 
-``` r
-
-mydf <- predict_response(fit)
-mydf
-#> $c12hour
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> c12hour | Predicted |       95% CI
-#> ----------------------------------
-#>       0 |     75.44 | 73.25, 77.63
-#>      20 |     70.38 | 68.56, 72.19
-#>      45 |     64.05 | 62.39, 65.70
-#>      65 |     58.98 | 57.15, 60.80
-#>      85 |     53.91 | 51.71, 56.12
-#>     105 |     48.85 | 46.14, 51.55
-#>     125 |     43.78 | 40.51, 47.05
-#>     170 |     32.38 | 27.73, 37.04
-#> 
-#> Adjusted for:
-#> *  neg_c_7 = 11.84
-#> *  c161sex =  1.76
-#> * c172code =  1.97
-#> 
-#> $neg_c_7
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> neg_c_7 | Predicted |       95% CI
-#> ----------------------------------
-#>       6 |     78.17 | 75.10, 81.23
-#>       8 |     73.57 | 71.20, 75.94
-#>      12 |     64.38 | 62.73, 66.04
-#>      14 |     59.79 | 57.88, 61.70
-#>      16 |     55.19 | 52.72, 57.67
-#>      20 |     46.00 | 42.04, 49.97
-#>      22 |     41.41 | 36.63, 46.20
-#>      28 |     27.63 | 20.30, 34.96
-#> 
-#> Adjusted for:
-#> *  c12hour = 42.20
-#> *  c161sex =  1.76
-#> * c172code =  1.97
-#> 
-#> $c161sex
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> c161sex | Predicted |       95% CI
-#> ----------------------------------
-#>       1 |     63.96 | 60.57, 67.35
-#>       2 |     65.00 | 63.11, 66.90
-#> 
-#> Adjusted for:
-#> *  c12hour = 42.20
-#> *  neg_c_7 = 11.84
-#> * c172code =  1.97
-#> 
-#> $c172code
-#> # Predicted values of Total score BARTHEL INDEX
-#> 
-#> c172code | Predicted |       95% CI
-#> -----------------------------------
-#>        1 |     64.06 | 61.01, 67.11
-#>        2 |     64.78 | 63.12, 66.43
-#>        3 |     65.49 | 62.31, 68.68
-#> 
-#> Adjusted for:
-#> * c12hour = 42.20
-#> * neg_c_7 = 11.84
-#> * c161sex =  1.76
-#> 
-#> attr(,"class")
-#> [1] "ggalleffects" "list"        
-#> attr(,"model.name")
-#> [1] "fit"
-```
+`mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``)`` ``mydf`` ``#> $c12hour`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> c12hour | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 0 | 75.44 | 73.25, 77.63`` ``#> 20 | 70.38 | 68.56, 72.19`` ``#> 45 | 64.05 | 62.39, 65.70`` ``#> 65 | 58.98 | 57.15, 60.80`` ``#> 85 | 53.91 | 51.71, 56.12`` ``#> 105 | 48.85 | 46.14, 51.55`` ``#> 125 | 43.78 | 40.51, 47.05`` ``#> 170 | 32.38 | 27.73, 37.04`` ``#> `` ``#> Adjusted for:`` ``#> * neg_c_7 = 11.84`` ``#> * c161sex = 1.76`` ``#> * c172code = 1.97`` ``#> `` ``#> $neg_c_7`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> neg_c_7 | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 6 | 78.17 | 75.10, 81.23`` ``#> 8 | 73.57 | 71.20, 75.94`` ``#> 12 | 64.38 | 62.73, 66.04`` ``#> 14 | 59.79 | 57.88, 61.70`` ``#> 16 | 55.19 | 52.72, 57.67`` ``#> 20 | 46.00 | 42.04, 49.97`` ``#> 22 | 41.41 | 36.63, 46.20`` ``#> 28 | 27.63 | 20.30, 34.96`` ``#> `` ``#> Adjusted for:`` ``#> * c12hour = 42.20`` ``#> * c161sex = 1.76`` ``#> * c172code = 1.97`` ``#> `` ``#> $c161sex`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> c161sex | Predicted | 95% CI`` ``#> ----------------------------------`` ``#> 1 | 63.96 | 60.57, 67.35`` ``#> 2 | 65.00 | 63.11, 66.90`` ``#> `` ``#> Adjusted for:`` ``#> * c12hour = 42.20`` ``#> * neg_c_7 = 11.84`` ``#> * c172code = 1.97`` ``#> `` ``#> $c172code`` ``#> # Predicted values of Total score BARTHEL INDEX`` ``#> `` ``#> c172code | Predicted | 95% CI`` ``#> -----------------------------------`` ``#> 1 | 64.06 | 61.01, 67.11`` ``#> 2 | 64.78 | 63.12, 66.43`` ``#> 3 | 65.49 | 62.31, 68.68`` ``#> `` ``#> Adjusted for:`` ``#> * c12hour = 42.20`` ``#> * neg_c_7 = 11.84`` ``#> * c161sex = 1.76`` ``#> `` ``#> attr(,"class")`` ``#> [1] "ggalleffects" "list" `` ``#> attr(,"model.name")`` ``#> [1] "fit"`
 
 ## Many focal terms: Two-Way, Three-Way-, Four-Way- and Five-Way-Interactions
 
@@ -473,20 +281,7 @@ focal terms. For all of these examples, you can easily use the
 To plot the adjusted predictions of interaction terms, simply specify
 these terms in the `terms` argument.
 
-``` r
-
-data(efc, package = "ggeffects")
-
-# make categorical
-efc$c161sex <- datawizard::to_factor(efc$c161sex)
-
-# fit model with interaction
-fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex, data = efc)
-
-# select only levels 30, 50 and 70 from continuous variable Barthel-Index
-mydf <- predict_response(fit, terms = c("barthtot [30,50,70]", "c161sex"))
-ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
-```
+[`data`](https://rdrr.io/r/utils/data.html)`(``efc``, package ``=`` ``"ggeffects"``)`` `` ``# make categorical`` ``efc``$``c161sex`` ``<-`` ``datawizard``::`[`to_factor`](https://easystats.github.io/datawizard/reference/to_factor.html)`(``efc``$``c161sex``)`` `` ``# fit model with interaction`` ``fit`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``neg_c_7`` ``~`` ``c12hour`` ``+`` ``barthtot`` ``*`` ``c161sex``, data ``=`` ``efc``)`` `` ``# select only levels 30, 50 and 70 from continuous variable Barthel-Index`` ``mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"barthtot [30,50,70]"``, ``"c161sex"``)``)`` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``, colour ``=`` ``group``)``)`` ``+`` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-10-1.png)
 
@@ -497,18 +292,7 @@ compute adjusted predictions for a 3-way-, 4-way- or 5-way-interaction.
 To plot the adjusted predictions of three interaction terms, just like
 before, specify all three terms in the `terms` argument.
 
-``` r
-
-# fit model with 3-way-interaction
-fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
-
-# select only levels 30, 50 and 70 from continuous variable Barthel-Index
-mydf <- predict_response(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
-
-ggplot(mydf, aes(x, predicted, colour = group)) +
-  geom_line() +
-  facet_wrap(~facet)
-```
+`# fit model with 3-way-interaction`` ``fit`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``neg_c_7`` ``~`` ``c12hour`` ``*`` ``barthtot`` ``*`` ``c161sex``, data ``=`` ``efc``)`` `` ``# select only levels 30, 50 and 70 from continuous variable Barthel-Index`` ``mydf`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, terms ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"barthtot [30,50,70]"``, ``"c161sex"``)``)`` `` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``, colour ``=`` ``group``)``)`` ``+`` `` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`` ``+`` `` `[`facet_wrap`](https://ggplot2.tidyverse.org/reference/facet_wrap.html)`(``~``facet``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-11-1.png)
 
@@ -520,17 +304,7 @@ in a grid layout. The *first* focal term is plotted on the x-axis. The
 in the legend. The *third* focal term is mapped to columns, and the
 *fourth* focal term is mapped to rows.
 
-``` r
-
-# fit model with 4-way-interaction
-fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code, data = efc)
-
-# adjusted predictions for all 4 interaction terms
-pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code"))
-
-# use plot() method, easier than own ggplot-code from scratch
-plot(pr) + theme(legend.position = "bottom")
-```
+`# fit model with 4-way-interaction`` ``fit`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``neg_c_7`` ``~`` ``c12hour`` ``*`` ``barthtot`` ``*`` ``c161sex`` ``*`` ``c172code``, data ``=`` ``efc``)`` `` ``# adjusted predictions for all 4 interaction terms`` ``pr`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"barthtot"``, ``"c161sex"``, ``"c172code"``)``)`` `` ``# use plot() method, easier than own ggplot-code from scratch`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``pr``)`` ``+`` `[`theme`](https://ggplot2.tidyverse.org/reference/theme.html)`(``legend.position ``=`` ``"bottom"``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-12-1.png)
 
@@ -541,17 +315,7 @@ plotting, multiple plots (for each level of the fifth interaction term)
 are plotted for the remaining four focal terms. Note that for five focal
 terms, `n_rows` can be used to arrange the “sub-plots”.
 
-``` r
-
-# fit model with 5-way-interaction
-fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex * c172code * e42dep, data = efc)
-
-# adjusted predictions for all 5 interaction terms
-pr <- predict_response(fit, c("c12hour", "barthtot", "c161sex", "c172code", "e42dep"))
-
-# use plot() method, easier than own ggplot-code from scratch
-plot(pr, n_rows = 2) + theme(legend.position = "bottom")
-```
+`# fit model with 5-way-interaction`` ``fit`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``neg_c_7`` ``~`` ``c12hour`` ``*`` ``barthtot`` ``*`` ``c161sex`` ``*`` ``c172code`` ``*`` ``e42dep``, data ``=`` ``efc``)`` `` ``# adjusted predictions for all 5 interaction terms`` ``pr`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fit``, `[`c`](https://rdrr.io/r/base/c.html)`(``"c12hour"``, ``"barthtot"``, ``"c161sex"``, ``"c172code"``, ``"e42dep"``)``)`` `` ``# use plot() method, easier than own ggplot-code from scratch`` `[`plot`](https://strengejacke.github.io/ggeffects/reference/plot.md)`(``pr``, n_rows ``=`` ``2``)`` ``+`` `[`theme`](https://ggplot2.tidyverse.org/reference/theme.html)`(``legend.position ``=`` ``"bottom"``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-13-1.png)
 
@@ -562,18 +326,7 @@ also works for models with polynomial terms or splines. Following code
 reproduces the plot from
 [`?splines::bs`](https://rdrr.io/r/splines/bs.html):
 
-``` r
-
-library(splines)
-data(women)
-
-fm1 <- lm(weight ~ bs(height, df = 5), data = women)
-dat <- predict_response(fm1, "height")
-
-ggplot(dat, aes(x, predicted)) +
-  geom_line() +
-  geom_point()
-```
+[`library`](https://rdrr.io/r/base/library.html)`(``splines``)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``women``)`` `` ``fm1`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``weight`` ``~`` `[`bs`](https://rdrr.io/r/splines/bs.html)`(``height``, df ``=`` ``5``)``, data ``=`` ``women``)`` ``dat`` ``<-`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``fm1``, ``"height"``)`` `` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``dat``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``)``)`` ``+`` `` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`` ``+`` `` `[`geom_point`](https://ggplot2.tidyverse.org/reference/geom_point.html)`(``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-14-1.png)
 
@@ -590,110 +343,9 @@ across time, the time-variable is automatically used as x-axis in such
 cases, so the `terms` argument only needs up to **two** variables for
 `type = "survival"` or `type = "cumulative_hazard"`.
 
-``` r
+[`library`](https://rdrr.io/r/base/library.html)`(`[`survival`](https://github.com/therneau/survival)`)`` `[`data`](https://rdrr.io/r/utils/data.html)`(``"lung2"``)`` ``m`` ``<-`` `[`coxph`](https://rdrr.io/pkg/survival/man/coxph.html)`(`[`Surv`](https://rdrr.io/pkg/survival/man/Surv.html)`(``time``, ``status``)`` ``~`` ``sex`` ``+`` ``age`` ``+`` ``ph.ecog``, data ``=`` ``lung2``)`` `` ``# predicted risk-scores`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, `[`c`](https://rdrr.io/r/base/c.html)`(``"sex"``, ``"ph.ecog"``)``)`` ``#> # Predicted risk scores`` ``#> `` ``#> ph.ecog: good`` ``#> `` ``#> sex | Predicted | 95% CI`` ``#> -------------------------------`` ``#> male | 1.00 | 1.00, 1.00`` ``#> female | 0.58 | 0.42, 0.81`` ``#> `` ``#> ph.ecog: ok`` ``#> `` ``#> sex | Predicted | 95% CI`` ``#> -------------------------------`` ``#> male | 1.51 | 1.02, 2.23`` ``#> female | 0.87 | 0.53, 1.43`` ``#> `` ``#> ph.ecog: limited`` ``#> `` ``#> sex | Predicted | 95% CI`` ``#> -------------------------------`` ``#> male | 2.47 | 1.58, 3.86`` ``#> female | 1.43 | 0.83, 2.45`` ``#> `` ``#> Adjusted for:`` ``#> * age = 62.42`
 
-library(survival)
-data("lung2")
-m <- coxph(Surv(time, status) ~ sex + age + ph.ecog, data = lung2)
-
-# predicted risk-scores
-predict_response(m, c("sex", "ph.ecog"))
-#> # Predicted risk scores
-#> 
-#> ph.ecog: good
-#> 
-#> sex    | Predicted |     95% CI
-#> -------------------------------
-#> male   |      1.00 | 1.00, 1.00
-#> female |      0.58 | 0.42, 0.81
-#> 
-#> ph.ecog: ok
-#> 
-#> sex    | Predicted |     95% CI
-#> -------------------------------
-#> male   |      1.51 | 1.02, 2.23
-#> female |      0.87 | 0.53, 1.43
-#> 
-#> ph.ecog: limited
-#> 
-#> sex    | Predicted |     95% CI
-#> -------------------------------
-#> male   |      2.47 | 1.58, 3.86
-#> female |      1.43 | 0.83, 2.45
-#> 
-#> Adjusted for:
-#> * age = 62.42
-```
-
-``` r
-
-# probability of survival
-predict_response(m, c("sex", "ph.ecog"), type = "survival")
-#> # Probability of Survival
-#> 
-#> sex: male
-#> ph.ecog: good
-#> 
-#> time | Predicted |     95% CI
-#> -----------------------------
-#>    1 |      1.00 | 1.00, 1.00
-#>  180 |      0.78 | 0.69, 0.87
-#>  276 |      0.65 | 0.54, 0.78
-#> 1022 |      0.09 | 0.03, 0.26
-#> 
-#> sex: male
-#> ph.ecog: ok
-#> 
-#> time | Predicted |     95% CI
-#> -----------------------------
-#>    1 |      1.00 | 1.00, 1.00
-#>  180 |      0.69 | 0.60, 0.79
-#>  276 |      0.52 | 0.42, 0.64
-#> 1022 |      0.02 | 0.01, 0.11
-#> 
-#> sex: male
-#> ph.ecog: limited
-#> 
-#> time | Predicted |     95% CI
-#> -----------------------------
-#>    1 |      1.00 | 1.00, 1.00
-#>  180 |      0.54 | 0.42, 0.70
-#>  276 |      0.34 | 0.22, 0.52
-#> 1022 |      0.00 | 0.00, 0.04
-#> 
-#> sex: female
-#> ph.ecog: good
-#> 
-#> time | Predicted |     95% CI
-#> -----------------------------
-#>    1 |      1.00 | 1.00, 1.00
-#>  180 |      0.87 | 0.80, 0.93
-#>  276 |      0.78 | 0.68, 0.88
-#> 1022 |      0.24 | 0.11, 0.51
-#> 
-#> sex: female
-#> ph.ecog: ok
-#> 
-#> time | Predicted |     95% CI
-#> -----------------------------
-#>    1 |      1.00 | 1.00, 1.00
-#>  180 |      0.80 | 0.73, 0.88
-#>  276 |      0.68 | 0.59, 0.79
-#> 1022 |      0.12 | 0.04, 0.31
-#> 
-#> sex: female
-#> ph.ecog: limited
-#> 
-#> time | Predicted |     95% CI
-#> -----------------------------
-#>    1 |      1.00 | 1.00, 1.00
-#>  180 |      0.70 | 0.59, 0.83
-#>  276 |      0.53 | 0.40, 0.71
-#> 1022 |      0.03 | 0.00, 0.19
-#> 
-#> Adjusted for:
-#> * age = 62.42
-```
+`# probability of survival`` `[`predict_response`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)`(``m``, `[`c`](https://rdrr.io/r/base/c.html)`(``"sex"``, ``"ph.ecog"``)``, type ``=`` ``"survival"``)`` ``#> # Probability of Survival`` ``#> `` ``#> sex: male`` ``#> ph.ecog: good`` ``#> `` ``#> time | Predicted | 95% CI`` ``#> -----------------------------`` ``#> 1 | 1.00 | 1.00, 1.00`` ``#> 180 | 0.78 | 0.69, 0.87`` ``#> 276 | 0.65 | 0.54, 0.78`` ``#> 1022 | 0.09 | 0.03, 0.26`` ``#> `` ``#> sex: male`` ``#> ph.ecog: ok`` ``#> `` ``#> time | Predicted | 95% CI`` ``#> -----------------------------`` ``#> 1 | 1.00 | 1.00, 1.00`` ``#> 180 | 0.69 | 0.60, 0.79`` ``#> 276 | 0.52 | 0.42, 0.64`` ``#> 1022 | 0.02 | 0.01, 0.11`` ``#> `` ``#> sex: male`` ``#> ph.ecog: limited`` ``#> `` ``#> time | Predicted | 95% CI`` ``#> -----------------------------`` ``#> 1 | 1.00 | 1.00, 1.00`` ``#> 180 | 0.54 | 0.42, 0.70`` ``#> 276 | 0.34 | 0.22, 0.52`` ``#> 1022 | 0.00 | 0.00, 0.04`` ``#> `` ``#> sex: female`` ``#> ph.ecog: good`` ``#> `` ``#> time | Predicted | 95% CI`` ``#> -----------------------------`` ``#> 1 | 1.00 | 1.00, 1.00`` ``#> 180 | 0.87 | 0.80, 0.93`` ``#> 276 | 0.78 | 0.68, 0.88`` ``#> 1022 | 0.24 | 0.11, 0.51`` ``#> `` ``#> sex: female`` ``#> ph.ecog: ok`` ``#> `` ``#> time | Predicted | 95% CI`` ``#> -----------------------------`` ``#> 1 | 1.00 | 1.00, 1.00`` ``#> 180 | 0.80 | 0.73, 0.88`` ``#> 276 | 0.68 | 0.59, 0.79`` ``#> 1022 | 0.12 | 0.04, 0.31`` ``#> `` ``#> sex: female`` ``#> ph.ecog: limited`` ``#> `` ``#> time | Predicted | 95% CI`` ``#> -----------------------------`` ``#> 1 | 1.00 | 1.00, 1.00`` ``#> 180 | 0.70 | 0.59, 0.83`` ``#> 276 | 0.53 | 0.40, 0.71`` ``#> 1022 | 0.03 | 0.00, 0.19`` ``#> `` ``#> Adjusted for:`` ``#> * age = 62.42`
 
 ## Labelling the data
 
@@ -725,22 +377,7 @@ The data frame returned by
 [`predict_response()`](https://strengejacke.github.io/ggeffects/reference/predict_response.md)
 must be used as argument to one of the above function calls.
 
-``` r
-
-get_x_title(mydf)
-#> [1] "average number of hours of care per week"
-get_y_title(mydf)
-#> [1] "Negative impact with 7 items"
-
-ggplot(mydf, aes(x, predicted, colour = group)) +
-  geom_line() +
-  facet_wrap(~facet) +
-  labs(
-    x = get_x_title(mydf),
-    y = get_y_title(mydf),
-    colour = get_legend_title(mydf)
-  )
-```
+[`get_x_title`](https://strengejacke.github.io/ggeffects/reference/get_title.md)`(``mydf``)`` ``#> [1] "average number of hours of care per week"`` `[`get_y_title`](https://strengejacke.github.io/ggeffects/reference/get_title.md)`(``mydf``)`` ``#> [1] "Negative impact with 7 items"`` `` `[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``mydf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x``, ``predicted``, colour ``=`` ``group``)``)`` ``+`` `` `[`geom_line`](https://ggplot2.tidyverse.org/reference/geom_path.html)`(``)`` ``+`` `` `[`facet_wrap`](https://ggplot2.tidyverse.org/reference/facet_wrap.html)`(``~``facet``)`` ``+`` `` `[`labs`](https://ggplot2.tidyverse.org/reference/labs.html)`(`` `` x ``=`` `[`get_x_title`](https://strengejacke.github.io/ggeffects/reference/get_title.md)`(``mydf``)``,`` `` y ``=`` `[`get_y_title`](https://strengejacke.github.io/ggeffects/reference/get_title.md)`(``mydf``)``,`` `` colour ``=`` `[`get_legend_title`](https://strengejacke.github.io/ggeffects/reference/get_title.md)`(``mydf``)`` `` ``)`
 
 ![](ggeffects_files/figure-html/unnamed-chunk-17-1.png)
 

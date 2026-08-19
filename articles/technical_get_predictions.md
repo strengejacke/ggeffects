@@ -76,77 +76,11 @@ response scale.
 A simple example for an own class-implementation for Gaussian-alike
 models could look like this:
 
-``` r
-
-get_predictions.own_class <- function(model, data_grid, ci_level = 0.95, ...) {
-  predictions <- predict(
-    model,
-    newdata = data_grid,
-    type = "response",
-    se.fit = !is.na(ci_level),
-    ...
-  )
-
-  # do we have standard errors?
-  if (is.na(ci_level)) {
-    # copy predictions
-    data_grid$predicted <- as.vector(predictions)
-  } else {
-    # copy predictions
-    data_grid$predicted <- predictions$fit
-
-    # calculate CI
-    data_grid$conf.low <- predictions$fit - qnorm(0.975) * predictions$se.fit
-    data_grid$conf.high <- predictions$fit + qnorm(0.975) * predictions$se.fit
-
-    # optional: copy standard errors
-    attr(data_grid, "std.error") <- predictions$se.fit
-  }
-
-  data_grid
-}
-```
+`get_predictions.own_class`` ``<-`` ``function``(``model``, ``data_grid``, ``ci_level`` ``=`` ``0.95``, ``...``)`` ``{`` `` ``predictions`` ``<-`` `[`predict`](https://rdrr.io/r/stats/predict.html)`(`` `` ``model``,`` `` newdata ``=`` ``data_grid``,`` `` type ``=`` ``"response"``,`` `` se.fit ``=`` ``!`[`is.na`](https://rdrr.io/r/base/NA.html)`(``ci_level``)``,`` `` ``...`` `` ``)`` `` `` ``# do we have standard errors?`` `` ``if`` ``(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``ci_level``)``)`` ``{`` `` ``# copy predictions`` `` ``data_grid``$``predicted`` ``<-`` `[`as.vector`](https://rdrr.io/r/base/vector.html)`(``predictions``)`` `` ``}`` ``else`` ``{`` `` ``# copy predictions`` `` ``data_grid``$``predicted`` ``<-`` ``predictions``$``fit`` `` `` ``# calculate CI`` `` ``data_grid``$``conf.low`` ``<-`` ``predictions``$``fit`` ``-`` `[`qnorm`](https://rdrr.io/r/stats/Normal.html)`(``0.975``)`` ``*`` ``predictions``$``se.fit`` `` ``data_grid``$``conf.high`` ``<-`` ``predictions``$``fit`` ``+`` `[`qnorm`](https://rdrr.io/r/stats/Normal.html)`(``0.975``)`` ``*`` ``predictions``$``se.fit`` `` `` ``# optional: copy standard errors`` `` `[`attr`](https://rdrr.io/r/base/attr.html)`(``data_grid``, ``"std.error"``)`` ``<-`` ``predictions``$``se.fit`` `` ``}`` `` `` ``data_grid`` ``}`
 
 A simple example for an own class-implementation for non-Gaussian-alike
 models could look like this (note the use of the link-inverse function
 [`link_inverse()`](https://easystats.github.io/insight/reference/link_inverse.html),
 which is passed to the `link_inverse` argument):
 
-``` r
-
-get_predictions.own_class <- function(model,
-                                      data_grid,
-                                      ci_level = 0.95,
-                                      link_inverse = insight::link_inverse(model),
-                                      ...) {
-  predictions <- predict(
-    model,
-    newdata = data_grid,
-    type = "link", # for non-Gaussian, return on link-scale
-    se.fit = !is.na(ci_level),
-    ...
-  )
-
-  # do we have standard errors?
-  if (is.na(ci_level)) {
-    # copy predictions
-    data_grid$predicted <- link_inverse(as.vector(predictions))
-  } else {
-    # copy predictions, use link-inverse to back-transform
-    data_grid$predicted <- link_inverse(predictions$fit)
-
-    # calculate CI
-    data_grid$conf.low <- link_inverse(
-      predictions$fit - qnorm(0.975) * predictions$se.fit
-    )
-    data_grid$conf.high <- link_inverse(
-      predictions$fit + qnorm(0.975) * predictions$se.fit
-    )
-
-    # optional: copy standard errors
-    attr(data_grid, "std.error") <- predictions$se.fit
-  }
-
-  data_grid
-}
-```
+`get_predictions.own_class`` ``<-`` ``function``(``model``,`` `` ``data_grid``,`` `` ``ci_level`` ``=`` ``0.95``,`` `` ``link_inverse`` ``=`` ``insight``::`[`link_inverse`](https://easystats.github.io/insight/reference/link_inverse.html)`(``model``)``,`` `` ``...``)`` ``{`` `` ``predictions`` ``<-`` `[`predict`](https://rdrr.io/r/stats/predict.html)`(`` `` ``model``,`` `` newdata ``=`` ``data_grid``,`` `` type ``=`` ``"link"``, ``# for non-Gaussian, return on link-scale`` `` se.fit ``=`` ``!`[`is.na`](https://rdrr.io/r/base/NA.html)`(``ci_level``)``,`` `` ``...`` `` ``)`` `` `` ``# do we have standard errors?`` `` ``if`` ``(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``ci_level``)``)`` ``{`` `` ``# copy predictions`` `` ``data_grid``$``predicted`` ``<-`` `[`link_inverse`](https://easystats.github.io/insight/reference/link_inverse.html)`(`[`as.vector`](https://rdrr.io/r/base/vector.html)`(``predictions``)``)`` `` ``}`` ``else`` ``{`` `` ``# copy predictions, use link-inverse to back-transform`` `` ``data_grid``$``predicted`` ``<-`` `[`link_inverse`](https://easystats.github.io/insight/reference/link_inverse.html)`(``predictions``$``fit``)`` `` `` ``# calculate CI`` `` ``data_grid``$``conf.low`` ``<-`` `[`link_inverse`](https://easystats.github.io/insight/reference/link_inverse.html)`(`` `` ``predictions``$``fit`` ``-`` `[`qnorm`](https://rdrr.io/r/stats/Normal.html)`(``0.975``)`` ``*`` ``predictions``$``se.fit`` `` ``)`` `` ``data_grid``$``conf.high`` ``<-`` `[`link_inverse`](https://easystats.github.io/insight/reference/link_inverse.html)`(`` `` ``predictions``$``fit`` ``+`` `[`qnorm`](https://rdrr.io/r/stats/Normal.html)`(``0.975``)`` ``*`` ``predictions``$``se.fit`` `` ``)`` `` `` ``# optional: copy standard errors`` `` `[`attr`](https://rdrr.io/r/base/attr.html)`(``data_grid``, ``"std.error"``)`` ``<-`` ``predictions``$``se.fit`` `` ``}`` `` `` ``data_grid`` ``}`

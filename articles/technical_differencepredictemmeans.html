@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggeffects</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.2</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,13 +101,36 @@
 
     
     
+<style type="text/css">
+.custom_note {
+  border-left: solid 5px hsl(220, 100%, 30%);
+  background-color: hsl(220, 100%, 95%);
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+</style>
 <p><code><a href="../reference/predict_response.html">predict_response()</a></code> computes marginal means or predicted
 values for all possible levels or values from specified model’s
 predictors (<em>focal terms</em>). These effects are “marginalized” (or
 “averaged”) over the values or levels of remaining predictors (the
-<strong>non-focal</strong> terms). The <code>margin</code> argument
-specifies the method of marginalization. The following methods are
-available:</p>
+<strong>non-focal</strong> terms).</p>
+<div class="custom_note">
+<p>Broadly speaking, there are two conceptual categories:
+<em>conditional</em> predictions and <em>marginal</em> predictions. The
+first relies on artificially constructed reference grids, providing
+predictions conditional on specific, theoretical individual levels. In
+contrast, the latter calculate predictions for the actual empirical
+observations before averaging, thus reflecting marginal predictions at
+the sample or population level.</p>
+<p>There is an <a href="https://easystats.github.io/modelbased/articles/technical_marginalization.html" class="external-link">updated
+vignette on this topic</a>. We recommend using the
+<strong>modelbased</strong> package - a modern rewrite of
+<strong>ggeffects</strong> that is flexible, easy to use, feature-rich,
+and provides a clearer and more accurate take on this distinction.</p>
+</div>
+<p>The <code>margin</code> argument specifies the method of
+marginalization. The following methods are available:</p>
 <ul>
 <li><p><code>"mean_reference"</code>: non-focal predictors are set to
 their mean (numeric variables), reference level (factors), or “most
@@ -387,7 +410,7 @@ focal term, <code>c12hour</code>, is the same for all four plots:</p>
 <span><span class="va">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot.html">plot</a></span><span class="op">(</span><span class="va">predicted_4</span>, show_ci <span class="op">=</span> <span class="cn">FALSE</span>, show_title <span class="op">=</span> <span class="cn">FALSE</span>, show_x_title <span class="op">=</span> <span class="cn">FALSE</span>, show_y_title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://easystats.github.io/see/reference/plots.html" class="external-link">plots</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>, n_rows <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="technical_differencepredictemmeans_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="672"></p>
 <p>However, the predicted outcome varies. The <a href="ggeffects.html">general introduction</a> discusses the
 <code>margin</code> argument more in detail, but a few hints on when to
 use which method are following:</p>
@@ -487,7 +510,7 @@ similar to <code>margin = "empirical"</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.9000.</p>
 </div>
 
     </footer>

@@ -283,7 +283,7 @@ predict_response(
 
     - Heteroskedasticity-consistent: `"HC"`, `"HC0"`, `"HC1"`, `"HC2"`,
       `"HC3"`, `"HC4"`, `"HC4m"`, `"HC5"`. See
-      [`?sandwich::vcovHC`](https://sandwich.R-Forge.R-project.org/reference/vcovHC.html)
+      [`?sandwich::vcovHC`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)
 
     - Cluster-robust: `"vcovCR"`, `"CR0"`, `"CR1"`, `"CR1p"`, `"CR1S"`,
       `"CR2"`, `"CR3"`. See
@@ -291,7 +291,7 @@ predict_response(
 
     - Bootstrap: `"BS"`, `"xy"`, `"fractional"`, `"jackknife"`,
       `"residual"`, `"wild"`, `"mammen"`, `"norm"`, `"webb"`. See
-      [`?sandwich::vcovBS`](https://sandwich.R-Forge.R-project.org/reference/vcovBS.html)
+      [`?sandwich::vcovBS`](https://zeileis.codeberg.page/sandwich/reference/vcovBS.html)
 
     - Other `sandwich` package functions: `"HAC"`, `"PC"`, `"CL"`, or
       `"PL"`.
@@ -312,7 +312,7 @@ predict_response(
   `vcov` argument. This function is typically supplied by the
   **sandwich** or **clubSandwich** packages. Please refer to their
   documentation (e.g.,
-  [`?sandwich::vcovHAC`](https://sandwich.R-Forge.R-project.org/reference/vcovHAC.html))
+  [`?sandwich::vcovHAC`](https://zeileis.codeberg.page/sandwich/reference/vcovHAC.html))
   to see the list of available arguments. If no estimation type
   (argument `type`) is given, the default type for `"HC"` equals the
   default from the **sandwich** package; for type `"CR"` the default is
@@ -429,6 +429,14 @@ columns:
   standardized names `"x"` etc.
 
 ## Note
+
+**Maintenance Mode**
+
+Package **ggeffects** is in maintenance mode and will be superseded by
+the [**modelbased-package**](https://easystats.github.io/modelbased/)
+from the [easystats-project](https://easystats.github.io/easystats/).
+See the [readme-page](https://strengejacke.github.io/ggeffects/) for
+more details.
 
 **Printing Results**
 
