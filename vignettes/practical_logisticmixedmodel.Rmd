@@ -18,7 +18,24 @@ if (!getRversion()$major >= 4 ||
 options(width = 800, ggeffects_warning_bias_correction = FALSE)
 ```
 
+
+```{css, echo=FALSE, eval = TRUE}
+.custom_note {
+  border-left: solid 5px hsl(220, 100%, 30%);
+  background-color: hsl(220, 100%, 95%);
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+```
+
 This vignette demonstrate how to use *ggeffects* to compute and plot adjusted predictions of a logistic regression model. To cover some frequently asked questions by users, we'll fit a mixed model, including an interaction term and a quadratic resp. spline term. A general introduction into the package usage can be found in the vignette [adjusted predictions of regression model](ggeffects.html).
+
+::: custom_note
+One crucial distinction is between *conditional* and *marginal* predictions (or effects). Conditional predictions are specific to a particular level of the random effect (e.g., the predicted outcome for a specific individual in a study). Marginal predictions, on the other hand, average over the random effects, providing an overall estimate of the effect in the population. The marginal effect is often the quantity of interest when we want to generalize to the population.
+
+For further reading, we recommend [this new vignette on mixed models](https://easystats.github.io/modelbased/articles/mixed_models.html), and strongly advise using the **modelbased** package for more flexibility.
+:::
 
 First, we load the required packages and create a sample data set with a binomial and continuous variable as predictor as well as a group factor. To avoid convergence warnings, the continuous variable is standardized.
 
