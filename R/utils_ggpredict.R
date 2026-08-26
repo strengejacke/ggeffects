@@ -165,9 +165,7 @@
   }
 
   # for sdmTMB objects, delta/hurdle models have family lists
-  if (.is_delta_sdmTMB(model)) {
-    insight::format_error("`ggpredict()` does not yet work with `sdmTMB` delta models.")
-  }
+  .check_delta_sdmTMB(model)
 
   model
 }
