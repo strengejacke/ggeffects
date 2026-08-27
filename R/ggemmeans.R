@@ -194,21 +194,29 @@ ggemmeans <- function(
 
     # get prediction mode, i.e. at which scale predicted
     # values should be returned
-    pmode <- .get_prediction_mode_argument(model, model_info, type)
+    pmode <- .get_prediction_mode_argument(
+      model,
+      model_info,
+      type,
+      additional_dot_args
+    )
+
+    additional_dot_args[c("pmode", "mode")] <- NULL
     prediction_data <- .emmeans_prediction_data(
       model,
       data_grid,
       cleaned_terms,
       ci_level = ci_level,
-      pmode,
-      model_info,
+      pmode = pmode,
+      model_info = model_info,
       interval = interval,
       vcov_info = list(vcov = vcov, vcov_args = vcov_args),
+      model_data = model_frame,
       bias_correction = bias_correction,
       residual_variance = residual_variance,
       weights = weights,
       verbose = verbose,
-      ...
+      additional_dot_args
     )
 
     # fix gam here
@@ -292,7 +300,18 @@ ggemmeans <- function(
 }
 
 
-.get_prediction_mode_argument <- function(model, model_info, type) {
+.get_prediction_mode_argument <- function(
+  model,
+  model_info,
+  type,
+  additional_dot_args
+) {
+  if (!is.null(additional_dot_args$pmode)) {
+    return(additional_dot_args$pmode)
+  }
+  if (!is.null(additional_dot_args$mode)) {
+    return(additional_dot_args$mode)
+  }
   if (inherits(model, "betareg")) {
     "response"
   } else if (
