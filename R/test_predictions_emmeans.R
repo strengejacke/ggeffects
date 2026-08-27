@@ -11,10 +11,12 @@
                                       verbose = TRUE,
                                       ...) {
   insight::check_if_installed(c("emmeans", "datawizard"))
-
+ 
   # model information
   minfo <- insight::model_info(object, verbose = FALSE)
-  model_data <- insight::get_data(object, verbose = FALSE)
+  # Correction issue #668 : utiliser le model frame pour éviter le décalage
+  # de dimensions causé par les NA supprimés avant le fit
+  model_data <- insight::get_data(object, source = "mf", verbose = FALSE)
 
   custom_contrasts <- NULL
 
@@ -66,7 +68,10 @@
   focal_other <- !focal_numeric
 
   if (identical(margin, "empirical")) {
-    counterfactuals <- focal[focal_other]
+    counterfactuals <- setdiff(focal[focal_other], focal)
+    if (!length(counterfactuals)) {
+      counterfactuals <- NULL
+    }
   } else {
     counterfactuals <- NULL
   }
@@ -131,10 +136,35 @@
         pairwise = "pairwise"
       )
       .comparisons <- emmeans::contrast(emm, method = contrast_method, adjust = p_adjust)
+      
+      # ------ chnagements Houda 
+      # ancien bloc : -------------------
+      
+      
       # save p-values, these get lost after call to "confint()"
       p_values <- as.data.frame(.comparisons)$p.value
       # nice data frame, including confidence intervals
       out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+      
+
+      # ------------------------
+      
+      
+      # extraire les résultats de base
+      tmp <- as.data.frame(.comparisons)
+      
+      # intervalles de confiance
+      ci <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+      
+      # sécuriser : garder uniquement les lignes communes
+      n <- min(nrow(tmp), nrow(ci))
+      
+      out <- ci[seq_len(n), , drop = FALSE]
+      p_values <- tmp$p.value[seq_len(n)]
+      
+      
+      # -----------------------------
+
       # rename
       colnames(out)[1] <- focal[2]
       out[[1]] <- gsub(" - ", "-", out[[1]], fixed = TRUE)
@@ -183,10 +213,32 @@
       }
     )
     estimate_name <- "Contrast"
+    
+    # ------- Changements Houda - Bloc 2
+    
     # save p-values, these get lost after call to "confint()"
-    p_values <- as.data.frame(.comparisons)$p.value
+    #p_values <- as.data.frame(.comparisons)$p.value
     # nice data frame, including confidence intervals
-    out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    #out <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    
+    # --------------------------------------
+    
+    
+    # extraire les résultats de base
+    tmp <- as.data.frame(.comparisons)
+    
+    # intervalles de confiance
+    ci <- suppressWarnings(as.data.frame(stats::confint(.comparisons, level = ci_level)))
+    
+    # sécuriser l'alignement des tailles
+    n <- min(nrow(tmp), nrow(ci))
+    
+    out <- ci[seq_len(n), , drop = FALSE]
+    p_values <- tmp$p.value[seq_len(n)]
+    
+    
+    # ---------------------------------------
+    
 
     # rename columns
     out <- .rename_emmeans_columns(out)
