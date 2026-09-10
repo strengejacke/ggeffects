@@ -201,22 +201,29 @@ ggemmeans <- function(
       additional_dot_args
     )
 
-    additional_dot_args[c("pmode", "mode")] <- NULL
-    prediction_data <- .emmeans_prediction_data(
-      model,
-      data_grid,
-      cleaned_terms,
-      ci_level = ci_level,
-      pmode = pmode,
-      model_info = model_info,
-      interval = interval,
-      vcov_info = list(vcov = vcov, vcov_args = vcov_args),
-      model_data = model_frame,
-      bias_correction = bias_correction,
-      residual_variance = residual_variance,
-      weights = weights,
-      verbose = verbose,
-      additional_dot_args
+    additional_dot_args[c("pmode", "mode", "latent")] <- NULL
+    # remaining dot-arguments are spliced in as named arguments, so they
+    # reach `emmeans::emmeans()` as such (not as one unnamed list)
+    prediction_data <- do.call(
+      .emmeans_prediction_data,
+      c(
+        list(
+          model,
+          data_grid,
+          cleaned_terms,
+          ci_level = ci_level,
+          pmode = pmode,
+          model_info = model_info,
+          interval = interval,
+          vcov_info = list(vcov = vcov, vcov_args = vcov_args),
+          model_data = model_frame,
+          bias_correction = bias_correction,
+          residual_variance = residual_variance,
+          weights = weights,
+          verbose = verbose
+        ),
+        additional_dot_args
+      )
     )
 
     # fix gam here
@@ -237,12 +244,15 @@ ggemmeans <- function(
     "continuous.group"
   )
 
+  # for probability predictions, the first column is the response level.
+  # Latent-scale predictions (and similar emmeans modes) have no such column
   if (
     !is.null(model_info) &&
       (model_info$is_ordinal ||
         model_info$is_categorical ||
         model_info$is_multinomial) &&
-      colnames(prediction_data)[1] != "x"
+      colnames(prediction_data)[1] != "x" &&
+      !pmode %in% c("latent", "linear.predictor", "mean.class", "scale")
   ) {
     colnames(prediction_data)[1] <- "response.level"
   }
@@ -295,6 +305,8 @@ ggemmeans <- function(
     model_name = model_name,
     vcov_args = vcov,
     bias_correction = bias_correction,
+    latent = identical(pmode, "latent"),
+    latent_thresholds = .get_latent_thresholds(model, pmode),
     verbose = verbose
   )
 }
@@ -304,8 +316,15 @@ ggemmeans <- function(
   model,
   model_info,
   type,
-  additional_dot_args
+  additional_dot_args = NULL
 ) {
+  # `latent = TRUE` requests predictions on the latent scale for ordinal
+  # models, in line with `ggeffect()`. It is also the way to request this
+  # scale without naming `model`: `mode = "latent"` would partially match
+  # the `model` argument when `model` is passed unnamed
+  if (isTRUE(additional_dot_args$latent) && isTRUE(model_info$is_ordinal)) {
+    return("latent")
+  }
   if (!is.null(additional_dot_args$pmode)) {
     return(additional_dot_args$pmode)
   }
@@ -352,5 +371,29 @@ ggemmeans <- function(
     "prob0"
   } else {
     "link"
+  }
+}
+
+
+# thresholds of ordinal models, for the horizontal lines drawn by `plot()`
+# when predictions are on the latent scale
+.get_latent_thresholds <- function(model, pmode = NULL) {
+  if (!identical(pmode, "latent")) {
+    return(NULL)
+  }
+  if (inherits(model, c("clm", "clmm"))) {
+    # `Theta` holds the thresholds also for structured thresholds
+    # (`threshold = "symmetric"` or `"equidistant"`), where `alpha` holds
+    # the reduced parameters. With nominal effects, thresholds differ
+    # between levels (one row each), and no single set can be drawn
+    thresholds <- model$Theta
+    if (is.null(thresholds) || nrow(thresholds) != 1L) {
+      return(NULL)
+    }
+    stats::setNames(as.vector(thresholds[1, ]), colnames(thresholds))
+  } else if (inherits(model, "polr")) {
+    model$zeta
+  } else {
+    NULL
   }
 }

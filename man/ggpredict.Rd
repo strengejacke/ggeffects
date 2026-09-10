@@ -93,7 +93,10 @@ ggpredict(
 \item{...}{Arguments are passed down to \code{ggpredict()} (further down to \code{predict()})
 or \code{ggemmeans()} (and thereby to \code{emmeans::emmeans()}), If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
-When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.}
+When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.
+For ordinal models (e.g. from packages \emph{ordinal} or \emph{MASS}), \code{ggeffect()} and
+\code{ggemmeans()} accept \code{latent = TRUE} to return predictions on the latent
+scale instead of predicted probabilities for each response level.}
 
 \item{stringsAsFactors}{logical: should the character vector be converted
     to a factor?}

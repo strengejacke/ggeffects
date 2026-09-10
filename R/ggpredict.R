@@ -53,6 +53,9 @@
 #' or `ggemmeans()` (and thereby to `emmeans::emmeans()`), If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
 #' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
+#' For ordinal models (e.g. from packages *ordinal* or *MASS*), `ggeffect()` and
+#' `ggemmeans()` accept `latent = TRUE` to return predictions on the latent
+#' scale instead of predicted probabilities for each response level.
 #' @inheritParams predict_response
 #'
 #' @details

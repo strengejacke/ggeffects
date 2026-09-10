@@ -1,3 +1,14 @@
+# ggeffects 2.3.3
+
+## Bug fixes
+
+* `ggemmeans()` failed for ordinal models when predictions on the latent scale
+  were requested via `mode = "latent"`: passed unnamed, `model` was partially
+  matched by `mode`, and the ordinal prediction code assumed one row per
+  response level. `ggemmeans()` now accepts `latent = TRUE` for ordinal models,
+  in line with `ggeffect()`, and returns latent-scale predictions with the
+  thresholds shown in `plot()` (#676).
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.

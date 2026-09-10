@@ -240,9 +240,16 @@
   ...
 ) {
   dots <- list(...)
+  # only probability predictions are returned per response level, so only
+  # then the response is part of the reference grid
+  if (identical(pmode, "prob")) {
+    specs <- c(insight::find_response(model, combine = FALSE), cleaned_terms)
+  } else {
+    specs <- cleaned_terms
+  }
   emmeans_args <- list(
     model,
-    specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
+    specs = specs,
     at = data_grid,
     mode = pmode,
     weights = weights,
