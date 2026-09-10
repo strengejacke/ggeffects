@@ -6,6 +6,22 @@ data(wine, package = "ordinal")
 m_clm <- ordinal::clm(rating ~ temp + contact, data = wine)
 m_clmm <- ordinal::clmm(rating ~ temp + contact + (1 | judge), data = wine)
 
+# emmeans centers the latent scale at the mean of the thresholds, so the
+# centered thresholds must reproduce the cumulative probabilities
+.check_thresholds <- function(out, model, thresholds) {
+  probs <- ggemmeans(model, c("temp", "contact"), verbose = FALSE)
+  for (i in seq_len(nrow(out))) {
+    cum_prob <- cumsum(probs$predicted[
+      probs$x == out$x[i] & probs$group == out$group[i]
+    ])
+    expect_equal(
+      unname(model$family_link(thresholds - out$predicted[i])),
+      cum_prob[seq_along(thresholds)],
+      tolerance = 1e-4
+    )
+  }
+}
+
 test_that("ggemmeans, latent = TRUE, clm and clmm", {
   for (m in list(m_clm, m_clmm)) {
     out <- ggemmeans(m, c("temp", "contact"), latent = TRUE, verbose = FALSE)
@@ -35,30 +51,64 @@ test_that("ggemmeans, latent = TRUE, clm and clmm", {
       ignore_attr = TRUE
     )
 
-    # thresholds are available for plotting, and the scale is not logistic
+    # thresholds are centered like the latent scale, and reproduce the
+    # cumulative probabilities
+    thresholds <- attributes(out)$latent_thresholds
+    expect_named(thresholds, colnames(m$Theta))
     expect_equal(
-      attributes(out)$latent_thresholds,
-      m$alpha,
+      thresholds,
+      m$Theta[1, ] - mean(m$Theta[1, ]),
       tolerance = 1e-8,
       ignore_attr = TRUE
     )
-    expect_named(attributes(out)$latent_thresholds, colnames(m$Theta))
+    m$family_link <- stats::plogis
+    .check_thresholds(out, m, thresholds)
+
+    # scale is flagged as latent, not as logistic
+    expect_true(isTRUE(attributes(out)$latent))
     expect_false(isTRUE(as.logical(attributes(out)$logistic)))
   }
 })
 
-test_that("ggemmeans, latent = TRUE, single term and plot", {
+test_that("ggemmeans, latent = TRUE, single term, print and plot", {
   out <- ggemmeans(m_clmm, "temp", latent = TRUE, verbose = FALSE)
   ref <- as.data.frame(emmeans::emmeans(m_clmm, ~temp, mode = "latent"))
   expect_equal(out$predicted, ref$emmean, tolerance = 1e-6, ignore_attr = TRUE)
+  expect_snapshot(print(ggemmeans(
+    m_clm,
+    "temp",
+    latent = TRUE,
+    verbose = FALSE
+  )))
+  skip_if_not_installed("ggplot2")
+  p <- plot(out)
+  expect_s3_class(p, "ggplot")
+  # thresholds are drawn as horizontal lines
+  expect_true(any(vapply(
+    p$layers,
+    function(l) inherits(l$geom, "GeomHline"),
+    TRUE
+  )))
+})
+
+test_that("ggemmeans, latent = TRUE, rescale", {
+  out <- ggemmeans(
+    m_clm,
+    "temp",
+    latent = TRUE,
+    rescale = c(10, 2),
+    verbose = FALSE
+  )
+  ref <- as.data.frame(
+    emmeans::emmeans(m_clm, ~temp, mode = "latent", rescale = c(10, 2))
+  )
+  expect_equal(out$predicted, ref$emmean, tolerance = 1e-6, ignore_attr = TRUE)
   expect_equal(
     attributes(out)$latent_thresholds,
-    m_clmm$alpha,
+    10 + 2 * (m_clm$Theta[1, ] - mean(m_clm$Theta[1, ])),
     tolerance = 1e-8,
     ignore_attr = TRUE
   )
-  skip_if_not_installed("ggplot2")
-  expect_s3_class(plot(out), "ggplot")
 })
 
 test_that("ggemmeans, mode = 'latent' still works when model is named", {
@@ -70,13 +120,6 @@ test_that("ggemmeans, mode = 'latent' still works when model is named", {
   )
   ref <- as.data.frame(emmeans::emmeans(m_clm, ~temp, mode = "latent"))
   expect_equal(out$predicted, ref$emmean, tolerance = 1e-6, ignore_attr = TRUE)
-})
-
-test_that("ggemmeans, default probabilities unchanged for ordinal models", {
-  out <- ggemmeans(m_clmm, "temp", verbose = FALSE)
-  expect_true("response.level" %in% colnames(out))
-  expect_identical(nrow(out), 2L * nlevels(wine$rating))
-  expect_equal(out$predicted[1], 0.09760731, tolerance = 1e-3)
 })
 
 test_that("ggemmeans, latent = TRUE, structured thresholds", {
@@ -92,7 +135,7 @@ test_that("ggemmeans, latent = TRUE, structured thresholds", {
   expect_named(thresholds, c("1|2", "2|3", "3|4", "4|5"))
   expect_equal(
     thresholds,
-    m_sym$Theta[1, ],
+    m_sym$Theta[1, ] - mean(m_sym$Theta[1, ]),
     tolerance = 1e-8,
     ignore_attr = TRUE
   )
@@ -108,12 +151,50 @@ test_that("ggemmeans, latent = TRUE, polr", {
   skip_if_not_installed("MASS")
   data(housing, package = "MASS")
   m_polr <- MASS::polr(Sat ~ Infl + Type, weights = Freq, data = housing)
-  out <- ggemmeans(m_polr, "Infl", latent = TRUE, verbose = FALSE)
+  out <- ggemmeans(m_polr, c("Infl", "Type"), latent = TRUE, verbose = FALSE)
+  ref <- as.data.frame(emmeans::emmeans(m_polr, ~ Infl + Type, mode = "latent"))
   expect_equal(
     out$predicted,
-    as.data.frame(emmeans::emmeans(m_polr, ~Infl, mode = "latent"))$emmean,
+    ref$emmean[match(paste(out$x, out$group), paste(ref$Infl, ref$Type))],
     tolerance = 1e-6,
     ignore_attr = TRUE
   )
-  expect_identical(attributes(out)$latent_thresholds, m_polr$zeta)
+  expect_equal(
+    attributes(out)$latent_thresholds,
+    m_polr$zeta - mean(m_polr$zeta),
+    tolerance = 1e-8,
+    ignore_attr = TRUE
+  )
+})
+
+test_that("ggemmeans, unsupported modes and classes", {
+  # other emmeans modes for ordinal models are not supported
+  expect_error(
+    ggemmeans(
+      model = m_clm,
+      terms = "temp",
+      mode = "cum.prob",
+      verbose = FALSE
+    ),
+    "supports"
+  )
+  # for other models, `latent` and `mode` are ignored with a message
+  wine$good <- as.numeric(as.numeric(wine$rating) > 2)
+  m_glm <- glm(good ~ temp + contact, data = wine, family = binomial())
+  expect_message(
+    {
+      out <- ggemmeans(m_glm, "temp", latent = TRUE)
+    },
+    "ignored"
+  )
+  expect_equal(
+    out$predicted,
+    ggemmeans(m_glm, "temp", verbose = FALSE)$predicted,
+    tolerance = 1e-8,
+    ignore_attr = TRUE
+  )
+  # default probabilities for ordinal models are unchanged
+  out <- ggemmeans(m_clm, "temp", verbose = FALSE)
+  expect_true("response.level" %in% colnames(out))
+  expect_identical(nrow(out), 2L * nlevels(wine$rating))
 })

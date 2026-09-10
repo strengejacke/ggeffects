@@ -94,7 +94,7 @@ ggpredict(
 or \code{ggemmeans()} (and thereby to \code{emmeans::emmeans()}), If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
 When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.
-For ordinal models (e.g. from packages \emph{ordinal} or \emph{MASS}), \code{ggeffect()} and
+For ordinal models of class \code{clm}, \code{clmm} or \code{polr}, \code{ggeffect()} and
 \code{ggemmeans()} accept \code{latent = TRUE} to return predictions on the latent
 scale instead of predicted probabilities for each response level.}
 

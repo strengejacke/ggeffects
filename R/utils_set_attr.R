@@ -86,6 +86,7 @@
   attr(data, "link_inverse") <- .link_inverse(model, bias_correction = bias_correction)
   attr(data, "link_function") <- insight::link_function(model)
   attr(data, "n.trials") <- n.trials
+  attr(data, "latent") <- latent
   attr(data, "latent_thresholds") <- latent_thresholds
 
   # and model-function

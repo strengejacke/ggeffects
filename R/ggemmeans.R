@@ -177,7 +177,13 @@ ggemmeans <- function(
     )
     term_pos <- which(colnames(preds$x2) == "emmean")
     prediction_data <- cbind(preds$x2[1:(term_pos - 1)], prediction_data)
-    pmode <- .get_prediction_mode_argument(model, model_info, type)
+    pmode <- .get_prediction_mode_argument(
+      model,
+      model_info,
+      type,
+      additional_dot_args,
+      verbose = verbose
+    )
   } else {
     # here we go with all other prediction-types. ----------
     # ------------------------------------------------------
@@ -198,7 +204,8 @@ ggemmeans <- function(
       model,
       model_info,
       type,
-      additional_dot_args
+      additional_dot_args,
+      verbose = verbose
     )
 
     additional_dot_args[c("pmode", "mode", "latent")] <- NULL
@@ -208,9 +215,9 @@ ggemmeans <- function(
       .emmeans_prediction_data,
       c(
         list(
-          model,
-          data_grid,
-          cleaned_terms,
+          model = model,
+          data_grid = data_grid,
+          cleaned_terms = cleaned_terms,
           ci_level = ci_level,
           pmode = pmode,
           model_info = model_info,
@@ -252,7 +259,7 @@ ggemmeans <- function(
         model_info$is_categorical ||
         model_info$is_multinomial) &&
       colnames(prediction_data)[1] != "x" &&
-      !pmode %in% c("latent", "linear.predictor", "mean.class", "scale")
+      !identical(pmode, "latent")
   ) {
     colnames(prediction_data)[1] <- "response.level"
   }
@@ -306,7 +313,11 @@ ggemmeans <- function(
     vcov_args = vcov,
     bias_correction = bias_correction,
     latent = identical(pmode, "latent"),
-    latent_thresholds = .get_latent_thresholds(model, pmode),
+    latent_thresholds = .get_latent_thresholds(
+      model,
+      pmode,
+      rescale = additional_dot_args[["rescale", exact = TRUE]]
+    ),
     verbose = verbose
   )
 }
@@ -316,20 +327,34 @@ ggemmeans <- function(
   model,
   model_info,
   type,
-  additional_dot_args = NULL
+  additional_dot_args = NULL,
+  verbose = TRUE
 ) {
   # `latent = TRUE` requests predictions on the latent scale for ordinal
   # models, in line with `ggeffect()`. It is also the way to request this
   # scale without naming `model`: `mode = "latent"` would partially match
-  # the `model` argument when `model` is passed unnamed
-  if (isTRUE(additional_dot_args$latent) && isTRUE(model_info$is_ordinal)) {
-    return("latent")
+  # the `model` argument when `model` is passed unnamed. Supported are the
+  # classes for which emmeans has a "latent" mode and thresholds are known
+  latent <- isTRUE(additional_dot_args[["latent", exact = TRUE]])
+  requested_mode <- additional_dot_args[["pmode", exact = TRUE]]
+  if (is.null(requested_mode)) {
+    requested_mode <- additional_dot_args[["mode", exact = TRUE]]
   }
-  if (!is.null(additional_dot_args$pmode)) {
-    return(additional_dot_args$pmode)
-  }
-  if (!is.null(additional_dot_args$mode)) {
-    return(additional_dot_args$mode)
+  if (latent || !is.null(requested_mode)) {
+    if (inherits(model, c("clm", "clmm", "polr"))) {
+      if (latent || identical(requested_mode, "latent")) {
+        return("latent")
+      }
+      if (!identical(requested_mode, "prob")) {
+        insight::format_error(
+          "For ordinal models, `ggemmeans()` supports `mode = \"prob\"` (predicted probabilities, the default) and `mode = \"latent\"` (or `latent = TRUE`)." # nolint
+        )
+      }
+    } else if (verbose) {
+      insight::format_alert(
+        "The `latent` and `mode` arguments are only supported for ordinal models of class `clm`, `clmm` or `polr` and are ignored." # nolint
+      )
+    }
   }
   if (inherits(model, "betareg")) {
     "response"
@@ -376,8 +401,10 @@ ggemmeans <- function(
 
 
 # thresholds of ordinal models, for the horizontal lines drawn by `plot()`
-# when predictions are on the latent scale
-.get_latent_thresholds <- function(model, pmode = NULL) {
+# when predictions are on the latent scale. emmeans centers the latent scale
+# at the mean of the thresholds (and rescales it if `rescale = c(a, b)` is
+# given), so the thresholds are transformed in the same way
+.get_latent_thresholds <- function(model, pmode = NULL, rescale = NULL) {
   if (!identical(pmode, "latent")) {
     return(NULL)
   }
@@ -390,10 +417,18 @@ ggemmeans <- function(
     if (is.null(thresholds) || nrow(thresholds) != 1L) {
       return(NULL)
     }
-    stats::setNames(as.vector(thresholds[1, ]), colnames(thresholds))
+    thresholds <- stats::setNames(
+      as.vector(thresholds[1, ]),
+      colnames(thresholds)
+    )
   } else if (inherits(model, "polr")) {
-    model$zeta
+    thresholds <- model$zeta
   } else {
-    NULL
+    return(NULL)
   }
+  thresholds <- thresholds - mean(thresholds)
+  if (is.numeric(rescale) && length(rescale) == 2L) {
+    thresholds <- rescale[1] + rescale[2] * thresholds
+  }
+  thresholds
 }
