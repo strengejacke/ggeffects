@@ -1,3 +1,12 @@
+# ggeffects 2.3.3
+
+## New features
+
+* `ggemmeans()` now supports `latent = TRUE` for ordinal models of class `clm`,
+  `clmm` and `polr`, returning predictions on the latent scale (like
+  `ggeffect()`), including the thresholds in `plot()`. Previously, requesting
+  the latent scale via `mode = "latent"` failed.
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.

@@ -247,7 +247,10 @@ are passed down to \code{ggpredict()} (further down to \code{predict()}); for
 thereby to \code{emmeans::emmeans()}; if \code{margin = "empirical"}, further arguments are
 passed down to \code{marginaleffects::avg_predictions()}. If \code{type = "simulate"},
 \code{...} may also be used to set the number of simulation, e.g. \code{nsim = 500}.
-When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.}
+When calling \code{ggeffect()}, further arguments passed down to \code{effects::Effect()}.
+For ordinal models of class \code{clm}, \code{clmm} or \code{polr}, \code{margin = "marginalmeans"}
+accepts \code{latent = TRUE} to return predictions on the latent scale instead of
+predicted probabilities for each response level.}
 }
 \value{
 A data frame (with \code{ggeffects} class attribute) with consistent data columns:

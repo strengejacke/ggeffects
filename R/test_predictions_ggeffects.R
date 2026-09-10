@@ -26,7 +26,8 @@
   std_erros <- attributes(object)$standard_error
   dof <- attributes(object)$df
   condition <- attributes(object)$condition
-  is_latent <- !is.null(attributes(object)$latent_thresholds)
+  is_latent <- isTRUE(attr(object, "latent", exact = TRUE)) ||
+    !is.null(attributes(object)$latent_thresholds)
 
   # warn for very long at-list
   values_at_lengths <- lengths(at_list)
