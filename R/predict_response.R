@@ -465,6 +465,13 @@
 #'   inference. Eur J Epidemiol 35, 615–617 (2020).
 #'
 #' @note
+#' **Maintenance Mode**
+#'
+#' Package **ggeffects** is in maintenance mode and will be superseded by the
+#' [**modelbased-package**](https://easystats.github.io/modelbased/) from the
+#' [easystats-project](https://easystats.github.io/easystats/). See the
+#' [readme-page](https://strengejacke.github.io/ggeffects/) for more details.
+#'
 #' **Printing Results**
 #'
 #' The `print()` method gives a clean output (especially for predictions by
@@ -620,28 +627,36 @@
 #' )
 #' predict_response(fit, terms = "e17age")
 #' @export
-predict_response <- function(model,
-                             terms,
-                             margin = "mean_reference",
-                             ci_level = 0.95,
-                             type = "fixed",
-                             condition = NULL,
-                             interval = "confidence",
-                             back_transform = TRUE,
-                             vcov = NULL,
-                             vcov_args = NULL,
-                             weights = NULL,
-                             bias_correction = FALSE,
-                             verbose = TRUE,
-                             ...) {
+predict_response <- function(
+  model,
+  terms,
+  margin = "mean_reference",
+  ci_level = 0.95,
+  type = "fixed",
+  condition = NULL,
+  interval = "confidence",
+  back_transform = TRUE,
+  vcov = NULL,
+  vcov_args = NULL,
+  weights = NULL,
+  bias_correction = FALSE,
+  verbose = TRUE,
+  ...
+) {
   # default for "margin" argument?
   margin <- getOption("ggeffects_margin", margin)
   # validate "margin" argument
   margin <- insight::validate_argument(
     argument = margin,
     options = c(
-      "mean_reference", "mean_mode", "marginalmeans", "empirical",
-      "counterfactual", "full_data", "average", "marginaleffects"
+      "mean_reference",
+      "mean_mode",
+      "marginalmeans",
+      "empirical",
+      "counterfactual",
+      "full_data",
+      "average",
+      "marginaleffects"
     )
   )
 
@@ -653,14 +668,19 @@ predict_response <- function(model,
     model,
     type,
     # check for aliases for "empirical" margin
-    marginaleffects = margin %in% c("empirical", "counterfactual", "average", "marginaleffects"),
+    marginaleffects = margin %in%
+      c("empirical", "counterfactual", "average", "marginaleffects"),
     emmeans_call = margin == "marginalmeans"
   )
 
   # make sure we have valid values
-  interval <- insight::validate_argument(interval, c("confidence", "prediction"))
+  interval <- insight::validate_argument(
+    interval,
+    c("confidence", "prediction")
+  )
 
-  out <- switch(margin,
+  out <- switch(
+    margin,
     mean_reference = ggpredict(
       model,
       terms = terms,

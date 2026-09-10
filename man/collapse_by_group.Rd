@@ -31,7 +31,7 @@ response variable over the levels of the grouping factor given in
 \code{collapse_by}. Only works with mixed models.
 }
 \examples{
-\dontshow{if (require("lme4", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require("lme4", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggeffects)
 data(efc, package = "ggeffects")
 efc$e15relat <- as.factor(efc$e15relat)

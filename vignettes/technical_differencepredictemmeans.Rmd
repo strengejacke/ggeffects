@@ -18,7 +18,25 @@ if (!requireNamespace("see", quietly = TRUE) ||
 }
 ```
 
-`predict_response()` computes marginal means or predicted values for all possible levels or values from specified model's predictors (_focal terms_). These effects are "marginalized" (or "averaged") over the values or levels of remaining predictors (the **non-focal** terms). The `margin` argument specifies the method of marginalization. The following methods are available:
+```{css, echo=FALSE, eval = TRUE}
+.custom_note {
+  border-left: solid 5px hsl(220, 100%, 30%);
+  background-color: hsl(220, 100%, 95%);
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+```
+
+`predict_response()` computes marginal means or predicted values for all possible levels or values from specified model's predictors (_focal terms_). These effects are "marginalized" (or "averaged") over the values or levels of remaining predictors (the **non-focal** terms).
+
+::: custom_note
+Broadly speaking, there are two conceptual categories: *conditional* predictions and *marginal* predictions. The first relies on artificially constructed reference grids, providing predictions conditional on specific, theoretical individual levels. In contrast, the latter calculate predictions for the actual empirical observations before averaging, thus reflecting marginal predictions at the sample or population level.
+
+There is an [updated vignette on this topic](https://easystats.github.io/modelbased/articles/technical_marginalization.html). We recommend using the **modelbased** package - a modern rewrite of **ggeffects** that is flexible, easy to use, feature-rich, and provides a clearer and more accurate take on this distinction.
+:::
+
+The `margin` argument specifies the method of marginalization. The following methods are available:
 
 - `"mean_reference"`: non-focal predictors are set to their mean (numeric variables), reference level (factors), or "most common" value (mode) in case of character vectors. Technically, a data grid is constructed, roughly comparable to `expand.grid()` on all unique combinations of `model.frame(model)[, terms]`. This data grid (see `data_grid()`) is used for the `newdata` argument of `predict()`. All remaining covariates not specified in `terms` are held constant: Numeric values are set to the mean, integer values are set to their median, factors are set to their reference level and character vectors to their mode (most common element).
 

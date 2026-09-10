@@ -26,7 +26,7 @@ standard errors. The final pooled predicted values are then transformed to
 the response scale, using \code{\link[insight:link_inverse]{insight::link_inverse()}}.
 }
 \examples{
-\dontshow{if (require("mice")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require("mice")) withAutoprint(\{ # examplesIf}
 # example for multiple imputed datasets
 data("nhanes2", package = "mice")
 imp <- mice::mice(nhanes2, printFlag = FALSE)
