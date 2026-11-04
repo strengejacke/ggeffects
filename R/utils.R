@@ -301,12 +301,13 @@ is.gamm4 <- function(x) {
 }
 
 
-.is_delta_sdmTMB <- function(x) {
-  ret <- FALSE
+.check_delta_sdmTMB <- function(x) {
   if (inherits(x, "sdmTMB") && isTRUE(x$family$delta)) {
-    ret <- TRUE
+    if (!"delta_model_predict" %in% names(attributes(x))) {
+      insight::format_error("`ggpredict()` needs `sdmTMB::set_delta_model()` to be set first to work with `sdmTMB` delta models.")
+    }
   }
-  ret
+  invisible(NULL)
 }
 
 
