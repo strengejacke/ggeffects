@@ -23,13 +23,19 @@
 #' @return A data frame with pooled comparisons or contrasts of predictions.
 #' @export
 pool_comparisons <- function(x, ...) {
-
   # check input -----
 
   obj_name <- deparse(substitute(x), width.cutoff = 500)
   original_x <- x
 
-  if (!all(vapply(x, inherits, logical(1), c("ggcomparisons", "estimate_contrasts")))) {
+  if (
+    !all(vapply(
+      x,
+      inherits,
+      logical(1),
+      c("ggcomparisons", "estimate_contrasts")
+    ))
+  ) {
     insight::format_error(
       "`x` must be a list of `ggcomparisons` objects, as returned by `test_predictions()`."
     )
@@ -39,7 +45,7 @@ pool_comparisons <- function(x, ...) {
   # and values of focal terms are identical across all objects.
   estimate_name <- attributes(x[[1]])$estimate_name
 
-    # preparation ----
+  # preparation ----
 
   len <- length(x)
   ci <- attributes(x[[1]])$ci_level
@@ -49,42 +55,60 @@ pool_comparisons <- function(x, ...) {
     dof <- Inf
   }
 
-  # pool predictions -----
-
   pooled_comparisons <- original_x[[1]]
   pooled_comparisons$standard.error <- NA
   n_rows <- nrow(original_x[[1]])
+  b_vec <- numeric(n_rows)
 
   for (i in 1:n_rows) {
     # pooled estimate
-    pooled_comp <- unlist(lapply(original_x, function(j) {
-      j[[estimate_name]][i]
-    }), use.names = FALSE)
+    pooled_comp <- unlist(
+      lapply(original_x, function(j) {
+        j[[estimate_name]][i]
+      }),
+      use.names = FALSE
+    )
     pooled_comparisons[[estimate_name]][i] <- mean(pooled_comp, na.rm = TRUE)
 
     # pooled standard error
-    pooled_se <- unlist(lapply(original_x, function(j) attributes(j)$standard_error[i]), use.names = FALSE)
+    pooled_se <- unlist(
+      lapply(original_x, function(j) attributes(j)$standard_error[i]),
+      use.names = FALSE
+    )
     ubar <- mean(pooled_se^2, na.rm = TRUE)
-    tmp <- ubar + (1 + 1 / len) * stats::var(pooled_comp)
+    b_vec[i] <- stats::var(pooled_comp)
+    tmp <- ubar + (1 + 1 / len) * b_vec[i]
     pooled_comparisons$standard.error[i] <- sqrt(tmp)
   }
 
   # pooled degrees of freedom for t-statistics
   pooled_df <- .barnad_rubin(
-    m = nrow(pooled_comparisons),
-    b = stats::var(pooled_comparisons[[estimate_name]]),
+    m = len,
+    b = b_vec,
     t = pooled_comparisons$standard.error^2,
     dfcom = dof
   )
 
   # confidence intervals ----
   alpha <- (1 + ci) / 2
-  fac <- stats::qt(alpha, df = dof)
-  pooled_comparisons$conf.low <- pooled_comparisons[[estimate_name]] - fac * pooled_comparisons$standard.error
-  pooled_comparisons$conf.high <- pooled_comparisons[[estimate_name]] + fac * pooled_comparisons$standard.error
+  fac <- stats::qt(alpha, df = pooled_df)
 
-  attributes(pooled_comparisons) <- utils::modifyList(attributes(original_x[[1]]), attributes(pooled_comparisons))
-  attr(pooled_comparisons, "standard_error") <- pooled_comparisons$standard.error
+  # confidence intervals ----
+  alpha <- (1 + ci) / 2
+  fac <- stats::qt(alpha, df = dof)
+  pooled_comparisons$conf.low <- pooled_comparisons[[estimate_name]] -
+    fac * pooled_comparisons$standard.error
+  pooled_comparisons$conf.high <- pooled_comparisons[[estimate_name]] +
+    fac * pooled_comparisons$standard.error
+
+  attributes(pooled_comparisons) <- utils::modifyList(
+    attributes(original_x[[1]]),
+    attributes(pooled_comparisons)
+  )
+  attr(
+    pooled_comparisons,
+    "standard_error"
+  ) <- pooled_comparisons$standard.error
   pooled_comparisons$standard.error <- NULL
 
   pooled_comparisons

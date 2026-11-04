@@ -28,7 +28,6 @@
 #' @return A data frame with pooled predictions.
 #' @export
 pool_predictions <- function(x, ...) {
-
   # check input -----
 
   obj_name <- deparse(substitute(x), width.cutoff = 500)
@@ -41,7 +40,13 @@ pool_predictions <- function(x, ...) {
   }
 
   # check if all x-levels are identical
-  if (!all(apply(as.data.frame(sapply(x, function(i) i$x), simplify = TRUE), 1, function(j) length(unique(j)) == 1))) {
+  if (
+    !all(apply(
+      as.data.frame(sapply(x, function(i) i$x), simplify = TRUE),
+      1,
+      function(j) length(unique(j)) == 1
+    ))
+  ) {
     insight::format_error(paste0(
       "Cannot pool predictions. The values of the focal term '",
       attributes(x[[1]])$terms,
@@ -72,36 +77,40 @@ pool_predictions <- function(x, ...) {
 
   pooled_predictions <- original_x[[1]]
   n_rows <- nrow(original_x[[1]])
+  b_vec <- numeric(n_rows)
 
   for (i in 1:n_rows) {
     # pooled estimate
-    pooled_pred <- unlist(lapply(original_x, function(j) {
-      if (back_transform) {
-        untransformed_predictions <- attributes(j)$untransformed_predictions
-        if (!is.null(untransformed_predictions)) {
-          link_fun(untransformed_predictions[i])
+    pooled_pred <- unlist(
+      lapply(original_x, function(j) {
+        if (back_transform) {
+          predictions_to_process <- attributes(j)$untransformed_predictions
         } else {
-          link_fun(j$predicted[i])
+          predictions_to_process <- j$predicted[i]
         }
-      } else {
-        link_fun(j$predicted[i])
-      }
-    }), use.names = FALSE)
+        link_fun(predictions_to_process)
+      }),
+      use.names = FALSE
+    )
     pooled_predictions$predicted[i] <- mean(pooled_pred, na.rm = TRUE)
 
     # pooled standard error
-    pooled_se <- unlist(lapply(original_x, function(j) {
-      j$std.error[i]
-    }), use.names = FALSE)
+    pooled_se <- unlist(
+      lapply(original_x, function(j) {
+        j$std.error[i]
+      }),
+      use.names = FALSE
+    )
     ubar <- mean(pooled_se^2, na.rm = TRUE)
-    tmp <- ubar + (1 + 1 / len) * stats::var(pooled_pred)
+    b_vec[i] <- stats::var(pooled_pred)
+    tmp <- ubar + (1 + 1 / len) * b_vec[i]
     pooled_predictions$std.error[i] <- sqrt(tmp)
   }
 
   # pooled degrees of freedom for t-statistics
   pooled_df <- .barnad_rubin(
-    m = nrow(pooled_predictions),
-    b = stats::var(pooled_predictions$predicted),
+    m = len,
+    b = b_vec,
     t = pooled_predictions$std.error^2,
     dfcom = dof
   )
@@ -109,8 +118,12 @@ pool_predictions <- function(x, ...) {
   # confidence intervals ----
   alpha <- (1 + ci) / 2
   fac <- stats::qt(alpha, df = pooled_df)
-  pooled_predictions$conf.low <- link_inv(pooled_predictions$predicted - fac * pooled_predictions$std.error)
-  pooled_predictions$conf.high <- link_inv(pooled_predictions$predicted + fac * pooled_predictions$std.error)
+  pooled_predictions$conf.low <- link_inv(
+    pooled_predictions$predicted - fac * pooled_predictions$std.error
+  )
+  pooled_predictions$conf.high <- link_inv(
+    pooled_predictions$predicted + fac * pooled_predictions$std.error
+  )
 
   # backtransform
   pooled_predictions$predicted <- link_inv(pooled_predictions$predicted)
@@ -126,17 +139,23 @@ pool_predictions <- function(x, ...) {
   }
 
   # constant values
-  constant.values <- as.data.frame(do.call(rbind, lapply(original_x, function(x) {
-    as.data.frame(attributes(x)$constant.values)
-  })))
+  constant.values <- as.data.frame(do.call(
+    rbind,
+    lapply(original_x, function(x) {
+      as.data.frame(attributes(x)$constant.values)
+    })
+  ))
 
-  attr(pooled_predictions, "constant.values") <- lapply(constant.values, function(i) {
-    if (is.numeric(i)) {
-      mean(i)
-    } else {
-      unique(i)
+  attr(pooled_predictions, "constant.values") <- lapply(
+    constant.values,
+    function(i) {
+      if (is.numeric(i)) {
+        mean(i)
+      } else {
+        unique(i)
+      }
     }
-  })
+  )
 
   pooled_predictions
 }
