@@ -56,7 +56,7 @@
       data_grid,
       cleaned_terms,
       ci_level,
-      pmode,
+      pmode = pmode,
       interval = interval,
       model_data = model_data,
       weights = weights,
@@ -74,6 +74,7 @@
       data_grid,
       cleaned_terms,
       ci_level,
+      pmode = pmode,
       interval = interval,
       model_data = model_data,
       weights = weights,
@@ -98,7 +99,7 @@
       data_grid,
       cleaned_terms,
       ci_level,
-      pmode,
+      pmode = pmode,
       interval = interval,
       model_data = model_data,
       vcov_info = vcov_info,
@@ -232,21 +233,34 @@
   data_grid,
   cleaned_terms,
   ci_level,
+  pmode = NULL,
   interval = NULL,
   model_data = NULL,
   weights = NULL,
   ...
 ) {
-  tmp <- suppressMessages(emmeans::emmeans(
+  dots <- list(...)
+  # only probability predictions are returned per response level, so only
+  # then the response is part of the reference grid
+  if (identical(pmode, "prob")) {
+    specs <- c(insight::find_response(model, combine = FALSE), cleaned_terms)
+  } else {
+    specs <- cleaned_terms
+  }
+  emmeans_args <- list(
     model,
-    specs = c(insight::find_response(model, combine = FALSE), cleaned_terms),
+    specs = specs,
     at = data_grid,
-    mode = "prob",
+    mode = pmode,
     weights = weights,
-    ...
-  ))
+    data = model_data
+  )
 
-  .ggemmeans_add_confint(model, tmp, ci_level, pmode = "prob", interval)
+  dots[names(emmeans_args)] <- NULL
+  emmeans_args <- insight::compact_list(c(emmeans_args, dots))
+  tmp <- suppressMessages(do.call(emmeans::emmeans, emmeans_args))
+
+  .ggemmeans_add_confint(model, tmp, ci_level, pmode = pmode, interval)
 }
 
 

@@ -244,6 +244,9 @@
 #' passed down to `marginaleffects::avg_predictions()`. If `type = "simulate"`,
 #' `...` may also be used to set the number of simulation, e.g. `nsim = 500`.
 #' When calling `ggeffect()`, further arguments passed down to `effects::Effect()`.
+#' For ordinal models of class `clm`, `clmm` or `polr`, `margin = "marginalmeans"`
+#' accepts `latent = TRUE` to return predictions on the latent scale instead of
+#' predicted probabilities for each response level.
 #'
 #' @section Supported Models:
 #'

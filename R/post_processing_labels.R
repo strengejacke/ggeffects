@@ -15,6 +15,8 @@
                                              margin = NULL,
                                              model_name = NULL,
                                              bias_correction = FALSE,
+                                             latent = FALSE,
+                                             latent_thresholds = NULL,
                                              verbose = TRUE) {
   # check if outcome is log-transformed, and if so,
   # back-transform predicted values to response scale
@@ -42,7 +44,7 @@
     terms = cleaned_terms,
     fun = .get_model_function(model),
     model_info = model_info,
-    no.transform = FALSE,
+    no.transform = latent,
     type = type,
     at_list = at_list,
     averaged_predictions = isTRUE(attr(result, "averaged_predictions", exact = TRUE))
@@ -74,6 +76,8 @@
     original_model_frame = original_model_frame,
     vcov_args = vcov_args,
     margin = margin,
+    latent = latent,
+    latent_thresholds = latent_thresholds,
     bias_correction = bias_correction,
     verbose = verbose
   )
