@@ -93,9 +93,6 @@ pool_comparisons <- function(x, ...) {
   alpha <- (1 + ci) / 2
   fac <- stats::qt(alpha, df = pooled_df)
 
-  # confidence intervals ----
-  alpha <- (1 + ci) / 2
-  fac <- stats::qt(alpha, df = dof)
   pooled_comparisons$conf.low <- pooled_comparisons[[estimate_name]] -
     fac * pooled_comparisons$standard.error
   pooled_comparisons$conf.high <- pooled_comparisons[[estimate_name]] +

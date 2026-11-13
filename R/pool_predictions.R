@@ -83,8 +83,9 @@ pool_predictions <- function(x, ...) {
     # pooled estimate
     pooled_pred <- unlist(
       lapply(original_x, function(j) {
-        if (back_transform) {
-          predictions_to_process <- attributes(j)$untransformed_predictions
+        untransformed_predictions <- attributes(j)$untransformed_predictions
+        if (back_transform && !is.null(untransformed_predictions)) {
+          predictions_to_process <- untransformed_predictions[i]
         } else {
           predictions_to_process <- j$predicted[i]
         }
@@ -174,5 +175,5 @@ pool_predictions <- function(x, ...) {
   dfold <- (m - 1) / lambda^2
   dfobs <- (dfcom + 1) / (dfcom + 3) * dfcom * (1 - lambda)
   result <- dfold * dfobs / (dfold + dfobs)
-  pmax(round(mean(result, na.rm = TRUE)), 1)
+  pmax(result, 1)
 }
