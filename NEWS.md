@@ -7,6 +7,10 @@
   `ggeffect()`), including the thresholds in `plot()`. Previously, requesting
   the latent scale via `mode = "latent"` failed.
 
+## Bug fixes
+
+* Fixed issue with wrong calculation of degrees of freedom when pooling predictions.
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.
