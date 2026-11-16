@@ -8,6 +8,7 @@
                                       ci_level = 0.95,
                                       collapse_levels = FALSE,
                                       margin = "marginalmeans",
+                                      condition = NULL,
                                       verbose = TRUE,
                                       ...) {
   insight::check_if_installed(c("emmeans", "datawizard"))
@@ -50,16 +51,20 @@
   # data grids -----------------------------------------------------------------
   # we create data grids and list with representative values here. needed later
   # ----------------------------------------------------------------------------
-  datagrid <- data_grid(object, terms, verbose = FALSE, ...)
+  datagrid <- data_grid(object, terms, condition = condition, verbose = FALSE, ...)
 
   at_list <- .data_grid(
     object,
     model_frame = model_data,
     terms = terms,
     typical = "mean",
+    condition = condition,
     emmeans_only = TRUE,
     verbose = FALSE
   )
+
+  # covariates held constant via "condition"; needed for slopes, too
+  fixed_at <- at_list[intersect(names(condition), names(at_list))]
 
   # identify numeric and other focal terms
   focal_numeric <- vapply(model_data[focal], is.numeric, TRUE)
@@ -94,7 +99,14 @@
       # here comes the code to test wether a slope is significantly different
       # from null (contrasts)
       # -----------------------------------------------------------------------
-      emm <- emmeans::emtrends(object, spec = focal, var = focal, by = by, regrid = "response")
+      emm <- do.call(emmeans::emtrends, .compact_list(list(
+        object,
+        specs = focal,
+        var = focal,
+        by = by,
+        at = if (length(fixed_at)) fixed_at,
+        regrid = "response"
+      )))
       .comparisons <- emmeans::test(emm)
       out <- as.data.frame(emm)
       # save p-values, these get lost after call to "confint()"

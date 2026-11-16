@@ -7,6 +7,13 @@
   `ggeffect()`), including the thresholds in `plot()`. Previously, requesting
   the latent scale via `mode = "latent"` failed.
 
+## Bug fixes
+
+* `test_predictions()` silently ignored the `condition` argument (and the
+  `condition` stored in a `ggeffects` object) for the default
+  `engine = "emmeans"`, so contrasts and slopes were computed at the typical
+  values of the non-focal terms instead of the requested values.
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.
