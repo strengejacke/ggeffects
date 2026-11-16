@@ -7,6 +7,14 @@
   `ggeffect()`), including the thresholds in `plot()`. Previously, requesting
   the latent scale via `mode = "latent"` failed.
 
+## Bug fixes
+
+* Fixed too narrow confidence intervals (and too small standard errors) for
+  `glmer()` models from package *lme4* (version 1.1-38 or higher). Since that
+  release, `predict(..., type = "response", se.fit = TRUE)` returns standard
+  errors on the response scale, which were then treated as link-scale
+  standard errors (#681).
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.

@@ -89,3 +89,32 @@ test_that("se-sorting", {
     ignore_attr = TRUE
   )
 })
+
+
+test_that("glmer, standard errors and CI on link scale", {
+  pr <- ggpredict(m1, "var_cont [-1,0,1]", verbose = FALSE)
+  nd <- data_grid(m1, "var_cont [-1,0,1]")
+  link_pred <- suppressWarnings(predict(
+    m1,
+    newdata = nd,
+    se.fit = TRUE,
+    re.form = NA,
+    type = "link"
+  ))
+  # standard errors are documented to be on the link scale
+  expect_equal(pr$std.error, link_pred$se.fit, tolerance = 1e-4, ignore_attr = TRUE)
+  # CI are back-transformed from the link scale
+  expect_equal(
+    pr$conf.low,
+    stats::plogis(link_pred$fit - stats::qnorm(0.975) * link_pred$se.fit),
+    tolerance = 1e-4,
+    ignore_attr = TRUE
+  )
+  expect_equal(
+    pr$conf.high,
+    stats::plogis(link_pred$fit + stats::qnorm(0.975) * link_pred$se.fit),
+    tolerance = 1e-4,
+    ignore_attr = TRUE
+  )
+  expect_equal(pr$predicted, stats::plogis(link_pred$fit), tolerance = 1e-4, ignore_attr = TRUE)
+})

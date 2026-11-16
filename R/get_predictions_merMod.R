@@ -43,11 +43,14 @@ get_predictions.merMod <- function(model,
     # simulate predictions
     data_grid <- .do_simulate(model, terms, ci, type, interval = interval, ...)
   } else {
-    # regular predictions
+    # regular predictions. When we request standard errors, we predict on the
+    # link scale: since lme4 1.1-38, `se.fit` is returned on the scale given
+    # in `type`, but the confidence intervals below need link-scale SEs
+    predict_type <- if (se_fit) "link" else "response"
     lme4_predictions <- suppressWarnings(stats::predict(
       model,
       newdata = data_grid,
-      type = "response",
+      type = predict_type,
       re.form = ref,
       allow.new.levels = TRUE,
       se.fit = se_fit,
@@ -62,6 +65,13 @@ get_predictions.merMod <- function(model,
       # else, set standard_errors to NULL - we need to compute them from vcov
       data_grid$predicted <- as.vector(lme4_predictions)
       standard_errors <- NULL
+    }
+    # back-transform link-scale predictions to the response scale
+    if (predict_type == "link") {
+      model_link_inverse <- insight::link_inverse(model)
+      if (!is.null(model_link_inverse)) {
+        data_grid$predicted <- model_link_inverse(data_grid$predicted)
+      }
     }
 
     # user wants standard errors?
