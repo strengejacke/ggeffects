@@ -380,6 +380,10 @@ predict_response(
   [`ggeffect()`](https://strengejacke.github.io/ggeffects/reference/ggpredict.md),
   further arguments passed down to
   [`effects::Effect()`](https://rdrr.io/pkg/effects/man/effect.html).
+  For ordinal models of class `clm`, `clmm` or `polr`,
+  `margin = "marginalmeans"` accepts `latent = TRUE` to return
+  predictions on the latent scale instead of predicted probabilities for
+  each response level.
 
 ## Value
 

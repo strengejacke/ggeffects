@@ -155,6 +155,10 @@ ggpredict(
   simulation, e.g. `nsim = 500`. When calling `ggeffect()`, further
   arguments passed down to
   [`effects::Effect()`](https://rdrr.io/pkg/effects/man/effect.html).
+  For ordinal models of class `clm`, `clmm` or `polr`, `ggeffect()` and
+  `ggemmeans()` accept `latent = TRUE` to return predictions on the
+  latent scale instead of predicted probabilities for each response
+  level.
 
 - stringsAsFactors:
 

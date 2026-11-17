@@ -1,5 +1,22 @@
 # Changelog
 
+## ggeffects 2.3.3
+
+### New features
+
+- [`ggemmeans()`](https://strengejacke.github.io/ggeffects/reference/ggpredict.md)
+  now supports `latent = TRUE` for ordinal models of class `clm`, `clmm`
+  and `polr`, returning predictions on the latent scale (like
+  [`ggeffect()`](https://strengejacke.github.io/ggeffects/reference/ggpredict.md)),
+  including the thresholds in
+  [`plot()`](https://strengejacke.github.io/ggeffects/reference/plot.md).
+  Previously, requesting the latent scale via `mode = "latent"` failed.
+
+### Bug fixes
+
+- Fixed issue with wrong calculation of degrees of freedom when pooling
+  predictions.
+
 ## ggeffects 2.3.2
 
 CRAN release: 2025-12-16
