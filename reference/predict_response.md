@@ -685,7 +685,7 @@ Predicted values for the fixed effects component (`type = "fixed"` or
 `predict(..., type = "mean_subject")`, while predicted values for random
 effects components (`type = "random"` or `type = "zi_random"`) are
 calculated with `predict(..., type = "subject_specific")` (see
-[`?GLMMadaptive::predict.MixMod`](https://drizopoulos.github.io/GLMMadaptive/reference/methods.html)
+[`?GLMMadaptive::predict.MixMod`](https://rdrr.io/pkg/GLMMadaptive/man/methods.html)
 for details). The latter option requires the response variable to be
 defined in the `newdata`-argument of
 [`predict()`](https://rdrr.io/r/stats/predict.html), which will be set
