@@ -255,6 +255,7 @@ test_predictions.default <- function(object,
     ci_level = ci_level,
     collapse_levels = collapse_levels,
     margin = margin,
+    condition = condition,
     verbose = verbose,
     ...
   )
