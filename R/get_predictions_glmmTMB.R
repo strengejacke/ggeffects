@@ -212,11 +212,15 @@ get_predictions.glmmTMB <- function(model,
 
     # call predict with argument list
     prdat <- do.call(stats::predict, pr_args)
+    eta <- if (se) prdat$fit else as.vector(prdat)
+
+    if (!is.null(attr(link_inverse, "marginal_logit", exact = TRUE))) {
+      attr(predicted_data, "marginal_linear_predictor") <- eta
+    }
+    predicted_data$predicted <- link_inverse(eta)
 
     # did user request standard errors? if yes, compute CI
     if (se) {
-      predicted_data$predicted <- link_inverse(prdat$fit)
-
       # add random effect uncertainty to s.e.
       if (identical(interval, "prediction")) {
         pvar <- prdat$se.fit^2
@@ -225,13 +229,10 @@ get_predictions.glmmTMB <- function(model,
       }
 
       # calculate CI
-      predicted_data$conf.low <- link_inverse(prdat$fit - tcrit * prdat$se.fit)
-      predicted_data$conf.high <- link_inverse(prdat$fit + tcrit * prdat$se.fit)
+      predicted_data$conf.low <- link_inverse(eta - tcrit * prdat$se.fit)
+      predicted_data$conf.high <- link_inverse(eta + tcrit * prdat$se.fit)
       predicted_data$std.error <- prdat$se.fit
     } else {
-      # copy predictions
-      predicted_data$predicted <- link_inverse(as.vector(prdat))
-
       # no CI
       predicted_data$conf.low <- NA
       predicted_data$conf.high <- NA
