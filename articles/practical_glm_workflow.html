@@ -138,14 +138,14 @@ obtain the odds ratios for the coefficients.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># coefficients</span></span>
 <span><span class="fu"><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters</a></span><span class="op">(</span><span class="va">model</span>, exponentiate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Parameter                              | Odds Ratio |   SE |        95% CI |         z |      p</span></span>
-<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; (Intercept)                            |       1.00 | 0.45 | [0.41,  2.44] | -2.34e-15 | &gt; .999</span></span>
-<span><span class="co">#&gt; treatment [control]                    |       0.33 | 0.23 | [0.08,  1.23] |     -1.61 | 0.108 </span></span>
-<span><span class="co">#&gt; time [noon]                            |       0.54 | 0.35 | [0.15,  1.90] |     -0.96 | 0.339 </span></span>
-<span><span class="co">#&gt; time [afternoon]                       |       3.00 | 2.05 | [0.81, 12.24] |      1.61 | 0.108 </span></span>
-<span><span class="co">#&gt; treatment [control] × time [noon]      |      10.35 | 9.85 | [1.66, 70.73] |      2.45 | 0.014 </span></span>
-<span><span class="co">#&gt; treatment [control] × time [afternoon] |       1.00 | 0.97 | [0.15,  6.74] | -2.45e-16 | &gt; .999</span></span>
+<span><span class="co">#&gt; Parameter                              | Odds Ratio |   SE |        95% CI |        z |      p</span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; (Intercept)                            |       1.00 | 0.45 | [0.41,  2.44] | 3.20e-16 | &gt; .999</span></span>
+<span><span class="co">#&gt; treatment [control]                    |       0.33 | 0.23 | [0.08,  1.23] |    -1.61 | 0.108 </span></span>
+<span><span class="co">#&gt; time [noon]                            |       0.54 | 0.35 | [0.15,  1.90] |    -0.96 | 0.339 </span></span>
+<span><span class="co">#&gt; time [afternoon]                       |       3.00 | 2.05 | [0.81, 12.24] |     1.61 | 0.108 </span></span>
+<span><span class="co">#&gt; treatment [control] × time [noon]      |      10.35 | 9.85 | [1.66, 70.73] |     2.45 | 0.014 </span></span>
+<span><span class="co">#&gt; treatment [control] × time [afternoon] |       1.00 | 0.97 | [0.15,  6.74] | 9.22e-16 | &gt; .999</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Uncertainty intervals (profile-likelihood) and p-values (two-tailed) computed using a Wald z-distribution approximation.</span></span></code></pre></div>
 <p>The model coefficients are difficult to interpret directly, in

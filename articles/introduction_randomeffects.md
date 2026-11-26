@@ -272,11 +272,11 @@ of simulated draws from a multivariate normal distribution (see also
 `#> ------------------------------`\
 `#> GP    |      0.20 | 0.03, 0.37`\
 `#> PR    |      0.03 | 0.00, 0.06`\
-`#> DM    |      0.32 | 0.07, 0.57`\
+`#> DM    |      0.32 | 0.09, 0.55`\
 `#> EC-A  |      0.07 | 0.00, 0.13`\
-`#> EC-L  |      0.42 | 0.11, 0.73`\
+`#> EC-L  |      0.42 | 0.12, 0.72`\
 `#> DES-L |      0.49 | 0.13, 0.86`\
-`#> DF    |      0.30 | 0.08, 0.52`\
+`#> DF    |      0.30 | 0.09, 0.50`\
 `#> `\
 `#> Adjusted for:`\
 `#> * mined = yes`\
@@ -343,14 +343,21 @@ predictions (in *mixed* models, when `type = "fixed"`) ignores the
 effect of the variation around the population mean, hence, the result on
 the original data scale is biased due to *Jensen’s inequality*. In this
 case, it can be appropriate to apply a bias-correction. This is done by
-setting `bias_correction = TRUE`. By default,
+setting `bias_correction = TRUE`. For the Taylor adjustment,
 [`insight::get_variance_residual()`](https://easystats.github.io/insight/reference/get_variance_residual.html)
-is used to extract the residual variance, which is used to calculate the
-amount of correction. Optionally, you can provide your own estimates of
-uncertainty, e.g. based on
+supplies the default variance. Optionally, you can provide your own
+estimates of uncertainty, e.g. based on
 [`insight::get_variance_random()`](https://easystats.github.io/insight/reference/get_variance_random.html),
 using the `sigma` argument. *ggeffects* will warn users once per session
 whenever bias-correction can be appropriate.
+
+For non-zero-inflated binomial-logit `glmmTMB` models with one random
+intercept,
+[`ggpredict()`](https://strengejacke.github.io/ggeffects/reference/ggpredict.md)
+integrates the fixed-effect prediction over the fitted normal intercept
+distribution by default when `bias_correction = TRUE`. Supplying `sigma`
+selects the Taylor adjustment. Setting `type = "random"` conditions on
+the specified group and skips the adjustment.
 
 \
 `# no bias-correction`\

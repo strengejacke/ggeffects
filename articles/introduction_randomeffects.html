@@ -424,11 +424,11 @@ al. 2017, pp.391-392</em> for details).</p>
 <span><span class="co">#&gt; ------------------------------</span></span>
 <span><span class="co">#&gt; GP    |      0.20 | 0.03, 0.37</span></span>
 <span><span class="co">#&gt; PR    |      0.03 | 0.00, 0.06</span></span>
-<span><span class="co">#&gt; DM    |      0.32 | 0.07, 0.57</span></span>
+<span><span class="co">#&gt; DM    |      0.32 | 0.09, 0.55</span></span>
 <span><span class="co">#&gt; EC-A  |      0.07 | 0.00, 0.13</span></span>
-<span><span class="co">#&gt; EC-L  |      0.42 | 0.11, 0.73</span></span>
+<span><span class="co">#&gt; EC-L  |      0.42 | 0.12, 0.72</span></span>
 <span><span class="co">#&gt; DES-L |      0.49 | 0.13, 0.86</span></span>
-<span><span class="co">#&gt; DF    |      0.30 | 0.08, 0.52</span></span>
+<span><span class="co">#&gt; DF    |      0.30 | 0.09, 0.50</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Adjusted for:</span></span>
 <span><span class="co">#&gt; * mined = yes</span></span>
@@ -501,12 +501,18 @@ ignores the effect of the variation around the population mean, hence,
 the result on the original data scale is biased due to <em>Jensen’s
 inequality</em>. In this case, it can be appropriate to apply a
 bias-correction. This is done by setting
-<code>bias_correction = TRUE</code>. By default, <a href="https://easystats.github.io/insight/reference/get_variance_residual.html" class="external-link"><code>insight::get_variance_residual()</code></a>
-is used to extract the residual variance, which is used to calculate the
-amount of correction. Optionally, you can provide your own estimates of
-uncertainty, e.g. based on <a href="https://easystats.github.io/insight/reference/get_variance_random.html" class="external-link"><code>insight::get_variance_random()</code></a>,
+<code>bias_correction = TRUE</code>. For the Taylor adjustment, <a href="https://easystats.github.io/insight/reference/get_variance_residual.html" class="external-link"><code>insight::get_variance_residual()</code></a>
+supplies the default variance. Optionally, you can provide your own
+estimates of uncertainty, e.g. based on <a href="https://easystats.github.io/insight/reference/get_variance_random.html" class="external-link"><code>insight::get_variance_random()</code></a>,
 using the <code>sigma</code> argument. <em>ggeffects</em> will warn
 users once per session whenever bias-correction can be appropriate.</p>
+<p>For non-zero-inflated binomial-logit <code>glmmTMB</code> models with
+one random intercept, <code><a href="../reference/ggpredict.html">ggpredict()</a></code> integrates the
+fixed-effect prediction over the fitted normal intercept distribution by
+default when <code>bias_correction = TRUE</code>. Supplying
+<code>sigma</code> selects the Taylor adjustment. Setting
+<code>type = "random"</code> conditions on the specified group and skips
+the adjustment.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># no bias-correction</span></span>
 <span><span class="fu"><a href="../reference/predict_response.html">predict_response</a></span><span class="op">(</span><span class="va">m</span>, <span class="st">"spp"</span><span class="op">)</span></span>

@@ -425,7 +425,7 @@ package first. By default, {tinytable} is used, but you can switch to
 [TABLE]
 
 Predicted values of Total score BARTHEL INDEX
-{#tinytable_jczds7c39qp1sp3gi8hs .table .tinytable
+{#tinytable_gdw8bjausz157ng2kte8 .table .tinytable
 style="width: auto; margin-left: auto; margin-right: auto;"
 quarto-disable-processing="true"}
 
@@ -450,7 +450,7 @@ quarto-disable-processing="true"}
 | high level of education |  |  | 85.39 (78.86, 91.92) |
 
 Predicted values of Total score BARTHEL INDEX
-{#tinytable_gf7rqk2t2btl42eslph6 .table .tinytable
+{#tinytable_l9uj44pmrf5vvaryeqgg .table .tinytable
 style="width: auto; margin-left: auto; margin-right: auto;"
 quarto-disable-processing="true"}
 
@@ -471,7 +471,7 @@ using the `theme` argument, which must be one of `"default"`,
 [TABLE]
 
 Predicted values of Total score BARTHEL INDEX
-{#tinytable_c010a0llyy1snzew6yil .table .tinytable
+{#tinytable_vvnyuy6pqc06zk58h06e .table .tinytable
 style="width: auto; margin-left: auto; margin-right: auto;"
 quarto-disable-processing="true"}
 
@@ -483,7 +483,7 @@ quarto-disable-processing="true"}
 [TABLE]
 
 Predicted values of Total score BARTHEL INDEX
-{#tinytable_ci1gtwb7o5psls274hh8 .table .tinytable
+{#tinytable_qi5dhx7w4uu2mz8pyaq5 .table .tinytable
 style="width: auto; margin-left: auto; margin-right: auto;"
 quarto-disable-processing="true"}
 
@@ -501,7 +501,7 @@ etc.
 [TABLE]
 
 Predicted values of Total score BARTHEL INDEX
-{#tinytable_2culoizxu20pe78dpke2 .table .tinytable
+{#tinytable_jv4qzttwh0hmdbuk4r5s .table .tinytable
 style="width: auto; margin-left: auto; margin-right: auto;"
 quarto-disable-processing="true"}
 

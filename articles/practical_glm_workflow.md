@@ -39,14 +39,14 @@ coefficients.
 \
 `# coefficients`\
 [`model_parameters`](https://easystats.github.io/parameters/reference/model_parameters.html)`(``model``, exponentiate ``=`` ``TRUE``)`\
-`#> Parameter                              | Odds Ratio |   SE |        95% CI |         z |      p`\
-`#> -----------------------------------------------------------------------------------------------`\
-`#> (Intercept)                            |       1.00 | 0.45 | [0.41,  2.44] | -2.34e-15 | > .999`\
-`#> treatment [control]                    |       0.33 | 0.23 | [0.08,  1.23] |     -1.61 | 0.108 `\
-`#> time [noon]                            |       0.54 | 0.35 | [0.15,  1.90] |     -0.96 | 0.339 `\
-`#> time [afternoon]                       |       3.00 | 2.05 | [0.81, 12.24] |      1.61 | 0.108 `\
-`#> treatment [control] × time [noon]      |      10.35 | 9.85 | [1.66, 70.73] |      2.45 | 0.014 `\
-`#> treatment [control] × time [afternoon] |       1.00 | 0.97 | [0.15,  6.74] | -2.45e-16 | > .999`\
+`#> Parameter                              | Odds Ratio |   SE |        95% CI |        z |      p`\
+`#> ----------------------------------------------------------------------------------------------`\
+`#> (Intercept)                            |       1.00 | 0.45 | [0.41,  2.44] | 3.20e-16 | > .999`\
+`#> treatment [control]                    |       0.33 | 0.23 | [0.08,  1.23] |    -1.61 | 0.108 `\
+`#> time [noon]                            |       0.54 | 0.35 | [0.15,  1.90] |    -0.96 | 0.339 `\
+`#> time [afternoon]                       |       3.00 | 2.05 | [0.81, 12.24] |     1.61 | 0.108 `\
+`#> treatment [control] × time [noon]      |      10.35 | 9.85 | [1.66, 70.73] |     2.45 | 0.014 `\
+`#> treatment [control] × time [afternoon] |       1.00 | 0.97 | [0.15,  6.74] | 9.22e-16 | > .999`\
 `#> `\
 `#> Uncertainty intervals (profile-likelihood) and p-values (two-tailed) computed using a Wald z-distribution approximation.`
 

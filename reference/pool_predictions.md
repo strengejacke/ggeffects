@@ -33,6 +33,9 @@ predictor*, not on the response scale, in order to have accurate pooled
 estimates and standard errors. The final pooled predicted values are
 then transformed to the response scale, using
 [`insight::link_inverse()`](https://easystats.github.io/insight/reference/link_inverse.html).
+For binomial-logit predictions integrated over a normal random
+intercept, pooling uses the marginal logit and its delta-method standard
+error, holding each fitted intercept standard deviation fixed.
 
 ## References
 
@@ -54,11 +57,11 @@ pool_predictions(predictions)
 #> 
 #> age   | Predicted |       95% CI
 #> --------------------------------
-#> 20-39 |     29.48 | 25.84, 33.11
-#> 40-59 |     23.96 | 20.63, 27.29
-#> 60-99 |     22.60 | 18.96, 26.23
+#> 20-39 |     29.42 | 26.15, 32.69
+#> 40-59 |     23.96 | 20.65, 27.28
+#> 60-99 |     22.60 | 18.98, 26.23
 #> 
 #> Adjusted for:
 #> * hyp =     no
-#> * chl = 194.38
+#> * chl = 194.64
 ```

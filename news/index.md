@@ -17,6 +17,14 @@
 - Fixed issue with wrong calculation of degrees of freedom when pooling
   predictions.
 
+- For binomial-logit `glmmTMB` models with one random intercept and no
+  zero inflation, `ggpredict(bias_correction = TRUE)` averages
+  fixed-effect predictions over the fitted random-intercept distribution
+  by default and skips the correction for unit-level predictions.
+  [`pool_predictions()`](https://strengejacke.github.io/ggeffects/reference/pool_predictions.md)
+  pools the integrated probabilities on the marginal logit scale
+  ([\#684](https://github.com/strengejacke/ggeffects/issues/684)).
+
 ## ggeffects 2.3.2
 
 CRAN release: 2025-12-16

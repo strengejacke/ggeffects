@@ -445,14 +445,22 @@ ggpredict(
   result on the original data scale is biased due to *Jensen's
   inequality*. That means, when `type = "fixed"` (the default) and
   population level predictions are returned, it is recommended to set
-  `bias_correction = TRUE`. To apply bias-correction, a valid value of
-  sigma is required, which is extracted by default using
-  [`insight::get_variance_residual()`](https://easystats.github.io/insight/reference/get_variance.html).
-  Optionally, to provide own estimates of uncertainty, use the `sigma`
-  argument. Note that `bias_correction` currently only applies to mixed
+  `bias_correction = TRUE`. For the Taylor adjustment,
+  [`insight::get_variance_residual()`](https://easystats.github.io/insight/reference/get_variance.html)
+  supplies the default variance. Use `sigma` to supply a standard
+  deviation. Note that `bias_correction` currently only applies to mixed
   models, where there are additive random components involved and where
   that bias-adjustment can be appropriate. If `ggemmeans()` is called,
   bias-correction can also be applied to GEE-models.
+
+  For a non-zero-inflated binomial-logit model fitted with `glmmTMB()`
+  and one random intercept, `ggpredict()` (the default engine of
+  [`predict_response()`](https://strengejacke.github.io/ggeffects/reference/predict_response.md))
+  integrates the predicted probabilities over the fitted normal
+  intercept distribution when `type = "fixed"` and
+  `bias_correction = TRUE`. Supply `sigma` to use the Taylor adjustment
+  with that standard deviation. For these models, `type = "random"`
+  conditions on the specified group and skips bias correction.
 
 - interval:
 
