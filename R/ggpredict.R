@@ -211,7 +211,12 @@ ggpredict_helper <- function(model,
   # clear argument from brackets
   terms <- cleaned_terms
 
-  linv <- .link_inverse(model, bias_correction = bias_correction, ...)
+  glmmTMB_linv <- NULL
+  if (isTRUE(bias_correction) && inherits(model, "glmmTMB")) {
+    glmmTMB_linv <- .glmmTMB_logit_link_inverse(model, model_info, type, list(...)[["sigma"]])
+  }
+  linv <- glmmTMB_linv
+  if (is.null(linv)) linv <- .link_inverse(model, bias_correction = bias_correction, ...)
   if (is.null(linv)) linv <- function(x) x
 
   # compute predictions here -----
@@ -258,13 +263,17 @@ ggpredict_helper <- function(model,
     original_model_frame = original_model_frame,
     cleaned_terms = cleaned_terms
   )
+  eta <- attr(prediction_data, "marginal_linear_predictor", exact = TRUE)
+  if (!is.null(eta)) {
+    eta <- eta[match(row.names(result), row.names(prediction_data))]
+  }
 
   # no adjustment for type = "simulate"
   if (type == "simulate") {
     attributes(data_grid)$constant.values <- NULL
   }
 
-  .post_processing_labels_and_data(
+  result <- .post_processing_labels_and_data(
     model = model,
     result = result,
     original_model_frame = original_model_frame,
@@ -285,9 +294,21 @@ ggpredict_helper <- function(model,
     vcov_args = .get_variance_covariance_matrix(model, vcov, vcov_args, skip_if_null = TRUE, verbose = FALSE), # nolint
     margin = "mean_reference",
     model_name = NULL,
-    bias_correction = bias_correction,
+    bias_correction = if (is.null(glmmTMB_linv)) bias_correction else FALSE,
     verbose = verbose
   )
+  if (!is.null(glmmTMB_linv)) {
+    attr(result, "link_inverse") <- glmmTMB_linv
+  }
+  if (!is.null(eta)) {
+    prediction_frame <- as.data.frame(result)
+    keys <- intersect(c("x", "group", "facet", "panel", "grid"), names(prediction_frame))
+    keys <- keys[vapply(prediction_frame[keys], function(x) length(unique(x)) > 1L, logical(1))]
+    link_data <- prediction_frame[c(keys, "predicted")]
+    link_data$.eta <- eta
+    attr(result, "marginal_link_data") <- link_data
+  }
+  result
 }
 
 

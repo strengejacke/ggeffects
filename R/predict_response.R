@@ -172,13 +172,20 @@
 #' so the result on the original data scale is biased due to _Jensen's
 #' inequality_. That means, when `type = "fixed"` (the default) and population
 #' level predictions are returned, it is recommended to set `bias_correction = TRUE`.
-#' To apply bias-correction, a valid value of sigma is required, which is
-#' extracted by default using [`insight::get_variance_residual()`]. Optionally,
-#' to provide own estimates of uncertainty, use the `sigma` argument. Note that
+#' For the Taylor adjustment, [`insight::get_variance_residual()`] supplies the
+#' default variance. Use `sigma` to supply a standard deviation. Note that
 #' `bias_correction` currently only applies to mixed models, where there are
 #' additive random components involved and where that bias-adjustment can be
 #' appropriate. If `ggemmeans()` is called, bias-correction can also be applied
 #' to GEE-models.
+#'
+#' For a non-zero-inflated binomial-logit model fitted with `glmmTMB()` and one
+#' random intercept, `ggpredict()` (the default engine of `predict_response()`)
+#' integrates the predicted probabilities over the fitted normal intercept
+#' distribution when `type = "fixed"` and `bias_correction = TRUE`. Supply
+#' `sigma` to use the Taylor adjustment with that standard deviation.
+#' For these models, `type = "random"` conditions on the specified group and
+#' skips bias correction.
 #' @param condition Named character vector, which indicates covariates that
 #' should be held constant at specific values. Unlike `typical`, which
 #' applies a function to the covariates to determine the value that is used

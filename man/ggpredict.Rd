@@ -312,13 +312,20 @@ predictions ignores the effect of the variation around the population mean,
 so the result on the original data scale is biased due to \emph{Jensen's
 inequality}. That means, when \code{type = "fixed"} (the default) and population
 level predictions are returned, it is recommended to set \code{bias_correction = TRUE}.
-To apply bias-correction, a valid value of sigma is required, which is
-extracted by default using \code{\link[insight:get_variance_residual]{insight::get_variance_residual()}}. Optionally,
-to provide own estimates of uncertainty, use the \code{sigma} argument. Note that
+For the Taylor adjustment, \code{\link[insight:get_variance_residual]{insight::get_variance_residual()}} supplies the
+default variance. Use \code{sigma} to supply a standard deviation. Note that
 \code{bias_correction} currently only applies to mixed models, where there are
 additive random components involved and where that bias-adjustment can be
 appropriate. If \code{ggemmeans()} is called, bias-correction can also be applied
-to GEE-models.}
+to GEE-models.
+
+For a non-zero-inflated binomial-logit model fitted with \code{glmmTMB()} and one
+random intercept, \code{ggpredict()} (the default engine of \code{predict_response()})
+integrates the predicted probabilities over the fitted normal intercept
+distribution when \code{type = "fixed"} and \code{bias_correction = TRUE}. Supply
+\code{sigma} to use the Taylor adjustment with that standard deviation.
+For these models, \code{type = "random"} conditions on the specified group and
+skips bias correction.}
 
 \item{interval}{Type of interval calculation, can either be \code{"confidence"}
 (default) or \code{"prediction"}. May be abbreviated. Unlike \emph{confidence

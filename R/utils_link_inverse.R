@@ -16,6 +16,85 @@
 }
 
 
+.glmmTMB_logit_link_inverse <- function(model, model_info, type, sigma) {
+  is_logit <- identical(model_info$link_function, "logit")
+  if (!identical(model_info$family, "binomial") || !is_logit || isTRUE(model_info$is_zero_inflated)) {
+    return(NULL)
+  }
+
+  random <- glmmTMB::VarCorr(model)$cond
+  if (length(random) != 1L || !identical(rownames(random[[1L]]), "(Intercept)")) {
+    return(NULL)
+  }
+
+  if (type %in% c("random", "zero_inflated_random")) {
+    return(insight::link_inverse(model))
+  }
+  if (!type %in% c("fixed", "zero_inflated")) {
+    return(NULL)
+  }
+  if (!is.null(sigma) && !is.na(sigma)) {
+    return(.link_inverse(model, bias_correction = TRUE, sigma = sigma))
+  }
+
+  tau <- sqrt(random[[1L]][1L, 1L])
+  log_tail <- function(eta, derivative = FALSE) {
+    vapply(-abs(eta), .logit_normal_log_tail, numeric(1), tau = tau, derivative = derivative)
+  }
+  inverse <- function(eta) {
+    result <- stats::plogis(eta)
+    finite <- is.finite(eta) & eta != 0
+    values <- eta[finite]
+    lower <- exp(log_tail(values))
+    result[finite] <- ifelse(values > 0, 1 - lower, lower)
+    result
+  }
+  attr(inverse, "marginal_logit") <- function(eta) {
+    finite <- is.finite(eta)
+    lower <- log_tail(eta[finite])
+    upper <- log1p(-exp(lower))
+    slope <- rep(1, length(eta))
+    slope[finite] <- exp(log_tail(eta[finite], derivative = TRUE) - lower - upper)
+    estimate <- eta
+    estimate[finite] <- sign(eta[finite]) * (upper - lower)
+    list(estimate = estimate, slope = slope)
+  }
+  inverse
+}
+
+
+.logit_normal_log_tail <- function(eta, tau, derivative) {
+  if (tau == 0) {
+    if (derivative) return(stats::dlogis(eta, log = TRUE))
+    return(stats::plogis(eta, log.p = TRUE))
+  }
+
+  # Split at the sigmoid midpoint and tilt the normal on exponential tails.
+  # After the tilt, each integral averages a bounded sigmoid over a truncated normal.
+  midpoint <- -eta / tau
+  cutoff <- c(midpoint - tau, midpoint + if (derivative) tau else 0)
+  log_mass <- c(
+    stats::pnorm(cutoff[1L], log.p = TRUE),
+    stats::pnorm(cutoff[2L], lower.tail = FALSE, log.p = TRUE)
+  )
+  log_weight <- log_mass + c(eta + tau^2 / 2, if (derivative) -eta + tau^2 / 2 else 0)
+  log_scale <- max(log_weight)
+  if (is.infinite(log_scale)) return(log_scale)
+
+  mass <- vapply(which(is.finite(log_weight)), function(side) {
+    left <- side == 1L
+    weight <- stats::integrate(function(u) {
+      z <- stats::qnorm(log(u) + log_mass[side], lower.tail = left, log.p = TRUE)
+      distance <- abs(z - cutoff[side])
+      stats::plogis(tau * distance)^(1L + derivative)
+    }, 0, 1, rel.tol = 1e-10)$value
+    weight * exp(log_weight[side] - log_scale)
+  }, numeric(1))
+  result <- log_scale + log(sum(mass))
+  if (derivative) result else min(result, log(0.5))
+}
+
+
 # apply bias-correction for back-transformation of predictions on the link-scale
 # we want sigma^2 (residual_variance) here to calculate the correction
 .bias_correction <- function(model = NULL, residual_variance = NULL) {

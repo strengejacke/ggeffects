@@ -11,6 +11,9 @@
 #' not on the response scale, in order to have accurate pooled estimates and
 #' standard errors. The final pooled predicted values are then transformed to
 #' the response scale, using [`insight::link_inverse()`].
+#' For binomial-logit predictions integrated over a normal random intercept,
+#' pooling uses the marginal logit and its delta-method standard error,
+#' holding each fitted intercept standard deviation fixed.
 #'
 #' @references
 #' Rubin, D.B. (1987). Multiple Imputation for Nonresponse in Surveys. New York:
@@ -62,6 +65,27 @@ pool_predictions <- function(x, ...) {
   link_inv <- attributes(x[[1]])$link_inverse
   link_fun <- attributes(x[[1]])$link_function
   back_transform <- isTRUE(attributes(x[[1]])$back_transform)
+
+  marginal_links <- lapply(x, function(prediction) {
+    attr(attr(prediction, "link_inverse", exact = TRUE), "marginal_logit", exact = TRUE)
+  })
+  marginal <- !vapply(marginal_links, is.null, logical(1))
+  if (any(marginal)) {
+    if (!all(marginal)) {
+      insight::format_error("All predictions must use the same marginal bias correction when pooling.")
+    }
+    original_x <- Map(function(prediction, transform) {
+      result <- transform(.match_marginal_predictors(prediction))
+      prediction$predicted <- result$estimate
+      if (!is.null(prediction$std.error)) {
+        prediction$std.error <- prediction$std.error * result$slope
+      }
+      prediction
+    }, x, marginal_links)
+    link_inv <- stats::plogis
+    link_fun <- identity
+    back_transform <- FALSE
+  }
 
   if (is.null(link_inv)) {
     link_inv <- function(x) x
@@ -158,11 +182,40 @@ pool_predictions <- function(x, ...) {
     }
   )
 
+  if (all(marginal)) {
+    attr(pooled_predictions, "marginal_link_data") <- NULL
+    attr(pooled_predictions, "untransformed_predictions") <- NULL
+    attr(pooled_predictions, "back_transform") <- FALSE
+    attr(pooled_predictions, "link_inverse") <- stats::plogis
+    attr(pooled_predictions, "link_function") <- stats::qlogis
+    attr(pooled_predictions, "standard_error") <- pooled_predictions$std.error
+  }
+
   pooled_predictions
 }
 
 
 # helper ------
+
+# Match by grid values so row subsetting or reordering preserves the link-scale data.
+.match_marginal_predictors <- function(prediction) {
+  link_data <- attr(prediction, "marginal_link_data", exact = TRUE)
+  prediction_frame <- as.data.frame(prediction)
+  keys <- intersect(names(prediction_frame), names(link_data))
+  if (!"predicted" %in% keys) {
+    insight::format_error("Marginal predictions must retain their original probability values for pooling.")
+  }
+  rows <- prediction_frame[keys]
+  rows$.row <- seq_len(nrow(rows))
+  link_data <- unique(link_data[c(keys, ".eta")])
+  link_data$.matched <- TRUE
+  matched <- merge(rows, link_data, by = keys, all.x = TRUE, sort = FALSE)
+  if (nrow(matched) != nrow(rows) || anyNA(matched$.matched)) {
+    insight::format_error("Cannot match marginal predictions to their original linear predictors.")
+  }
+  matched$.eta[order(matched$.row)]
+}
+
 
 # adjustment for degrees of freedom
 .barnad_rubin <- function(m, b, t, dfcom = 999999) {
