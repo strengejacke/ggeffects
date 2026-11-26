@@ -50,7 +50,7 @@ test_that("ggpredict for sdmTMB *with* random fields returns sensible values", {
   expect_error(ggpredict(fit, "depth_scaled [all]", type = "random"), regexp = "supported")
 })
 
-test_that("ggpredict for sdmTMB delta models returns an error for now", {
+test_that("ggpredict for sdmTMB delta models require set_delta_model()", {
   data(pcod_2011, package = "sdmTMB")
   fit <- sdmTMB::sdmTMB(
     density ~ depth_scaled,
@@ -58,7 +58,26 @@ test_that("ggpredict for sdmTMB delta models returns an error for now", {
     spatial = "off",
     family = sdmTMB::delta_gamma()
   )
-  expect_error(ggpredict(fit, "depth_scaled [all]"), regexp = "delta")
+  expect_error(ggpredict(fit, "depth_scaled"), regexp = "set_delta_model")
+
+  fit_binom <- sdmTMB::set_delta_model(fit, model = 1)
+  p_binom <- ggpredict(fit_binom, "depth_scaled [all]")
+  expect_false(anyNA(p_binom$predicted))
+  expect_true(all(is.finite(p_binom$predicted)))
+
+  fit_pos <- sdmTMB::set_delta_model(fit, model = 2)
+  p_pos <- ggpredict(fit_pos, "depth_scaled [all]")
+  expect_false(anyNA(p_pos$predicted))
+  expect_true(all(is.finite(p_pos$predicted)))
+
+  fit_combined <- sdmTMB::set_delta_model(fit, model = NA)
+  p_combined <- ggpredict(fit_combined, "depth_scaled [all]")
+  expect_false(anyNA(p_combined$predicted))
+  expect_true(all(is.finite(p_combined$predicted)))
+
+  expect_false(identical(p_pos$predicted, p_combined$predicted))
+  expect_false(identical(p_binom$predicted, p_combined$predicted))
+  expect_false(identical(p_pos$predicted, p_binom$predicted))
 })
 
 test_that("ggpredict for sdmTMB with IID random intercepts matches glmmTMB", {
