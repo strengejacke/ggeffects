@@ -77,6 +77,8 @@
       pmode = pmode,
       interval = interval,
       model_data = model_data,
+      bias_correction = bias_correction,
+      residual_variance = residual_variance,
       weights = weights,
       ...
     )
@@ -236,10 +238,16 @@
   pmode = NULL,
   interval = NULL,
   model_data = NULL,
+  bias_correction = FALSE,
+  residual_variance = NULL,
   weights = NULL,
   ...
 ) {
   dots <- list(...)
+  # modify sigma, if necessary
+  if (!is.null(residual_variance)) {
+    dots$sigma <- sqrt(residual_variance)
+  }
   # only probability predictions are returned per response level, so only
   # then the response is part of the reference grid
   if (identical(pmode, "prob")) {
@@ -252,6 +260,7 @@
     specs = specs,
     at = data_grid,
     mode = pmode,
+    bias.adjust = bias_correction,
     weights = weights,
     data = model_data
   )
