@@ -24,6 +24,9 @@ Pooling is applied to the predicted values on the scale of the \emph{linear pred
 not on the response scale, in order to have accurate pooled estimates and
 standard errors. The final pooled predicted values are then transformed to
 the response scale, using \code{\link[insight:link_inverse]{insight::link_inverse()}}.
+For binomial-logit predictions integrated over a normal random intercept,
+pooling uses the marginal logit and its delta-method standard error,
+holding each fitted intercept standard deviation fixed.
 }
 \examples{
 \dontshow{if (require("mice")) withAutoprint(\{ # examplesIf}

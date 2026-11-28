@@ -156,3 +156,37 @@ test_that("test_predictions, engine emmeans, consecutive and custom contrasts", 
   expect_equal(out1$Contrast, out3$Contrast, tolerance = 1e-3)
   expect_identical(out1$time, as.character(out2$contrast)[c(2, 1, 4, 3)])
 })
+
+
+test_that("test_predictions, engine emmeans, condition is respected", {
+  set.seed(42)
+  d <- data.frame(
+    x = rnorm(800, 2),
+    g = factor(sample(c("a", "b", "c"), 800, TRUE)),
+    h = factor(sample(c("u", "v"), 800, TRUE, prob = c(0.3, 0.7)))
+  )
+  d$y <- rbinom(800, 1, stats::plogis(-1 + 0.6 * d$x + 0.5 * (d$g == "b") + 1.5 * (d$h == "v")))
+  m <- glm(y ~ x + g + h, family = binomial(), data = d)
+
+  # contrasts of categorical focal term
+  em <- emmeans::emmeans(m, "g", at = list(x = 0), regrid = "response")
+  em <- as.data.frame(emmeans::contrast(em, method = "pairwise", adjust = "none"))
+  out1 <- test_predictions(m, "g", condition = c(x = 0))
+  expect_equal(out1$Contrast, em$estimate, tolerance = 1e-6)
+  # same when passing a ggeffects object
+  pr <- predict_response(m, "g", condition = c(x = 0), margin = "marginalmeans", verbose = FALSE)
+  out2 <- test_predictions(pr)
+  expect_equal(out2$Contrast, em$estimate, tolerance = 1e-6)
+
+  # slopes
+  em <- as.data.frame(emmeans::emtrends(
+    m, "x", var = "x", at = list(g = "b", h = "v"), regrid = "response"
+  ))
+  out <- test_predictions(m, "x", condition = c(g = "b", h = "v"))
+  expect_equal(out$Slope, em$x.trend, tolerance = 1e-6)
+
+  # without condition, unchanged
+  em <- emmeans::emmeans(m, "g", regrid = "response")
+  em <- as.data.frame(emmeans::contrast(em, method = "pairwise", adjust = "none"))
+  expect_equal(test_predictions(m, "g")$Contrast, em$estimate, tolerance = 1e-6)
+})

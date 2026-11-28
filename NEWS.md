@@ -15,6 +15,14 @@
   errors on the response scale, which were then treated as link-scale
   standard errors (#681).
 
+* Fixed issue with wrong calculation of degrees of freedom when pooling predictions.
+
+* For binomial-logit `glmmTMB` models with one random intercept and no
+  zero inflation, `ggpredict(bias_correction = TRUE)` averages fixed-effect
+  predictions over the fitted random-intercept distribution by default and
+  skips the correction for unit-level predictions. `pool_predictions()` pools
+  the integrated probabilities on the marginal logit scale (#684).
+
 # ggeffects 2.3.2
 
 * Fixed issues related to latest _glmmTMB_ update.
