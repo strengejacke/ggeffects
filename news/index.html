@@ -67,7 +67,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-2-3-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-3-3"></a></h3>
-<ul><li><p>Fixed issue with wrong calculation of degrees of freedom when pooling predictions.</p></li>
+<ul><li><p>Fixed too narrow confidence intervals (and too small standard errors) for <code><a href="https://rdrr.io/pkg/lme4/man/glmer.html" class="external-link">glmer()</a></code> models from package <em>lme4</em> (version 1.1-38 or higher). Since that release, <code>predict(..., type = "response", se.fit = TRUE)</code> returns standard errors on the response scale, which were then treated as link-scale standard errors (<a href="https://github.com/strengejacke/ggeffects/issues/681" class="external-link">#681</a>).</p></li>
+<li><p>Fixed issue with wrong calculation of degrees of freedom when pooling predictions.</p></li>
 <li><p>For binomial-logit <code>glmmTMB</code> models with one random intercept and no zero inflation, <code>ggpredict(bias_correction = TRUE)</code> averages fixed-effect predictions over the fitted random-intercept distribution by default and skips the correction for unit-level predictions. <code><a href="../reference/pool_predictions.html">pool_predictions()</a></code> pools the integrated probabilities on the marginal logit scale (<a href="https://github.com/strengejacke/ggeffects/issues/684" class="external-link">#684</a>).</p></li>
 </ul></div>
 </div>

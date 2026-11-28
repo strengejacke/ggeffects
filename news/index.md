@@ -14,6 +14,14 @@
 
 ### Bug fixes
 
+- Fixed too narrow confidence intervals (and too small standard errors)
+  for [`glmer()`](https://rdrr.io/pkg/lme4/man/glmer.html) models from
+  package *lme4* (version 1.1-38 or higher). Since that release,
+  `predict(..., type = "response", se.fit = TRUE)` returns standard
+  errors on the response scale, which were then treated as link-scale
+  standard errors
+  ([\#681](https://github.com/strengejacke/ggeffects/issues/681)).
+
 - Fixed issue with wrong calculation of degrees of freedom when pooling
   predictions.
 
